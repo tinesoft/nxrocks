@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "name": "nx-spring-boot",
+  "version": "0.0.1",
+  "schematics": {
+    "nx-spring-boot": {
+      "factory": "./src/schematics/nx-spring-boot/schematic",
+      "schema": "./src/schematics/nx-spring-boot/schema.json",
+      "description": "nx-spring-boot schematic"
+    }
+  }
+}
