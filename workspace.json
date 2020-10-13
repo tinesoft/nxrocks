@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "projects": {
+    "nx-spring-boot": {
+      "root": "packages/nx-spring-boot",
+      "sourceRoot": "packages/nx-spring-boot/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/nx-spring-boot/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "packages/nx-spring-boot/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "builder": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/packages/nx-spring-boot",
+            "tsConfig": "packages/nx-spring-boot/tsconfig.lib.json",
+            "packageJson": "packages/nx-spring-boot/package.json",
+            "main": "packages/nx-spring-boot/src/index.ts",
+            "assets": [
+              "packages/nx-spring-boot/*.md",
+              {
+                "input": "./packages/nx-spring-boot/src",
+                "glob": "**/*.!(ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/nx-spring-boot",
+                "glob": "collection.json",
+                "output": "."
+              },
+              {
+                "input": "./packages/nx-spring-boot",
+                "glob": "builders.json",
+                "output": "."
+              }
+            ]
+          }
+        }
+      }
+    },
+    "nx-spring-boot-e2e": {
+      "projectType": "application",
+      "root": "e2e/nx-spring-boot-e2e",
+      "sourceRoot": "e2e/nx-spring-boot-e2e/src",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/nx-plugin:e2e",
+          "options": {
+            "target": "nx-spring-boot:build",
+            "npmPackageName": "@nxrocks/nx-spring-boot",
+            "pluginOutputPath": "dist/packages/nx-spring-boot",
+            "jestConfig": "e2e/nx-spring-boot-e2e/jest.config.js"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
+  }
+}
