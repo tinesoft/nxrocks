@@ -2,9 +2,11 @@ import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { schema } from '@angular-devkit/core';
 import { join } from 'path';
-import { BuildBuilderSchema } from './schema';
+import { RunBuilderSchema } from './schema';
 
-const options: BuildBuilderSchema = {};
+jest.mock('child_process'); // we need to mock 'execSync' (see __mocks__/child_process.js)
+
+const options: RunBuilderSchema = {};
 
 describe('Command Runner Builder', () => {
   let architect: Architect;
@@ -25,7 +27,7 @@ describe('Command Runner Builder', () => {
   it('can run', async () => {
     // A "run" can have multiple outputs, and contains progress information.
     const run = await architect.scheduleBuilder(
-      '@nxrocks/nx-spring-boot:build',
+      '@nxrocks/nx-spring-boot:run',
       options
     );
     // The "result" member (of type BuilderOutput) is the next output.
