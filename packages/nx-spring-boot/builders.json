@@ -1,10 +1,30 @@
 {
   "$schema": "../../node_modules/@angular-devkit/architect/src/builders-schema.json",
   "builders": {
-    "build": {
-      "implementation": "./src/builders/build/builder",
-      "schema": "./src/builders/build/schema.json",
-      "description": "build builder"
+    "run": {
+      "implementation": "./src/builders/run/builder",
+      "schema": "./src/builders/run/schema.json",
+      "description": "run builder"
+    },
+    "buildJar": {
+      "implementation": "./src/builders/build-jar/builder",
+      "schema": "./src/builders/build-jar/schema.json",
+      "description": "buildJar builder"
+    },
+    "buildWar": {
+      "implementation": "./src/builders/build-war/builder",
+      "schema": "./src/builders/build-war/schema.json",
+      "description": "buildWar builder"
+    },
+    "buildImage": {
+      "implementation": "./src/builders/build-image/builder",
+      "schema": "./src/builders/build-image/schema.json",
+      "description": "buildImage builder"
+    },
+    "buildInfo": {
+      "implementation": "./src/builders/build-info/builder",
+      "schema": "./src/builders/build-info/schema.json",
+      "description": "buildInfo builder"
     }
   }
 }
