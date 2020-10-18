@@ -3,10 +3,11 @@
   "name": "nx-spring-boot",
   "version": "0.0.1",
   "schematics": {
-    "nx-spring-boot": {
-      "factory": "./src/schematics/nx-spring-boot/schematic",
-      "schema": "./src/schematics/nx-spring-boot/schema.json",
-      "description": "nx-spring-boot schematic"
+    "application": {
+      "factory": "./src/schematics/application/schematic",
+      "schema": "./src/schematics/application/schema.json",
+      "description": "application schematic",
+      "aliases": ["app"]
     }
   }
 }
