@@ -1,0 +1,146 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "id": "Application",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?"
+    },
+    "type": {
+      "type": "array",
+      "default": "maven-project",
+      "items": [
+        {
+          "value": "maven-project",
+          "label": "Maven Project"
+        },
+        {
+          "value": "gradle-project",
+          "label": "Gradle Project"
+        }
+      ],
+      "description": "",
+      "x-prompt": "Which type of project would you like to generate?"
+    },
+    "packaging": {
+      "type": "array",
+      "default": "jar",
+      "items": [
+        {
+          "value": "jar",
+          "label": "Jar"
+        },
+        {
+          "value": "war",
+          "label": "War"
+        }
+      ],
+      "description": "",
+      "x-prompt": "Which packaging would you like to use?"
+    },
+    "javaVersion": {
+      "type": "array",
+      "default": "11",
+      "items": [
+        {
+          "value": "15",
+          "label": "15"
+        },
+        {
+          "value": "11",
+          "label": "11"
+        },
+        {
+          "value": "1.8",
+          "label": "8"
+        }
+      ],
+      "description": "",
+      "x-prompt": "Which version of Java would you like to use?"
+    },
+    "language": {
+      "type": "array",
+      "default": "java",
+      "items": [
+        {
+          "value": "java",
+          "label": "Java"
+        },
+        {
+          "value": "kotlin",
+          "label": "Kotlin"
+        },
+        {
+          "value": "groovy",
+          "label": "Groovy"
+        }
+      ],
+      "description": "",
+      "x-prompt": "Which language would you like to use?"
+    },
+    "groupId": {
+      "type": "string",
+      "default": "com.example",
+      "description": "",
+      "x-prompt": "What groupId would you like to use?"
+    },
+    "artifactId": {
+      "type": "string",
+      "default": "demo",
+      "description": "",
+      "x-prompt": "What artifactId would you like to use?"
+    },
+    "packageName": {
+      "type": "string",
+      "default": "com.example.demo",
+      "description": "",
+      "x-prompt": "What package name would you like to use?"
+    },
+    "description": {
+      "type": "string",
+      "description": "",
+      "x-prompt": "What is the project about?"
+    },
+    "dependencies": {
+      "type": "string",
+      "default": "",
+      "description": "",
+      "x-prompt": "What dependencies would you like to use (comma separated)?\n Go to https://start.spring.io/dependencies to get the dependencies' ids needed here"
+    },
+    "springInitializerUrl": {
+      "type": "string",
+      "default": "https://start.spring.io",
+      "description": "The URL to the Spring Initializer instance to use to generate the project"
+    },
+    "bootVersion": {
+      "type": "string",
+      "description": "",
+      "x-prompt": "What version of spring boot would you like to use?"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the project to generate",
+      "alias": "v"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting)",
+      "alias": "t"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed",
+      "alias": "d"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
