@@ -12,11 +12,12 @@ export class MavenBuild implements BuildCore {
     }
 
     getBuildSystemType() {
-        return BuildSystem.GRADLE;
+        return BuildSystem.MAVEN;
     }
 
     getExecutable() {
-        return './mvnw';
+        const isWin = process.platform === "win32";
+        return `./mvnw${isWin ? '.cmd' : ''}`;
     }
 
     getCommand( alias: BuildCommandAliasType){
