@@ -4,6 +4,11 @@
   "title": "Build Image builder",
   "description": "",
   "type": "object",
-  "properties": {},
+  "properties": {
+    "root": {
+      "description": "The project root",
+      "type": "string"
+    }
+  },
   "required": []
 }

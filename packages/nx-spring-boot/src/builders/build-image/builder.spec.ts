@@ -6,7 +6,9 @@ import { BuildImageBuilderSchema } from './schema';
 
 jest.mock('child_process'); // we need to mock 'execSync' (see __mocks__/child_process.js)
 
-const options: BuildImageBuilderSchema = {};
+const options: BuildImageBuilderSchema = {
+  root : 'apps/myboot'
+};
 
 describe('Command Runner Builder', () => {
   let architect: Architect;
