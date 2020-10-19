@@ -1,10 +1,12 @@
 import { BuilderContext, BuilderOutput, createBuilder } from '@angular-devkit/architect'
 import { of, Observable } from 'rxjs'
+import * as path from 'path'
 import { BuildImageBuilderSchema } from './schema'
 import { runBootPluginCommand } from '../../utils/boot-utils'
 
-export function runBuilder(options: BuildImageBuilderSchema, context: BuilderContext): Observable<BuilderOutput> {
-  return of(runBootPluginCommand(context, 'buildImage', []));
+export function builder(options: BuildImageBuilderSchema, context: BuilderContext): Observable<BuilderOutput> {
+  const root = path.resolve(context.workspaceRoot, options.root);
+  return of(runBootPluginCommand(context, 'buildImage', [], { cwd : root}));
 }
 
-export default createBuilder(runBuilder);
+export default createBuilder(builder);

@@ -1,3 +1,5 @@
 import { JsonObject } from '@angular-devkit/core';
 
-export interface BuildJarBuilderSchema extends JsonObject {} // eslint-disable-line
+export interface BuildJarBuilderSchema extends JsonObject {
+    root: string;
+}
