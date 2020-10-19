@@ -16,7 +16,8 @@ export class GradleBuild implements BuildCore {
     }
 
     getExecutable() {
-        return './gradlew';
+        const isWin = process.platform === "win32";
+        return `./gradlew${isWin ? '.cmd' : ''}`;
     }
 
     getCommand( alias: BuildCommandAliasType){

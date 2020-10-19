@@ -4,9 +4,11 @@ import { BuildCommandAliasType, BuildCore } from '../core/build-core.class';
 import { GradleBuild } from '../core/gradle-build.class';
 import { MavenBuild } from '../core/maven-build.class';
 
-function determineBuildSystem(cwd: string): BuildCore {
+const isWin = process.platform === "win32";
+
+export function determineBuildSystem(cwd: string): BuildCore {
     try {
-        execSync(`./mvnw --version`, {
+        execSync(`./mvnw${isWin ? '.cmd' : ''} --version`, {
             cwd,
             stdio: ['ignore', 'ignore', 'ignore'],
         });
