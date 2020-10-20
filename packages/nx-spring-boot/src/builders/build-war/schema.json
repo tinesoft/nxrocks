@@ -8,6 +8,11 @@
     "root": {
       "description": "The project root",
       "type": "string"
+    },
+    "args": {
+      "description": "The argument to be passed to the underlying Spring Boot command",
+      "type": "array",
+      "default": []
     }
   },
   "required": []
