@@ -1,4 +1,4 @@
-# nxrocks 🤘🏾
+# NxRocks 🤘🏾
 
 > a set of Nx plugins to enhance your Nx workspace (even more!)
 
@@ -8,7 +8,8 @@
 
 Status | Name | Description
 --- | --- | ---
-⏳ | [nx-spring-boot](packages/nx-spring-boot) | Nx Plugin to generate, run, package (and more) [Spring Boot](https://spring.io/projects/spring-boot) projects inside your Nx workspace
+⏳ | [nx-spring-boot](packages/nx-spring-boot) | Nx Plugin to generate, run, package, build (and more) [Spring Boot](https://spring.io/projects/spring-boot) projects inside your Nx workspace
+
 
 ## License
 
