@@ -8,7 +8,7 @@
 
 - [Prerequisite](#prerequisite)
 - [Getting Started](#getting-started)
-- [Usage](#usage)
+- [Plugin Usage](#plugin-usage)
 
 ## Prerequisite
 
@@ -46,7 +46,7 @@ nx g @nxrocks/nx-spring-boot:app <your-app-name>
 
 You will be prompted for entering the most commonly customized generation options (like application's `groupId`, `artifactId`, `packaging`, `dependencies`, etc).
 
-To skip the interactive prompt, or if you want to customize all non-prompted options, you can pass them along directly when running the generation command.
+To skip the interactive prompt, or if you want to customize all non-prompted options, you can pass them along directly when running the command, as such:
 
 ```
 nx g @nxrocks/nx-spring-boot:app <you-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
@@ -63,22 +63,22 @@ Here the list of available generation options :
 Option                 | Value | Description
 ---------------------- | ----- | ------------
 `springInitializerUrl` | `https://start.spring.io`            | URL to the Spring Initializer instance to use to generate the project
-`type`                 | `'maven-project' | 'gradle-project'` | Type of build system to use
-`language`             | `'java' | 'groovy' | 'kotlin' `      | Language to use to generate the project
+`type`                 | `'maven-project' \| 'gradle-project'` | Type of build system to use
+`language`             | `'java' \| 'groovy' \| 'kotlin' `      | Language to use to generate the project
 `bootVersion`          | `string` | Spring Boot version to use for the generation
 `groupId`              | `string` | Project's `groupdId`
 `artifactId`           | `string` | Project's `artifactiId`
 `packageName`          | `string` | Project's package name
 `description`          | `string` | Description of the project to generate
 `javaVersion`          | `string` | Version of Java to use
-`packaging`            | `'jar' | 'war'` | Packaging to use to build application artifact
+`packaging`            | `'jar' \| 'war'` | Packaging to use to build application artifact
 `dependencies`         | `string` | List of dependencies to use (comma-separated). Go to https://start.spring.io/dependencies to get the dependencies' ids needed here
 `tags`                 | `string` | Tags to use for linting (comma-separated)
 `directory`            | `string` | Directory where the project is placed
 
-## Usage
+## Plugin Usage
 
-Once your app is generated, you can now use buidlers to manage it, via buiders.
+Once your app is generated, you can now use buidlers to manage it.
 
 Here the list of available builders:
 
