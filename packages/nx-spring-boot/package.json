@@ -4,6 +4,13 @@
   "main": "src/index.js",
   "schematics": "./collection.json",
   "builders": "./builders.json",
+  "keywords": [
+    "nx",
+    "nx-plugin",
+    "nx-workspace",
+    "spring-boot",
+    "jaava"
+  ],
   "devDependencies": {
     "@types/node-fetch": "^2.5.7",
     "@types/unzipper": "^0.10.3"
