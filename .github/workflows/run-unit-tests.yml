@@ -7,7 +7,7 @@ on:
     branches: [ develop ]
     
 jobs:
-  run_e2e:
+  run_unit:
     name: Run Unit Tests
     runs-on: ${{ matrix.os }}
     strategy:

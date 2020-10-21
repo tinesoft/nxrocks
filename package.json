@@ -1,6 +1,6 @@
 {
   "name": "nxrocks",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "license": "MIT",
   "scripts": {
     "nx": "nx",
@@ -23,7 +23,9 @@
     "update": "nx migrate latest",
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "prerelease": "nx affected:build --all",
+    "release": "nx affected --target release --all"
   },
   "private": true,
   "dependencies": {
@@ -31,12 +33,18 @@
     "unzipper": "^0.10.11"
   },
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-angular": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@nrwl/cli": "10.3.0",
-    "@nrwl/nx-cloud": "^10.1.6",
     "@nrwl/eslint-plugin-nx": "10.3.0",
     "@nrwl/jest": "10.3.0",
+    "@nrwl/nx-cloud": "^10.1.6",
     "@nrwl/nx-plugin": "10.3.0",
     "@nrwl/workspace": "10.3.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/exec": "^5.0.0",
+    "@semantic-release/git": "^9.0.0",
     "@types/jest": "26.0.8",
     "@types/node": "^8.9.5",
     "@types/node-fetch": "^2.5.7",
@@ -46,11 +54,22 @@
     "dotenv": "6.2.0",
     "eslint": "7.10.0",
     "eslint-config-prettier": "6.0.0",
+    "husky": "^4.3.0",
     "jest": "26.2.2",
     "prettier": "2.0.4",
+    "semantic-release": "^17.2.1",
     "ts-jest": "26.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
     "typescript": "~4.0.3"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinesoft/nxrocks.git"
   }
 }

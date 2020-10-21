@@ -1,15 +1,27 @@
 {
   "name": "@nxrocks/nx-spring-boot",
-  "version": "0.0.1",
+  "description": "Nx Plugin to generate, run, package, build (and more) Spring Boot projects inside your Nx workspace",
+  "version": "0.0.0",
   "main": "src/index.js",
   "schematics": "./collection.json",
   "builders": "./builders.json",
+  "license": "MIT",
+  "author": "Tine Kondo ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinesoft/nxrocks.git"
+  },
+  "homepage": "https://github.com/tinesoft/nxrocks/blob/master/packages/nx-spring-boot#readme",
+  "bugs": {
+    "url": "https://github.com/tinesoft/nxrocks/issues"
+  },
   "keywords": [
-    "nx",
     "nx-plugin",
-    "nx-workspace",
     "spring-boot",
-    "jaava"
+    "nx-workspace",
+    "spring",
+    "nx",
+    "java"
   ],
   "devDependencies": {
     "@types/node-fetch": "^2.5.7",
