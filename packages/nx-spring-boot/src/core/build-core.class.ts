@@ -7,7 +7,7 @@ export type BuildCommandAliasMapperType  =  { [ key in  BuildCommandAliasType ]:
 export enum BuildSystem {
     MAVEN,
     GRADLE
-};
+}
 
 export interface BuildCore {
 
@@ -17,4 +17,4 @@ export interface BuildCore {
 
     getCommand(alias: BuildCommandAliasType): string;
 
-};
+}
