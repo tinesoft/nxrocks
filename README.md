@@ -10,7 +10,7 @@
 
 Status | Name     | Description
 ------ | -------- | ------------
-  ⏳   | [nx-spring-boot](packages/nx-spring-boot)  | Nx Plugin to generate, run, package, build (and more) [Spring Boot](https://spring.io/projects/spring-boot) projects inside your Nx workspace
+  ✅   | [nx-spring-boot](packages/nx-spring-boot)  | Nx Plugin to generate, run, package, build (and more) [Spring Boot](https://spring.io/projects/spring-boot) projects inside your Nx workspace
 
 
 ## License
