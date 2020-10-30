@@ -6,6 +6,11 @@
       "schema": "./src/builders/run/schema.json",
       "description": "run builder"
     },
+    "serve": {
+      "implementation": "./src/builders/run/builder",
+      "schema": "./src/builders/serve/schema.json",
+      "description": "serve builder (alias to run builder)"
+    },
     "buildJar": {
       "implementation": "./src/builders/build-jar/builder",
       "schema": "./src/builders/build-jar/schema.json",

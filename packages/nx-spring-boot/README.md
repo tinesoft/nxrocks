@@ -66,15 +66,15 @@ Here the list of available generation options :
 Option                 | Value | Description
 ---------------------- | ----- | ------------
 `springInitializerUrl` | `https://start.spring.io`            | URL to the Spring Initializer instance to use to generate the project
-`type`                 | `'maven-project' \| 'gradle-project'` | Type of build system to use
-`language`             | `'java' \| 'groovy' \| 'kotlin' `      | Language to use to generate the project
+`type`                 | `maven-project` \| `gradle-project` | Type of build system to use
+`language`             | `java` \| `groovy` \| `kotlin`      | Language to use to generate the project
 `bootVersion`          | `string` | Spring Boot version to use for the generation
 `groupId`              | `string` | Project's `groupdId`
 `artifactId`           | `string` | Project's `artifactiId`
 `packageName`          | `string` | Project's package name
 `description`          | `string` | Description of the project to generate
-`javaVersion`          | `string` | Version of Java to use
-`packaging`            | `'jar' \| 'war'` | Packaging to use to build application artifact
+`javaVersion`          | `8` \| `11` \| `15`| Version of Java to use
+`packaging`            | `jar` \| `war` | Packaging to use to build application artifact
 `dependencies`         | `string` | List of dependencies to use (comma-separated). Go to https://start.spring.io/dependencies to get the dependencies' ids needed here
 `tags`                 | `string` | Tags to use for linting (comma-separated)
 `directory`            | `string` | Directory where the project is placed
@@ -87,16 +87,20 @@ Here the list of available builders:
 
 | Builder        | Arguments        | Description                                |
 | -------------- | ---------------- | ------------------------------------------ |
-| `run`          | `args: string[]` | Runs the application using either `./mvnw spring-boot:run` or `./gradlew bootRun` |
+| `run` \| `serve`| `args: string[]` | Runs the application using either `./mvnw spring-boot:run` or `./gradlew bootRun` |
 | `buidlJar`     | `args: string[]` | Packages the application into an executable Jar using either `./mvnw spring-boot:repackage` or `./gradlew bootJar` |
 | `buildWar`     | `args: string[]` | Packages the application into an executable War using either `./mvnw spring-boot:repackage` or `./gradlew bootWar` |
 | `buildInfo`    |         -        | Generates a `build-info.properties` using either `./mvnw spring-boot:build-info` or `./gradlew bootBuildInfo` |
 | `buildImage`   | `args: string[]` | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw spring-boot:build-image` or `./gradlew bootBuildImage` |
 
-### Running the application - ('run' Builder)
+### Running the application - ('run' or 'serve' Builders)
 
 ```
 nx run your-boot-app:run
+
+// or its shorter alias
+
+nx serve your-boot-app
 ```
 
 You can pass in additional arguments by editing the related section in the `workspace.json` file, as such:
@@ -109,8 +113,8 @@ You can pass in additional arguments by editing the related section in the `work
       "root": "apps/you-boot-app",
       "sourceRoot": "apps/you-boot-app/src",
       "architect": {
-        "run": {
-          "builder": "@nxrocks/nx-spring-boot:run",
+        "run": { // or "serve", according to your preference
+          "builder": "@nxrocks/nx-spring-boot:run",// or "@nxrocks/nx-spring-boot:serve", according to your preference
           "options": {
             "root": "apps/you-boot-app",
             "args": ["arg1", "arg2"]

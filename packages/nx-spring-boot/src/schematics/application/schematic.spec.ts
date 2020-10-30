@@ -24,11 +24,12 @@ describe('application schematic', () => {
       .runSchematicAsync('app', options, appTree)
       .toPromise();
     const workspaceJson = readJsonInTree(tree, 'workspace.json');
-    const { run, buildJar, buildWar, buildImage, buildInfo } = workspaceJson.projects[
+    const { run, serve, buildJar, buildWar, buildImage, buildInfo } = workspaceJson.projects[
       'test'
     ].architect;
     expect(workspaceJson.projects['test'].root).toBe('apps/test');
     expect(run.builder).toBe('@nxrocks/nx-spring-boot:run');
+    expect(serve.builder).toBe('@nxrocks/nx-spring-boot:serve');
     expect(buildJar.builder).toBe('@nxrocks/nx-spring-boot:buildJar');
     expect(buildWar.builder).toBe('@nxrocks/nx-spring-boot:buildWar');
     expect(buildImage.builder).toBe('@nxrocks/nx-spring-boot:buildImage');
