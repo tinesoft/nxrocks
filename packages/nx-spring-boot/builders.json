@@ -4,32 +4,32 @@
     "run": {
       "implementation": "./src/builders/run/builder",
       "schema": "./src/builders/run/schema.json",
-      "description": "run builder"
+      "description": "Builder to run the application"
     },
     "serve": {
       "implementation": "./src/builders/run/builder",
       "schema": "./src/builders/serve/schema.json",
-      "description": "serve builder (alias to run builder)"
+      "description": "Builder to serve the application (alias to 'run' builder)"
     },
     "buildJar": {
       "implementation": "./src/builders/build-jar/builder",
       "schema": "./src/builders/build-jar/schema.json",
-      "description": "buildJar builder"
+      "description": "Builder to build the application's executable Jar"
     },
     "buildWar": {
       "implementation": "./src/builders/build-war/builder",
       "schema": "./src/builders/build-war/schema.json",
-      "description": "buildWar builder"
+      "description": "Builder to build the application's executable War"
     },
     "buildImage": {
       "implementation": "./src/builders/build-image/builder",
       "schema": "./src/builders/build-image/schema.json",
-      "description": "buildImage builder"
+      "description": "Builder to build the application's OCI image"
     },
     "buildInfo": {
       "implementation": "./src/builders/build-info/builder",
       "schema": "./src/builders/build-info/schema.json",
-      "description": "buildInfo builder"
+      "description": "Builder to build the applications's build information"
     }
   }
 }
