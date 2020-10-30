@@ -96,7 +96,7 @@ Here the list of available builders:
 ### Running the application - ('run' Builder)
 
 ```
-nx run your-boot-app
+nx run your-boot-app:run
 ```
 
 You can pass in additional arguments by editing the related section in the `workspace.json` file, as such:
