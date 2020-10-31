@@ -34,8 +34,8 @@ const releaseByTypeWithScopeFilter = (release, types, projectScope) =>
   );
 
 const releaseTypes = {
-  minor: ['feat','perf'],
-  patch: ['fix'],
+  minor: ['feat'],
+  patch: ['fix','perf'],
   none: ['chore', 'ci', 'revert', 'test', 'build', 'docs', 'refactor'],
 };
 

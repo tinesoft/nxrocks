@@ -7,8 +7,8 @@ module.exports = {
       [
         // Minor
         'feat',
-        'perf',
         // Patch
+        'perf',
         'fix',
         // None
         'chore',

@@ -47,7 +47,18 @@ function createReleaseConfigWithScopeFilter({
           },
         },
       ],
-      '@semantic-release/release-notes-generator',
+      [
+        '@semantic-release/release-notes-generator', 
+        {
+          preset: 'angular',
+          parserOpts: {
+            noteKeywords: ['BREAKING', 'BREAKING CHANGE', 'BREAKING CHANGES'],
+          },
+          writerOpts: {
+            commitsSort: ['subject', 'scope']
+          }
+        }
+      ],
       ['@semantic-release/changelog', { changelogFile }],
       '@semantic-release/github',
       ['@semantic-release/npm', { pkgRoot: relativeBuildOutput }],
