@@ -23,6 +23,14 @@ export function determineBuildSystem(cwd: string): BuildCore {
     }
 }
 
+export function getPackageLatestNpmVersion(pkg: string): string {
+    try {
+        return execSync(`npm show ${pkg} version`).toString().trim() || '0.0.0';
+    } catch (e) {
+        return '0.0.0';
+    }
+}
+
 export function runBootPluginCommand(
     context: BuilderContext,
     commandAlias: BuildCommandAliasType,
@@ -72,7 +80,16 @@ export  async function generateBootProject(options: NormalizedSchema, tree: Tree
     const downloadUrl = this.buildBootDownloadUrl(options);
     
     context.logger.info(`Downloading Spring Boot project zip from : ${downloadUrl}...`);
-    const response = await fetch(downloadUrl);
+
+    const pkg = '@nxrocks/nx-spring-boot';
+    const pkgVersion = getPackageLatestNpmVersion(pkg);
+    const userAgent = `@nxrocks_nx-spring-boot/${pkgVersion}`;
+    const opts = {
+        headers: {
+            'User-Agent': userAgent
+        }
+    }
+    const response = await fetch(downloadUrl, opts);
 
     context.logger.info(`Extracting Spring Boot project zip to : ${options.projectRoot}...`);
     
