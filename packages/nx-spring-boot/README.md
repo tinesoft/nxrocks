@@ -66,16 +66,16 @@ Here the list of available generation options :
 Option                 | Value | Description
 ---------------------- | ----- | ------------
 `type`                 | `maven-project` \| `gradle-project`  | Type of project to generate
-`packaging`            | `jar` \| `war` | Packaging to use to build application artifact
-`javaVersion`          | `8` \| `11` \| `15`| Version of Java to use
-`language`             | `java` \| `groovy` \| `kotlin`      | Language to use to generate the project
+`packaging`            | `jar` \| `war` | Packaging to use
+`javaVersion`          | `8` \| `11` \| `15`| Java version to use
+`language`             | `java` \| `groovy` \| `kotlin`      | Language to use
 `groupId`              | `string` | GroupId of the project
 `artifactId`           | `string` | ArtifactId of the project
 `packageName`          | `string` | Main package name
-`description`          | `string` | Description of the project to generate
-`dependencies`         | `string` | List of dependencies to use (comma-separated). Go to https://start.spring.io/dependencies to get the dependencies' ids needed here
-`springInitializerUrl` | `https://start.spring.io`            | URL to the Spring Initializer instance to use to generate the project
-`bootVersion`          | `string` | Spring Boot version to use for the generation
+`description`          | `string` | Description of the project
+`dependencies`         | `string` | List of dependencies to use (comma-separated). Go to https://start.spring.io/dependencies to get the ids needed here
+`springInitializerUrl` | `https://start.spring.io`            | URL to the Spring Initializer instance to use
+`bootVersion`          | `string` | Spring Boot version to use
 `tags`                 | `string` | Tags to use for linting (comma-separated)
 `directory`            | `string` | Directory where the project is placed
 
@@ -104,7 +104,7 @@ nx serve your-boot-app
 ```
 
 You can pass in additional arguments by editing the related section in the `workspace.json` file, as such:
-```json
+```js
 {
   "version": 1,
   "projects": {
