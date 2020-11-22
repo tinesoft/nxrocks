@@ -19,12 +19,7 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "accessToken": "YjU2ZDEwNGUtMmE2ZC00ODJmLTg1MjktY2E2YmRhZGRmZDE2fHJlYWQtd3JpdGU=",
-        "cacheableOperations": [
-          "build",
-          "test",
-          "lint",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "test", "lint", "e2e"],
         "canTrackAnalytics": false,
         "showUsageWarnings": true
       }
@@ -36,9 +31,14 @@
     },
     "nx-spring-boot-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "nx-spring-boot"
-      ]
+      "implicitDependencies": ["nx-spring-boot"]
+    },
+    "nx-flutter": {
+      "tags": []
+    },
+    "nx-flutter-e2e": {
+      "tags": [],
+      "implicitDependencies": ["nx-flutter"]
     }
   },
   "workspaceLayout": {

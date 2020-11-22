@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "nxrocks/nx-spring-boot": ["packages/nx-spring-boot/src/index.ts"]
+      "nxrocks/nx-spring-boot": ["packages/nx-spring-boot/src/index.ts"],
+      "@nxrocks/nx-flutter": ["packages/nx-flutter/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -26,7 +26,8 @@ module.exports = {
       'always',
       // prettier-ignore
       [
-        'nx-spring-boot'
+        'nx-spring-boot',
+        'nx-flutter'
       ],
     ],
   },

@@ -11,6 +11,7 @@
 Status | Name     | Description
 ------ | -------- | ------------
   ✅   | [nx-spring-boot](packages/nx-spring-boot)  | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Spring Boot](https://spring.io/projects/spring-boot) projects inside your Nx workspace
+  ⏳   | [nx-flutter](packages/nx-flutter)  | [Nx](https://nx.dev) plugin adding first class support for [Flutter](https://flutter.dev) in your Nx workspace
 
 
 ## License
