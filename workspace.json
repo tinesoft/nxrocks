@@ -71,6 +71,77 @@
           }
         }
       }
+    },
+    "nx-flutter": {
+      "root": "packages/nx-flutter",
+      "sourceRoot": "packages/nx-flutter/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/nx-flutter/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "packages/nx-flutter/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "builder": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/packages/nx-flutter",
+            "tsConfig": "packages/nx-flutter/tsconfig.lib.json",
+            "packageJson": "packages/nx-flutter/package.json",
+            "main": "packages/nx-flutter/src/index.ts",
+            "assets": [
+              "packages/nx-flutter/*.md",
+              {
+                "input": "./packages/nx-flutter/src",
+                "glob": "**/*.!(ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/nx-flutter",
+                "glob": "collection.json",
+                "output": "."
+              },
+              {
+                "input": "./packages/nx-flutter",
+                "glob": "builders.json",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "release": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx semantic-release",
+            "cwd": "packages/nx-flutter"
+          }
+        }
+      }
+    },
+    "nx-flutter-e2e": {
+      "projectType": "application",
+      "root": "e2e/nx-flutter-e2e",
+      "sourceRoot": "e2e/nx-flutter-e2e/src",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/nx-plugin:e2e",
+          "options": {
+            "target": "nx-flutter:build",
+            "npmPackageName": "@nxrocks/nx-flutter",
+            "pluginOutputPath": "dist/packages/nx-flutter",
+            "jestConfig": "e2e/nx-flutter-e2e/jest.config.js"
+          }
+        }
+      }
     }
   },
   "cli": {

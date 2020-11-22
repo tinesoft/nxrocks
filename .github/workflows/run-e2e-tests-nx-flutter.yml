@@ -1,0 +1,37 @@
+name: Run e2e Tests for nx-flutter
+
+on:
+  push:
+    branches: [ develop ]
+    paths:    [ "packages/nx-flutter" ]
+  pull_request:
+    branches: [ develop ]
+    paths:    [ "packages/nx-flutter" ]
+
+jobs:
+  run_e2e:
+    name: Run e2e Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [12.x, 14.x]
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Use Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Use Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies and Run e2e tests
+        run: |
+          yarn
+          yarn run e2e nx-flutter-e2e
