@@ -1,10 +1,12 @@
-name: Run e2e Tests
+name: Run e2e Tests for nx-spring-boot
 
 on:
   push:
     branches: [ develop ]
+    paths:    [ "packages/nx-spring-boot" ]
   pull_request:
     branches: [ develop ]
+    paths:    [ "packages/nx-spring-boot" ]
 
 jobs:
   run_e2e:
@@ -25,7 +27,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install dependencies and run test
+      - name: Install dependencies and Run e2e tests
         run: |
           yarn
           yarn run e2e nx-spring-boot-e2e

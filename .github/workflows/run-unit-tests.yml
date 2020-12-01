@@ -14,6 +14,9 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         node-version: [12.x, 14.x]
+    env:
+      NX_BRANCH: ${{ github.event.number }}
+      NX_RUN_GROUP: ${{ github.run_id }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
@@ -21,7 +24,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install dependencies and run test
-        run: |
-          yarn
-          yarn run test nx-spring-boot
+      - run: git fetch --no-tags --prune --depth=5 origin develop
+      - run: yarn install --frozen-lockfile
+      - run: yarn affected:test --all --parallel 
+          
+          
