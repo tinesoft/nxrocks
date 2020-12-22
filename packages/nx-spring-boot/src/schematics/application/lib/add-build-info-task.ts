@@ -13,7 +13,8 @@ springBoot {
     buildInfo()
 }
   `;
-        const buildGradlePath = `${options.projectRoot}/build.gradle`;
+        const ext = options.language === 'kotlin' ? '.kts' : ''
+        const buildGradlePath = `${options.projectRoot}/build.gradle${ext}`;
         const content = tree.read(buildGradlePath).toString() + buildInfoTask;
         tree.overwrite(buildGradlePath, content);
 
