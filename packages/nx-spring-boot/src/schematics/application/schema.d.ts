@@ -6,7 +6,7 @@ export interface ApplicationSchematicSchema {
   springInitializerUrl?: string;
 
   type?: 'maven-project' | 'gradle-project';
-  language?: string;
+  language?: 'java' | 'kotlin' | 'groovy';
   bootVersion?: string;
   groupId?: string;
   artifactId?: string;
