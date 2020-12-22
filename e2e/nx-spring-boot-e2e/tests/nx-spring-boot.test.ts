@@ -45,6 +45,28 @@ describe('nx-spring-boot e2e', () => {
     }, 180000);
   });
 
+  describe('--type=gradle-project and --language=kotlin', () => {
+    it('should create a gradle spring-boot project with kotlin', async (done) => {
+      const appName = uniq('nx-spring-boot');
+      ensureNxProject(
+        '@nxrocks/nx-spring-boot',
+        'dist/packages/nx-spring-boot'
+      );
+      await runNxCommandAsync(
+        `generate @nxrocks/nx-spring-boot:application ${appName} --type gradle-project --language=kotlin`
+      );
+
+      const resultBuildInfo= await runNxCommandAsync(`buildInfo ${appName}`);
+      expect(resultBuildInfo.stdout).toContain(`Executing command: ./gradlew bootBuildInfo`)
+  
+      expect(() =>
+      checkFilesExist(`apps/${appName}/gradlew`,`apps/${appName}/build.gradle.kts`, `apps/${appName}/HELP.md`)
+      ).not.toThrow();
+      done();
+    }, 180000);
+  });
+  
+
   describe('--directory', () => {
     it('should create src in the specified directory', async (done) => {
       const appName = uniq('nx-spring-boot');
