@@ -61,14 +61,16 @@ export function  buildBootDownloadUrl(options: NormalizedSchema) {
     const params = [
         {key: 'type', value: options.type},
         {key: 'language', value: options.language},
-        {key: 'bootVersion', value: options.bootVersion},
-        {key: 'groupdId', value: options.groupId},
+        {key: 'name', value: options.name},
+        {key: 'groupId', value: options.groupId},
         {key: 'artifactId', value: options.artifactId},
+        {key: 'version', value: options.version},
         {key: 'packageName', value: options.packageName},
         {key: 'javaVersion', value: options.javaVersion},
         {key: 'packaging', value: options.packaging},
         {key: 'dependencies', value: options.dependencies},
         {key: 'description', value: options.description ? escape(options.description): null},
+        {key: 'bootVersion', value: options.bootVersion},
     ].filter(e => !!e.value);
 
     const queryParams = params.map(e => `${e.key}=${e.value}`).join('&');
