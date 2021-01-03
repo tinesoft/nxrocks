@@ -15,6 +15,7 @@ export interface ApplicationSchematicSchema {
   javaVersion?: string;
   packaging?: 'jar' | 'war';
   dependencies?: string;
+  version?: string;
 }
 
 export interface NormalizedSchema extends ApplicationSchematicSchema {
