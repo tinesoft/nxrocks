@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v1.2.0...nx-spring-boot/v1.2.1) (2021-01-03)
+
+### Bug Fixes
+
+- **nx-spring-boot:** some user options were not used during generation ([6813e7d](https://github.com/tinesoft/nxrocks/commit/6813e7d62f4919fe616b52fc2903ca4a6129a50a)), closes [#17](https://github.com/tinesoft/nxrocks/issues/17)
+
 # [1.2.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v1.1.0...nx-spring-boot/v1.2.0) (2020-12-22)
 
 ### Bug Fixes
