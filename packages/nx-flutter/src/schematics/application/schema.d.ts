@@ -4,9 +4,9 @@ export interface ApplicationSchematicSchema {
   description?: string;
   androidLanguage?: 'java' | 'kotlin';
   iOSLanguage?: 'objc' | 'swift';
-  template?:string;
+  template?: 'app' | 'module' | 'package' | 'plugin';
   sample?:string;
-  platforms?: string[];
+  platforms?: ('android' | 'ios' | 'linux' | 'macos' | 'windows' | 'web')[];
 
   pub?: boolean;
   offline?:boolean;
