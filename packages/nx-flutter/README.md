@@ -85,25 +85,25 @@ Here the list of available builders:
 
 | Builder        | Arguments        | Description                                |
 | -------------- | ---------------- | ------------------------------------------ |
-| `analyze`      | see `flutter help analyze`    | Analyze the project's Dart code |
-| `assemble`     | see `flutter help assemble`   | Assemble and build Flutter resources |
-| `attach`       | see `flutter help attach`     | Attach to a running app |
-| `buildAar`     | see `flutter help build aar`  | Build a repository containing an AAR and a POM file |
-| `buildApk`     | see `flutter help build apk`  | Build an Android APK file from your app |
-| `buildAppbundle` | see `flutter help build appbundle` | Build an Android App Bundle file from your app |
-| `buildBundle`  | see `flutter help build bundle` | Build the Flutter assets directory from your app |
-| `buildIos`     | see `flutter help build ios`  | Build an iOS application bundle (Mac OS X host only) |
-| `buildIosframework` | see `flutter help build ios-framework` | Produces a .framework directory for a Flutter module and its plugins for integration into existing, plain Xcode projects |
-| `buildIpa`     | see `flutter help build ipa`  | Build an iOS archive bundle (Mac OS X host only) |
-| `clean`        | see `flutter help clean`      | Delete the `build/` and `dart_tool/` directories |
-| `drive`        | see `flutter help drive`      | Run integration tests for the project on an attached device or emulator |
-| `format`       | see `flutter help format`     | Format one or more Dart files |
-| `gen-l10n`     | see `flutter help gen-l10n`   | Generate localizations for the current project |
-| `install`      | see `flutter help install`    | Install a Flutter app on an attached device |
-| `run`          | see `flutter help run`        | Run your Flutter app on an attached device |
-| `screenshot`   | see `flutter help screenshot` | Take a screenshot from a connected device |
-| `symbolize`    | see `flutter help symbolize`  | Symbolize a stack trace from an AOT-compiled Flutter app |
-| `test`         | see `flutter help test`       | Run Flutter unit tests for the current project |
+| `analyze`      | _see `flutter help analyze`_    | Analyze the project's Dart code |
+| `assemble`     | _see `flutter help assemble`_   | Assemble and build Flutter resources |
+| `attach`       | _see `flutter help attach`_     | Attach to a running app |
+| `buildAar`     | _see `flutter help build aar`_  | Build a repository containing an AAR and a POM file |
+| `buildApk`     | _see `flutter help build apk`_  | Build an Android APK file from your app |
+| `buildAppbundle` | _see `flutter help build appbundle`_ | Build an Android App Bundle file from your app |
+| `buildBundle`  | _see `flutter help build bundle`_ | Build the Flutter assets directory from your app |
+| `buildIos`     | _see `flutter help build ios`_  | Build an iOS application bundle (Mac OS X host only) |
+| `buildIosframework` | _see `flutter help build ios-framework`_ | Produces a .framework directory for a Flutter module and its plugins for integration into existing, plain Xcode projects |
+| `buildIpa`     | _see `flutter help build ipa`_  | Build an iOS archive bundle (Mac OS X host only) |
+| `clean`        | _see `flutter help clean`_      | Delete the `build/` and `dart_tool/` directories |
+| `drive`        | _see `flutter help drive`_      | Run integration tests for the project on an attached device or emulator |
+| `format`       | _see `flutter help format`_     | Format one or more Dart files |
+| `gen-l10n`     | _see `flutter help gen-l10n`_   | Generate localizations for the current project |
+| `install`      | _see `flutter help install`_    | Install a Flutter app on an attached device |
+| `run`          | _see `flutter help run`_        | Run your Flutter app on an attached device |
+| `screenshot`   | _see `flutter help screenshot`_ | Take a screenshot from a connected device |
+| `symbolize`    | _see `flutter help symbolize`_  | Symbolize a stack trace from an AOT-compiled Flutter app |
+| `test`         | _see `flutter help test`_       | Run Flutter unit tests for the current project |
 
 Each builder is based on an original project-level `flutter` command. The name is just **camelcased** to match builders' naming conventions.
 Besides, the arguments accepted by each builder, are the same as the original `flutter` command they are based upon, encapsulated
@@ -111,10 +111,17 @@ under a generic `--args='...'` option.
 
 For example:
 
-`flutter gen-l10n --header "/// my header"` 👉🏾 `nx genL10n your-flutterapp --args='--header="/// my header"'`
+```
+$ flutter gen-l10n --header "/// my header"
 
-> Note that the `flutter` command name has been camelcased for creating its `nx-flutter` command equivalent (`genL10n`)
-> Note that the arguments of the `flutter` command are wrapped under `--args='...'` option in the equivalent `nx-flutter` command
+becomes 👉🏾
+
+$ nx genL10n your-flutterapp --args='--header="/// my header"'
+````
+
+> Note that the original `flutter` command name (`gen-l10n`) has been camelcased for creating its `nx-flutter` equivalent (`genL10n`)
+
+> Note that the arguments of the original `flutter` command are wrapped under `--args='...'` option in  the `nx-flutter` equivalent
 
 ## License
 
