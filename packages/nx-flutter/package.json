@@ -13,7 +13,8 @@
   "author": "Tine Kondo ",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tinesoft/nxrocks.git"
+    "url": "https://github.com/tinesoft/nxrocks.git",
+    "directory": "packages/nx-flutter"
   },
   "homepage": "https://github.com/tinesoft/nxrocks/blob/master/packages/nx-flutter#readme",
   "bugs": {
