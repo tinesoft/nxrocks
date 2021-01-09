@@ -7,8 +7,8 @@ assignees: ''
 
 ---
 
-Plugin Version:
-<!-- What version of the plugin are you using?-->
+Plugin Name and Version:
+<!-- Which plugin@version are you using? (for eg: nx-spring-boot@v1.2.0)-->
 
 Nx Version (`nx --version`):
 <!-- What version of Nx are you using? -->
