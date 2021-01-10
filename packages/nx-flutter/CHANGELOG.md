@@ -1,3 +1,9 @@
+# [1.1.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v1.0.0...nx-flutter/v1.1.0) (2021-01-10)
+
+### Features
+
+- **nx-flutter:** improve typings for `template` and `platforms` options ([b614dc4](https://github.com/tinesoft/nxrocks/commit/b614dc41ebd92c4a1f2be34e3ff83ecf0608ba83))
+
 # 1.0.0 (2021-01-06)
 
 ### Bug Fixes
