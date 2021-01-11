@@ -90,12 +90,17 @@
     },
     "platforms": {
       "description": "Platforms supported by the project",
-      "type": "string",
-      "default": ["android","ios", "linux", "windows", "macos","web"],
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "default": ["android", "ios", "linux", "windows", "macos","web"],
       "x-prompt": {
         "message": "Which platforms would you like to use (--template must have been set to 'app' or 'plugin') ?",
         "type": "list",
-        "multiselect": true,
+        "multiselect": "true",
         "items": [
           {
             "value": "android",
