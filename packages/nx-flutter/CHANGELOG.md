@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v1.1.0...nx-flutter/v1.1.1) (2021-01-11)
+
+### Bug Fixes
+
+- **nx-flutter:** correct generation error due to `templates` option ([1b22dc6](https://github.com/tinesoft/nxrocks/commit/1b22dc6c26f2154cd7fce2a928a16261a4b21022)), closes [#22](https://github.com/tinesoft/nxrocks/issues/22)
+
 # [1.1.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v1.0.0...nx-flutter/v1.1.0) (2021-01-10)
 
 ### Features
