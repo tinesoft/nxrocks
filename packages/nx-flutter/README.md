@@ -60,7 +60,7 @@ nx g @nxrocks/nx-flutter:app <app-folder> --optionName1 optionValue1 ... --optio
 ```
 
 <details>
-  <summary>⚠️ Special generation instructions in case above fail ⚠️</summary>
+  <summary><b><i>⚠️ Special generation instructions in case above fail ⚠️</i></b></summary>
   
   Due to [a current bug with Nx's `nx g` command](https://github.com/nrwl/nx/issues/4499), you might need the following workaround in order to generate the application successfully (otherwise, [this error](https://github.com/tinesoft/nxrocks/issues/22#issuecomment-758021348) might occur):
 
