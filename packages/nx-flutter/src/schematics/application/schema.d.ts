@@ -3,7 +3,7 @@ export interface ApplicationSchematicSchema {
   org?: string;
   description?: string;
   androidLanguage?: 'java' | 'kotlin';
-  iOSLanguage?: 'objc' | 'swift';
+  iosLanguage?: 'objc' | 'swift';
   template?: 'app' | 'module' | 'package' | 'plugin';
   sample?:string;
   platforms?: ('android' | 'ios' | 'linux' | 'macos' | 'windows' | 'web')[];
