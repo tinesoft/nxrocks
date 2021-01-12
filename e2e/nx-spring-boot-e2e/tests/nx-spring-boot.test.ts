@@ -9,7 +9,7 @@ import {
 import { toClassName } from '@nrwl/workspace';
 
 describe('nx-spring-boot e2e', () => {
-  xit('should create nx-spring-boot with default options', async (done) => {
+  it('should create nx-spring-boot with default options', async (done) => {
     const appName = uniq('nx-spring-boot');
     ensureNxProject('@nxrocks/nx-spring-boot', 'dist/packages/nx-spring-boot');
     await runNxCommandAsync(
@@ -63,7 +63,7 @@ describe('nx-spring-boot e2e', () => {
     done();
   }, 180000);
 
-  xdescribe('--type=gradle-project', () => {
+  describe('--type=gradle-project', () => {
     it('should create a gradle spring-boot project', async (done) => {
       const appName = uniq('nx-spring-boot');
       ensureNxProject(
@@ -84,7 +84,7 @@ describe('nx-spring-boot e2e', () => {
     }, 180000);
   });
 
-  xdescribe('--type=gradle-project and --language=kotlin', () => {
+  describe('--type=gradle-project and --language=kotlin', () => {
     it('should create a gradle spring-boot project with kotlin', async (done) => {
       const appName = uniq('nx-spring-boot');
       ensureNxProject(
@@ -106,7 +106,7 @@ describe('nx-spring-boot e2e', () => {
   });
   
 
-  xdescribe('--directory', () => {
+  describe('--directory', () => {
     it('should create src in the specified directory', async (done) => {
       const appName = uniq('nx-spring-boot');
       ensureNxProject(
@@ -123,7 +123,7 @@ describe('nx-spring-boot e2e', () => {
     }, 180000);
   });
 
-  xdescribe('--tags', () => {
+  describe('--tags', () => {
     it('should add tags to nx.json', async (done) => {
       const appName = uniq('nx-spring-boot');
       ensureNxProject(
