@@ -44,6 +44,7 @@ yarn add @nxrocks/nx-flutter --dev
 
 ### Generating Application
 
+
 Simply run the `application` Schematics with the following command:
 
 ```
@@ -57,6 +58,18 @@ To skip the interactive prompt, or if you want to customize all non-prompted opt
 ```
 nx g @nxrocks/nx-flutter:app <app-folder> --optionName1 optionValue1 ... --optionNameN optionValueN
 ```
+
+<details>
+  <summary>⚠️ Special generation instructions in case above fail ⚠️</summary>
+  
+  Due to [a current bug with Nx's `nx g` command](https://github.com/nrwl/nx/issues/4499), you might need the following workaround in order to generate the application successfully (otherwise, [this error](https://github.com/tinesoft/nxrocks/issues/22#issuecomment-758021348) might occur):
+
+  1. Change the `"version"` field in your `workspace.json` from `2` to `1`
+  2. Generate the application with **Angular DevKit's schematics-cli**:
+     * Run `npx @angular-devkit/schematics-cli @nxrocks/nx-flutter:app <app-folder>`
+     * Answer to the prompted questions
+  3. Change the `"version"` field in your `workspace.json` back to `2`
+</details>
 
 #### Generation Options
 
