@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v1.2.0...nx-flutter/v1.2.1) (2021-01-13)
+
+### Bug Fixes
+
+- **nx-flutter:** correct generation error on multi word `description` ([1ed2d97](https://github.com/tinesoft/nxrocks/commit/1ed2d977421557fd8b6a7aad2ad05f93d226e552)), closes [#23](https://github.com/tinesoft/nxrocks/issues/23)
+
 # [1.2.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v1.1.0...nx-flutter/v1.2.0) (2021-01-12)
 
 ### Bug Fixes
