@@ -7,7 +7,7 @@
       "factory": "./src/schematics/application/schematic",
       "schema": "./src/schematics/application/schema.json",
       "description": "Schematic to generate the application",
-      "aliases": ["app"]
+      "aliases": ["app", "create"]
     }
   }
 }

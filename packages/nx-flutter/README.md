@@ -48,7 +48,7 @@ yarn add @nxrocks/nx-flutter --dev
 Simply run the `application` Schematics with the following command:
 
 ```
-nx g @nxrocks/nx-flutter:app <app-folder>
+nx g @nxrocks/nx-flutter:create <app-folder>
 ```
 
 You will be prompted for entering the most commonly customized generation options (like application's `package`, `description`, `template`,  etc).
@@ -56,7 +56,7 @@ You will be prompted for entering the most commonly customized generation option
 To skip the interactive prompt, or if you want to customize all non-prompted options, you can pass them along directly when running the command, as such:
 
 ```
-nx g @nxrocks/nx-flutter:app <app-folder> --optionName1 optionValue1 ... --optionNameN optionValueN
+nx g @nxrocks/nx-flutter:create <app-folder> --optionName1 optionValue1 ... --optionNameN optionValueN
 ```
 
 <details>
@@ -66,7 +66,7 @@ nx g @nxrocks/nx-flutter:app <app-folder> --optionName1 optionValue1 ... --optio
 
   1. Change the `"version"` field in your `workspace.json` from `2` to `1`
   2. Generate the application with **Angular DevKit's schematics-cli**:
-     * Run `npx @angular-devkit/schematics-cli @nxrocks/nx-flutter:app <app-folder>`
+     * Run `npx @angular-devkit/schematics-cli @nxrocks/nx-flutter:create <app-folder>`
      * Answer to the prompted questions
   3. Change the `"version"` field in your `workspace.json` back to `2`
 </details>
