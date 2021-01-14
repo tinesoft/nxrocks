@@ -9,7 +9,7 @@ describe('nx-flutter e2e', () => {
   it('should create nx-flutter project with default options', async (done) => {
     const appName = uniq('nx-flutter');
     ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
-    await runNxCommandAsync(`generate @nxrocks/nx-flutter:application ${appName}`);
+    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName}`);
 
     const builders = [
       { name: 'analyze', output: `Analyzing ${appName}` },
@@ -67,7 +67,7 @@ describe('nx-flutter e2e', () => {
     const offline = true;
 
     ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
-    await runNxCommandAsync(`generate @nxrocks/nx-flutter:application ${appName} --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} `);
+    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} `);
 
     const builders = [
 
@@ -96,7 +96,7 @@ describe('nx-flutter e2e', () => {
       const appName = uniq('nx-flutter');
       ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
       await runNxCommandAsync(
-        `generate @nxrocks/nx-flutter:application ${appName} --directory subdir`
+        `generate @nxrocks/nx-flutter:create ${appName} --directory subdir`
       );
       expect(() =>
         checkFilesExist(`apps/subdir/${appName}/pubspec.yaml`)
@@ -110,7 +110,7 @@ describe('nx-flutter e2e', () => {
       const appName = uniq('nx-flutter');
       ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
       await runNxCommandAsync(
-        `generate @nxrocks/nx-flutter:application ${appName} --tags e2etag,e2ePackage`
+        `generate @nxrocks/nx-flutter:create ${appName} --tags e2etag,e2ePackage`
       );
       const nxJson = readJson('nx.json');
       expect(nxJson.projects[appName].tags).toEqual(['e2etag', 'e2ePackage']);
