@@ -90,6 +90,7 @@ Option           | Value | Description
 `platforms`      | `android` \| `ios` \| `linux` \| `macos` \| `windows` \| `web`  | Platforms supported by the project to generate
 `pub`            | `boolean` | Whether to run "flutter pub get" after the project has been created
 `offline`        | `boolean` | Whether or not to run 'flutter pub get' in offline mode
+`interactive`    | `boolean` | Whether or not to prompt for additional options (like `platforms`, `language`, etc). Useful in a CI environment, to avoid waiting for user input.
 `tags`           | `string` | Tags to use for linting (comma-separated)
 `directory`      | `string` | Directory where the project is placed
 
@@ -97,7 +98,7 @@ Option           | Value | Description
 
 Once your app is generated, you can now use **buidlers** to manage it.
 
-Here the list of available builders:
+Here the list of available builders<sup>1</sup>:
 
 | Builder        | Arguments        | Description                                |
 | -------------- | ---------------- | ------------------------------------------ |
@@ -120,6 +121,8 @@ Here the list of available builders:
 | `screenshot`   | _see `flutter help screenshot`_ | Take a screenshot from a connected device |
 | `symbolize`    | _see `flutter help symbolize`_  | Symbolize a stack trace from an AOT-compiled Flutter app |
 | `test`         | _see `flutter help test`_       | Run Flutter unit tests for the current project |
+
+<sup>1</sup> : *Actual builders in your `workspace.json` will depend on the type of `flutter` project (`template`), target `platforms` that you choose to generate.*
 
 Each builder is based on an original project-level `flutter` command. The name is just **camelcased** to match builders' naming conventions.
 Besides, the arguments accepted by each builder, are the same as the original `flutter` command they are based upon, encapsulated

@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Jest Current File",
+            "name": "nx-spring-boot:Jest Current File",
             "program": "${workspaceFolder}/node_modules/@nrwl/cli/bin/nx.js",
             "cwd": "${workspaceFolder}",
             "args": [
@@ -23,12 +23,44 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Je2est Current File",
+            "name": "nx-spring-boot:Je2est Current File",
             "program": "${workspaceFolder}/node_modules/@nrwl/cli/bin/nx.js",
             "cwd": "${workspaceFolder}",
             "args": [
                 "e2e",
                 "nx-spring-boot-e2e",
+                "--testPathPattern=${fileBasenameNoExtension}",
+                "--runInBand"
+            ],
+            "console": "internalConsole",
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "nx-flutter:Jest Current File",
+            "program": "${workspaceFolder}/node_modules/@nrwl/cli/bin/nx.js",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "test",
+                "nx-flutter",
+                "--testPathPattern=${fileBasenameNoExtension}",
+                "--runInBand"
+            ],
+            "console": "internalConsole",
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "nx-flutter:Je2est Current File",
+            "program": "${workspaceFolder}/node_modules/@nrwl/cli/bin/nx.js",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "e2e",
+                "nx-flutter-e2e",
                 "--testPathPattern=${fileBasenameNoExtension}",
                 "--runInBand"
             ],
