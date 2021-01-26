@@ -4,7 +4,7 @@ import { NormalizedSchema } from '../schematics/application/schema';
 
 export function isFlutterInstalled(): boolean {
     try {
-        execSync('flutter --version', {  stdio: [0, 1, 2] });
+        execSync('flutter --version', {  stdio: ['ignore', 'ignore', 'ignore'] });
         return true;
     } catch (e) {
         return false;
@@ -48,7 +48,6 @@ export function  buildFlutterCreateOptions(options: NormalizedSchema) {
     }).join(' ');
 
     return opts;
-
 }
 
 export async function generateFlutterProject(options: NormalizedSchema, tree: Tree, context: SchematicContext): Promise<void> {
