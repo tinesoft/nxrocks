@@ -23,48 +23,11 @@
       "type": "string",
       "x-prompt": "What is the project about?"
     },
-    "androidLanguage": {
-      "description": "Android Language of the project",
-      "type": "string",
-      "default": "kotlin",
-      "x-prompt": {
-        "message": "Which Android language would you like to use?",
-        "type": "list",
-        "items": [
-          {
-            "value": "java",
-            "label": "Java"
-          },
-          {
-            "value": "kotlin",
-            "label": "Kotlin"
-          }
-        ]
-      }
-    },
-    "iosLanguage": {
-      "description": "iOS Language of the project",
-      "type": "string",
-      "default": "swift",
-      "x-prompt": {
-        "message": "Which iOS language would you like to use?",
-        "type": "list",
-        "items": [
-          {
-            "value": "objc",
-            "label": "Objective-C"
-          },
-          {
-            "value": "swift",
-            "label": "Swift"
-          }
-        ]
-      }
-    },
     "template": {
       "description": "Type of project to create",
       "type": "string",
       "default": "app",
+      "alias": "t",
       "x-prompt": {
         "message": "Which type of Flutter project would you like to create?",
         "type": "list",
@@ -96,42 +59,23 @@
         "type": "string"
       },
       "minItems": 1,
-      "default": ["android", "ios", "linux", "windows", "macos","web"],
-      "x-prompt": {
-        "message": "Which platforms would you like to use (--template must have been set to 'app' or 'plugin') ?",
-        "type": "list",
-        "multiselect": "true",
-        "items": [
-          {
-            "value": "android",
-            "label": "Android platform"
-          },
-          {
-            "value": "ios",
-            "label": "iOS platform"
-          },
-          {
-            "value": "linux",
-            "label": "Linux platform"
-          },
-          {
-            "value": "windows",
-            "label": "Windows platform"
-          },
-          {
-            "value": "macos",
-            "label": "MacOS platform"
-          },
-          {
-            "value": "web",
-            "label": "Web platform"
-          }
-        ]
-      }
+      "default": ["android", "ios", "linux", "windows", "macos","web"]
+    },
+    "androidLanguage": {
+      "description": "Android Language of the project",
+      "type": "string",
+      "default": "kotlin",
+      "alias": "a"
+    },
+    "iosLanguage": {
+      "description": "iOS Language of the project",
+      "type": "string",
+      "default": "swift",
+      "alias": "i"
     },
     "sample": {
       "type": "string",
-      "description": "Code sample to use as the main.dart for an application",
+      "description": "ID of the code sample to use as the `main.dart` for an application",
       "alias": "s"
     },
     "tags": {
@@ -154,6 +98,11 @@
     "overwrite": {
       "type": "boolean",
       "description": "Whether or not to overwrite existing files when performing operations"
+    },
+    "interactive": {
+      "type": "boolean",
+      "description": "Whether or not to prompt for additional options (like platforms, androidLanguage, etc)",
+      "default": true
     }
   },
   "required": ["name"]

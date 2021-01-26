@@ -1,17 +1,27 @@
+
+export type AndroidLanguageType = 'java' | 'kotlin';
+
+export type IosLanguageType = 'objc' | 'swift';
+
+export type TemplateType = 'app' | 'module' | 'package' | 'plugin';
+
+export type PlatformType = 'android' | 'ios' | 'linux' | 'macos' | 'windows' | 'web';
 export interface ApplicationSchematicSchema {
   name: string;
   org?: string;
   description?: string;
-  androidLanguage?: 'java' | 'kotlin';
-  iosLanguage?: 'objc' | 'swift';
-  template?: 'app' | 'module' | 'package' | 'plugin';
+  androidLanguage?: AndroidLanguageType;
+  iosLanguage?: IosLanguageType;
+  template?: TemplateType;
   sample?:string;
-  platforms?: ('android' | 'ios' | 'linux' | 'macos' | 'windows' | 'web')[];
+  platforms?: PlatformType[];
 
   pub?: boolean;
   offline?:boolean;
   tags?: string;
   directory?: string;
+
+  interactive?: boolean;
 }
 
 export interface NormalizedSchema extends ApplicationSchematicSchema {

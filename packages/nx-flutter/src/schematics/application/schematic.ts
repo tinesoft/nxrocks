@@ -1,4 +1,5 @@
 import {
+  noop,
   chain,
   Rule,
 } from '@angular-devkit/schematics';
@@ -8,6 +9,7 @@ import {
   updateWorkspace,
 } from '@nrwl/workspace';
 import { isFlutterInstalled } from '../../utils/flutter-utils';
+import { promptAdditionalOptions } from './lib/prompt-options';
 import { generateProject } from './lib/generate-project';
 import { normalizeOptions } from './lib/normalize-options';
 import { ApplicationSchematicSchema } from './schema';
@@ -25,6 +27,7 @@ export default function (options: ApplicationSchematicSchema): Rule {
 
   const normalizedOptions = normalizeOptions(options);
   return chain([
+    options.interactive ? promptAdditionalOptions(normalizedOptions): noop(),
     updateWorkspace((workspace) => {
       const project = workspace.projects
         .add({
@@ -36,25 +39,37 @@ export default function (options: ApplicationSchematicSchema): Rule {
 
       const commands = [
         { key: 'analyze', value: 'analyze' },
-        { key: 'assemble', value: 'assemble' },
-        { key: 'attach', value: 'attach' },
-
-        //build commands
-        {key: 'buildApk', value: 'build apk'},
-        {key: 'buildAppbundle', value: 'build appbundle'},
-        {key: 'buildBundle', value: 'build bundle'},
-        {key: 'buildIos', value: 'build ios'},
-        {key: 'buildIosFramework', value: 'build ios-framework'},
-        {key: 'buildIpa', value: 'build ipa'},
-        
         { key: 'clean', value: 'clean' },
-        { key: 'drive', value: 'drive' },
         { key: 'format', value: `format ${normalizedOptions.projectRoot}/*` },
-        { key: 'genL10n', value: 'gen-l10n' },
-        { key: 'install', value: 'install' },
-        { key: 'run', value: 'run' },
         { key: 'test', value: 'test' },
       ];
+      
+      if(normalizedOptions.template === 'app'){
+        commands.push(
+          { key: 'assemble', value: 'assemble' },
+          { key: 'attach', value: 'attach' },
+          { key: 'drive', value: 'drive' },
+          { key: 'genL10n', value: 'gen-l10n' },
+          { key: 'install', value: 'install' },
+          { key: 'run', value: 'run' },
+        )
+      }
+
+      if(normalizedOptions.platforms.indexOf('android') != -1) {
+        commands.push(
+          {key: 'buildApk', value: 'build apk'},
+          {key: 'buildAppbundle', value: 'build appbundle'},
+          {key: 'buildBundle', value: 'build bundle'},
+        )
+      }
+
+      if(normalizedOptions.platforms.indexOf('ios') != -1) {
+        commands.push(
+          {key: 'buildIos', value: 'build ios'},
+          {key: 'buildIosFramework', value: 'build ios-framework'},
+          {key: 'buildIpa', value: 'build ipa'},
+        )
+      }
 
       commands.forEach(e => {
         project.targets.add({
