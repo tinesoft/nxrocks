@@ -88,6 +88,7 @@ Here the list of available builders:
 | Builder        | Arguments        | Description                                |
 | -------------- | ---------------- | ------------------------------------------ |
 | `run` \| `serve`| `args: string[]` | Runs the application using either `./mvnw spring-boot:run` or `./gradlew bootRun` |
+| `test`         | `args: string[]` | Tests the application using either `./mvnw test` or `./gradlew test` |
 | `buidlJar`     | `args: string[]` | Packages the application into an executable Jar using either `./mvnw spring-boot:repackage` or `./gradlew bootJar` |
 | `buildWar`     | `args: string[]` | Packages the application into an executable War using either `./mvnw spring-boot:repackage` or `./gradlew bootWar` |
 | `buildInfo`    |         -        | Generates a `build-info.properties` using either `./mvnw spring-boot:build-info` or `./gradlew bootBuildInfo` |
@@ -170,6 +171,11 @@ You can pass in additional arguments by editing the related section in the `work
 }
 ```
 
+### Testing the Jar -  ('test' Builder)
+
+```
+nx test your-boot-app
+```
 ## License
 
 Copyright (c) 2020 Tine Kondo. Licensed under the MIT License (MIT)

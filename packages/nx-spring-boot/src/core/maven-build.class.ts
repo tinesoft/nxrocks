@@ -5,6 +5,7 @@ export class MavenBuild implements BuildCore {
 
     private static COMMAND_ALIASES : BuildCommandAliasMapperType = {
         'run': 'spring-boot:run',
+        'test': 'test',
         'buildJar': 'spring-boot:repackage',
         'buildWar': 'spring-boot:repackage',
         'buildImage': 'spring-boot:build-image',
