@@ -57,6 +57,7 @@ export default function (options: ApplicationSchematicSchema): Rule {
 
       if(normalizedOptions.platforms.indexOf('android') != -1) {
         commands.push(
+          {key: 'buildAar', value: 'build aar'},
           {key: 'buildApk', value: 'build apk'},
           {key: 'buildAppbundle', value: 'build appbundle'},
           {key: 'buildBundle', value: 'build bundle'},

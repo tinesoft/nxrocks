@@ -37,6 +37,7 @@ describe('nx-flutter e2e', () => {
       //{ name: 'attach', output: `Attaching ${appName}` },
 
       //build commands
+      { name: 'buildAar', output: `Running Gradle task 'assembleAarDebug'...` },
       { name: 'buildApk', output: `Built build/app/outputs/flutter-apk/app-release.apk` },
       { name: 'buildAppbundle', output: `Built build/app/outputs/bundle/release/app-release.aab` },
       { name: 'buildBundle', output: `Done in` },

@@ -20,7 +20,12 @@ const appCommands = [
   { key: 'run', value: 'run' },
 ];
 
+const pluginOrModOnlyCommands = [
+  { key: 'buildAar', value: 'build aar'},
+];
+
 const androidOnlyCommands = [
+  { key: 'buildAar', value: 'build aar'},
   { key: 'buildApk', value: 'build apk' },
   { key: 'buildAppbundle', value: 'build appbundle' },
   { key: 'buildBundle', value: 'build bundle' },
@@ -73,7 +78,7 @@ describe('application schematic', () => {
       { key: 'test', value: 'test' },
     ];
 
-    const commands = [...commonCommands, ...appCommands, ...androidOnlyCommands, ...iOsOnlyCommands];
+    const commands = [...commonCommands, ...appCommands, ...pluginOrModOnlyCommands, ...androidOnlyCommands, ...iOsOnlyCommands];
     const architect = workspaceJson.projects['testapp'].architect;
 
     commands.forEach(e => {
