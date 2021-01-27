@@ -27,7 +27,7 @@ export default function (options: ApplicationSchematicSchema): Rule {
           projectType,
         });
 
-        const commands = ['run', 'serve', 'buildJar', 'buildWar', 'buildImage', 'buildInfo'];
+        const commands = ['run', 'serve', 'test', 'buildJar', 'buildWar', 'buildImage', 'buildInfo'];
         for(const command of commands){
           project.targets.add({
             name: `${command}`,

@@ -8,7 +8,7 @@ import { ApplicationSchematicSchema } from './schema';
 
 describe('application schematic', () => {
   let appTree: Tree;
-  const options: ApplicationSchematicSchema = { name: 'test' };
+  const options: ApplicationSchematicSchema = { name: 'testapp' };
 
   const testRunner = new SchematicTestRunner(
     '@nxrocks/nx-spring-boot',
@@ -24,16 +24,15 @@ describe('application schematic', () => {
       .runSchematicAsync('app', options, appTree)
       .toPromise();
     const workspaceJson = readJsonInTree(tree, 'workspace.json');
-    const { run, serve, buildJar, buildWar, buildImage, buildInfo } = workspaceJson.projects[
-      'test'
-    ].architect;
-    expect(workspaceJson.projects['test'].root).toBe('apps/test');
-    expect(run.builder).toBe('@nxrocks/nx-spring-boot:run');
-    expect(serve.builder).toBe('@nxrocks/nx-spring-boot:serve');
-    expect(buildJar.builder).toBe('@nxrocks/nx-spring-boot:buildJar');
-    expect(buildWar.builder).toBe('@nxrocks/nx-spring-boot:buildWar');
-    expect(buildImage.builder).toBe('@nxrocks/nx-spring-boot:buildImage');
-    expect(buildInfo.builder).toBe('@nxrocks/nx-spring-boot:buildInfo');
+    expect(workspaceJson.projects['testapp'].root).toBe('apps/testapp');
+
+    const commands = ['run', 'serve', 'test', 'buildJar', 'buildWar', 'buildImage', 'buildInfo'];
+    const architect = workspaceJson.projects['testapp'].architect;
+    commands.forEach(cmd => {
+      expect(architect[cmd].builder).toBe(`@nxrocks/nx-spring-boot:${cmd}`);
+    });
+
+
 
   });
 
