@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://json-schema.org/draft-07/schema",
+  "title": "Clean builder",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "root": {
+      "description": "The project root",
+      "type": "string"
+    },
+    "args": {
+      "description": "The argument to be passed to the underlying Maven or Gradle command",
+      "type": "array",
+      "default": []
+    }
+  },
+  "required": []
+}

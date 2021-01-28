@@ -171,11 +171,18 @@ You can pass in additional arguments by editing the related section in the `work
 }
 ```
 
-### Testing the Jar -  ('test' Builder)
+### Testing the application -  ('test' Builder)
 
 ```
 nx test your-boot-app
 ```
+
+### Cleaning the application -  ('clean' Builder)
+
+```
+nx clean your-boot-app
+```
+
 ## License
 
 Copyright (c) 2020 Tine Kondo. Licensed under the MIT License (MIT)

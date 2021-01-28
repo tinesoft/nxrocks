@@ -16,6 +16,11 @@
       "schema": "./src/builders/test/schema.json",
       "description": "Builder to test the application"
     },
+    "clean": {
+      "implementation": "./src/builders/clean/builder",
+      "schema": "./src/builders/clean/schema.json",
+      "description": "Builder to clean the application"
+    },
     "buildJar": {
       "implementation": "./src/builders/build-jar/builder",
       "schema": "./src/builders/build-jar/schema.json",
