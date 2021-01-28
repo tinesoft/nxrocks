@@ -2,7 +2,7 @@
 
 export type BuildCommandAliasType = 'run' | 'test' | 'clean' | 'buildJar' | 'buildWar' | 'buildImage' | 'buildInfo';
 
-export type BuildCommandAliasMapperType  =  { [ key in  BuildCommandAliasType ]: string; };
+export type BuildCommandAliasMapperType = { [key in BuildCommandAliasType]: string; };
 
 export enum BuildSystem {
     MAVEN,
@@ -13,7 +13,7 @@ export interface BuildCore {
 
     getBuildSystemType();
 
-    getExecutable();
+    getExecutable(ignoreWrapper: boolean);
 
     getCommand(alias: BuildCommandAliasType): string;
 
