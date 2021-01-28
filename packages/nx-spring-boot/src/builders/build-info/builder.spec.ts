@@ -28,17 +28,17 @@ describe('Command Runner Builder', () => {
 
   it('can run', async () => {
     // A "run" can have multiple outputs, and contains progress information.
-    const run = await architect.scheduleBuilder(
+    const buildInfo = await architect.scheduleBuilder(
       '@nxrocks/nx-spring-boot:buildInfo',
       options
     );
     // The "result" member (of type BuilderOutput) is the next output.
-    const output = await run.result;
+    const output = await buildInfo.result;
 
     // Stop the builder from running. This stops Architect from keeping
     // the builder-associated states in memory, since builders keep waiting
     // to be scheduled.
-    await run.stop();
+    await buildInfo.stop();
 
     // Expect that it succeeded.
     expect(output.success).toBe(true);

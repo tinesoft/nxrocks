@@ -2,11 +2,11 @@ import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { schema } from '@angular-devkit/core';
 import { join } from 'path';
-import { RunBuilderSchema } from './schema';
+import { TestBuilderSchema } from './schema';
 
 jest.mock('child_process'); // we need to mock 'execSync' (see __mocks__/child_process.js)
 
-const options: RunBuilderSchema = {
+const options: TestBuilderSchema = {
   root : 'apps/myboot'
 };
 
@@ -28,17 +28,17 @@ describe('Command Runner Builder', () => {
 
   it('can run', async () => {
     // A "run" can have multiple outputs, and contains progress information.
-    const run = await architect.scheduleBuilder(
+    const test = await architect.scheduleBuilder(
       '@nxrocks/nx-spring-boot:test',
       options
     );
     // The "result" member (of type BuilderOutput) is the next output.
-    const output = await run.result;
+    const output = await test.result;
 
     // Stop the builder from running. This stops Architect from keeping
     // the builder-associated states in memory, since builders keep waiting
     // to be scheduled.
-    await run.stop();
+    await test.stop();
 
     // Expect that it succeeded.
     expect(output.success).toBe(true);
