@@ -8,6 +8,11 @@
     "root": {
       "description": "The project root",
       "type": "string"
+    },
+    "ignoreWrapper": {
+      "description": "Whether or not to use the embedded wrapper (`mvnw`or `gradlew`) to perfom build operations",
+      "type": "boolean",
+      "default": false
     }
   },
   "required": []

@@ -3,7 +3,7 @@ import { BuildCommandAliasMapperType, BuildCommandAliasType, BuildCore, BuildSys
 
 export class GradleBuild implements BuildCore {
 
-    private static COMMAND_ALIASES : BuildCommandAliasMapperType = {
+    private static COMMAND_ALIASES: BuildCommandAliasMapperType = {
         'run': 'bootRun',
         'test': 'test',
         'clean': 'clean',
@@ -17,12 +17,12 @@ export class GradleBuild implements BuildCore {
         return BuildSystem.GRADLE;
     }
 
-    getExecutable() {
+    getExecutable(ignoreWrapper: boolean) {
         const isWin = process.platform === "win32";
-        return `./gradlew${isWin ? '.cmd' : ''}`;
+        return !ignoreWrapper ? `./gradlew${isWin ? '.cmd' : ''}` : `gradle`;
     }
 
-    getCommand( alias: BuildCommandAliasType){
+    getCommand(alias: BuildCommandAliasType) {
         return GradleBuild.COMMAND_ALIASES[alias];
     }
 

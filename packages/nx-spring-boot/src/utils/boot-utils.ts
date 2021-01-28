@@ -33,12 +33,12 @@ export function runBootPluginCommand(
     context: BuilderContext,
     commandAlias: BuildCommandAliasType,
     params: string[],
-    options: { cwd?: string; } = {},
+    options: { cwd?: string; ignoreWrapper?: boolean } = { ignoreWrapper: false },
 ): { success: boolean } {
     // Take the parameters or set defaults
     const cwd = options.cwd || process.cwd();
     const buildSystem = determineBuildSystem(cwd);
-    const executable = buildSystem.getExecutable();
+    const executable = buildSystem.getExecutable(options.ignoreWrapper);
     const command = buildSystem.getCommand(commandAlias);
 
     // Create the command to execute

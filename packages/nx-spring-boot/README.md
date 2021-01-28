@@ -85,14 +85,19 @@ Once your app is generated, you can now use buidlers to manage it.
 
 Here the list of available builders:
 
-| Builder        | Arguments        | Description                                |
-| -------------- | ---------------- | ------------------------------------------ |
-| `run` \| `serve`| `args: string[]` | Runs the application using either `./mvnw spring-boot:run` or `./gradlew bootRun` |
-| `test`         | `args: string[]` | Tests the application using either `./mvnw test` or `./gradlew test` |
-| `buidlJar`     | `args: string[]` | Packages the application into an executable Jar using either `./mvnw spring-boot:repackage` or `./gradlew bootJar` |
-| `buildWar`     | `args: string[]` | Packages the application into an executable War using either `./mvnw spring-boot:repackage` or `./gradlew bootWar` |
-| `buildInfo`    |         -        | Generates a `build-info.properties` using either `./mvnw spring-boot:build-info` or `./gradlew bootBuildInfo` |
-| `buildImage`   | `args: string[]` | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw spring-boot:build-image` or `./gradlew bootBuildImage` |
+| Builder         | Arguments                                  | Description                                |
+| --------------- | ------------------------------------------ | ------------------------------------------ |
+| `run` \| `serve`| `ignoreWrapper:boolean`, `args: string[]`  | Runs the application using either `./mvnw\|mvn spring-boot:run` or `./gradlew\|gradle bootRun` |
+| `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the application using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
+| `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the application using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
+| `buidlJar`      | `ignoreWrapper:boolean`, `args: string[]`  | Packages the application into an executable Jar using either `./mvnw\|mvn spring-boot:repackage` or `./gradlew\|gradle bootJar` |
+| `buildWar`      | `ignoreWrapper:boolean`, `args: string[]`  | Packages the application into an executable War using either `./mvnw\|mvn spring-boot:repackage` or `./gradlew\|gradle bootWar` |
+| `buildInfo`     | `ignoreWrapper:boolean`,                   | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo` |
+| `buildImage`    | `ignoreWrapper:boolean`, `args: string[]`  | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn spring-boot:build-image` or `./gradlew\|gradle bootBuildImage` |
+
+In order to execute the requested command, each builder will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the application.
+If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.
+This can be useful in a CI environment for example, or in a restricted environment where the binary cannot be downloaded (due to proxy/firewall limitations).
 
 ### Running the application - ('run' or 'serve' Builders)
 

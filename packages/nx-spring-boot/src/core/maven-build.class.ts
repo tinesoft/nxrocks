@@ -3,7 +3,7 @@ import { BuildCommandAliasType, BuildCommandAliasMapperType, BuildCore, BuildSys
 
 export class MavenBuild implements BuildCore {
 
-    private static COMMAND_ALIASES : BuildCommandAliasMapperType = {
+    private static COMMAND_ALIASES: BuildCommandAliasMapperType = {
         'run': 'spring-boot:run',
         'test': 'test',
         'clean': 'clean',
@@ -17,12 +17,12 @@ export class MavenBuild implements BuildCore {
         return BuildSystem.MAVEN;
     }
 
-    getExecutable() {
+    getExecutable(ignoreWrapper: boolean) {
         const isWin = process.platform === "win32";
-        return `./mvnw${isWin ? '.cmd' : ''}`;
+        return !ignoreWrapper ? `./mvnw${isWin ? '.cmd' : ''}` : `mvn`;
     }
 
-    getCommand( alias: BuildCommandAliasType){
+    getCommand(alias: BuildCommandAliasType) {
         return MavenBuild.COMMAND_ALIASES[alias];
     }
 
