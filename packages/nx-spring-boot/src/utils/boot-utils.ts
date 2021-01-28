@@ -1,5 +1,5 @@
 import { BuilderContext } from '@angular-devkit/architect'
-import { Tree, SchematicContext} from '@angular-devkit/schematics';
+import { Tree, SchematicContext } from '@angular-devkit/schematics';
 import fetch from 'node-fetch';
 import { escape } from 'querystring'
 import { execSync } from 'child_process'
@@ -8,19 +8,17 @@ import { BuildCommandAliasType, BuildCore } from '../core/build-core.class';
 import { GradleBuild } from '../core/gradle-build.class';
 import { MavenBuild } from '../core/maven-build.class';
 import { NormalizedSchema } from '../schematics/application/schema';
+import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
 
-const isWin = process.platform === "win32";
 
 export function determineBuildSystem(cwd: string): BuildCore {
-    try {
-        execSync(`./mvnw${isWin ? '.cmd' : ''} --version`, {
-            cwd,
-            stdio: ['ignore', 'ignore', 'ignore'],
-        });
+    if (fileExists(`${cwd}/pom.xml`))
         return new MavenBuild();
-    } catch (e) {
+
+    if (fileExists(`${cwd}/build.gradle`) || fileExists(`${cwd}/build.gradle.kts`))
         return new GradleBuild();
-    }
+
+    throw new Error(`Cannot determine the build system. No 'pom.xml' nor 'build.gradle' file found under '${cwd}'`);
 }
 
 export function getPackageLatestNpmVersion(pkg: string): string {
@@ -35,7 +33,7 @@ export function runBootPluginCommand(
     context: BuilderContext,
     commandAlias: BuildCommandAliasType,
     params: string[],
-    options: { cwd?: string;} = {},
+    options: { cwd?: string; } = {},
 ): { success: boolean } {
     // Take the parameters or set defaults
     const cwd = options.cwd || process.cwd();
@@ -57,20 +55,20 @@ export function runBootPluginCommand(
 }
 
 
-export function  buildBootDownloadUrl(options: NormalizedSchema) {
+export function buildBootDownloadUrl(options: NormalizedSchema) {
     const params = [
-        {key: 'type', value: options.type},
-        {key: 'language', value: options.language},
-        {key: 'name', value: options.name},
-        {key: 'groupId', value: options.groupId},
-        {key: 'artifactId', value: options.artifactId},
-        {key: 'version', value: options.version},
-        {key: 'packageName', value: options.packageName},
-        {key: 'javaVersion', value: options.javaVersion},
-        {key: 'packaging', value: options.packaging},
-        {key: 'dependencies', value: options.dependencies},
-        {key: 'description', value: options.description ? escape(options.description): null},
-        {key: 'bootVersion', value: options.bootVersion},
+        { key: 'type', value: options.type },
+        { key: 'language', value: options.language },
+        { key: 'name', value: options.name },
+        { key: 'groupId', value: options.groupId },
+        { key: 'artifactId', value: options.artifactId },
+        { key: 'version', value: options.version },
+        { key: 'packageName', value: options.packageName },
+        { key: 'javaVersion', value: options.javaVersion },
+        { key: 'packaging', value: options.packaging },
+        { key: 'dependencies', value: options.dependencies },
+        { key: 'description', value: options.description ? escape(options.description) : null },
+        { key: 'bootVersion', value: options.bootVersion },
     ].filter(e => !!e.value);
 
     const queryParams = params.map(e => `${e.key}=${e.value}`).join('&');
@@ -78,9 +76,9 @@ export function  buildBootDownloadUrl(options: NormalizedSchema) {
     return `${options.springInitializerUrl}/starter.zip?${queryParams}`;
 }
 
-export  async function generateBootProject(options: NormalizedSchema, tree: Tree, context: SchematicContext): Promise<void> {
+export async function generateBootProject(options: NormalizedSchema, tree: Tree, context: SchematicContext): Promise<void> {
     const downloadUrl = this.buildBootDownloadUrl(options);
-    
+
     context.logger.info(`Downloading Spring Boot project zip from : ${downloadUrl}...`);
 
     const pkg = '@nxrocks/nx-spring-boot';
@@ -94,7 +92,7 @@ export  async function generateBootProject(options: NormalizedSchema, tree: Tree
     const response = await fetch(downloadUrl, opts);
 
     context.logger.info(`Extracting Spring Boot project zip to : ${options.projectRoot}...`);
-    
+
     return response.body.pipe(Extract({ path: options.projectRoot })).promise();
     /*
     return response.body.pipe(Parse({forceStream: true}))
