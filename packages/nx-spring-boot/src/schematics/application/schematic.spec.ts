@@ -26,7 +26,7 @@ describe('application schematic', () => {
     const workspaceJson = readJsonInTree(tree, 'workspace.json');
     expect(workspaceJson.projects['testapp'].root).toBe('apps/testapp');
 
-    const commands = ['run', 'serve', 'test', 'buildJar', 'buildWar', 'buildImage', 'buildInfo'];
+    const commands = ['run', 'serve', 'test', 'clean', 'buildJar', 'buildWar', 'buildImage', 'buildInfo'];
     const architect = workspaceJson.projects['testapp'].architect;
     commands.forEach(cmd => {
       expect(architect[cmd].builder).toBe(`@nxrocks/nx-spring-boot:${cmd}`);

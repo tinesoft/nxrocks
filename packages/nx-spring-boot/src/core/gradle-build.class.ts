@@ -6,6 +6,7 @@ export class GradleBuild implements BuildCore {
     private static COMMAND_ALIASES : BuildCommandAliasMapperType = {
         'run': 'bootRun',
         'test': 'test',
+        'clean': 'clean',
         'buildJar': 'bootJar',
         'buildWar': 'bootWar',
         'buildImage': 'bootBuildImage',
