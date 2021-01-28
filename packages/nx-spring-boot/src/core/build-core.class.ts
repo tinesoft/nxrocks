@@ -1,6 +1,6 @@
 
 
-export type BuildCommandAliasType = 'run' | 'test' | 'buildJar' | 'buildWar' | 'buildImage' | 'buildInfo';
+export type BuildCommandAliasType = 'run' | 'test' | 'clean' | 'buildJar' | 'buildWar' | 'buildImage' | 'buildInfo';
 
 export type BuildCommandAliasMapperType  =  { [ key in  BuildCommandAliasType ]: string; };
 
