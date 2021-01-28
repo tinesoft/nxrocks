@@ -25,9 +25,9 @@ export function determineBuildSystem(cwd: string): BuildCore {
 
 export function getPackageLatestNpmVersion(pkg: string): string {
     try {
-        return execSync(`npm show ${pkg} version`).toString().trim() || '0.0.0';
+        return execSync(`npm show ${pkg} version`).toString().trim() || 'latest';
     } catch (e) {
-        return '0.0.0';
+        return 'latest';
     }
 }
 
