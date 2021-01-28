@@ -1,6 +1,6 @@
 import { JsonObject } from '@angular-devkit/core';
 
-export interface RunBuilderSchema extends JsonObject {
+export interface TestBuilderSchema extends JsonObject {
     root: string;
     args?: string[];
 }
