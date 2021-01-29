@@ -7,14 +7,22 @@ import { TestBuilderSchema } from './schema';
 jest.mock('child_process'); // we need to mock 'execSync' (see __mocks__/child_process.js)
 
 const options: TestBuilderSchema = {
-  root : 'apps/myboot'
+  root: 'apps/myboot'
 };
 
 describe('Command Runner Builder', () => {
   let architect: Architect;
   let architectHost: TestingArchitectHost;
+  let fileExists: jest.Mock<any>;
 
   beforeEach(async () => {
+    jest.resetModules();
+
+    fileExists = jest.fn();
+    jest.doMock('@nrwl/workspace/src/utils/fileutils', () => ({
+      fileExists,
+    }));
+
     const registry = new schema.CoreSchemaRegistry();
     registry.addPostTransform(schema.transforms.addUndefinedDefaults);
 
@@ -26,7 +34,29 @@ describe('Command Runner Builder', () => {
     await architectHost.addBuilderFromPackage(join(__dirname, '../../..'));
   });
 
-  it('can run', async () => {
+  it('can run maven build', async () => {
+    fileExists.mockImplementation((path: string) => path.indexOf('pom.xml') !== -1)
+
+    // A "run" can have multiple outputs, and contains progress information.
+    const test = await architect.scheduleBuilder(
+      '@nxrocks/nx-spring-boot:test',
+      options
+    );
+    // The "result" member (of type BuilderOutput) is the next output.
+    const output = await test.result;
+
+    // Stop the builder from running. This stops Architect from keeping
+    // the builder-associated states in memory, since builders keep waiting
+    // to be scheduled.
+    await test.stop();
+
+    // Expect that it succeeded.
+    expect(output.success).toBe(true);
+  });
+
+  it('can run gradle build', async () => {
+    fileExists.mockImplementation((path: string) => path.indexOf('build.gradle') !== -1)
+
     // A "run" can have multiple outputs, and contains progress information.
     const test = await architect.scheduleBuilder(
       '@nxrocks/nx-spring-boot:test',
