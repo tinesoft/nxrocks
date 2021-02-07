@@ -3,10 +3,10 @@ name: Run e2e Tests for nx-flutter
 on:
   push:
     branches: [ develop ]
-    paths:    [ "packages/nx-flutter" ]
+    paths:    [ "packages/nx-flutter/**" ]
   pull_request:
     branches: [ develop ]
-    paths:    [ "packages/nx-flutter" ]
+    paths:    [ "packages/nx-flutter/**" ]
 
 jobs:
   run_e2e:
