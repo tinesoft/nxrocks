@@ -8,8 +8,15 @@ import { BuildCommandAliasType, BuildCore } from '../core/build-core.class';
 import { GradleBuild } from '../core/gradle-build.class';
 import { MavenBuild } from '../core/maven-build.class';
 import { NormalizedSchema } from '../schematics/application/schema';
-import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
+import * as fs from 'fs';
 
+export function fileExists(filePath: string): boolean {
+    try {
+        return fs.statSync(filePath).isFile();
+    } catch (err) {
+        return false;
+    }
+}
 
 export function determineBuildSystem(cwd: string): BuildCore {
     if (fileExists(`${cwd}/pom.xml`))

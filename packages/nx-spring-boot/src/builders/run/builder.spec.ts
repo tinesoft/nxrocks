@@ -13,14 +13,15 @@ const options: RunBuilderSchema = {
 describe('Command Runner Builder', () => {
   let architect: Architect;
   let architectHost: TestingArchitectHost;
-  let fileExists: jest.Mock<any>;
+  let statSync: jest.Mock;
 
   beforeEach(async () => {
     jest.resetModules();
 
-    fileExists = jest.fn();
-    jest.doMock('@nrwl/workspace/src/utils/fileutils', () => ({
-      fileExists,
+    statSync = jest.fn();
+    jest.mock('fs', () => ({
+      ...jest.requireActual('fs'),
+      statSync
     }));
 
     const registry = new schema.CoreSchemaRegistry();
@@ -35,7 +36,7 @@ describe('Command Runner Builder', () => {
   });
 
   it('can run maven build', async () => {
-    fileExists.mockImplementation((path: string) => path.indexOf('pom.xml') !== -1)
+    statSync.mockImplementation((path: string) => ({ isFile: () => path.indexOf('pom.xml') !== -1 }))
 
     // A "run" can have multiple outputs, and contains progress information.
     const run = await architect.scheduleBuilder(
@@ -55,7 +56,7 @@ describe('Command Runner Builder', () => {
   });
 
   it('can run gradle build', async () => {
-    fileExists.mockImplementation((path: string) => path.indexOf('build.gradle') !== -1)
+    statSync.mockImplementation((path: string) => ({ isFile: () => path.indexOf('build.gradle') !== -1 }))
 
     // A "run" can have multiple outputs, and contains progress information.
     const run = await architect.scheduleBuilder(

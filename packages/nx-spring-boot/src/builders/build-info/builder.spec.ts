@@ -2,6 +2,7 @@ import { Architect } from '@angular-devkit/architect';
 import { TestingArchitectHost } from '@angular-devkit/architect/testing';
 import { schema } from '@angular-devkit/core';
 import { join } from 'path';
+
 import { BuildInfoBuilderSchema } from './schema';
 
 jest.mock('child_process'); // we need to mock 'execSync' (see __mocks__/child_process.js)
@@ -13,14 +14,15 @@ const options: BuildInfoBuilderSchema = {
 describe('Command Runner Builder', () => {
   let architect: Architect;
   let architectHost: TestingArchitectHost;
-  let fileExists: jest.Mock<any>;
+  let statSync: jest.Mock;
 
   beforeEach(async () => {
     jest.resetModules();
 
-    fileExists = jest.fn();
-    jest.doMock('@nrwl/workspace/src/utils/fileutils', () => ({
-      fileExists,
+    statSync = jest.fn();
+    jest.mock('fs', () => ({
+      ...jest.requireActual('fs'),
+      statSync
     }));
 
     const registry = new schema.CoreSchemaRegistry();
@@ -35,7 +37,7 @@ describe('Command Runner Builder', () => {
   });
 
   it('can run maven build', async () => {
-    fileExists.mockImplementation((path: string) => path.indexOf('pom.xml') !== -1)
+    statSync.mockImplementation((path: string) => ({ isFile: () => path.indexOf('pom.xml') !== -1 }))
 
     // A "run" can have multiple outputs, and contains progress information.
     const buildInfo = await architect.scheduleBuilder(
@@ -56,7 +58,7 @@ describe('Command Runner Builder', () => {
 
 
   it('can run gradle build', async () => {
-    fileExists.mockImplementation((path: string) => path.indexOf('build.gradle') !== -1)
+    statSync.mockImplementation((path: string) => ({ isFile: () => path.indexOf('build.gradle') !== -1 }))
 
     // A "run" can have multiple outputs, and contains progress information.
     const buildInfo = await architect.scheduleBuilder(
