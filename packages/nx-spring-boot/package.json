@@ -28,8 +28,8 @@
     "nx",
     "java"
   ],
-  "devDependencies": {
-    "@types/node-fetch": "^2.5.7",
-    "@types/unzipper": "^0.10.3"
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "unzipper": "^0.10.11"
   }
 }

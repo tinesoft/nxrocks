@@ -30,7 +30,8 @@
   "private": true,
   "dependencies": {
     "node-fetch": "^2.6.1",
-    "unzipper": "^0.10.11"
+    "unzipper": "^0.10.11",
+    "inquirer": "^7.3.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
@@ -49,7 +50,7 @@
     "@types/inquirer": "^7.3.1",
     "@types/jest": "26.0.8",
     "@types/node": "^8.9.5",
-    "@types/node-fetch": "^2.5.7",
+    "@types/node-fetch": "^2.5.8",
     "@types/unzipper": "^0.10.3",
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
