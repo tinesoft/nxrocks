@@ -1,3 +1,11 @@
+## [1.3.1](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v1.3.0...nx-spring-boot/v1.3.1) (2021-02-08)
+
+### Bug Fixes
+
+- **nx-spring-boot:** always restore executable permissions on wrappers ([b9875d8](https://github.com/tinesoft/nxrocks/commit/b9875d879198a0a613041b00720c77923b54c6c1))
+- **nx-spring-boot:** correct error when executing builders on Windows ([1a744ab](https://github.com/tinesoft/nxrocks/commit/1a744abf67cd07d0ebd259f12c4c02fc2bd8bdaa)), closes [#38](https://github.com/tinesoft/nxrocks/issues/38)
+- **nx-spring-boot:** correct generation issue on Nx workspaces >=v11.2.0 ([d3c3816](https://github.com/tinesoft/nxrocks/commit/d3c3816fd739aa5f42133d05644e972d003c43ff)), closes [#37](https://github.com/tinesoft/nxrocks/issues/37)
+
 # [1.3.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v1.2.1...nx-spring-boot/v1.3.0) (2021-02-01)
 
 ### Features
