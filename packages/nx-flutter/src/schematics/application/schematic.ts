@@ -55,7 +55,7 @@ export default function (options: ApplicationSchematicSchema): Rule {
         )
       }
 
-      if(normalizedOptions.platforms.indexOf('android') != -1) {
+      if(normalizedOptions.platforms?.indexOf('android') != -1) {
         commands.push(
           {key: 'buildAar', value: 'build aar'},
           {key: 'buildApk', value: 'build apk'},
@@ -64,7 +64,7 @@ export default function (options: ApplicationSchematicSchema): Rule {
         )
       }
 
-      if(normalizedOptions.platforms.indexOf('ios') != -1) {
+      if(normalizedOptions.platforms?.indexOf('ios') != -1) {
         commands.push(
           {key: 'buildIos', value: 'build ios'},
           {key: 'buildIosFramework', value: 'build ios-framework'},
