@@ -1,5 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
+  "$schema": "http://json-schema.org/schema",
   "id": "NxFlutter",
   "title": "",
   "type": "object",
@@ -59,7 +59,14 @@
         "type": "string"
       },
       "minItems": 1,
-      "default": ["android", "ios", "linux", "windows", "macos","web"]
+      "default": [
+        "android",
+        "ios",
+        "linux",
+        "windows",
+        "macos",
+        "web"
+      ]
     },
     "androidLanguage": {
       "description": "Android Language of the project",
@@ -105,5 +112,7 @@
       "default": true
     }
   },
-  "required": ["name"]
+  "required": [
+    "name"
+  ]
 }

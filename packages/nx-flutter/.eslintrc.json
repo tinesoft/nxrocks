@@ -1,6 +1,22 @@
 {
-    "extends": "../../.eslintrc.json",
-    "ignorePatterns": ["!**/*", ".releaserc.js"],
-    "rules": {}
-  }
-  
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": ["!**/*", ".releaserc.js"],
+  "rules": {},
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "parserOptions": {
+        "project": ["packages/nx-flutter/tsconfig.*?.json"]
+      },
+      "rules": {}
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    }
+  ]
+}
