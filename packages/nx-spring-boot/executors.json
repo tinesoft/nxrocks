@@ -1,0 +1,44 @@
+{
+  "executors": {
+    "run": {
+      "implementation": "./src/builders/run/executor",
+      "schema": "./src/builders/run/schema.json",
+      "description": "Executor to run the application"
+    },
+    "serve": {
+      "implementation": "./src/builders/run/executor",
+      "schema": "./src/builders/serve/schema.json",
+      "description": "Executor to serve the application (alias to 'run' executor)"
+    },
+    "test": {
+      "implementation": "./src/builders/test/executor",
+      "schema": "./src/builders/test/schema.json",
+      "description": "Executor to test the application"
+    },
+    "clean": {
+      "implementation": "./src/builders/clean/executor",
+      "schema": "./src/builders/clean/schema.json",
+      "description": "Executor to clean the application"
+    },
+    "buildJar": {
+      "implementation": "./src/builders/build-jar/executor",
+      "schema": "./src/builders/build-jar/schema.json",
+      "description": "Executor to build the application's executable Jar"
+    },
+    "buildWar": {
+      "implementation": "./src/builders/build-war/executor",
+      "schema": "./src/builders/build-war/schema.json",
+      "description": "Executor to build the application's executable War"
+    },
+    "buildImage": {
+      "implementation": "./src/executors/build-image/executor",
+      "schema": "./src/executors/build-image/schema.json",
+      "description": "Executor to build the application's OCI image"
+    },
+    "buildInfo": {
+      "implementation": "./src/executors/build-info/executor",
+      "schema": "./src/executors/build-info/schema.json",
+      "description": "Executor to build the applications's build information"
+    }
+  }
+}

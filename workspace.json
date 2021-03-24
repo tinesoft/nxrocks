@@ -41,12 +41,12 @@
               },
               {
                 "input": "./packages/nx-spring-boot",
-                "glob": "collection.json",
+                "glob": "generators.json",
                 "output": "."
               },
               {
                 "input": "./packages/nx-spring-boot",
-                "glob": "builders.json",
+                "glob": "executors.json",
                 "output": "."
               }
             ]
