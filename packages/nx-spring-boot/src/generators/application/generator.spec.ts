@@ -22,6 +22,7 @@ describe('application generator', () => {
   let tree: Tree;
   const options: ApplicationGeneratorOptions = {
     name: 'bootapp',
+    projectType: 'application',
     springInitializerUrl: 'https://start.spring.io'
   };
 
@@ -42,17 +43,21 @@ describe('application generator', () => {
   });
 
   each`
-    type                | buildFile      | wrapperName
-    ${'maven-project'}  | ${'pom.xml'}   | ${'mvnw'}
-    ${'gradle-project'} | ${'build.gradle'} | ${'gradlew'}
-  `.it('should download a spring boot projet of type=$type', async ({ type, buildFile, wrapperName }) => {
+    projectType      | buildSystem         | buildFile         | wrapperName
+    ${'application'} | ${'maven-project'}  | ${'pom.xml'}      | ${'mvnw'}
+    ${'application'} | ${'gradle-project'} | ${'build.gradle'} | ${'gradlew'}
+    ${'library'}     | ${'maven-project'}  | ${'pom.xml'}      | ${'mvnw'}
+    ${'library'}     | ${'gradle-project'} | ${'build.gradle'} | ${'gradlew'}
+  `.it(`should download a spring boot '$projectType' build with $buildSystem in folder=/$rootDir/`, async ({ projectType, buildSystem, buildFile, wrapperName }) => {
 
-    tree.write(`/apps/${options.name}/${buildFile}`, '');
+    const rootDir = projectType === 'application' ? 'apps': 'libs';
+    
+    tree.write(`/${rootDir}/${options.name}/${buildFile}`, '');
 
-    await applicationGenerator(tree, { ...options, type});
+    await applicationGenerator(tree, { ...options, projectType, buildSystem});
 
     expect(mockedFetch).toHaveBeenCalledWith(
-      `${options.springInitializerUrl}/starter.zip?type=${type}&name=${options.name}`,
+      `${options.springInitializerUrl}/starter.zip?type=${buildSystem}&name=${options.name}`,
       expect.objectContaining({
         headers: {
           'User-Agent': expect.stringContaining('@nxrocks_nx-spring-boot/')
@@ -60,15 +65,15 @@ describe('application generator', () => {
       })
     );
 
-    expect(logger.info).toHaveBeenNthCalledWith(1, `Downloading Spring Boot project zip from : ${options.springInitializerUrl}/starter.zip?type=${type}&name=${options.name}...`);
+    expect(logger.info).toHaveBeenNthCalledWith(1, `Downloading Spring Boot project zip from : ${options.springInitializerUrl}/starter.zip?type=${buildSystem}&name=${options.name}...`);
 
-    expect(logger.info).toHaveBeenNthCalledWith(2, `Extracting Spring Boot project zip to '${appRootPath}/apps/${options.name}'...`);
+    expect(logger.info).toHaveBeenNthCalledWith(2, `Extracting Spring Boot project zip to '${appRootPath}/${rootDir}/${options.name}'...`);
 
-    expect(logger.debug).toHaveBeenNthCalledWith(1, `Restoring write permission on wrapper executable at '${appRootPath}/apps/${options.name}/${wrapperName}'...`);
+    expect(logger.debug).toHaveBeenNthCalledWith(1, `Restoring write permission on wrapper executable at '${appRootPath}/${rootDir}/${options.name}/${wrapperName}'...`);
 
-    expect(fs.chmodSync).toHaveBeenCalledWith(expect.stringContaining(`/apps/${options.name}/${wrapperName}`), 0o755);
+    expect(fs.chmodSync).toHaveBeenCalledWith(expect.stringContaining(`/${rootDir}/${options.name}/${wrapperName}`), 0o755);
 
-    if (type === 'gradle-project') {
+    if (buildSystem === 'gradle-project') {
       expect(logger.debug).toHaveBeenNthCalledWith(2, `Adding 'buildInfo' task to the build.gradle file...`);
     }
   });

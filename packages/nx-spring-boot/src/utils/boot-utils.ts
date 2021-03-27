@@ -54,7 +54,7 @@ export function runBootPluginCommand(
 
 export function buildBootDownloadUrl(options: NormalizedSchema) {
     const params = [
-        { key: 'type', value: options.type },
+        { key: 'type', value: options.buildSystem },
         { key: 'language', value: options.language },
         { key: 'name', value: options.name },
         { key: 'groupId', value: options.groupId },

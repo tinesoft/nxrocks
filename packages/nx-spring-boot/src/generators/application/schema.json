@@ -14,21 +14,41 @@
       },
       "x-prompt": "What name would you like to use?"
     },
-    "type": {
+    "projectType": {
       "description": "Type of project",
+      "default": "application",
+      "type": "string",
+      "x-prompt": {
+        "message": "What kind of project are you generating?",
+        "type": "list",
+        "items": [
+          {
+            "value": "application",
+            "label": "Application"
+          },
+          {
+            "value": "library",
+            "label": "Library"
+          }
+        ]
+      }
+    },
+    "buildSystem": {
+      "description": "Build system",
+      "alias": "type",
       "default": "maven-project",
       "type": "string",
       "x-prompt": {
-        "message": "Which type of project would you like to generate?",
+        "message": "Which build system would you like to use?",
         "type": "list",
         "items": [
           {
             "value": "maven-project",
-            "label": "Maven Project"
+            "label": "Maven"
           },
           {
             "value": "gradle-project",
-            "label": "Gradle Project"
+            "label": "Gradle"
           }
         ]
       }

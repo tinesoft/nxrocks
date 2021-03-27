@@ -5,7 +5,7 @@ import {
 import { NormalizedSchema } from '../schema';
 
 export function addBuilInfoTask(tree: Tree, options: NormalizedSchema) {
-    if (options.type === 'gradle-project') {
+    if (options.buildSystem === 'gradle-project') {
         logger.debug(`Adding 'buildInfo' task to the build.gradle file...`);
 
         const buildInfoTask = `

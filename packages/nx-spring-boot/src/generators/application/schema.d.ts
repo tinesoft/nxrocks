@@ -1,11 +1,12 @@
 export interface ApplicationGeneratorOptions {
   name: string;
+  projectType: 'application' | 'library';
   tags?: string;
   directory?: string;
 
   springInitializerUrl?: string;
 
-  type?: 'maven-project' | 'gradle-project';
+  buildSystem?: 'maven-project' | 'gradle-project';
   language?: 'java' | 'kotlin' | 'groovy';
   bootVersion?: string;
   groupId?: string;
