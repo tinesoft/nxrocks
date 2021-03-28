@@ -5,7 +5,7 @@ import { execSync } from 'child_process'
 import { BuildCommandAliasType, BuildCore } from '../core/build-core.class';
 import { GradleBuild } from '../core/gradle-build.class';
 import { MavenBuild } from '../core/maven-build.class';
-import { NormalizedSchema } from '../generators/application/schema';
+import { NormalizedSchema } from '../generators/project/schema';
 
 
 export function determineBuildSystem(cwd: string): BuildCore {

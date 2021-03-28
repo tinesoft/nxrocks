@@ -1,9 +1,9 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
-import { ApplicationGeneratorOptions } from './schema';
+import { ProjectGeneratorOptions } from './schema';
 import { normalizeOptions, generateBootProject, restoreExecutePermission, addBuilInfoTask } from './lib';
 
 
-export async function applicationGenerator(tree: Tree, options: ApplicationGeneratorOptions) {
+export async function projectGenerator(tree: Tree, options: ProjectGeneratorOptions) {
   const normalizedOptions = normalizeOptions(tree,options);
 
   const targets = {};
@@ -30,4 +30,4 @@ export async function applicationGenerator(tree: Tree, options: ApplicationGener
 
 }
 
-export default applicationGenerator;
+export default projectGenerator;

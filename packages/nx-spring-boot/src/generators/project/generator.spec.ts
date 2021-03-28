@@ -4,8 +4,8 @@ import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import each from 'jest-each';
 
-import { applicationGenerator } from './generator';
-import { ApplicationGeneratorOptions } from './schema';
+import { projectGenerator } from './generator';
+import { ProjectGeneratorOptions } from './schema';
 
 import { Readable } from 'stream';
 
@@ -18,9 +18,9 @@ const { Response } = jest.requireActual('node-fetch');
 jest.mock('fs');
 import * as fs from 'fs';
 
-describe('application generator', () => {
+describe('project generator', () => {
   let tree: Tree;
-  const options: ApplicationGeneratorOptions = {
+  const options: ProjectGeneratorOptions = {
     name: 'bootapp',
     projectType: 'application',
     springInitializerUrl: 'https://start.spring.io'
@@ -54,7 +54,7 @@ describe('application generator', () => {
     
     tree.write(`/${rootDir}/${options.name}/${buildFile}`, '');
 
-    await applicationGenerator(tree, { ...options, projectType, buildSystem});
+    await projectGenerator(tree, { ...options, projectType, buildSystem});
 
     expect(mockedFetch).toHaveBeenCalledWith(
       `${options.springInitializerUrl}/starter.zip?type=${buildSystem}&name=${options.name}`,
@@ -79,7 +79,7 @@ describe('application generator', () => {
   });
 
   it('should update workspace.json', async () => {
-    await applicationGenerator(tree, options);
+    await projectGenerator(tree, options);
     const project = readProjectConfiguration(tree, options.name);
     expect(project.root).toBe(`apps/${options.name}`);
 

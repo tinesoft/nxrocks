@@ -40,33 +40,36 @@ npm install @nxrocks/nx-spring-boot --save-dev
 yarn add @nxrocks/nx-spring-boot --dev
 ```
 
-### Generating Application
+### Generating Project
 
-Simply run the `application` Schematics with the following command:
+Simply run the `project` generator with the following command:
 
 ```
-nx g @nxrocks/nx-spring-boot:app <your-app-name>
+nx g @nxrocks/nx-spring-boot:new <your-app-name>
 ```
 
-You will be prompted for entering the most commonly customized generation options (like application's `groupId`, `artifactId`, `packaging`, `dependencies`, etc).
+> you can also use the following aliases to call the generator: `proj`, `new`, `gen`, `init`, `create`, or `generate`
+
+You will be prompted for entering the most commonly customized generation options (like project's `groupId`, `artifactId`, `packaging`, `dependencies`, etc).
 
 To skip the interactive prompt, or if you want to customize all non-prompted options, you can pass them along directly when running the command, as such:
 
 ```
-nx g @nxrocks/nx-spring-boot:app <your-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
+nx g @nxrocks/nx-spring-boot:project <your-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
 ```
 
 #### Generation Options
 
 Here the list of available generation options :
 
-| Arguments | Description           |
-| --------- | --------------------- |
-| `<name>`  | The name of your app. |
+| Arguments | Description              |
+| --------- | ------------------------ |
+| `<name>`  | The name of your project.|
 
 Option                 | Value | Description
 ---------------------- | ----- | ------------
-`type`                 | `maven-project` \| `gradle-project`  | Type of project to generate
+`projectType`          | `application` \| `library`  | Type of project to generate
+`buildSystem`          | `maven-project` \| `gradle-project`  | Build system
 `packaging`            | `jar` \| `war` | Packaging to use
 `javaVersion`          | `8` \| `11` \| `15`| Java version to use
 `language`             | `java` \| `groovy` \| `kotlin`      | Language to use
@@ -88,19 +91,19 @@ Here the list of available builders:
 
 | Builder         | Arguments                                  | Description                                |
 | --------------- | ------------------------------------------ | ------------------------------------------ |
-| `run` \| `serve`| `ignoreWrapper:boolean`, `args: string[]`  | Runs the application using either `./mvnw\|mvn spring-boot:run` or `./gradlew\|gradle bootRun` |
-| `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the application using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
-| `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the application using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
-| `buidlJar`      | `ignoreWrapper:boolean`, `args: string[]`  | Packages the application into an executable Jar using either `./mvnw\|mvn spring-boot:repackage` or `./gradlew\|gradle bootJar` |
-| `buildWar`      | `ignoreWrapper:boolean`, `args: string[]`  | Packages the application into an executable War using either `./mvnw\|mvn spring-boot:repackage` or `./gradlew\|gradle bootWar` |
+| `run` \| `serve`| `ignoreWrapper:boolean`, `args: string[]`  | Runs the project using either `./mvnw\|mvn spring-boot:run` or `./gradlew\|gradle bootRun` |
+| `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
+| `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
+| `buidlJar`      | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project into an executable Jar using either `./mvnw\|mvn spring-boot:repackage` or `./gradlew\|gradle bootJar` |
+| `buildWar`      | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project into an executable War using either `./mvnw\|mvn spring-boot:repackage` or `./gradlew\|gradle bootWar` |
 | `buildInfo`     | `ignoreWrapper:boolean`,                   | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo` |
 | `buildImage`    | `ignoreWrapper:boolean`, `args: string[]`  | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn spring-boot:build-image` or `./gradlew\|gradle bootBuildImage` |
 
-In order to execute the requested command, each builder will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the application.
+In order to execute the requested command, each builder will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
 If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.
 This can be useful in a CI environment for example, or in a restricted environment where the binary cannot be downloaded (due to proxy/firewall limitations).
 
-### Running the application - ('run' or 'serve' Builders)
+### Running the project - ('run' or 'serve' Builders)
 
 ```
 nx run your-boot-app:run
@@ -177,13 +180,13 @@ You can pass in additional arguments by editing the related section in the `work
 }
 ```
 
-### Testing the application -  ('test' Builder)
+### Testing the project -  ('test' Builder)
 
 ```
 nx test your-boot-app
 ```
 
-### Cleaning the application -  ('clean' Builder)
+### Cleaning the project -  ('clean' Builder)
 
 ```
 nx clean your-boot-app
@@ -193,8 +196,8 @@ nx clean your-boot-app
 
 Every Nx plugin relies on the underlying Nx Workspace it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this plugin/
 
-| Plugin Version | Nx Workspace version 
-| -------------- | ---------------------
+| Plugin Version | Nx Workspace version
+| -------------- | --------------------
 | `>=v2.x.x`     | `>=v11.x.x`
 | `<=v1.3.1`     | `<=v10.x.x`
 ## License

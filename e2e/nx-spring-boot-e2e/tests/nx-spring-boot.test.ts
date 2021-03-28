@@ -13,7 +13,7 @@ describe('nx-spring-boot e2e', () => {
     const prjName = uniq('nx-spring-boot');
     ensureNxProject('@nxrocks/nx-spring-boot', 'dist/packages/nx-spring-boot');
     await runNxCommandAsync(
-      `generate @nxrocks/nx-spring-boot:application ${prjName}`
+      `generate @nxrocks/nx-spring-boot:new ${prjName}`
     );
 
     const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
@@ -38,7 +38,7 @@ describe('nx-spring-boot e2e', () => {
 
     ensureNxProject('@nxrocks/nx-spring-boot', 'dist/packages/nx-spring-boot');
     await runNxCommandAsync(
-      `generate @nxrocks/nx-spring-boot:application ${prjName} --projectType application --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --version=${version}`// --javaVersion="${javaVersion}"`
+      `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --version=${version}`// --javaVersion="${javaVersion}"`
     );
 
     const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
@@ -71,7 +71,7 @@ describe('nx-spring-boot e2e', () => {
         'dist/packages/nx-spring-boot'
       );
       await runNxCommandAsync(
-        `generate @nxrocks/nx-spring-boot:application ${prjName} --projectType application --buildSystem gradle-project`
+        `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --buildSystem gradle-project`
       );
 
       const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
@@ -92,7 +92,7 @@ describe('nx-spring-boot e2e', () => {
         'dist/packages/nx-spring-boot'
       );
       await runNxCommandAsync(
-        `generate @nxrocks/nx-spring-boot:application ${prjName} --projectType application --buildSystem gradle-project --language kotlin`
+        `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --buildSystem gradle-project --language kotlin`
       );
 
       const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
@@ -114,7 +114,7 @@ describe('nx-spring-boot e2e', () => {
         'dist/packages/nx-spring-boot'
       );
       await runNxCommandAsync(
-        `generate @nxrocks/nx-spring-boot:application ${prjName} --projectType application --directory subdir`
+        `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --directory subdir`
       );
       expect(() =>
       checkFilesExist(`apps/subdir/${prjName}/mvnw`,`apps/subdir/${prjName}/pom.xml`, `apps/subdir/${prjName}/HELP.md`)
@@ -131,7 +131,7 @@ describe('nx-spring-boot e2e', () => {
         'dist/packages/nx-spring-boot'
       );
       await runNxCommandAsync(
-        `generate @nxrocks/nx-spring-boot:application ${prjName} --projectType application --tags e2etag,e2ePackage`
+        `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --tags e2etag,e2ePackage`
       );
       const nxJson = readJson('nx.json');
       expect(nxJson.projects[prjName].tags).toEqual(['e2etag', 'e2ePackage']);

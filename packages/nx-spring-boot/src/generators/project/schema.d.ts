@@ -1,4 +1,4 @@
-export interface ApplicationGeneratorOptions {
+export interface ProjectGeneratorOptions {
   name: string;
   projectType: 'application' | 'library';
   tags?: string;
@@ -19,7 +19,7 @@ export interface ApplicationGeneratorOptions {
   version?: string;
 }
 
-export interface NormalizedSchema extends ApplicationGeneratorOptions {
+export interface NormalizedSchema extends ProjectGeneratorOptions {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
