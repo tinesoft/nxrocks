@@ -31,7 +31,7 @@ describe('project generator', () => {
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
-    jest.spyOn(fs, 'chmodSync').mockReset();
+    jest.spyOn(fs, 'chmodSync');
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue({ promise: () => jest.fn() });
