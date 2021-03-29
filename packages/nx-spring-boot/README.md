@@ -12,7 +12,7 @@
 - [Prerequisite](#prerequisite)
 - [Getting Started](#getting-started)
 - [Plugin Usage](#plugin-usage)
-- [Compatibility matrix with Nx](#compatibility-matrix-with-nx)
+- [Compatibility with Nx](#compatibility-with-nx)
 
 ## Prerequisite
 
@@ -192,9 +192,9 @@ nx test your-boot-app
 nx clean your-boot-app
 ```
 
-## Compatibility matrix with Nx
+## Compatibility with Nx
 
-Every Nx plugin relies on the underlying Nx Workspace it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this plugin/
+Every Nx plugin relies on the underlying Nx Workspace it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this plugin
 
 | Plugin Version | Nx Workspace version
 | -------------- | --------------------
