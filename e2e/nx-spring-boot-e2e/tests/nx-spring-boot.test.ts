@@ -77,7 +77,7 @@ describe('nx-spring-boot e2e', () => {
       );
 
       const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
-      expect(resultBuildInfo.stdout).toContain(`Executing command: ${isWin ? 'gradlew.cmd' : './gradlew'} bootBuildInfo`)
+      expect(resultBuildInfo.stdout).toContain(`Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} bootBuildInfo`)
   
       expect(() =>
       checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle`, `apps/${prjName}/HELP.md`)
@@ -98,7 +98,7 @@ describe('nx-spring-boot e2e', () => {
       );
 
       const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
-      expect(resultBuildInfo.stdout).toContain(`Executing command: ${isWin ? 'gradlew.cmd' : './gradlew'} bootBuildInfo`)
+      expect(resultBuildInfo.stdout).toContain(`Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} bootBuildInfo`)
   
       expect(() =>
       checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle.kts`, `apps/${prjName}/HELP.md`)
