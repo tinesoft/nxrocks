@@ -140,7 +140,7 @@
     "dependencies": {
       "type": "string",
       "default": "",
-      "x-prompt": "What dependencies would you like to use (comma separated)?\n👉🏾 Go to https://start.spring.io/dependencies to get the ids needed here"
+      "x-prompt": "What dependencies would you like to use (comma separated)?\n👉 Go to https://start.spring.io/dependencies to get the ids needed here"
     },
     "springInitializerUrl": {
       "type": "string",
