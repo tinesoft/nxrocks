@@ -9,6 +9,8 @@ import {
 import { names } from '@nrwl/devkit';
 
 describe('nx-spring-boot e2e', () => {
+  const isWin = process.platform === "win32";
+
   it('should create nx-spring-boot with default options', async (done) => {
     const prjName = uniq('nx-spring-boot');
     ensureNxProject('@nxrocks/nx-spring-boot', 'dist/packages/nx-spring-boot');
@@ -17,7 +19,7 @@ describe('nx-spring-boot e2e', () => {
     );
 
     const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
-    expect(resultBuildInfo.stdout).toContain(`Executing command: ./mvnw spring-boot:build-info`)
+    expect(resultBuildInfo.stdout).toContain(`Executing command: ${isWin ? 'mvnw.cmd' : './mvnw'} spring-boot:build-info`)
 
     expect(() =>
       checkFilesExist(`apps/${prjName}/mvnw`,`apps/${prjName}/pom.xml`, `apps/${prjName}/HELP.md`)
@@ -42,7 +44,7 @@ describe('nx-spring-boot e2e', () => {
     );
 
     const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
-    expect(resultBuildInfo.stdout).toContain(`Executing command: ./mvnw spring-boot:build-info`)
+    expect(resultBuildInfo.stdout).toContain(`Executing command: ${isWin ? 'mvnw.cmd' : './mvnw'} spring-boot:build-info`)
 
     expect(() =>
       checkFilesExist(
@@ -75,7 +77,7 @@ describe('nx-spring-boot e2e', () => {
       );
 
       const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
-      expect(resultBuildInfo.stdout).toContain(`Executing command: ./gradlew bootBuildInfo`)
+      expect(resultBuildInfo.stdout).toContain(`Executing command: ${isWin ? 'gradlew.cmd' : './gradlew'} bootBuildInfo`)
   
       expect(() =>
       checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle`, `apps/${prjName}/HELP.md`)
@@ -96,7 +98,7 @@ describe('nx-spring-boot e2e', () => {
       );
 
       const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
-      expect(resultBuildInfo.stdout).toContain(`Executing command: ./gradlew bootBuildInfo`)
+      expect(resultBuildInfo.stdout).toContain(`Executing command: ${isWin ? 'gradlew.cmd' : './gradlew'} bootBuildInfo`)
   
       expect(() =>
       checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle.kts`, `apps/${prjName}/HELP.md`)
