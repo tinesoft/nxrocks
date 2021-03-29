@@ -1,6 +1,4 @@
-import {
-    Rule
-} from '@angular-devkit/schematics';
+import { Tree } from '@nrwl/devkit';
 import * as inquirer from 'inquirer';
 import { AndroidLanguageType, IosLanguageType, NormalizedSchema, PlatformType } from '../schema';
 
@@ -86,13 +84,9 @@ function createPrompt(options: NormalizedSchema): Promise<PromptResultType> {
     );
 }
 
-export function promptAdditionalOptions(options: NormalizedSchema): Rule {
-
-    return async () => {
-        const answers = await createPrompt(options);
-        options.platforms = answers?.platforms;
-        options.androidLanguage = answers?.androidLanguage;
-        options.iosLanguage = answers?.iosLanguage;
-        return;
-    };
+export async function promptAdditionalOptions(tree: Tree, options: NormalizedSchema) {
+    const answers = await createPrompt(options);
+    options.platforms = answers?.platforms;
+    options.androidLanguage = answers?.androidLanguage;
+    options.iosLanguage = answers?.iosLanguage;
 }

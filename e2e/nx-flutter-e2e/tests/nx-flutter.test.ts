@@ -5,11 +5,11 @@ import {
   runNxCommandAsync,
   uniq,
 } from '@nrwl/nx-plugin/testing';
-import * as inquirer from 'inquirer';
 
 jest.mock('inquirer'); // we mock 'inquirer' to bypass the interactive prompt
+import * as inquirer from 'inquirer';
 
-describe('nx-flutter e2e', () => {
+xdescribe('nx-flutter e2e', () => {
 
   beforeEach(() => {
     jest.spyOn(inquirer, 'prompt').mockResolvedValue({
@@ -19,20 +19,18 @@ describe('nx-flutter e2e', () => {
     });
   });
 
-  afterEach(() =>
-    (inquirer.prompt as jest.MockedFunction<
-      typeof inquirer.prompt
-    >).mockRestore()
-  );
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
   it('should create nx-flutter project with default options', async (done) => {
     const appName = uniq('nx-flutter');
     ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
     await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --interactive=false`);
 
-    const builders = [
+    const executors = [
       { name: 'analyze', output: `Analyzing ${appName}` },
-      
+
       //{ name: 'assemble', output: `Assembling ${appName}` },
       //{ name: 'attach', output: `Attaching ${appName}` },
 
@@ -64,16 +62,16 @@ describe('nx-flutter e2e', () => {
       { name: 'test', output: `All tests passed!` },
     ];
 
-    for(const builder of builders){
-      const result = await runNxCommandAsync(`run ${appName}:${builder.name}`);
-      expect(result.stdout).toContain(builder.output);
+    for (const executor of executors) {
+      const result = await runNxCommandAsync(`run ${appName}:${executor.name}`);
+      expect(result.stdout).toContain(executor.output);
     }
 
     expect(() =>
       checkFilesExist(`apps/${appName}/pubspec.yaml`)
     ).not.toThrow();
     done();
-  }, 300000);
+  }, 180000);
 
   it('should create nx-flutter project with given options', async (done) => {
     const appName = uniq('nx-flutter');
@@ -89,29 +87,29 @@ describe('nx-flutter e2e', () => {
     ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
     await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --interactive=false --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} `);
 
-    const builders = [
+    const executors = [
 
       { name: 'clean', output: `Deleting flutter_export_environment.sh...` },
       { name: 'format', output: `Done in ` },
       { name: 'test', output: `All tests passed!` },
     ];
 
-    for(const builder of builders){
-      const result = await runNxCommandAsync(`run ${appName}:${builder.name}`);
-      expect(result.stdout).toContain(builder.output);
+    for (const executor of executors) {
+      const result = await runNxCommandAsync(`run ${appName}:${executor.name}`);
+      expect(result.stdout).toContain(executor.output);
     }
-    
+
     expect(() =>
       checkFilesExist(`apps/${appName}/pubspec.yaml`,
-       `apps/${appName}/android/build.gradle`, 
-       `apps/${appName}/ios/Runner.xcodeproj`,
-       `apps/${appName}/android/app/src/main/java/com/tinesoft/${appName.replace('-','_')}/MainActivity.java`
-       )
+        `apps/${appName}/android/build.gradle`,
+        `apps/${appName}/ios/Runner.xcodeproj`,
+        `apps/${appName}/android/app/src/main/java/com/tinesoft/${appName.replace('-', '_')}/MainActivity.java`
+      )
     ).not.toThrow();
     done();
-  }, 600000);
+  }, 180000);
 
-  xdescribe('--directory', () => {
+  describe('--directory', () => {
     it('should create src in the specified directory', async (done) => {
       const appName = uniq('nx-flutter');
       ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');

@@ -1,6 +1,5 @@
-import { Tree, SchematicContext} from '@angular-devkit/schematics';
 import { execSync } from 'child_process'
-import { NormalizedSchema } from '../schematics/application/schema';
+import { NormalizedSchema } from '../generators/application/schema';
 
 export function isFlutterInstalled(): boolean {
     try {
@@ -49,21 +48,3 @@ export function  buildFlutterCreateOptions(options: NormalizedSchema) {
 
     return opts;
 }
-
-export async function generateFlutterProject(options: NormalizedSchema, tree: Tree, context: SchematicContext): Promise<void> {
-    const opts = this.buildFlutterCreateOptions(options);
-    
-    context.logger.info(`Generating Flutter project with following options : ${opts}...`);
-
-    // Create the command to execute
-    const execute = `flutter create ${opts} ${options.projectRoot}`;
-    try {
-        context.logger.info(`Executing command: ${execute}`);
-        execSync(execute, {  stdio: [0, 1, 2] });
-        return ;
-    } catch (e) {
-        context.logger.error(`Failed to execute command: ${execute}`, e);
-        return ;
-    } 
-}
-

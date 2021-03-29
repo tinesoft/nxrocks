@@ -7,8 +7,8 @@
     "access": "public"
   },
   "main": "src/index.js",
-  "schematics": "./collection.json",
-  "builders": "./builders.json",
+  "generators": "./generators.json",
+  "executors": "./executors.json",
   "license": "MIT",
   "author": "Tine Kondo ",
   "repository": {
@@ -28,6 +28,8 @@
     "dart"
   ],
   "dependencies": {
+    "@nrwl/workspace": "*",
+    "@nrwl/devkit": "*",
     "inquirer": "^7.3.3"
   }
 }

@@ -6,7 +6,7 @@ export type IosLanguageType = 'objc' | 'swift';
 export type TemplateType = 'app' | 'module' | 'package' | 'plugin';
 
 export type PlatformType = 'android' | 'ios' | 'linux' | 'macos' | 'windows' | 'web';
-export interface ApplicationSchematicSchema {
+export interface ApplicationGeneratorOptions {
   name: string;
   org?: string;
   description?: string;
@@ -24,7 +24,7 @@ export interface ApplicationSchematicSchema {
   interactive?: boolean;
 }
 
-export interface NormalizedSchema extends ApplicationSchematicSchema {
+export interface NormalizedSchema extends ApplicationGeneratorOptions {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
