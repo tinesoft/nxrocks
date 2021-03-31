@@ -4,11 +4,6 @@ import { isFlutterInstalled } from '../../utils/flutter-utils';
 import { normalizeOptions, promptAdditionalOptions, generateFlutterProject } from './lib';
 import { ProjectGeneratorOptions } from './schema';
 
-/**
- * Depending on your needs, you can change this to either `Library` or `Application`
- */
-const projectType = 'application';
-
 export async function projectGenerator(tree:Tree, options: ProjectGeneratorOptions) {
 
   if (!isFlutterInstalled()) {
@@ -68,7 +63,7 @@ export async function projectGenerator(tree:Tree, options: ProjectGeneratorOptio
     addProjectConfiguration(tree, normalizedOptions.projectName, {
       root: normalizedOptions.projectRoot,
       sourceRoot: `${normalizedOptions.projectRoot}/src`,
-      projectType: projectType,
+      projectType: normalizedOptions.template === 'app' ? 'application' : 'library',
       targets: targets,
       tags: normalizedOptions.parsedTags,
     });

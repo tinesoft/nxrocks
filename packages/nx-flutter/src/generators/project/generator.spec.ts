@@ -85,6 +85,22 @@ describe('application generator', () => {
   });
 
   each`
+  template    | rootDir
+  ${'app'}    | ${'apps'}
+  ${'plugin'} | ${'libs'}
+  ${'package'}| ${'libs'}
+  ${'module'} | ${'libs'}
+  `.it('should generate the flutter project of type "$template" in "$rootDir"', async ({ template, rootDir }) => {
+
+    await projectGenerator(tree, { ...options, template: template });
+
+    expect(logger.info).toHaveBeenNthCalledWith(1,`Generating Flutter project with following options : --project-name=${options.name} --android-language=kotlin --ios-language=swift --template=${template} --platforms="android,ios,web,linux,windows,macos" ...`);
+ 
+    expect(logger.info).toHaveBeenNthCalledWith(2, `Executing command: flutter create --project-name=${options.name} --android-language=kotlin --ios-language=swift --template=${template} --platforms="android,ios,web,linux,windows,macos"  ${rootDir}/${options.name}`);
+ 
+  });
+
+  each`
     template    | shouldPromptTempate
     ${'app'}    | ${true}
     ${'plugin'} | ${true}
