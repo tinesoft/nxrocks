@@ -1,3 +1,10 @@
+const { readdirSync } = require('fs');
+const path = require('path');
+
+const packageScopes = readdirSync(path.resolve(__dirname, 'packages'), { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
+
 module.exports = {
   extends: ['@commitlint/config-angular'],
   rules: {
@@ -26,8 +33,7 @@ module.exports = {
       'always',
       // prettier-ignore
       [
-        'nx-spring-boot',
-        'nx-flutter'
+        ...packageScopes
       ],
     ],
   },

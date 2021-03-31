@@ -1,6 +1,6 @@
-const { createReleaseConfigWithScopeFilter } = require('../../tools/release');
+const { createScopedReleaseConfig } = require('../../tools/release');
 
-module.exports = createReleaseConfigWithScopeFilter({
+module.exports = createScopedReleaseConfig({
   projectScope: 'nx-flutter',
   projectRoot: 'packages/nx-flutter',
   buildOutput: 'dist/packages/nx-flutter',

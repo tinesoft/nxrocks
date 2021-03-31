@@ -1,7 +1,3 @@
-const {
-  createCommitTransformerWithScopeFilter,
-} = require('./commit-transformer');
-const { createReleaseRulesWithScopeFilter } = require('./release-rules');
 
 const buildReversePath = path =>
   path
@@ -9,20 +5,11 @@ const buildReversePath = path =>
     .map(() => '..')
     .join('/');
 
-const toolsScript = (script, ...args) =>
-  [
-    'ts-node',
-    '--project tools/tsconfig.tools.json',
-    `tools/${script}`,
-    ...args,
-  ].join(' ');
-
 const formatFile = file => `nx format:write --files ${file}`;
 const copyFile = (file, dest) => `cp ${file} ${dest}`;
-const insertVersions = packageRoot =>
-  toolsScript('release/insert-versions.ts', packageRoot);
 
-function createReleaseConfigWithScopeFilter({
+
+function createScopedReleaseConfig({
   projectScope,
   projectRoot,
   buildOutput,
@@ -33,42 +20,32 @@ function createReleaseConfigWithScopeFilter({
   const relativeWorkspaceRoot = buildReversePath(projectRoot);
   const relativeBuildOutput = `${relativeWorkspaceRoot}/${buildOutput}`;
 
-  const changelogFile = 'CHANGELOG.md';
   const releaseCommit = `chore(${projectScope}): 🚀 release \${nextRelease.version}\n\n\${nextRelease.notes}\n\n***\n[skip ci]`;
   return {
+    extends: 'semantic-release-monorepo',
+    preset: 'angular',
     plugins: [
-      [
-        '@semantic-release/commit-analyzer',
-        {
-          preset: 'angular',
-          releaseRules: createReleaseRulesWithScopeFilter(projectScope),
-          parserOpts: {
-            noteKeywords: ['BREAKING', 'BREAKING CHANGE', 'BREAKING CHANGES'],
-          },
-        },
-      ],
+      '@semantic-release/commit-analyzer',
       [
         '@semantic-release/release-notes-generator', 
         {
-          preset: 'angular',
-          parserOpts: {
-            noteKeywords: ['BREAKING', 'BREAKING CHANGE', 'BREAKING CHANGES'],
-          },
           writerOpts: {
             commitsSort: ['subject', 'scope']
           }
         }
       ],
-      ['@semantic-release/changelog', { changelogFile }],
+      '@semantic-release/changelog',
       '@semantic-release/github',
       ['@semantic-release/npm', { pkgRoot: relativeBuildOutput }],
       [
         '@semantic-release/exec',
         {
           prepareCmd: [
-            formatFile(`${projectRoot}/${changelogFile}`),
-            copyFile(`${projectRoot}/${changelogFile}`, buildOutput),
-            insertVersions(buildOutput),
+            formatFile(`${projectRoot}/CHANGELOG.md`),
+            copyFile(`${projectRoot}/CHANGELOG.md`, buildOutput),
+            copyFile(`${projectRoot}/RELEASE.md`, buildOutput),
+            copyFile(`${projectRoot}/package.json`, buildOutput),
+            copyFile(`LICENSE`, buildOutput),
           ].join(' && '),
           execCwd: relativeWorkspaceRoot,
         },
@@ -76,24 +53,14 @@ function createReleaseConfigWithScopeFilter({
       [
         '@semantic-release/git',
         {
-          assets: [changelogFile],
           message: releaseCommit,
         },
       ],
     ],
-    writerOpts: {
-      transform: createCommitTransformerWithScopeFilter(projectScope),
-    },
-    tagFormat: `${projectScope}/v\${version}`,
-    branches: [
-      'master',
-      'next',
-      { name: 'beta', prerelease: true },
-      { name: 'alpha', prerelease: true },
-    ],
+    tagFormat: `${projectScope}/v\${version}`
   };
 }
 
 module.exports = {
-  createReleaseConfigWithScopeFilter,
+  createScopedReleaseConfig,
 };
