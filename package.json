@@ -34,9 +34,9 @@
     "unzipper": "^0.10.11"
   },
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-angular": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-angular": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
     "@nrwl/cli": "11.6.1",
     "@nrwl/eslint-plugin-nx": "11.6.1",
     "@nrwl/jest": "11.6.1",
@@ -61,7 +61,7 @@
     "jest": "26.2.2",
     "jest-each": "^26.6.2",
     "prettier": "2.2.1",
-    "semantic-release": "^17.3.0",
+    "semantic-release": "^17.4.2",
     "semantic-release-monorepo": "^7.0.4",
     "ts-jest": "26.4.0",
     "ts-node": "9.1.1",
