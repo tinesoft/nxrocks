@@ -1,5 +1,5 @@
 import { execSync } from 'child_process'
-import { NormalizedSchema } from '../generators/application/schema';
+import { NormalizedSchema } from '../generators/project/schema';
 
 export function isFlutterInstalled(): boolean {
     try {

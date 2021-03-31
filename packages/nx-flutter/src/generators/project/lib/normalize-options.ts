@@ -3,7 +3,7 @@ import {
   names,
   getWorkspaceLayout,
 } from '@nrwl/devkit';
-import { ApplicationGeneratorOptions, NormalizedSchema } from '../schema';
+import { ProjectGeneratorOptions, NormalizedSchema } from '../schema';
 
 /**
  * Depending on your needs, you can change this to either `Library` or `Application`
@@ -11,7 +11,7 @@ import { ApplicationGeneratorOptions, NormalizedSchema } from '../schema';
 const projectType = 'application';
 
 export function normalizeOptions(tree: Tree,
-  options: ApplicationGeneratorOptions
+  options: ProjectGeneratorOptions
 ): NormalizedSchema {
   const { appsDir, libsDir } = getWorkspaceLayout(tree);
   const projectRootDir = projectType === 'application' ? appsDir : libsDir;

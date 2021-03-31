@@ -3,8 +3,8 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import each from 'jest-each';
 
-import { applicationGenerator } from './generator';
-import { ApplicationGeneratorOptions } from './schema';
+import { projectGenerator } from './generator';
+import { ProjectGeneratorOptions } from './schema';
 
 jest.mock('child_process'); // we need to mock 'execSync' so that it doesn't really run 'flutter' (reserved to e2e testing) (see __mocks__/child_process.js)
 
@@ -40,7 +40,7 @@ const iOsOnlyCommands = [
 
 describe('application generator', () => {
   let tree: Tree;
-  const options: ApplicationGeneratorOptions = {
+  const options: ProjectGeneratorOptions = {
     name: 'testapp',
     template: 'app',
     platforms: ['android', 'ios', 'web', 'linux', 'windows', 'macos'],
@@ -66,7 +66,7 @@ describe('application generator', () => {
 
   it('should update workspace.json', async () => {
 
-    await applicationGenerator(tree, options);
+    await projectGenerator(tree, options);
     const project = readProjectConfiguration(tree, options.name);
     expect(project.root).toBe(`apps/${options.name}`);
 
@@ -92,7 +92,7 @@ describe('application generator', () => {
     ${'module'} | ${false}
     `.it('should prompt user to select "platforms" when generating "$template": $shouldPromptTempate', async ({ template, shouldPromptTempate }) => {
 
-    await applicationGenerator(tree, { ...options, template: template });
+    await projectGenerator(tree, { ...options, template: template });
 
     expect(inquirer.prompt).toHaveBeenCalledWith(
       expect.arrayContaining([

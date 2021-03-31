@@ -2,14 +2,14 @@ import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 
 import { isFlutterInstalled } from '../../utils/flutter-utils';
 import { normalizeOptions, promptAdditionalOptions, generateFlutterProject } from './lib';
-import { ApplicationGeneratorOptions } from './schema';
+import { ProjectGeneratorOptions } from './schema';
 
 /**
  * Depending on your needs, you can change this to either `Library` or `Application`
  */
 const projectType = 'application';
 
-export async function applicationGenerator(tree:Tree, options: ApplicationGeneratorOptions) {
+export async function projectGenerator(tree:Tree, options: ProjectGeneratorOptions) {
 
   if (!isFlutterInstalled()) {
     throw new Error("'flutter' was not found on your system's PATH.\nPlease make sure you have installed it correctly.\n👉🏾 https://flutter.dev/docs/get-started/install");
@@ -76,4 +76,4 @@ export async function applicationGenerator(tree:Tree, options: ApplicationGenera
   
 }
 
-export default applicationGenerator;
+export default projectGenerator;

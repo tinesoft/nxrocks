@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "generators": {
     "application": {
-      "factory": "./src/generators/application/generator",
-      "schema": "./src/generators/application/schema.json",
-      "description": "Generator to generate the application",
-      "aliases": ["app", "create"]
+      "factory": "./src/generators/project/generator",
+      "schema": "./src/generators/project/schema.json",
+      "description": "Generator to generate the project",
+      "aliases": ["proj", "new", "gen", "init", "create", "generate"]
     }
   }
 }

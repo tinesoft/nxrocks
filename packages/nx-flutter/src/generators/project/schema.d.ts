@@ -6,7 +6,7 @@ export type IosLanguageType = 'objc' | 'swift';
 export type TemplateType = 'app' | 'module' | 'package' | 'plugin';
 
 export type PlatformType = 'android' | 'ios' | 'linux' | 'macos' | 'windows' | 'web';
-export interface ApplicationGeneratorOptions {
+export interface ProjectGeneratorOptions {
   name: string;
   org?: string;
   description?: string;
@@ -24,7 +24,7 @@ export interface ApplicationGeneratorOptions {
   interactive?: boolean;
 }
 
-export interface NormalizedSchema extends ApplicationGeneratorOptions {
+export interface NormalizedSchema extends ProjectGeneratorOptions {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
