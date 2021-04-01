@@ -43,7 +43,7 @@ function createScopedReleaseConfig({
           prepareCmd: [
             formatFile(`${projectRoot}/CHANGELOG.md`),
             copyFile(`${projectRoot}/CHANGELOG.md`, buildOutput),
-            copyFile(`${projectRoot}/RELEASE.md`, buildOutput),
+            copyFile(`${projectRoot}/README.md`, buildOutput),
             copyFile(`${projectRoot}/package.json`, buildOutput),
             copyFile(`LICENSE`, buildOutput),
           ].join(' && '),
