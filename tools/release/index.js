@@ -26,14 +26,7 @@ function createScopedReleaseConfig({
     preset: 'angular',
     plugins: [
       '@semantic-release/commit-analyzer',
-      [
-        '@semantic-release/release-notes-generator', 
-        {
-          writerOpts: {
-            commitsSort: ['subject', 'scope']
-          }
-        }
-      ],
+      '@semantic-release/release-notes-generator', 
       '@semantic-release/changelog',
       '@semantic-release/github',
       ['@semantic-release/npm', { pkgRoot: relativeBuildOutput }],
@@ -44,7 +37,6 @@ function createScopedReleaseConfig({
             formatFile(`${projectRoot}/CHANGELOG.md`),
             copyFile(`${projectRoot}/CHANGELOG.md`, buildOutput),
             copyFile(`${projectRoot}/README.md`, buildOutput),
-            copyFile(`${projectRoot}/package.json`, buildOutput),
             copyFile(`LICENSE`, buildOutput),
           ].join(' && '),
           execCwd: relativeWorkspaceRoot,
