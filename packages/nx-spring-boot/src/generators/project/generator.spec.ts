@@ -48,7 +48,7 @@ describe('project generator', () => {
     ${'application'} | ${'gradle-project'} | ${'build.gradle'} | ${'gradlew'}
     ${'library'}     | ${'maven-project'}  | ${'pom.xml'}      | ${'mvnw'}
     ${'library'}     | ${'gradle-project'} | ${'build.gradle'} | ${'gradlew'}
-  `.it(`should download a spring boot '$projectType' build with $buildSystem in folder=/$rootDir/`, async ({ projectType, buildSystem, buildFile, wrapperName }) => {
+  `.it(`should download a spring boot '$projectType' build with $buildSystem`, async ({ projectType, buildSystem, buildFile, wrapperName }) => {
 
     const rootDir = projectType === 'application' ? 'apps': 'libs';
     
