@@ -1,3 +1,22 @@
+# [@nxrocks/nx-flutter-v2.0.0-beta.1](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v1.3.0...nx-flutter/v2.0.0-beta.1) (2021-04-02)
+
+### Bug Fixes
+
+- **nx-flutter:** fix error when generating module or package ([86eb3f8](https://github.com/tinesoft/nxrocks/commit/86eb3f872e9c89ec304f86352081299ea8cb0edd)), closes [#44](https://github.com/tinesoft/nxrocks/issues/44)
+
+### Features
+
+- **nx-flutter:** create project in `apps` or `libs` based on `template` ([dc20e0b](https://github.com/tinesoft/nxrocks/commit/dc20e0bf5b66d2b4fa9838f57fa91a55358e0a38)), closes [#41](https://github.com/tinesoft/nxrocks/issues/41)
+- **nx-flutter:** migrate to Nrwl's DevKit executors/generators API ([8c72ed5](https://github.com/tinesoft/nxrocks/commit/8c72ed5dbbb7f382f1206ebe6b019d74362f046b))
+- **nx-flutter:** rename the `application` generator into `project` ([6361557](https://github.com/tinesoft/nxrocks/commit/63615577bf48de00b10d1110a1d6582c2abbfda3))
+
+### BREAKING CHANGES
+
+- **nx-flutter:** the `app` alias has been replaced with one of [`proj`, `new`, `gen`, `init`, `generate`].
+- **nx-flutter:** Nx workspace v11 is now the minimum version required to use this plugin.
+
+In fact, all builders/schematics have been rewritten into executors/generators using its new `@nrwl/devkit` API.
+
 # [1.3.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v1.2.1...nx-flutter/v1.3.0) (2021-02-01)
 
 ### Bug Fixes
