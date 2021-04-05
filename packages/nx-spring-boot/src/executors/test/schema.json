@@ -10,7 +10,7 @@
       "type": "string"
     },
     "ignoreWrapper": {
-      "description": "Whether or not to use the embedded wrapper (`mvnw`or `gradlew`) to perfom build operations",
+      "description": "Whether or not to use the embedded wrapper (`mvnw`or `gradlew`) to perform build operations",
       "type": "boolean",
       "default": false
     },
