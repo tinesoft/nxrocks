@@ -1,3 +1,9 @@
+# [@nxrocks/nx-spring-boot-v2.0.1](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v2.0.0...nx-spring-boot/v2.0.1) (2021-04-06)
+
+### Bug Fixes
+
+- **nx-spring-boot:** set correct path for executors ([89e16d3](https://github.com/tinesoft/nxrocks/commit/89e16d37c329965a61b4812cde1d3155ac8e2827))
+
 # [@nxrocks/nx-spring-boot-v2.0.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v1.3.1...nx-spring-boot/v2.0.0) (2021-04-02)
 
 ### Bug Fixes
