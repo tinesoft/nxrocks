@@ -1,6 +1,5 @@
 import { logger } from '@nrwl/devkit';
 import { mocked } from 'ts-jest/utils';
-import each from 'jest-each';
 
 import { buildImageExecutor } from './executor';
 import { BuildImageExecutorOptions } from './schema';
@@ -31,13 +30,13 @@ describe('BuildImage Executor', () => {
     jest.resetAllMocks();
   });
 
-  each`
+  it.each`
     ignoreWrapper | buildSystem | buildFile         | execute
     ${true}       | ${'maven'}  | ${'pom.xml'}      | ${'mvn spring-boot:build-image '}
     ${true}       | ${'gradle'} | ${'build.gradle'} | ${'gradle bootBuildImage '}
     ${false}      | ${'maven'}  | ${'pom.xml'}      | ${'./mvnw spring-boot:build-image '}
     ${false}      | ${'gradle'} | ${'build.gradle'} | ${'./gradlew bootBuildImage '}
-  `.it('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
+  `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
     mocked(fsUtility.fileExists).mockImplementation((path: string) => path.indexOf(buildFile) !== -1);
 
     await buildImageExecutor({ ...options, ignoreWrapper }, mockContext);

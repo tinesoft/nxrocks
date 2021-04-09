@@ -1,6 +1,5 @@
 import { logger } from '@nrwl/devkit';
 import { mocked } from 'ts-jest/utils';
-import each from 'jest-each';
 
 import { buildWarExecutor } from './executor';
 import { BuildWarExecutorOptions } from './schema';
@@ -31,13 +30,13 @@ describe('BuildWar Executor', () => {
     jest.resetAllMocks();
   });
 
-  each`
+  it.each`
     ignoreWrapper | buildSystem | buildFile         | execute
     ${true}       | ${'maven'}  | ${'pom.xml'}      | ${'mvn spring-boot:repackage '}
     ${true}       | ${'gradle'} | ${'build.gradle'} | ${'gradle bootWar '}
     ${false}      | ${'maven'}  | ${'pom.xml'}      | ${'./mvnw spring-boot:repackage '}
     ${false}      | ${'gradle'} | ${'build.gradle'} | ${'./gradlew bootWar '}
-  `.it('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
+  `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
     mocked(fsUtility.fileExists).mockImplementation((path: string) => path.indexOf(buildFile) !== -1);
 
     await buildWarExecutor({ ...options, ignoreWrapper }, mockContext);

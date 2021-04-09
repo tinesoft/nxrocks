@@ -1,8 +1,6 @@
 import { Tree, logger, readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
-import each from 'jest-each';
-
 import { projectGenerator } from './generator';
 import { ProjectGeneratorOptions } from './schema';
 
@@ -84,13 +82,13 @@ describe('application generator', () => {
     });
   });
 
-  each`
+  it.each`
   template    | rootDir
   ${'app'}    | ${'apps'}
   ${'plugin'} | ${'libs'}
   ${'package'}| ${'libs'}
   ${'module'} | ${'libs'}
-  `.it('should generate the flutter project of type "$template" in "$rootDir"', async ({ template, rootDir }) => {
+  `('should generate the flutter project of type "$template" in "$rootDir"', async ({ template, rootDir }) => {
 
     await projectGenerator(tree, { ...options, template: template });
 
@@ -100,13 +98,13 @@ describe('application generator', () => {
  
   });
 
-  each`
+  it.each`
     template    | shouldPromptTempate
     ${'app'}    | ${true}
     ${'plugin'} | ${true}
     ${'package'}| ${false}
     ${'module'} | ${false}
-    `.it('should prompt user to select "platforms" when generating "$template": $shouldPromptTempate', async ({ template, shouldPromptTempate }) => {
+    `('should prompt user to select "platforms" when generating "$template": $shouldPromptTempate', async ({ template, shouldPromptTempate }) => {
 
     await projectGenerator(tree, { ...options, template: template });
 

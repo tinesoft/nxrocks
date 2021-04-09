@@ -1,6 +1,5 @@
 import { logger } from '@nrwl/devkit';
 import { mocked } from 'ts-jest/utils';
-import each from 'jest-each';
 
 import { testExecutor } from './executor';
 import { TestExecutorOptions } from './schema';
@@ -31,13 +30,13 @@ describe('Test Executor', () => {
     jest.resetAllMocks();
   });
 
-  each`
+  it.each`
     ignoreWrapper | buildSystem | buildFile         | execute
     ${true}       | ${'maven'}  | ${'pom.xml'}      | ${'mvn test '}
     ${true}       | ${'gradle'} | ${'build.gradle'} | ${'gradle test '}
     ${false}      | ${'maven'}  | ${'pom.xml'}      | ${'./mvnw test '}
     ${false}      | ${'gradle'} | ${'build.gradle'} | ${'./gradlew test '}
-  `.it('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
+  `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
     mocked(fsUtility.fileExists).mockImplementation((path: string) => path.indexOf(buildFile) !== -1);
 
     await testExecutor({ ...options, ignoreWrapper }, mockContext);

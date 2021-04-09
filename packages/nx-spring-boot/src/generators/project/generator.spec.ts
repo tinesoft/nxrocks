@@ -2,7 +2,6 @@ import { Tree, logger, readProjectConfiguration } from '@nrwl/devkit';
 import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
 
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import each from 'jest-each';
 
 import { projectGenerator } from './generator';
 import { ProjectGeneratorOptions } from './schema';
@@ -42,13 +41,13 @@ describe('project generator', () => {
     jest.resetAllMocks();
   });
 
-  each`
+  it.each`
     projectType      | buildSystem         | buildFile         | wrapperName
     ${'application'} | ${'maven-project'}  | ${'pom.xml'}      | ${'mvnw'}
     ${'application'} | ${'gradle-project'} | ${'build.gradle'} | ${'gradlew'}
     ${'library'}     | ${'maven-project'}  | ${'pom.xml'}      | ${'mvnw'}
     ${'library'}     | ${'gradle-project'} | ${'build.gradle'} | ${'gradlew'}
-  `.it(`should download a spring boot '$projectType' build with $buildSystem`, async ({ projectType, buildSystem, buildFile, wrapperName }) => {
+  `(`should download a spring boot '$projectType' build with $buildSystem`, async ({ projectType, buildSystem, buildFile, wrapperName }) => {
 
     const rootDir = projectType === 'application' ? 'apps': 'libs';
     
