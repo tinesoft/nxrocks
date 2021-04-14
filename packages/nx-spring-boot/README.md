@@ -5,14 +5,28 @@
 
 > Nx Plugin to generate, run, package, build (and more) [Spring Boot](https://spring.io/projects/spring-boot) projects inside your Nx workspace
 
-<p align="center"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/master/images/nx-spring-boot.png" width="450"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nx-spring-boot.png" width="450"></p>
 
 ## Contents
 
+- [Features](#features)
 - [Prerequisite](#prerequisite)
 - [Getting Started](#getting-started)
 - [Plugin Usage](#plugin-usage)
 - [Compatibility with Nx](#compatibility-with-nx)
+
+## Features
+
+Here is a list of some of the coolest features of the plugin:
+
+- ✅ Generation of Spring Boot applications/libraries based on **Spring Initializr** API
+- ✅ Building, packaging, testing, etc your Spring Boot projects
+- ✅ Integration with Nx's **dependency graph** (through `nx dep-graph` or `nx affected:dep-graph`): this allows you to **visualize** the dependencies of any Spring Boot's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
+
+  ![Nx Spring Boot dependency graph](https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nx-spring-boot-dep-graph.png)
+  *Example of running the `nx dep-graph` command on a workspace with 2 Spring Boot projects inside*
+
+- ...
 
 ## Prerequisite
 

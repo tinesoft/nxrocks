@@ -32,6 +32,7 @@
     "@nrwl/workspace": "*",
     "@nrwl/devkit": "*",
     "node-fetch": "^2.6.1",
-    "unzipper": "^0.10.11"
+    "unzipper": "^0.10.11",
+    "xmldoc": "^1.1.2"
   }
 }

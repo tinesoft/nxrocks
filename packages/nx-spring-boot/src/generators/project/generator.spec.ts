@@ -1,4 +1,4 @@
-import { Tree, logger, readProjectConfiguration } from '@nrwl/devkit';
+import { Tree, logger, readProjectConfiguration, readJson } from '@nrwl/devkit';
 import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
 
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
@@ -86,6 +86,13 @@ describe('project generator', () => {
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`@nxrocks/nx-spring-boot:${cmd}`);
     });
+  });
+
+  it('should add plugin to nx.json', async () => {
+    await projectGenerator(tree, options);
+    const nxJson = readJson(tree, 'nx.json');
+    expect(nxJson.plugins).toEqual(['@nxrocks/nx-spring-boot']);
+
   });
 
 });
