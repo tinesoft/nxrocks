@@ -32,7 +32,8 @@
   "dependencies": {
     "inquirer": "^7.3.3",
     "node-fetch": "^2.6.1",
-    "unzipper": "^0.10.11"
+    "unzipper": "^0.10.11",
+    "xmldoc": "^1.1.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
