@@ -1,4 +1,4 @@
-import { Tree, logger, readProjectConfiguration } from '@nrwl/devkit';
+import { Tree, logger, readProjectConfiguration, readJson } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import { projectGenerator } from './generator';
@@ -182,4 +182,13 @@ describe('application generator', () => {
       ])
     );
   });
+
+
+  it('should add plugin to nx.json', async () => {
+    await projectGenerator(tree, options);
+    const nxJson = readJson(tree, 'nx.json');
+    expect(nxJson.plugins).toEqual(['@nxrocks/nx-flutter']);
+
+  });
+
 });

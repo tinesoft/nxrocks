@@ -30,6 +30,7 @@
   "dependencies": {
     "@nrwl/workspace": "*",
     "@nrwl/devkit": "*",
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "js-yaml": "4.1.0"
   }
 }
