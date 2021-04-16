@@ -1,3 +1,4 @@
 export { generateFlutterProject } from './generate-project';
-export { normalizeOptions } from './normalize-options';
 export { promptAdditionalOptions } from './prompt-options';
+export { addPluginToNxJson } from './add-plugin-to-nx-json'
+export { normalizeOptions } from './normalize-options';

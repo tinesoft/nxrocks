@@ -31,6 +31,7 @@
   "private": true,
   "dependencies": {
     "inquirer": "^7.3.3",
+    "js-yaml": "^4.1.0",
     "node-fetch": "^2.6.1",
     "unzipper": "^0.10.11",
     "xmldoc": "^1.1.2"
