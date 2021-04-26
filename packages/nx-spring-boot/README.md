@@ -216,4 +216,4 @@ Every Nx plugin relies on the underlying Nx Workspace it runs on. This table pro
 | `<=v1.3.1`     | `<=v10.x.x`
 ## License
 
-Copyright (c) 2020 Tine Kondo. Licensed under the MIT License (MIT)
+Copyright (c) 2020-2021 Tine Kondo. Licensed under the MIT License (MIT)

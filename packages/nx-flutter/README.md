@@ -146,4 +146,4 @@ $ nx genL10n your-flutterapp --args='--header="/// my header"'
 
 ## License
 
-Copyright (c) 2021 Tine Kondo. Licensed under the MIT License (MIT)
+Copyright (c) 2020-2021 Tine Kondo. Licensed under the MIT License (MIT)
