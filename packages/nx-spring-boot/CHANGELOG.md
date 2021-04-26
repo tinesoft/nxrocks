@@ -1,3 +1,9 @@
+# [@nxrocks/nx-spring-boot-v2.1.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v2.0.1...nx-spring-boot/v2.1.0) (2021-04-26)
+
+### Features
+
+- **nx-spring-boot:** add support for Nx's dependency graph generation ([95abe9d](https://github.com/tinesoft/nxrocks/commit/95abe9d297d166199f3ab1e6c761efdeffca02d0))
+
 # [@nxrocks/nx-spring-boot-v2.0.1](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v2.0.0...nx-spring-boot/v2.0.1) (2021-04-06)
 
 ### Bug Fixes
