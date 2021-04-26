@@ -1,7 +1,7 @@
 {
   "npmScope": "nxrocks",
   "affected": {
-    "defaultBase": "develop"
+    "defaultBase": "master"
   },
   "implicitDependencies": {
     "workspace.json": "*",
