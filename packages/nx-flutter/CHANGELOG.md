@@ -1,3 +1,9 @@
+# [@nxrocks/nx-flutter-v2.1.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v2.0.0...nx-flutter/v2.1.0) (2021-04-26)
+
+### Features
+
+- **nx-flutter:** add support for Nx 's dependency graph generation ([6fb58de](https://github.com/tinesoft/nxrocks/commit/6fb58de673c968f78e72eec6eda7806760a72419)), closes [#28](https://github.com/tinesoft/nxrocks/issues/28)
+
 # [@nxrocks/nx-flutter-v2.0.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v1.3.0...nx-flutter/v2.0.0) (2021-04-02)
 
 ### Bug Fixes
