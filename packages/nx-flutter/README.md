@@ -59,7 +59,7 @@ yarn add @nxrocks/nx-flutter --dev
 ### Generating Project
 
 
-Simply run the `project` Schematics with the following command:
+Simply run the `project` generator with the following command:
 
 ```
 nx g @nxrocks/nx-flutter:create <app-folder>
