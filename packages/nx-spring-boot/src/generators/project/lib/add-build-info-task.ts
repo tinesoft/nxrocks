@@ -17,5 +17,5 @@ springBoot {
         const buildGradlePath = `${options.projectRoot}/build.gradle${ext}`;
         const content = tree.read(buildGradlePath).toString() + buildInfoTask;
         tree.write(buildGradlePath, content);
-    };
+    }
 }

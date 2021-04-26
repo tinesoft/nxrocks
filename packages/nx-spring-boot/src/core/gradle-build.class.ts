@@ -19,7 +19,9 @@ export class GradleBuild implements BuildCore {
 
     getExecutable(ignoreWrapper: boolean) {
         const isWin = process.platform === "win32";
-        return ignoreWrapper ? 'gradle' : isWin ? 'gradlew.bat' : './gradlew';
+        if (ignoreWrapper)
+            return 'gradle';
+        return isWin ? 'gradlew.bat' : './gradlew';
     }
 
     getCommand(alias: BuildCommandAliasType) {

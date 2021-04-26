@@ -19,7 +19,9 @@ export class MavenBuild implements BuildCore {
 
     getExecutable(ignoreWrapper: boolean) {
         const isWin = process.platform === "win32";
-        return ignoreWrapper ? 'mvn' : isWin ? 'mvnw.cmd' : './mvnw';
+        if (ignoreWrapper)
+            return 'mvn';
+        return isWin ? 'mvnw.cmd' : './mvnw';
     }
 
     getCommand(alias: BuildCommandAliasType) {
