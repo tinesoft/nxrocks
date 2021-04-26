@@ -5,7 +5,7 @@ import { runBootPluginCommand } from '../../utils/boot-utils'
 
 export async function buildWarExecutor(options: BuildWarExecutorOptions, context: ExecutorContext){
   const root = path.resolve(context.root, options.root);
-  const result = await runBootPluginCommand('buildWar', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
+  const result = runBootPluginCommand('buildWar', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
   
   if (!result.success) {
     throw new Error();

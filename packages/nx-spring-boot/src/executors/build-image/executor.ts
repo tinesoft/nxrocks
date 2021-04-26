@@ -5,7 +5,7 @@ import { runBootPluginCommand } from '../../utils/boot-utils'
 
 export async function buildImageExecutor(options: BuildImageExecutorOptions, context: ExecutorContext){
   const root = path.resolve(context.root, options.root);
-  const result = await runBootPluginCommand('buildImage', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
+  const result = runBootPluginCommand('buildImage', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
   
   if (!result.success) {
     throw new Error();
