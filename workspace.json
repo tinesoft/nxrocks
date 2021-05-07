@@ -36,7 +36,12 @@
               "packages/nx-spring-boot/*.md",
               {
                 "input": "./packages/nx-spring-boot/src",
-                "glob": "**/*.!(ts)",
+                "glob": "**/!(*.ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/nx-spring-boot/src",
+                "glob": "**/*.d.ts",
                 "output": "./src"
               },
               {
@@ -115,7 +120,12 @@
               "packages/nx-flutter/*.md",
               {
                 "input": "./packages/nx-flutter/src",
-                "glob": "**/*.!(ts)",
+                "glob": "**/!(*.ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/nx-flutter/src",
+                "glob": "**/*.d.ts",
                 "output": "./src"
               },
               {
