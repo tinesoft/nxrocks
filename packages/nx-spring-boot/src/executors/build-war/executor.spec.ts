@@ -13,6 +13,9 @@ jest.mock('@nrwl/workspace/src/utils/fileutils');
 import * as fsUtility from '@nrwl/workspace/src/utils/fileutils';
 import * as cp from 'child_process';
 
+const isWin = process.platform === "win32";
+const mvnw = isWin ? 'mvnw.cmd' : './mvnw';
+const gradlew = isWin ? 'gradle.bat' : './gradlew';
 
 const mockContext = mockExecutorContext('build-war');
 const options: BuildWarExecutorOptions = {
@@ -34,8 +37,8 @@ describe('BuildWar Executor', () => {
     ignoreWrapper | buildSystem | buildFile         | execute
     ${true}       | ${'maven'}  | ${'pom.xml'}      | ${'mvn spring-boot:repackage '}
     ${true}       | ${'gradle'} | ${'build.gradle'} | ${'gradle bootWar '}
-    ${false}      | ${'maven'}  | ${'pom.xml'}      | ${'./mvnw spring-boot:repackage '}
-    ${false}      | ${'gradle'} | ${'build.gradle'} | ${'./gradlew bootWar '}
+    ${false}      | ${'maven'}  | ${'pom.xml'}      | ${mvnw + ' spring-boot:repackage '}
+    ${false}      | ${'gradle'} | ${'build.gradle'} | ${gradlew + ' bootWar '}
   `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
     mocked(fsUtility.fileExists).mockImplementation((path: string) => path.indexOf(buildFile) !== -1);
 
