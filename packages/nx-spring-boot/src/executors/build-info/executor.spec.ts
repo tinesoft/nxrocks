@@ -5,6 +5,8 @@ import { buildInfoExecutor } from './executor';
 import { BuildInfoExecutorOptions } from './schema';
 import { mockExecutorContext } from '../../utils/test-utils';
 
+import * as path from 'path';
+
 //first, we mock
 jest.mock('child_process');
 jest.mock('@nrwl/workspace/src/utils/fileutils');
@@ -15,7 +17,7 @@ import * as cp from 'child_process';
 
 const isWin = process.platform === "win32";
 const mvnw = isWin ? 'mvnw.cmd' : './mvnw';
-const gradlew = isWin ? 'gradle.bat' : './gradlew';
+const gradlew = isWin ? 'gradlew.bat' : './gradlew';
 
 const mockContext = mockExecutorContext('build-info');
 const options: BuildInfoExecutorOptions = {
@@ -40,7 +42,7 @@ describe('BuildInfo Executor', () => {
     ${false}      | ${'maven'}  | ${'pom.xml'}      | ${mvnw + ' spring-boot:build-info '}
     ${false}      | ${'gradle'} | ${'build.gradle'} | ${gradlew + ' bootBuildInfo '}
   `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
-    mocked(fsUtility.fileExists).mockImplementation((path: string) => path.indexOf(buildFile) !== -1);
+    mocked(fsUtility.fileExists).mockImplementation((filePath: string) => filePath.indexOf(buildFile) !== -1);
 
     await buildInfoExecutor({ ...options, ignoreWrapper }, mockContext);
 
@@ -48,7 +50,7 @@ describe('BuildInfo Executor', () => {
     expect(cp.execSync).toHaveBeenCalledWith(
       execute,
       expect.objectContaining({
-        cwd: `${mockContext.root}/${options.root}`,
+        cwd: expect.stringContaining(path.join(mockContext.root,options.root)),
         stdio: [0, 1, 2]
       })
     );
