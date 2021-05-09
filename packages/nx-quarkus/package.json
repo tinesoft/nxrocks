@@ -1,0 +1,39 @@
+{
+  "name": "@nxrocks/nx-quarkus",
+  "description": "Nx Plugin to generate, run, package, build (and more) Quarkus projects inside your Nx workspace",
+  "version": "0.0.0-development",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "src/index.js",
+  "generators": "./generators.json",
+  "executors": "./executors.json",
+  "license": "MIT",
+  "author": "Tine Kondo ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinesoft/nxrocks.git",
+    "directory": "packages/nx-quarkus"
+  },
+  "homepage": "https://github.com/tinesoft/nxrocks/blob/master/packages/nx-quarkus#readme",
+  "bugs": {
+    "url": "https://github.com/tinesoft/nxrocks/issues"
+  },
+  "keywords": [
+    "nx-plugin",
+    "quarkus",
+    "nx-workspace",
+    "spring",
+    "nx",
+    "java",
+    "native"
+  ],
+  "dependencies": {
+    "@nrwl/workspace": "*",
+    "@nrwl/devkit": "*",
+    "node-fetch": "^2.6.1",
+    "unzipper": "^0.10.11",
+    "xmldoc": "^1.1.2"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "nx-quarkus",
+  "version": "0.0.1",
+  "generators": {
+    "project": {
+      "factory": "./src/generators/project/generator",
+      "schema": "./src/generators/project/schema.json",
+      "description": "Generator to generate an application or a library",
+      "aliases": [ "proj", "new", "gen", "init", "create", "generate"]
+    }
+  }
+}

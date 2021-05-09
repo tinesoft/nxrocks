@@ -6,7 +6,7 @@
 
 > Set of Nx plugins to enhance your Nx workspace (even more!)
 
-<p align="center"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/master/images/nxrocks.png" width="450"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nxrocks.png" width="450"></p>
 
 ## Projects
 
@@ -14,6 +14,7 @@ Status | Name     | Description
 ------ | -------- | ------------
   ✅   | [nx-spring-boot](packages/nx-spring-boot)  | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Spring Boot](https://spring.io/projects/spring-boot) projects inside your Nx workspace
   ✅   | [nx-flutter](packages/nx-flutter)  | [Nx](https://nx.dev) plugin adding first class support for [Flutter](https://flutter.dev) in your Nx workspace
+  ✅   | [nx-quarkus](packages/nx-quarkus)  | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Quarkus](https://quarkus.io) projects inside your Nx workspace
 
 
 ## License
