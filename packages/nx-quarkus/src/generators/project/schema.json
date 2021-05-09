@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "Application",
+  "title": "Creates a Duarkus project in the workspace",
+  "cli": "nx",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the project",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?"
+    },
+    "projectType": {
+      "description": "Type of project",
+      "default": "application",
+      "type": "string",
+      "x-prompt": {
+        "message": "What kind of project are you generating?",
+        "type": "list",
+        "items": [
+          {
+            "value": "application",
+            "label": "Application"
+          },
+          {
+            "value": "library",
+            "label": "Library"
+          }
+        ]
+      }
+    },
+    "buildSystem": {
+      "description": "Build system",
+      "alias": "type",
+      "default": "MAVEN",
+      "type": "string",
+      "x-prompt": {
+        "message": "Which build system would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "MAVEN",
+            "label": "Maven"
+          },
+          {
+            "value": "GRADLE",
+            "label": "Gradle (Preview)"
+          },
+          {
+            "value": "GRADLE_KOTLIN_DSL",
+            "label": "Gradle with Kotlin DSL (Preview)"
+          }
+        ]
+      }
+    },
+    "groupId": {
+      "type": "string",
+      "default": "com.example",
+      "x-prompt": "What groupId would you like to use?"
+    },
+    "artifactId": {
+      "type": "string",
+      "default": "demo",
+      "x-prompt": "What artifactId would you like to use?"
+    },
+    "extensions": {
+      "type": "string",
+      "default": "",
+      "x-prompt": "What extensions would you like to use (comma separated)?\n👉 Go to https://code.quarkus.io/api/extensions to get the ids needed here"
+    },
+    "quarkusInitializerUrl": {
+      "type": "string",
+      "default": "https://code.quarkus.io",
+      "description": "The URL to the Quarkus Initializer instance to use to generate the project"
+    },
+    "skipCodeSamples": {
+      "type": "boolean",
+      "description": "Would you like to include code samples from extensions (when available)?"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the project to generate",
+      "alias": "v"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting)",
+      "alias": "t"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed",
+      "alias": "d"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "executors": {
+    "dev": {
+      "implementation": "./src/executors/dev/executor",
+      "schema": "./src/executors/dev/schema.json",
+      "description": "Executor to run the project"
+    },
+    "run": {
+      "implementation": "./src/executors/dev/executor",
+      "schema": "./src/executors/dev/schema.json",
+      "description": "Executor to serve the project (alias to 'dev' executor)"
+    },
+    "serve": {
+      "implementation": "./src/executors/dev/executor",
+      "schema": "./src/executors/dev/schema.json",
+      "description": "Executor to serve the project (alias to 'dev' executor)"
+    },
+    "remoteDev": {
+      "implementation": "./src/executors/remote-dev/executor",
+      "schema": "./src/executors/remote-dev/schema.json",
+      "description": "Executor to run the project from remote location"
+    },
+    "test": {
+      "implementation": "./src/executors/test/executor",
+      "schema": "./src/executors/test/schema.json",
+      "description": "Executor to test the project"
+    },
+    "clean": {
+      "implementation": "./src/executors/clean/executor",
+      "schema": "./src/executors/clean/schema.json",
+      "description": "Executor to clean the project"
+    },
+    "build": {
+      "implementation": "./src/executors/build/executor",
+      "schema": "./src/executors/build/schema.json",
+      "description": "Executor to build the project"
+    },
+    "package": {
+      "implementation": "./src/executors/package/executor",
+      "schema": "./src/executors/package/schema.json",
+      "description": "Executor to package the project"
+    },
+    "addExtension": {
+      "implementation": "./src/executors/add-extension/executor",
+      "schema": "./src/executors/add-extension/schema.json",
+      "description": "Executor to add an extension to the project"
+    },
+    "listExtensions": {
+      "implementation": "./src/executors/list-extensions/executor",
+      "schema": "./src/executors/list-extensions/schema.json",
+      "description": "Executor to list extensions in the project"
+    }
+  }
+}

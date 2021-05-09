@@ -1,14 +1,9 @@
 {
   "npmScope": "nxrocks",
-  "affected": {
-    "defaultBase": "master"
-  },
+  "affected": { "defaultBase": "master" },
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
@@ -27,23 +22,15 @@
     }
   },
   "projects": {
-    "nx-spring-boot": {
-      "tags": []
-    },
+    "nx-spring-boot": { "tags": [] },
     "nx-spring-boot-e2e": {
       "tags": [],
       "implicitDependencies": ["nx-spring-boot"]
     },
-    "nx-flutter": {
-      "tags": []
-    },
-    "nx-flutter-e2e": {
-      "tags": [],
-      "implicitDependencies": ["nx-flutter"]
-    }
+    "nx-flutter": { "tags": [] },
+    "nx-flutter-e2e": { "tags": [], "implicitDependencies": ["nx-flutter"] },
+    "nx-quarkus": { "tags": [] },
+    "nx-quarkus-e2e": { "tags": [], "implicitDependencies": ["nx-quarkus"] }
   },
-  "workspaceLayout": {
-    "appsDir": "e2e",
-    "libsDir": "packages"
-  }
+  "workspaceLayout": { "appsDir": "e2e", "libsDir": "packages" }
 }

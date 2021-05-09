@@ -1,0 +1,40 @@
+name: Run e2e Tests for nx-quarkus
+
+on:
+  push:
+    branches: [ develop ]
+    paths:    [ "packages/nx-quarkus/**" ]
+  pull_request:
+    branches: [ develop ]
+    paths:    [ "packages/nx-quarkus/**" ]
+
+jobs:
+  run_e2e:
+    name: Run e2e Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [14.x]
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Use Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
+      - name: Install dependencies and Run e2e tests
+        run: |
+          yarn
+          yarn run e2e nx-quarkus-e2e

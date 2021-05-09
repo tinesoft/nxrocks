@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "Add Extension executor",
+  "description": "",
+  "cli": "nx",
+  "type": "object",
+  "properties": {
+    "root": {
+      "description": "The project root",
+      "type": "string"
+    },
+    "ignoreWrapper": {
+      "description": "Whether or not to use the embedded wrapper (`mvnw`or `gradlew`) to perfom build operations",
+      "type": "boolean",
+      "default": false
+    },
+    "args": {
+      "description": "The argument to be passed to the underlying Quarkus command",
+      "type": "array",
+      "default": []
+    },
+    "extensions": {
+      "description": "The extensions to add to the project (comma-separated)",
+      "type": "string"
+    }
+  },
+  "required": []
+}

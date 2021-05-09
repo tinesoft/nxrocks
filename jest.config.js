@@ -4,5 +4,7 @@ module.exports = {
     '<rootDir>/e2e/nx-spring-boot-e2e',
     '<rootDir>/packages/nx-flutter',
     '<rootDir>/e2e/nx-flutter-e2e',
+    '<rootDir>/packages/nx-quarkus',
+    '<rootDir>/e2e/nx-quarkus-e2e',
   ],
 };
