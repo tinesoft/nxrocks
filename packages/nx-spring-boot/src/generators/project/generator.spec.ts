@@ -8,6 +8,8 @@ import { ProjectGeneratorOptions } from './schema';
 
 import { Readable } from 'stream';
 
+import * as path from 'path';
+
 //mock 'node-fetch' to avoid making the actual call to Spring Initializer
 jest.mock('node-fetch');
 import fetch from 'node-fetch';
@@ -50,6 +52,7 @@ describe('project generator', () => {
   `(`should download a spring boot '$projectType' build with $buildSystem`, async ({ projectType, buildSystem, buildFile, wrapperName }) => {
 
     const rootDir = projectType === 'application' ? 'apps': 'libs';
+    const executable = `${appRootPath}/${rootDir}/${options.name}/${wrapperName}`;
     
     tree.write(`/${rootDir}/${options.name}/${buildFile}`, '');
 
@@ -68,9 +71,9 @@ describe('project generator', () => {
 
     expect(logger.info).toHaveBeenNthCalledWith(2, `Extracting Spring Boot project zip to '${appRootPath}/${rootDir}/${options.name}'...`);
 
-    expect(logger.debug).toHaveBeenNthCalledWith(1, `Restoring write permission on wrapper executable at '${appRootPath}/${rootDir}/${options.name}/${wrapperName}'...`);
+    expect(logger.debug).toHaveBeenNthCalledWith(1, `Restoring write permission on wrapper executable at '${path.normalize(executable)}'...`);
 
-    expect(fs.chmodSync).toHaveBeenCalledWith(expect.stringContaining(`/${rootDir}/${options.name}/${wrapperName}`), 0o755);
+    expect(fs.chmodSync).toHaveBeenCalledWith(expect.stringContaining(path.normalize(`${rootDir}/${options.name}/${wrapperName}`)), 0o755);
 
     if (buildSystem === 'gradle-project') {
       expect(logger.debug).toHaveBeenNthCalledWith(2, `Adding 'buildInfo' task to the build.gradle file...`);
