@@ -20,7 +20,7 @@
       "options": {
         "accessToken": "YjU2ZDEwNGUtMmE2ZC00ODJmLTg1MjktY2E2YmRhZGRmZDE2fHJlYWQtd3JpdGU=",
         "cacheableOperations": ["build", "test", "lint", "e2e"],
-        "runtimeCacheInputs": ["node -v", "uname -s"],
+        "runtimeCacheInputs": ["node -v", "echo $RUNNER_OS"],
         "canTrackAnalytics": false,
         "showUsageWarnings": true
       }
