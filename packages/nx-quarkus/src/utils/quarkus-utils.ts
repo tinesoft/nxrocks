@@ -1,6 +1,6 @@
 import { logger } from '@nrwl/devkit'
 import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
-import { execSync } from 'child_process'
+import { execSync, spawnSync } from 'child_process'
 import { BuildCommandAliasType, BuildCore } from '../core/build-core.class';
 import { GradleBuild } from '../core/gradle-build.class';
 import { MavenBuild } from '../core/maven-build.class';
@@ -19,7 +19,7 @@ export function determineBuildSystem(cwd: string): BuildCore {
 
 export function getPackageLatestNpmVersion(pkg: string): string {
     try {
-        return execSync(`npm show ${pkg} version`).toString().trim() || 'latest';
+        return spawnSync(`npm show ${pkg} version`, { shell: false}).toString().trim() || 'latest';
     } catch (e) {
         return 'latest';
     }
