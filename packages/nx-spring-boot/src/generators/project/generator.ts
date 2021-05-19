@@ -1,6 +1,6 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 import { ProjectGeneratorOptions } from './schema';
-import { normalizeOptions, generateBootProject, restoreExecutePermission, addBuilInfoTask, addPluginToNxJson } from './lib';
+import { normalizeOptions, generateBootProject, addBuilInfoTask, addPluginToNxJson } from './lib';
 
 
 export async function projectGenerator(tree: Tree, options: ProjectGeneratorOptions) {
@@ -25,7 +25,6 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
   });
 
   await generateBootProject(tree, normalizedOptions);
-  restoreExecutePermission(tree, normalizedOptions);
   addBuilInfoTask(tree, normalizedOptions);
   addPluginToNxJson(tree);
 }
