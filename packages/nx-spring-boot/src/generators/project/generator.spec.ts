@@ -18,6 +18,7 @@ const { Response } = jest.requireActual('node-fetch');
 //mock fs.chmodSync
 jest.mock('fs');
 import * as fs from 'fs';
+import { mockZipEntries, syncToAsyncIterable } from '../../utils/test-utils';
 
 describe('project generator', () => {
   let tree: Tree;
@@ -35,7 +36,7 @@ describe('project generator', () => {
     jest.spyOn(fs, 'chmodSync');
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue({ promise: () => jest.fn() });
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable([]));
     mockedFetch.mockResolvedValue(mockedResponse);
   });
 
@@ -52,14 +53,19 @@ describe('project generator', () => {
   `(`should download a spring boot '$projectType' build with $buildSystem`, async ({ projectType, buildSystem, buildFile, wrapperName }) => {
 
     const rootDir = projectType === 'application' ? 'apps': 'libs';
-    const executable = `${appRootPath}/${rootDir}/${options.name}/${wrapperName}`;
-    
+    const downloadUrl = `${options.springInitializerUrl}/starter.zip?type=${buildSystem}&name=${options.name}`;
+
     tree.write(`/${rootDir}/${options.name}/${buildFile}`, '');
+
+    const zipFiles = [`${buildFile}`, `${wrapperName}`, 'README.md', ];
+    const starterZip = mockZipEntries(zipFiles);
+    // mock the zip content returned by the real call to Spring Initializer
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(starterZip));
 
     await projectGenerator(tree, { ...options, projectType, buildSystem});
 
     expect(mockedFetch).toHaveBeenCalledWith(
-      `${options.springInitializerUrl}/starter.zip?type=${buildSystem}&name=${options.name}`,
+      downloadUrl,
       expect.objectContaining({
         headers: {
           'User-Agent': expect.stringContaining('@nxrocks_nx-spring-boot/')
@@ -67,16 +73,14 @@ describe('project generator', () => {
       })
     );
 
-    expect(logger.info).toHaveBeenNthCalledWith(1, `Downloading Spring Boot project zip from : ${options.springInitializerUrl}/starter.zip?type=${buildSystem}&name=${options.name}...`);
+    expect(logger.info).toHaveBeenNthCalledWith(1, `Downloading Spring Boot project zip from : ${downloadUrl}...`);
 
     expect(logger.info).toHaveBeenNthCalledWith(2, `Extracting Spring Boot project zip to '${appRootPath}/${rootDir}/${options.name}'...`);
-
-    expect(logger.debug).toHaveBeenNthCalledWith(1, `Restoring write permission on wrapper executable at '${path.normalize(executable)}'...`);
 
     expect(fs.chmodSync).toHaveBeenCalledWith(expect.stringContaining(path.normalize(`${rootDir}/${options.name}/${wrapperName}`)), 0o755);
 
     if (buildSystem === 'gradle-project') {
-      expect(logger.debug).toHaveBeenNthCalledWith(2, `Adding 'buildInfo' task to the build.gradle file...`);
+      expect(logger.debug).toHaveBeenCalledWith(`Adding 'buildInfo' task to the build.gradle file...`);
     }
   });
 
