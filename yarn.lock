@@ -864,6 +864,11 @@
     yargs "15.4.1"
     yargs-parser "20.0.0"
 
+"@nx-dotnet/nxdoc@0.10.3":
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/@nx-dotnet/nxdoc/-/nxdoc-0.10.3.tgz#1612cfbd596a95181fa7d4f312d4eaaf0a5c312e"
+  integrity sha512-mY3ad6XZAPhD2g0OkXY87EYqWWuk8rQs1CpLb6t6/ixNWSuGZ7SinivE8IuhGlMLK22nJJCE1nxPhefMuGZaug==
+
 "@octokit/auth-token@^2.4.4":
   version "2.4.5"
   resolved "https://registry.yarnpkg.com/@octokit/auth-token/-/auth-token-2.4.5.tgz#568ccfb8cb46f36441fac094ce34f7a875b197f3"
