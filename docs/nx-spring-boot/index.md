@@ -1,0 +1,278 @@
+---
+title: '@nxrocks/nx-spring-boot'
+sidebar_position: 0
+slug: /nx-spring-boot/
+---
+
+# Getting Started
+
+# nx-spring-boot
+
+[![npm version](https://img.shields.io/npm/v/@nxrocks/nx-spring-boot?style=flat-square)](https://www.npmjs.com/package/@nxrocks/nx-spring-boot)
+[![github action - release](https://img.shields.io/github/workflow/status/tinesoft/nxrocks/Release?label=release&style=flat-square)](https://github.com/tinesoft/nxrocks/actions?query=workflow%3ARelease)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
+
+> Nx Plugin to generate, run, package, build (and more) [Spring Boot](https://spring.io/projects/spring-boot) projects inside your Nx workspace
+
+<p align="center"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nx-spring-boot.png" width="450"></p>
+
+## Contents
+
+- [Features](#features)
+- [Prerequisite](#prerequisite)
+- [Getting Started](#getting-started)
+- [Plugin Usage](#plugin-usage)
+- [Compatibility with Nx](#compatibility-with-nx)
+
+## Features
+
+Here is a list of some of the coolest features of the plugin:
+
+- ✅ Generation of Spring Boot applications/libraries based on **Spring Initializr** API
+- ✅ Building, packaging, testing, etc your Spring Boot projects
+- ✅ Integration with Nx's **dependency graph** (through `nx dep-graph` or `nx affected:dep-graph`): this allows you to **visualize** the dependencies of any Spring Boot's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
+
+  ![Nx Spring Boot dependency graph](https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nx-spring-boot-dep-graph.png)
+  _Example of running the `nx dep-graph` command on a workspace with 2 Spring Boot projects inside_
+
+- ...
+
+## Prerequisite
+
+If you have not already, [create an Nx workspace](https://github.com/nrwl/nx#creating-an-nx-workspace) with the following:
+
+```
+# npm
+npx create-nx-workspace@latest
+
+# yarn
+yarn create nx-workspace@latest
+```
+
+## Getting Started
+
+Then you need to install the plugin in order to generate Spring Boot applications later on.
+
+### Installing Plugin
+
+```
+# npm
+npm install @nxrocks/nx-spring-boot --save-dev
+
+# yarn
+yarn add @nxrocks/nx-spring-boot --dev
+```
+
+### Generating Project
+
+Simply run the `project` generator with the following command:
+
+```
+nx g @nxrocks/nx-spring-boot:new <your-app-name>
+```
+
+> you can also use the following aliases to call the generator: `proj`, `new`, `gen`, `init`, `create`, or `generate`
+
+You will be prompted for entering the most commonly customized generation options (like project's `groupId`, `artifactId`, `packaging`, `dependencies`, etc).
+
+To skip the interactive prompt, or if you want to customize all non-prompted options, you can pass them along directly when running the command, as such:
+
+```
+nx g @nxrocks/nx-spring-boot:project <your-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
+```
+
+#### Generation Options
+
+Here the list of available generation options :
+
+| Arguments | Description               |
+| --------- | ------------------------- |
+| `<name>`  | The name of your project. |
+
+| Option                 | Value                               | Description                                                                                                          |
+| ---------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `projectType`          | `application` \| `library`          | Type of project to generate                                                                                          |
+| `buildSystem`          | `maven-project` \| `gradle-project` | Build system                                                                                                         |
+| `packaging`            | `jar` \| `war`                      | Packaging to use                                                                                                     |
+| `javaVersion`          | `8` \| `11` \| `15`                 | Java version to use                                                                                                  |
+| `language`             | `java` \| `groovy` \| `kotlin`      | Language to use                                                                                                      |
+| `groupId`              | `string`                            | GroupId of the project                                                                                               |
+| `artifactId`           | `string`                            | ArtifactId of the project                                                                                            |
+| `packageName`          | `string`                            | Main package name                                                                                                    |
+| `description`          | `string`                            | Description of the project                                                                                           |
+| `dependencies`         | `string`                            | List of dependencies to use (comma-separated). Go to https://start.spring.io/dependencies to get the ids needed here |
+| `springInitializerUrl` | `https://start.spring.io`           | URL to the Spring Initializer instance to use                                                                        |
+| `bootVersion`          | `string`                            | Spring Boot version to use                                                                                           |
+| `tags`                 | `string`                            | Tags to use for linting (comma-separated)                                                                            |
+| `directory`            | `string`                            | Directory where the project is placed                                                                                |
+
+## Plugin Usage
+
+Once your app is generated, you can now use buidlers to manage it.
+
+Here the list of available builders:
+
+| Builder          | Arguments                                 | Description                                                                                                                                                     |
+| ---------------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run` \| `serve` | `ignoreWrapper:boolean`, `args: string[]` | Runs the project using either `./mvnw\|mvn spring-boot:run` or `./gradlew\|gradle bootRun`                                                                      |
+| `test`           | `ignoreWrapper:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                   |
+| `test`           | `ignoreWrapper:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                |
+| `buidlJar`       | `ignoreWrapper:boolean`, `args: string[]` | Packages the project into an executable Jar using either `./mvnw\|mvn spring-boot:repackage` or `./gradlew\|gradle bootJar`                                     |
+| `buildWar`       | `ignoreWrapper:boolean`, `args: string[]` | Packages the project into an executable War using either `./mvnw\|mvn spring-boot:repackage` or `./gradlew\|gradle bootWar`                                     |
+| `buildInfo`      | `ignoreWrapper:boolean`,                  | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo`                                      |
+| `buildImage`     | `ignoreWrapper:boolean`, `args: string[]` | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn spring-boot:build-image` or `./gradlew\|gradle bootBuildImage` |
+
+In order to execute the requested command, each builder will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
+If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.
+This can be useful in a CI environment for example, or in a restricted environment where the binary cannot be downloaded (due to proxy/firewall limitations).
+
+### Running the project - ('run' or 'serve' Builders)
+
+```
+nx run your-boot-app:run
+
+// or its shorter alias
+
+nx serve your-boot-app
+```
+
+You can pass in additional arguments by editing the related section in the `workspace.json` file, as such:
+
+```js
+{
+  "version": 1,
+  "projects": {
+    "you-boot-app": {
+      "projectType": "application",
+      "root": "apps/you-boot-app",
+      "sourceRoot": "apps/you-boot-app/src",
+      "architect": {
+        "run": { // or "serve", according to your preference
+          "builder": "@nxrocks/nx-spring-boot:run",// or "@nxrocks/nx-spring-boot:serve", according to your preference
+          "options": {
+            "root": "apps/you-boot-app",
+            "args": ["arg1", "arg2"]
+          }
+        }
+      }
+    }},
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
+  }
+}
+```
+
+### Building the Jar - ('buildJar' Builder)
+
+```
+nx buildJar your-boot-app
+```
+
+### Building the War - ('buildWar' Builder)
+
+```
+nx buildWar your-boot-app
+```
+
+### Building the OCI Image - ('buildImage' Builder)
+
+```
+nx buildImage your-boot-app
+```
+
+You can pass in additional arguments by editing the related section in the `workspace.json` file, as such:
+
+```json
+{
+  "version": 1,
+  "projects": {
+    "you-boot-app": {
+      "projectType": "application",
+      "root": "apps/you-boot-app",
+      "sourceRoot": "apps/you-boot-app/src",
+      "architect": {
+        "buildImage": {
+          "builder": "@nxrocks/nx-spring-boot:buildImage",
+          "options": {
+            "root": "apps/you-boot-app",
+            "args": [
+              "--builder=gcr.io/paketo-buildpacks/builder:base-platform-api-0.3",
+              "--runImage=my-image"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
+  }
+}
+```
+
+### Testing the project - ('test' Builder)
+
+```
+nx test your-boot-app
+```
+
+### Cleaning the project - ('clean' Builder)
+
+```
+nx clean your-boot-app
+```
+
+## Compatibility with Nx
+
+Every Nx plugin relies on the underlying Nx Workspace it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this plugin
+
+| Plugin Version | Nx Workspace version |
+| -------------- | -------------------- |
+| `>=v2.x.x`     | `>=v11.x.x`          |
+| `<=v1.3.1`     | `<=v10.x.x`          |
+
+## License
+
+Copyright (c) 2020-2021 Tine Kondo. Licensed under the MIT License (MIT)
+
+# API Reference
+
+## Generators
+
+### [project](./generators/project.md)
+
+Generator to generate an application or a library
+
+## Executors
+
+### [run](./executors/run.md)
+
+Executor to run the application
+
+### [serve](./executors/serve.md)
+
+Executor to serve the application (alias to &#39;run&#39; executor)
+
+### [test](./executors/test.md)
+
+Executor to test the application
+
+### [clean](./executors/clean.md)
+
+Executor to clean the application
+
+### [buildJar](./executors/buildJar.md)
+
+Executor to build the application&#39;s executable Jar
+
+### [buildWar](./executors/buildWar.md)
+
+Executor to build the application&#39;s executable War
+
+### [buildImage](./executors/buildImage.md)
+
+Executor to build the application&#39;s OCI image
+
+### [buildInfo](./executors/buildInfo.md)
+
+Executor to build the application&#39;s build information
