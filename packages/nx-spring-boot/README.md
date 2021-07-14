@@ -107,7 +107,7 @@ Here the list of available builders:
 | --------------- | ------------------------------------------ | ------------------------------------------ |
 | `run` \| `serve`| `ignoreWrapper:boolean`, `args: string[]`  | Runs the project using either `./mvnw\|mvn spring-boot:run` or `./gradlew\|gradle bootRun` |
 | `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
-| `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
+| `clean`          | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
 | `buidlJar`      | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project into an executable Jar using either `./mvnw\|mvn spring-boot:repackage` or `./gradlew\|gradle bootJar` |
 | `buildWar`      | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project into an executable War using either `./mvnw\|mvn spring-boot:repackage` or `./gradlew\|gradle bootWar` |
 | `buildInfo`     | `ignoreWrapper:boolean`,                   | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo` |
