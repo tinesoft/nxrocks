@@ -3,7 +3,6 @@ import {
     ProjectGraph,
     ProjectGraphBuilder,
     ProjectGraphProcessorContext,
-    DependencyType,
     ProjectConfiguration,
     WorkspaceJsonConfiguration
 } from '@nrwl/devkit';
@@ -54,7 +53,7 @@ function getPackageInfosForNxSpringBootProjects(workspace: WorkspaceJsonConfigur
     return workspacePackageInfo;
 }
 
-function addDependenciesForProject(rootProjectName: string, rootPkgInfo: PackageInfo, builder: ProjectGraphBuilder, workspace: WorkspacePackageInfoConfiguration): void {
+function addDependenciesForProject(rootProjectFolder: string, rootProjectName: string, rootPkgInfo: PackageInfo, builder: ProjectGraphBuilder, workspace: WorkspacePackageInfoConfiguration): void {
 
     logger.debug(`[nx-spring-boot]: Adding dependencies for project '${rootProjectName}'...`)
     
@@ -62,9 +61,9 @@ function addDependenciesForProject(rootProjectName: string, rootPkgInfo: Package
         const depProjectName = workspace.packages[depPkgInfo.packageId];
 
         if (depProjectName) {
-            builder.addDependency(
-                DependencyType.static,
+            builder.addExplicitDependency(
                 rootProjectName,
+                path.join(rootProjectFolder,rootPkgInfo.packageFile),
                 depProjectName
             );
         }
@@ -82,8 +81,8 @@ export function processProjectGraph(
     const workspace = getPackageInfosForNxSpringBootProjects(context.workspace);
 
     Object.entries(workspace.projects).forEach(([projectName, pkgInfo]) => {
-        addDependenciesForProject(projectName, pkgInfo, builder, workspace);
+        addDependenciesForProject(graph.nodes[projectName].data.root, projectName, pkgInfo, builder, workspace);
     });
 
-    return builder.getProjectGraph();
+    return builder.getUpdatedProjectGraph();
 }
