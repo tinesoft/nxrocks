@@ -1,98 +1,19 @@
 {
-  "version": 1,
+  "version": 2,
   "projects": {
-    "nx-spring-boot": {
-      "root": "packages/nx-spring-boot",
-      "sourceRoot": "packages/nx-spring-boot/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["packages/nx-spring-boot/**/*.ts"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "packages/nx-spring-boot/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/packages/nx-spring-boot"]
-        },
-        "build": {
-          "builder": "@nrwl/node:package",
-          "options": {
-            "outputPath": "dist/packages/nx-spring-boot",
-            "tsConfig": "packages/nx-spring-boot/tsconfig.lib.json",
-            "packageJson": "packages/nx-spring-boot/package.json",
-            "main": "packages/nx-spring-boot/src/index.ts",
-            "assets": [
-              "packages/nx-spring-boot/*.md",
-              {
-                "input": "./packages/nx-spring-boot/src",
-                "glob": "**/!(*.ts)",
-                "output": "./src"
-              },
-              {
-                "input": "./packages/nx-spring-boot/src",
-                "glob": "**/*.d.ts",
-                "output": "./src"
-              },
-              {
-                "input": "./packages/nx-spring-boot",
-                "glob": "generators.json",
-                "output": "."
-              },
-              {
-                "input": "./packages/nx-spring-boot",
-                "glob": "executors.json",
-                "output": "."
-              }
-            ]
-          },
-          "outputs": ["{options.outputPath}"]
-        },
-        "release": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx semantic-release",
-            "cwd": "packages/nx-spring-boot"
-          }
-        }
-      }
-    },
-    "nx-spring-boot-e2e": {
-      "projectType": "application",
-      "root": "e2e/nx-spring-boot-e2e",
-      "sourceRoot": "e2e/nx-spring-boot-e2e/src",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/nx-plugin:e2e",
-          "options": {
-            "target": "nx-spring-boot:build",
-            "npmPackageName": "@nxrocks/nx-spring-boot",
-            "pluginOutputPath": "dist/packages/nx-spring-boot",
-            "jestConfig": "e2e/nx-spring-boot-e2e/jest.config.js"
-          }
-        }
-      }
-    },
     "nx-flutter": {
       "root": "packages/nx-flutter",
       "sourceRoot": "packages/nx-flutter/src",
       "projectType": "library",
-      "schematics": {},
-      "architect": {
+      "targets": {
         "lint": {
-          "builder": "@nrwl/linter:eslint",
+          "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["packages/nx-flutter/**/*.ts"]
           }
         },
         "test": {
-          "builder": "@nrwl/jest:jest",
+          "executor": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "packages/nx-flutter/jest.config.js",
             "passWithNoTests": true
@@ -100,7 +21,7 @@
           "outputs": ["coverage/packages/nx-flutter"]
         },
         "build": {
-          "builder": "@nrwl/node:package",
+          "executor": "@nrwl/node:package",
           "options": {
             "outputPath": "dist/packages/nx-flutter",
             "tsConfig": "packages/nx-flutter/tsconfig.lib.json",
@@ -133,7 +54,7 @@
           "outputs": ["{options.outputPath}"]
         },
         "release": {
-          "builder": "@nrwl/workspace:run-commands",
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "npx semantic-release",
             "cwd": "packages/nx-flutter"
@@ -145,31 +66,31 @@
       "projectType": "application",
       "root": "e2e/nx-flutter-e2e",
       "sourceRoot": "e2e/nx-flutter-e2e/src",
-      "architect": {
+      "targets": {
         "e2e": {
-          "builder": "@nrwl/nx-plugin:e2e",
+          "executor": "@nrwl/nx-plugin:e2e",
           "options": {
             "target": "nx-flutter:build",
-            "npmPackageName": "@nxrocks/nx-flutter",
-            "pluginOutputPath": "dist/packages/nx-flutter",
             "jestConfig": "e2e/nx-flutter-e2e/jest.config.js"
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["nx-flutter"]
     },
     "nx-quarkus": {
       "root": "packages/nx-quarkus",
       "sourceRoot": "packages/nx-quarkus/src",
       "projectType": "library",
-      "architect": {
+      "targets": {
         "lint": {
-          "builder": "@nrwl/linter:eslint",
+          "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["packages/nx-quarkus/**/*.ts"]
           }
         },
         "test": {
-          "builder": "@nrwl/jest:jest",
+          "executor": "@nrwl/jest:jest",
           "outputs": ["coverage/packages/nx-quarkus"],
           "options": {
             "jestConfig": "packages/nx-quarkus/jest.config.js",
@@ -177,7 +98,7 @@
           }
         },
         "build": {
-          "builder": "@nrwl/node:package",
+          "executor": "@nrwl/node:package",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/packages/nx-quarkus",
@@ -205,7 +126,7 @@
           }
         },
         "release": {
-          "builder": "@nrwl/workspace:run-commands",
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
             "command": "npx semantic-release",
             "cwd": "packages/nx-quarkus"
@@ -217,17 +138,95 @@
       "projectType": "application",
       "root": "e2e/nx-quarkus-e2e",
       "sourceRoot": "e2e/nx-quarkus-e2e/src",
-      "architect": {
+      "targets": {
         "e2e": {
-          "builder": "@nrwl/nx-plugin:e2e",
+          "executor": "@nrwl/nx-plugin:e2e",
           "options": {
             "target": "nx-quarkus:build",
-            "npmPackageName": "@nxrocks/nx-quarkus",
-            "pluginOutputPath": "dist/packages/nx-quarkus",
             "jestConfig": "e2e/nx-quarkus-e2e/jest.config.js"
           }
         }
+      },
+      "tags": [],
+      "implicitDependencies": ["nx-quarkus"]
+    },
+    "nx-spring-boot": {
+      "root": "packages/nx-spring-boot",
+      "sourceRoot": "packages/nx-spring-boot/src",
+      "projectType": "library",
+      "schematics": {},
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/nx-spring-boot/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "packages/nx-spring-boot/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/packages/nx-spring-boot"]
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/packages/nx-spring-boot",
+            "tsConfig": "packages/nx-spring-boot/tsconfig.lib.json",
+            "packageJson": "packages/nx-spring-boot/package.json",
+            "main": "packages/nx-spring-boot/src/index.ts",
+            "assets": [
+              "packages/nx-spring-boot/*.md",
+              {
+                "input": "./packages/nx-spring-boot/src",
+                "glob": "**/!(*.ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/nx-spring-boot/src",
+                "glob": "**/*.d.ts",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/nx-spring-boot",
+                "glob": "generators.json",
+                "output": "."
+              },
+              {
+                "input": "./packages/nx-spring-boot",
+                "glob": "executors.json",
+                "output": "."
+              }
+            ]
+          },
+          "outputs": ["{options.outputPath}"]
+        },
+        "release": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx semantic-release",
+            "cwd": "packages/nx-spring-boot"
+          }
+        }
       }
+    },
+    "nx-spring-boot-e2e": {
+      "projectType": "application",
+      "root": "e2e/nx-spring-boot-e2e",
+      "sourceRoot": "e2e/nx-spring-boot-e2e/src",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/nx-plugin:e2e",
+          "options": {
+            "target": "nx-spring-boot:build",
+            "jestConfig": "e2e/nx-spring-boot-e2e/jest.config.js"
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["nx-spring-boot"]
     }
   },
   "cli": {

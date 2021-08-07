@@ -7,6 +7,7 @@ import { XmlDocument } from 'xmldoc';
 
 export interface PackageInfo {
   packageId: string;
+  packageFile: string;
   artifactId: string;
   groupId: string;
   dependencies?: PackageInfo[];
@@ -15,7 +16,8 @@ export interface PackageInfo {
 export function inspectDeps(projectRoot: string): PackageInfo {
 
   if (fileExists(path.join(projectRoot, 'pom.xml'))) { //spring-boot maven project
-    const pomXmlStr = fs.readFileSync(path.join(projectRoot, 'pom.xml'), 'utf8');
+    const packageFile = path.join(projectRoot, 'pom.xml');
+    const pomXmlStr = fs.readFileSync(packageFile, 'utf8');
     const pomXmlNode = new XmlDocument(pomXmlStr);
 
     const groupId = pomXmlNode.valueWithPath('groupId');
@@ -27,16 +29,17 @@ export function inspectDeps(projectRoot: string): PackageInfo {
     for (const depNode of dependencyNodes) {
       const depGroupId = depNode.valueWithPath('groupId');
       const depArtifactId = depNode.valueWithPath('artifactId');
-      dependencies.push({ packageId: `${depGroupId}:${depArtifactId}`, groupId: depGroupId, artifactId: depArtifactId });
+      dependencies.push({ packageId: `${depGroupId}:${depArtifactId}`, packageFile: 'pom.xml', groupId: depGroupId, artifactId: depArtifactId });
     }
 
-    return { packageId: `${groupId}:${artifactId}`, groupId, artifactId, dependencies };
+    return { packageId: `${groupId}:${artifactId}`, packageFile: 'pom.xml', groupId, artifactId, dependencies };
   }
 
   if (fileExists(path.join(projectRoot, 'build.gradle'))//spring-boot gradle project
     || fileExists(path.join(projectRoot, 'build.gradle.kts'))) {
     const ext = fileExists(path.join(projectRoot, 'build.gradle.kts')) ? '.kts' : '';
-    const buildGradle = fs.readFileSync(path.join(projectRoot, `build.gradle${ext}`), 'utf8');
+    const packageFile = path.join(projectRoot, `build.gradle${ext}`);
+    const buildGradle = fs.readFileSync(packageFile, 'utf8');
     const settingsGradle = fs.readFileSync(path.join(projectRoot, `settings.gradle${ext}`), 'utf8');
 
     const groupId = buildGradle.match(/group\s*=\s*['"]([^"']+)['"]/)?.[1];
@@ -47,10 +50,10 @@ export function inspectDeps(projectRoot: string): PackageInfo {
 
     for (const depId of dependencyIds) {
       const [depGroupId, depArtifactId] = depId.split(':');
-      dependencies.push({ packageId: depId, groupId: depGroupId, artifactId: depArtifactId });
+      dependencies.push({ packageId: depId, packageFile: `build.gradle${ext}`, groupId: depGroupId, artifactId: depArtifactId });
     }
 
-    return { packageId: `${groupId}:${artifactId}`, groupId, artifactId, dependencies };
+    return { packageId: `${groupId}:${artifactId}`, packageFile: `build.gradle${ext}`, groupId, artifactId, dependencies };
   }
 
   throw new Error(

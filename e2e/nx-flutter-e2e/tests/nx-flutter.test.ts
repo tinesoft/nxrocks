@@ -23,7 +23,7 @@ xdescribe('nx-flutter e2e', () => {
     jest.resetAllMocks();
   });
 
-  it('should create nx-flutter project with default options', async (done) => {
+  it('should create nx-flutter project with default options', async() => {
     const appName = uniq('nx-flutter');
     ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
     await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --interactive=false`);
@@ -70,10 +70,9 @@ xdescribe('nx-flutter e2e', () => {
     expect(() =>
       checkFilesExist(`apps/${appName}/pubspec.yaml`)
     ).not.toThrow();
-    done();
-  }, 180000);
+  }, 200000);
 
-  it('should create nx-flutter project with given options', async (done) => {
+  it('should create nx-flutter project with given options', async() => {
     const appName = uniq('nx-flutter');
     const org = 'com.tinesoft';
     const description = 'My flutter application';
@@ -106,11 +105,10 @@ xdescribe('nx-flutter e2e', () => {
         `apps/${appName}/android/app/src/main/java/com/tinesoft/${appName.replace('-', '_')}/MainActivity.java`
       )
     ).not.toThrow();
-    done();
-  }, 180000);
+  }, 200000);
 
   describe('--directory', () => {
-    it('should create src in the specified directory', async (done) => {
+    it('should create src in the specified directory', async() => {
       const appName = uniq('nx-flutter');
       ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
       await runNxCommandAsync(
@@ -119,12 +117,11 @@ xdescribe('nx-flutter e2e', () => {
       expect(() =>
         checkFilesExist(`apps/subdir/${appName}/pubspec.yaml`)
       ).not.toThrow();
-      done();
-    }, 180000);
+      }, 200000);
   });
 
   describe('--tags', () => {
-    it('should add tags to nx.json', async (done) => {
+    it('should add tags to nx.json', async() => {
       const appName = uniq('nx-flutter');
       ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
       await runNxCommandAsync(
@@ -132,7 +129,6 @@ xdescribe('nx-flutter e2e', () => {
       );
       const nxJson = readJson('nx.json');
       expect(nxJson.projects[appName].tags).toEqual(['e2etag', 'e2ePackage']);
-      done();
-    }, 180000);
+      }, 200000);
   });
 });

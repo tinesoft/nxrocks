@@ -208,10 +208,11 @@ nx clean your-boot-app
 
 ## Compatibility with Nx
 
-Every Nx plugin relies on the underlying Nx Workspace it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this plugin
+Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this plugin.
 
 | Plugin Version | Nx Workspace version
 | -------------- | --------------------
+| `>=v3.x.x`     | `>=v12.6.x`
 | `>=v2.x.x`     | `>=v11.x.x`
 | `<=v1.3.1`     | `<=v10.x.x`
 ## License

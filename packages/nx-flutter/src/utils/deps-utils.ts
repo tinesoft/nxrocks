@@ -16,6 +16,7 @@ interface Pubspec {
 }
 export interface PackageInfo {
   packageId: string;
+  packageFile: string;
   dependencies?: PackageInfo[];
 }
 
@@ -23,15 +24,16 @@ export function getPackageInfo(projectRoot: string): PackageInfo {
 
   if (fileExists(path.join(projectRoot, 'pubspec.yaml'))) { //flutterproject
 
-    const pubspec = load(fs.readFileSync(path.join(projectRoot, 'pubspec.yaml'), 'utf8')) as Pubspec;
+    const packageFile = path.join(projectRoot, 'pubspec.yaml');
+    const pubspec = load(fs.readFileSync(packageFile, 'utf8')) as Pubspec;
 
     const dependencies: PackageInfo[] = [];
 
     Object.keys(Object.assign({}, pubspec.dependencies, pubspec.dev_dependencies )).forEach(depId => {
-      dependencies.push({packageId: depId});
+      dependencies.push({packageId: depId, packageFile});
     });
 
-    return { packageId: pubspec.name, dependencies: dependencies};
+    return { packageId: pubspec.name, packageFile: 'pubspec.yaml', dependencies: dependencies};
   }
 
   throw new Error(

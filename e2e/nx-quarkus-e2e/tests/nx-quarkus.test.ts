@@ -11,7 +11,7 @@ import { names } from '@nrwl/devkit';
 describe('nx-quarkus e2e', () => {
   const isWin = process.platform === "win32";
 
-  it('should create nx-quarkus with default options', async (done) => {
+  it('should create nx-quarkus with default options', async() => {
     const prjName = uniq('nx-quarkus');
     ensureNxProject('@nxrocks/nx-quarkus', 'dist/packages/nx-quarkus');
     await runNxCommandAsync(
@@ -25,16 +25,15 @@ describe('nx-quarkus e2e', () => {
       checkFilesExist(`apps/${prjName}/mvnw`,`apps/${prjName}/pom.xml`, `apps/${prjName}/README.md`)
     ).not.toThrow();
 
-    done();
-  }, 180000);
+  }, 200000);
 
-  it('should create nx-quarkus with given options', async (done) => {
+  it('should create nx-quarkus with given options', async() => {
     const prjName = uniq('nx-quarkus');
     const buildSystem = 'MAVEN';
     const groupId = 'com.tinesoft';
     const artifactId = 'api' ;
     const version = '1.2.3';
-    const extensions="resteasy-jackson";
+    const extensions="resteasy";
 
     ensureNxProject('@nxrocks/nx-quarkus', 'dist/packages/nx-quarkus');
     await runNxCommandAsync(
@@ -49,7 +48,7 @@ describe('nx-quarkus e2e', () => {
         `apps/${prjName}/mvnw`,
         `apps/${prjName}/pom.xml`, 
         `apps/${prjName}/README.md`,
-        `apps/${prjName}/src/main/java/com/tinesoft/resteasyjackson/JacksonResource.java`)
+        `apps/${prjName}/src/main/java/com/tinesoft/GreetingResource.java`)
     ).not.toThrow();
 
     const pomXml = readFile(`apps/${prjName}/pom.xml`);
@@ -57,11 +56,10 @@ describe('nx-quarkus e2e', () => {
     expect(pomXml).toContain(`<artifactId>${artifactId}</artifactId>`);
     expect(pomXml).toContain(`<version>${version}</version>`);
 
-    done();
-  }, 180000);
+  }, 200000);
 
   describe('--buildSystem=GRADLE', () => {
-    it('should create a gradle quarkus project', async (done) => {
+    it('should create a gradle quarkus project', async() => {
       const prjName = uniq('nx-quarkus');
       ensureNxProject(
         '@nxrocks/nx-quarkus',
@@ -77,12 +75,11 @@ describe('nx-quarkus e2e', () => {
       expect(() =>
       checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle`, `apps/${prjName}/README.md`)
       ).not.toThrow();
-      done();
-    }, 180000);
+    }, 200000);
   });
 
   describe('--buildSystem=GRADLE_KOTLIN_DSL', () => {
-    it('should create a gradle quarkus project with kotlin', async (done) => {
+    it('should create a gradle quarkus project with kotlin', async() => {
       const prjName = uniq('nx-quarkus');
       ensureNxProject(
         '@nxrocks/nx-quarkus',
@@ -98,13 +95,12 @@ describe('nx-quarkus e2e', () => {
       expect(() =>
       checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle.kts`, `apps/${prjName}/README.md`)
       ).not.toThrow();
-      done();
-    }, 180000);
+    }, 200000);
   });
   
 
   describe('--directory', () => {
-    it('should create src in the specified directory', async (done) => {
+    it('should create src in the specified directory', async() => {
       const prjName = uniq('nx-quarkus');
       ensureNxProject(
         '@nxrocks/nx-quarkus',
@@ -116,12 +112,11 @@ describe('nx-quarkus e2e', () => {
       expect(() =>
       checkFilesExist(`apps/subdir/${prjName}/mvnw`,`apps/subdir/${prjName}/pom.xml`, `apps/subdir/${prjName}/README.md`)
       ).not.toThrow();
-      done();
-    }, 180000);
+    }, 200000);
   });
 
   describe('--tags', () => {
-    it('should add tags to nx.json', async (done) => {
+    it('should add tags to nx.json', async() => {
       const prjName = uniq('nx-quarkus');
       ensureNxProject(
         '@nxrocks/nx-quarkus',
@@ -132,7 +127,6 @@ describe('nx-quarkus e2e', () => {
       );
       const nxJson = readJson('nx.json');
       expect(nxJson.projects[prjName].tags).toEqual(['e2etag', 'e2ePackage']);
-      done();
-    }, 180000);
+    }, 200000);
   });
 });

@@ -14,6 +14,7 @@
 - [Prerequisite](#prerequisite)
 - [Getting Started](#getting-started)
 - [Plugin Usage](#plugin-usage)
+- [Compatibility with Nx](#compatibility-with-nx)
 
 ## Features
 
@@ -138,11 +139,21 @@ $ flutter gen-l10n --header "/// my header"
 becomes 👉🏾
 
 $ nx genL10n your-flutterapp --args='--header="/// my header"'
-````
+```
 
 > Note that the original `flutter` command name (`gen-l10n`) has been camelcased for creating its `nx-flutter` equivalent (`genL10n`)
 
 > Note that the arguments of the original `flutter` command are wrapped under `--args='...'` option in  the `nx-flutter` equivalent
+
+## Compatibility with Nx
+
+Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this plugin.
+
+| Plugin Version | Nx Workspace version
+| -------------- | --------------------
+| `>=v3.x.x`     | `>=v12.6.x`
+| `>=v2.x.x`     | `>=v11.x.x`
+| `<=v1.3.1`     | `<=v10.x.x`
 
 ## License
 
