@@ -41,8 +41,11 @@ function getPackageInfosForNxFlutterProjects(workspace: WorkspaceJsonConfigurati
                 workspacePackageInfo.projects[projectName] = pkgInfo;
                 workspacePackageInfo.packages[pkgInfo.packageId] = projectName;
             }
-            catch {
-                logger.warn(`[nx-flutter]: Failed to get package info for project '${projectName}'`);
+            catch (e) {
+                if (process.env.NX_VERBOSE_LOGGING === 'true') {
+                    logger.warn(`[nx-flutter]: Failed to get package info for project '${projectName}'`);
+                    logger.warn(e);
+                }
             }
         });
 
@@ -51,7 +54,9 @@ function getPackageInfosForNxFlutterProjects(workspace: WorkspaceJsonConfigurati
 
 function addDependenciesForProject(rootProjectFolder: string, rootProjectName: string, rootPkgInfo: PackageInfo, builder: ProjectGraphBuilder, workspace: WorkspacePackageInfoConfiguration): void {
 
-    logger.debug(`[nx-flutter]: Adding dependencies for project '${rootProjectName}'...`)
+    if (process.env.NX_VERBOSE_LOGGING === 'true') {
+        logger.debug(`[nx-flutter]: Adding dependencies for project '${rootProjectName}'...`);
+    }
     
     rootPkgInfo.dependencies.forEach(depPkgInfo => {
         const depProjectName = workspace.packages[depPkgInfo.packageId];
@@ -72,7 +77,9 @@ export function processProjectGraph(
 ): ProjectGraph {
     const builder = new ProjectGraphBuilder(graph);
 
-    logger.debug('[nx-flutter]: Looking Flutter related projects inside the workspace...');
+    if (process.env.NX_VERBOSE_LOGGING === 'true') {
+        logger.debug('[nx-flutter]: Looking Flutter related projects inside the workspace...');
+    }
 
     const workspace = getPackageInfosForNxFlutterProjects(context.workspace);
 
