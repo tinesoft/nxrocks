@@ -8,6 +8,7 @@ import {
 } from '@nrwl/devkit';
 
 import * as path from 'path';
+import * as fs from 'fs';
 
 import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
 import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
@@ -22,13 +23,23 @@ interface WorkspacePackageInfoConfiguration {
     }
 }
 
-function isMavenProject(project: ProjectConfiguration): boolean {
+function isQuarkusProject(project: ProjectConfiguration): boolean {
+    let packageFile = path.join(appRootPath, project.root, 'pom.xml');
+    if(fileExists(packageFile)) {
+        return fs.readFileSync(packageFile, 'utf8').indexOf('<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>') > -1;
+    }
 
-    return (
-        fileExists(path.join(appRootPath, project.root, 'pom.xml')) ||
-        fileExists(path.join(appRootPath, project.root, 'build.gradle')) ||
-        fileExists(path.join(appRootPath, project.root, 'build.gradle.kts'))
-    );
+    packageFile = path.join(appRootPath, project.root, 'build.gradle');
+    if(fileExists(packageFile)) {
+        return fs.readFileSync(packageFile, 'utf8').indexOf('implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")') > -1;
+    }
+    
+    packageFile = path.join(appRootPath, project.root, 'build.gradle.kts');
+    if(fileExists(packageFile)) {
+        return fs.readFileSync(packageFile, 'utf8').indexOf('implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))') > -1;
+    }
+
+    return false;
 }
 
 function getPackageInfosForNxSpringBootProjects(workspace: WorkspaceJsonConfiguration): WorkspacePackageInfoConfiguration {
@@ -37,7 +48,7 @@ function getPackageInfosForNxSpringBootProjects(workspace: WorkspaceJsonConfigur
         packages: {}
     };
 
-    Object.entries(workspace.projects).filter(([, project]) => isMavenProject(project))
+    Object.entries(workspace.projects).filter(([, project]) => isQuarkusProject(project))
         .forEach(([projectName, project]) => {
             try {
                 const pkgInfo = getPackageInfo(path.join(appRootPath, project.root));
