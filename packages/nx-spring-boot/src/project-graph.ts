@@ -8,6 +8,7 @@ import {
 } from '@nrwl/devkit';
 
 import * as path from 'path';
+import * as fs from 'fs';
 
 import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
 import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
@@ -22,13 +23,24 @@ interface WorkspacePackageInfoConfiguration {
     }
 }
 
-function isBootProject(project: ProjectConfiguration): boolean {
 
-    return (
-        fileExists(path.join(appRootPath, project.root, 'pom.xml')) ||
-        fileExists(path.join(appRootPath, project.root, 'build.gradle')) ||
-        fileExists(path.join(appRootPath, project.root, 'build.gradle.kts'))
-    );
+function isBootProject(project: ProjectConfiguration): boolean {
+    let packageFile = path.join(appRootPath, project.root, 'pom.xml');
+    if(fileExists(packageFile)) {
+        return fs.readFileSync(packageFile, 'utf8').indexOf('<artifactId>spring-boot-starter-parent</artifactId>') > -1;
+    }
+
+    packageFile = path.join(appRootPath, project.root, 'build.gradle');
+    if(fileExists(packageFile)) {
+        return fs.readFileSync(packageFile, 'utf8').indexOf('implementation \'org.springframework.boot:spring-boot-starter-parent\'') > -1;
+    }
+    
+    packageFile = path.join(appRootPath, project.root, 'build.gradle.kts');
+    if(fileExists(packageFile)) {
+        return fs.readFileSync(packageFile, 'utf8').indexOf('implementation("org.springframework.boot:spring-boot-starter")') > -1;
+    }
+
+    return false;
 }
 
 function getPackageInfosForNxSpringBootProjects(workspace: WorkspaceJsonConfiguration): WorkspacePackageInfoConfiguration {
