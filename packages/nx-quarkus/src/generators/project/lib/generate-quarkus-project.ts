@@ -6,9 +6,6 @@ import { Entry, Parse } from 'unzipper';
 import { NormalizedSchema } from '../schema';
 import { getPackageLatestNpmVersion, buildQuarkusDownloadUrl } from '../../../utils/quarkus-utils';
 
-import * as fs from 'fs';
-import * as path from 'path';
-
 export async function generateQuarkusProject(tree: Tree, options: NormalizedSchema): Promise<void> {
     const downloadUrl = buildQuarkusDownloadUrl(options);
 
@@ -33,15 +30,8 @@ export async function generateQuarkusProject(tree: Tree, options: NormalizedSche
         const fileContent = await e.buffer();
         const fileType = e.type; // 'Directory' or 'File'
         if(fileType === 'File'){
-            const filePermissions = filePath.endsWith('mvnw') || filePath.endsWith('gradlew') ? 0o755: undefined;
-            // once issue  https://github.com/nrwl/nx/issues/5680 is accepted/merged use this instead
-            //tree.write(`${options.projectRoot}/${filePath}`, fileContent, filePermissions);
-
-            const fullFilePath = path.join(appRootPath, options.projectRoot,filePath);
-            fs.mkdirSync(path.dirname(fullFilePath), { recursive: true});
-            fs.writeFileSync(fullFilePath, fileContent);
-            if(filePermissions)
-                fs.chmodSync(fullFilePath, filePermissions);
+            const execPermission = filePath.endsWith('mvnw') || filePath.endsWith('gradlew') ? '755': undefined;
+            tree.write(`${options.projectRoot}/${filePath}`, fileContent, {mode: execPermission});
         }
     }
 }
