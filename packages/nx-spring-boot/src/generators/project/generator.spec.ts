@@ -8,16 +8,11 @@ import { ProjectGeneratorOptions } from './schema';
 
 import { Readable } from 'stream';
 
-import * as path from 'path';
-
 //mock 'node-fetch' to avoid making the actual call to Spring Initializer
 jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-//mock fs.chmodSync
-jest.mock('fs');
-import * as fs from 'fs';
 import { mockZipEntries, syncToAsyncIterable } from '../../utils/test-utils';
 
 describe('project generator', () => {
@@ -33,7 +28,6 @@ describe('project generator', () => {
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
-    jest.spyOn(fs, 'chmodSync');
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable([]));
@@ -76,8 +70,6 @@ describe('project generator', () => {
     expect(logger.info).toHaveBeenNthCalledWith(1, `Downloading Spring Boot project zip from : ${downloadUrl}...`);
 
     expect(logger.info).toHaveBeenNthCalledWith(2, `Extracting Spring Boot project zip to '${appRootPath}/${rootDir}/${options.name}'...`);
-
-    expect(fs.chmodSync).toHaveBeenCalledWith(expect.stringContaining(path.normalize(`${rootDir}/${options.name}/${wrapperName}`)), 0o755);
 
     if (buildSystem === 'gradle-project') {
 
