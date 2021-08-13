@@ -8,16 +8,11 @@ import { ProjectGeneratorOptions } from './schema';
 
 import { Readable } from 'stream';
 
-import * as path from 'path';
-
 //mock 'node-fetch' to avoid making the actual call to Quarkus Initializer
 jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-//mock fs.chmodSync
-jest.mock('fs');
-import * as fs from 'fs';
 import { BuildCommandAliasType } from '../../core/build-core.class';
 import { mockZipEntries, syncToAsyncIterable } from '../../utils/test-utils';
 
@@ -36,7 +31,6 @@ describe('project generator', () => {
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
-    jest.spyOn(fs, 'chmodSync');
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable([]));
@@ -77,8 +71,6 @@ describe('project generator', () => {
     expect(logger.info).toHaveBeenNthCalledWith(1, `⬇️ Downloading Quarkus project zip from : ${downloadUrl}...`);
 
     expect(logger.info).toHaveBeenNthCalledWith(2, `📦 Extracting Quarkus project zip to '${appRootPath}/${rootDir}/${options.name}'...`);
-
-    expect(fs.chmodSync).toHaveBeenCalledWith(expect.stringContaining(path.normalize(`${rootDir}/${options.name}/${wrapperName}`)), 0o755);
   });
 
   it('should update workspace.json', async () => {
