@@ -5,8 +5,11 @@ import {
   readJson,
   runNxCommandAsync,
   uniq,
+  tmpProjPath
 } from '@nrwl/nx-plugin/testing';
 import { names } from '@nrwl/devkit';
+
+import { lstatSync } from 'fs';
 
 describe('nx-spring-boot e2e', () => {
   const isWin = process.platform === "win32";
@@ -24,6 +27,16 @@ describe('nx-spring-boot e2e', () => {
     expect(() =>
       checkFilesExist(`apps/${prjName}/mvnw`,`apps/${prjName}/pom.xml`, `apps/${prjName}/HELP.md`)
     ).not.toThrow();
+
+    // make sure the build wrapper file is executable (*nix only)
+    if(!isWin) {
+      const execPermission = '755';
+      expect(
+        lstatSync(
+          tmpProjPath(`apps/${prjName}/mvnw`)
+        ).mode & octal(execPermission)
+      ).toEqual(octal(execPermission));
+    }
 
   }, 200000);
 
@@ -61,6 +74,15 @@ describe('nx-spring-boot e2e', () => {
     expect(pomXml).toContain(`<version>${version}</version>`);
     //expect(pomXml).toContain(`<java.version>${javaVersion}</java.version>`);
 
+    // make sure the build wrapper file is executable (*nix only)
+    if(!isWin) {
+      const execPermission = '755';
+      expect(
+        lstatSync(
+          tmpProjPath(`apps/${prjName}/mvnw`)
+        ).mode & octal(execPermission)
+      ).toEqual(octal(execPermission));
+    }
   }, 200000);
 
   describe('--buildSystem=gradle-project', () => {
@@ -80,6 +102,16 @@ describe('nx-spring-boot e2e', () => {
       expect(() =>
       checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle`, `apps/${prjName}/HELP.md`)
       ).not.toThrow();
+
+      // make sure the build wrapper file is executable (*nix only)
+      if(!isWin) {
+        const execPermission = '755';
+        expect(
+          lstatSync(
+            tmpProjPath(`apps/${prjName}/gradlew`)
+          ).mode & octal(execPermission)
+        ).toEqual(octal(execPermission));
+      }
 
     }, 200000);
   });
@@ -102,6 +134,15 @@ describe('nx-spring-boot e2e', () => {
       checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle.kts`, `apps/${prjName}/HELP.md`)
       ).not.toThrow();
 
+      // make sure the build wrapper file is executable (*nix only)
+      if(!isWin) {
+        const execPermission = '755';
+        expect(
+          lstatSync(
+            tmpProjPath(`apps/${prjName}/gradlew`)
+          ).mode & octal(execPermission)
+        ).toEqual(octal(execPermission));
+      }
     }, 200000);
   });
   
@@ -138,4 +179,9 @@ describe('nx-spring-boot e2e', () => {
 
     }, 200000);
   });
+
+  function octal(value: string | number): number {
+    if (typeof value === 'string') return parseInt(value, 8);
+    return value;
+  }
 });
