@@ -52,17 +52,17 @@ describe('project generator', () => {
     ${'library'}     | ${'gradle-project'} | ${'build.gradle'} | ${'gradlew'}
   `(`should download a spring boot '$projectType' build with $buildSystem`, async ({ projectType, buildSystem, buildFile, wrapperName }) => {
 
-    const rootDir = projectType === 'application' ? 'apps': 'libs';
+    const rootDir = projectType === 'application' ? 'apps' : 'libs';
     const downloadUrl = `${options.springInitializerUrl}/starter.zip?type=${buildSystem}&name=${options.name}`;
 
     tree.write(`/${rootDir}/${options.name}/${buildFile}`, '');
 
-    const zipFiles = [`${buildFile}`, `${wrapperName}`, 'README.md', ];
+    const zipFiles = [`${buildFile}`, `${wrapperName}`, 'README.md',];
     const starterZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Spring Initializer
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(starterZip));
 
-    await projectGenerator(tree, { ...options, projectType, buildSystem});
+    await projectGenerator(tree, { ...options, projectType, buildSystem });
 
     expect(mockedFetch).toHaveBeenCalledWith(
       downloadUrl,
@@ -80,16 +80,35 @@ describe('project generator', () => {
     expect(fs.chmodSync).toHaveBeenCalledWith(expect.stringContaining(path.normalize(`${rootDir}/${options.name}/${wrapperName}`)), 0o755);
 
     if (buildSystem === 'gradle-project') {
-      expect(logger.debug).toHaveBeenCalledWith(`Adding 'buildInfo' task to the build.gradle file...`);
+
+      if (projectType === 'library') {
+        expect(logger.debug).toHaveBeenCalledWith(`Disabling 'bootJar' task on a library project...`);
+      } else {
+        expect(logger.debug).toHaveBeenCalledWith(`Adding 'buildInfo' task to the build.gradle file...`);
+      }
+    }
+
+    if (buildSystem === 'maven-project' && projectType === 'library') {
+      expect(logger.debug).toHaveBeenCalledWith(`Removing 'spring-boot' maven plugin on a library project...`);
     }
   });
 
-  it('should update workspace.json', async () => {
-    await projectGenerator(tree, options);
+  it.each`
+    projectType      | subDir
+    ${'application'} | ${'apps'}  
+    ${'library'}     | ${'libs'}  
+  `(`should update workspace.json for '$projectType'`, async ({ projectType, subDir }) => {
+    await projectGenerator(tree, { ...options, projectType });
     const project = readProjectConfiguration(tree, options.name);
-    expect(project.root).toBe(`apps/${options.name}`);
+    expect(project.root).toBe(`${subDir}/${options.name}`);
 
-    const commands = ['run', 'serve', 'test', 'clean', 'buildJar', 'buildWar', 'buildImage', 'buildInfo'];
+    const commands = ['run', 'serve', 'test', 'clean']
+    const bootOnlyCommands = ['buildJar', 'buildWar', 'buildImage', 'buildInfo'];
+
+    if (projectType === 'application') {
+      commands.push(...bootOnlyCommands);
+    }
+
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`@nxrocks/nx-spring-boot:${cmd}`);
     });
