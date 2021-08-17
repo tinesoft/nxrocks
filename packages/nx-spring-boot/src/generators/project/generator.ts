@@ -1,13 +1,19 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 import { ProjectGeneratorOptions } from './schema';
-import { normalizeOptions, generateBootProject, addBuilInfoTask, addPluginToNxJson } from './lib';
+import { normalizeOptions, generateBootProject, addBuilInfoTask, addPluginToNxJson, disableBootJarTask, removeBootMavenPlugin } from './lib';
 
 
 export async function projectGenerator(tree: Tree, options: ProjectGeneratorOptions) {
-  const normalizedOptions = normalizeOptions(tree,options);
+  const normalizedOptions = normalizeOptions(tree, options);
 
   const targets = {};
-  const commands = ['run', 'serve', 'test', 'clean', 'buildJar', 'buildWar', 'buildImage', 'buildInfo'];
+  const commands = ['test', 'clean'];
+  const bootOnlyCommands = ['run', 'serve', 'buildJar', 'buildWar', 'buildImage', 'buildInfo'];
+
+  if (options.projectType === 'application') { //only 'application' projects should have 'boot' related commands
+    commands.push(...bootOnlyCommands);
+  }
+
   for (const command of commands) {
     targets[command] = {
       executor: `@nxrocks/nx-spring-boot:${command}`,
@@ -26,6 +32,10 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
 
   await generateBootProject(tree, normalizedOptions);
   addBuilInfoTask(tree, normalizedOptions);
+
+  disableBootJarTask(tree, normalizedOptions);
+  removeBootMavenPlugin(tree, normalizedOptions);
+
   addPluginToNxJson(tree);
 }
 
