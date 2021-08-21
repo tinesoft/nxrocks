@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "title": "Serve exector (alias to Run executor)",
+  "title": "Serve executor (alias to Run executor)",
   "description": "",
   "cli": "nx",
   "type": "object",
