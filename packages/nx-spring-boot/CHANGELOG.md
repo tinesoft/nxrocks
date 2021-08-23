@@ -1,3 +1,22 @@
+# [@nxrocks/nx-spring-boot-v3.0.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v2.1.0...nx-spring-boot/v3.0.0) (2021-08-23)
+
+### Bug Fixes
+
+- **nx-spring-boot:** add plugin to nx.json only if not included already ([15511ae](https://github.com/tinesoft/nxrocks/commit/15511ae8ebdbc4d8cd412afd266457cf08b14f72))
+- correct `TypeError: builder.getProjectGraph is not a function` ([3458f66](https://github.com/tinesoft/nxrocks/commit/3458f668f6f3420140fef25f908b08c26511f433)), closes [#72](https://github.com/tinesoft/nxrocks/issues/72)
+
+### Features
+
+- **nx-spring-boot:** improve detection of boot projects in workspace ([bfb99ed](https://github.com/tinesoft/nxrocks/commit/bfb99ed2e18e1dfe38d424f7763583831dae9bc2))
+- **nx-spring-boot:** make jar of `library` projects not executable ([1e2984f](https://github.com/tinesoft/nxrocks/commit/1e2984ff00ca2f94ffbc07b94de26c476b14e500)), closes [#67](https://github.com/tinesoft/nxrocks/issues/67)
+- **nx-spring-boot:** use `NX_VERBOSE_LOGGING` to control dep graph logs ([ed9e444](https://github.com/tinesoft/nxrocks/commit/ed9e444488aeb9dbe86338d3e894bae85029663f)), closes [#68](https://github.com/tinesoft/nxrocks/issues/68)
+
+### BREAKING CHANGES
+
+- Nx v12.6.x is now the minimum version required to use the plugins
+
+This is due to breaking changes in DevKit's project graph API starting from v12.6.x
+
 # [@nxrocks/nx-spring-boot-v2.1.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v2.0.1...nx-spring-boot/v2.1.0) (2021-04-26)
 
 ### Features
