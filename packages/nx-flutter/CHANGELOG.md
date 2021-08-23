@@ -1,3 +1,20 @@
+# [@nxrocks/nx-flutter-v3.0.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v2.1.0...nx-flutter/v3.0.0) (2021-08-23)
+
+### Bug Fixes
+
+- correct `TypeError: builder.getProjectGraph is not a function` ([3458f66](https://github.com/tinesoft/nxrocks/commit/3458f668f6f3420140fef25f908b08c26511f433)), closes [#72](https://github.com/tinesoft/nxrocks/issues/72)
+- **nx-flutter:** add plugin to nx.json only if not included already ([b98c1e9](https://github.com/tinesoft/nxrocks/commit/b98c1e930fb4a2e1b3ca4bba98de66937f270084))
+
+### Features
+
+- **nx-flutter:** use `NX_VERBOSE_LOGGING` to control logs in dep graph ([e678ed5](https://github.com/tinesoft/nxrocks/commit/e678ed5255aff9ea0fcd2a515f61de3d13539b64))
+
+### BREAKING CHANGES
+
+- Nx v12.6.x is now the minimum version required to use the plugins
+
+This is due to breaking changes in DevKit's project graph API starting from v12.6.x
+
 # [@nxrocks/nx-flutter-v2.1.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v2.0.0...nx-flutter/v2.1.0) (2021-04-26)
 
 ### Features
