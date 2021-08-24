@@ -38,7 +38,7 @@ This is due to breaking changes in DevKit's project graph API starting from v12.
 - **nx-flutter:** the `app` alias has been replaced with one of [`proj`, `new`, `gen`, `init`, `generate`].
 - **nx-flutter:** Nx workspace v11 is now the minimum version required to use this plugin.
 
-In fact, all builders/schematics have been rewritten into executors/generators using its new `@nrwl/devkit` API.
+In fact, all executors/schematics have been rewritten into executors/generators using its new `@nrwl/devkit` API.
 
 # [@nxrocks/nx-flutter-v2.0.0-beta.1](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v1.3.0...nx-flutter/v2.0.0-beta.1) (2021-04-02)
 
@@ -57,7 +57,7 @@ In fact, all builders/schematics have been rewritten into executors/generators u
 - **nx-flutter:** the `app` alias has been replaced with one of [`proj`, `new`, `gen`, `init`, `generate`].
 - **nx-flutter:** Nx workspace v11 is now the minimum version required to use this plugin.
 
-In fact, all builders/schematics have been rewritten into executors/generators using its new `@nrwl/devkit` API.
+In fact, all executors/schematics have been rewritten into executors/generators using its new `@nrwl/devkit` API.
 
 # [1.3.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v1.2.1...nx-flutter/v1.3.0) (2021-02-01)
 
@@ -68,7 +68,7 @@ In fact, all builders/schematics have been rewritten into executors/generators u
 ### Features
 
 - **nx-flutter:** add `create` alias to project generation schematics ([0386629](https://github.com/tinesoft/nxrocks/commit/03866292ea1a354a6eca43cb9ae7e691188736bd)), closes [#27](https://github.com/tinesoft/nxrocks/issues/27)
-- **nx-flutter:** auto-adapt prompt & builders based on previous answers ([668dd28](https://github.com/tinesoft/nxrocks/commit/668dd285aad1a37b7444cadc6702d14b2482f795)), closes [#26](https://github.com/tinesoft/nxrocks/issues/26)
+- **nx-flutter:** auto-adapt prompt & executors based on previous answers ([668dd28](https://github.com/tinesoft/nxrocks/commit/668dd285aad1a37b7444cadc6702d14b2482f795)), closes [#26](https://github.com/tinesoft/nxrocks/issues/26)
 
 ## [1.2.1](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v1.2.0...nx-flutter/v1.2.1) (2021-01-13)
 

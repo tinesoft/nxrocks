@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "title": "Test builder",
+  "title": "Test executor",
   "description": "",
   "cli": "nx",
   "type": "object",

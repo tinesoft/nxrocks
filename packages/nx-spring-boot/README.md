@@ -103,7 +103,7 @@ Once your app is generated, you can now use buidlers to manage it.
 
 Here the list of available executors:
 
-| Builder         | Arguments                                  | Description                                |
+| Executor         | Arguments                                  | Description                                |
 | --------------- | ------------------------------------------ | ------------------------------------------ |
 | `run` \| `serve`<sup>*</sup>| `ignoreWrapper:boolean`, `args: string[]`  | Runs the project using either `./mvnw\|mvn spring-boot:run` or `./gradlew\|gradle bootRun` |
 | `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
@@ -115,11 +115,11 @@ Here the list of available executors:
 
 > <sup>*</sup> = These executors are only available if the project is a Spring Boot `application`.
 
-In order to execute the requested command, each builder will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
+In order to execute the requested command, each executor will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
 If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.
 This can be useful in a CI environment for example, or in a restricted environment where the binary cannot be downloaded (due to proxy/firewall limitations).
 
-### Running the project - ('run' or 'serve' Builders)
+### Running the project - ('run' or 'serve' Executors)
 
 ```
 nx run your-boot-app:run
@@ -138,9 +138,9 @@ You can pass in additional arguments by editing the related section in the `work
       "projectType": "application",
       "root": "apps/you-boot-app",
       "sourceRoot": "apps/you-boot-app/src",
-      "architect": {
+      "targets": {
         "run": { // or "serve", according to your preference
-          "builder": "@nxrocks/nx-spring-boot:run",// or "@nxrocks/nx-spring-boot:serve", according to your preference
+          "executor": "@nxrocks/nx-spring-boot:run",// or "@nxrocks/nx-spring-boot:serve", according to your preference
           "options": {
             "root": "apps/you-boot-app",
             "args": ["arg1", "arg2"]
@@ -154,19 +154,19 @@ You can pass in additional arguments by editing the related section in the `work
 }
 ```
 
-### Building the Jar -  ('buildJar' Builder)
+### Building the Jar -  ('buildJar' Executor)
 
 ```
 nx buildJar your-boot-app
 ```
 
-### Building the War -  ('buildWar' Builder)
+### Building the War -  ('buildWar' Executor)
 
 ```
 nx buildWar your-boot-app
 ```
 
-### Building the OCI Image -  ('buildImage' Builder)
+### Building the OCI Image -  ('buildImage' Executor)
 
 ```
 nx buildImage your-boot-app
@@ -180,12 +180,12 @@ You can pass in additional arguments by editing the related section in the `work
       "projectType": "application",
       "root": "apps/you-boot-app",
       "sourceRoot": "apps/you-boot-app/src",
-      "architect": {
+      "targets": {
         "buildImage": {
-          "builder": "@nxrocks/nx-spring-boot:buildImage",
+          "executor": "@nxrocks/nx-spring-boot:buildImage",
           "options": {
             "root": "apps/you-boot-app",
-            "args": ["--builder=gcr.io/paketo-buildpacks/builder:base-platform-api-0.3", "--runImage=my-image"]
+            "args": ["--executor=gcr.io/paketo-buildpacks/executor:base-platform-api-0.3", "--runImage=my-image"]
           }
         }
       }
@@ -196,13 +196,13 @@ You can pass in additional arguments by editing the related section in the `work
 }
 ```
 
-### Testing the project -  ('test' Builder)
+### Testing the project -  ('test' Executor)
 
 ```
 nx test your-boot-app
 ```
 
-### Cleaning the project -  ('clean' Builder)
+### Cleaning the project -  ('clean' Executor)
 
 ```
 nx clean your-boot-app
