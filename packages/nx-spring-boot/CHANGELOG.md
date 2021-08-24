@@ -48,7 +48,7 @@ This is due to breaking changes in DevKit's project graph API starting from v12.
 - **nx-spring-boot:** the `app` alias has been replaced with one of [`proj`, `new`, `gen`, `init`, `create`, `generate`].
 - **nx-spring-boot:** Nx workspace v11 is now the minimum version required to use this plugin.
 
-In fact, all builders/schematics have been rewritten into executors/generators using its new `@nrwl/devkit` API.
+In fact, all executors/schematics have been rewritten into executors/generators using its new `@nrwl/devkit` API.
 
 # [@nxrocks/nx-spring-boot-v2.0.0-beta.1](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v1.3.1...nx-spring-boot/v2.0.0-beta.1) (2021-04-02)
 
@@ -69,14 +69,14 @@ In fact, all builders/schematics have been rewritten into executors/generators u
 - **nx-spring-boot:** the `app` alias has been replaced with one of [`proj`, `new`, `gen`, `init`, `create`, `generate`].
 - **nx-spring-boot:** Nx workspace v11 is now the minimum version required to use this plugin.
 
-In fact, all builders/schematics have been rewritten into executors/generators using its new `@nrwl/devkit` API.
+In fact, all executors/schematics have been rewritten into executors/generators using its new `@nrwl/devkit` API.
 
 ## [1.3.1](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v1.3.0...nx-spring-boot/v1.3.1) (2021-02-08)
 
 ### Bug Fixes
 
 - **nx-spring-boot:** always restore executable permissions on wrappers ([b9875d8](https://github.com/tinesoft/nxrocks/commit/b9875d879198a0a613041b00720c77923b54c6c1))
-- **nx-spring-boot:** correct error when executing builders on Windows ([1a744ab](https://github.com/tinesoft/nxrocks/commit/1a744abf67cd07d0ebd259f12c4c02fc2bd8bdaa)), closes [#38](https://github.com/tinesoft/nxrocks/issues/38)
+- **nx-spring-boot:** correct error when executing executors on Windows ([1a744ab](https://github.com/tinesoft/nxrocks/commit/1a744abf67cd07d0ebd259f12c4c02fc2bd8bdaa)), closes [#38](https://github.com/tinesoft/nxrocks/issues/38)
 - **nx-spring-boot:** correct generation issue on Nx workspaces >=v11.2.0 ([d3c3816](https://github.com/tinesoft/nxrocks/commit/d3c3816fd739aa5f42133d05644e972d003c43ff)), closes [#37](https://github.com/tinesoft/nxrocks/issues/37)
 
 # [1.3.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v1.2.1...nx-spring-boot/v1.3.0) (2021-02-01)
@@ -84,7 +84,7 @@ In fact, all builders/schematics have been rewritten into executors/generators u
 ### Features
 
 - **nx-spring-boot:** add `clean` builder ([33a1435](https://github.com/tinesoft/nxrocks/commit/33a1435a298cf56568bcd2ea2ed11030e0a1c780))
-- **nx-spring-boot:** add `ignoreWrapper` option to all builders ([e045bca](https://github.com/tinesoft/nxrocks/commit/e045bca8d89a68770bf9977c9bddedc65cdbf488)), closes [#31](https://github.com/tinesoft/nxrocks/issues/31)
+- **nx-spring-boot:** add `ignoreWrapper` option to all executors ([e045bca](https://github.com/tinesoft/nxrocks/commit/e045bca8d89a68770bf9977c9bddedc65cdbf488)), closes [#31](https://github.com/tinesoft/nxrocks/issues/31)
 - **nx-spring-boot:** add `test` builder ([e257d27](https://github.com/tinesoft/nxrocks/commit/e257d273f4d7d17a837d38390c6e6045d3685521)), closes [#30](https://github.com/tinesoft/nxrocks/issues/30)
 - **nx-spring-boot:** better determine the underlying build system ([0edfe51](https://github.com/tinesoft/nxrocks/commit/0edfe51e2633ceb9b7491f88c9b1640f2fdd04b0))
 
@@ -118,8 +118,8 @@ In fact, all builders/schematics have been rewritten into executors/generators u
 
 ### Bug Fixes
 
-- **nx-spring-boot:** fix wrong 'cwd' used to execute builders commands ([b39e7e7](https://github.com/tinesoft/nxrocks/commit/b39e7e7a6d6266939ce153ad97b121573372a74b))
-- **nx-spring-boot:** make builders executable platform independant ([b27bc4c](https://github.com/tinesoft/nxrocks/commit/b27bc4cc81454727bc15f12e896756a679ecd845))
+- **nx-spring-boot:** fix wrong 'cwd' used to execute executors commands ([b39e7e7](https://github.com/tinesoft/nxrocks/commit/b39e7e7a6d6266939ce153ad97b121573372a74b))
+- **nx-spring-boot:** make executors executable platform independant ([b27bc4c](https://github.com/tinesoft/nxrocks/commit/b27bc4cc81454727bc15f12e896756a679ecd845))
 
 ### Build System
 
@@ -146,6 +146,6 @@ In fact, all builders/schematics have been rewritten into executors/generators u
 ### Features
 
 - **nx-spring-boot:** add `application` schematics ([f22e63f](https://github.com/tinesoft/nxrocks/commit/f22e63f1f133d92907cf457a8d817a5e9df13dfe))
-- **nx-spring-boot:** add builders for run, buildJar/War, buildImage and buildInfo commands ([5c75781](https://github.com/tinesoft/nxrocks/commit/5c757815c2a07231d49d66f4da44c1ffe268efe7))
-- **nx-spring-boot:** add support for additional params for `buildJar` and `buildWar` builders ([b85ad9c](https://github.com/tinesoft/nxrocks/commit/b85ad9cdd401e9fb98a9992877f9cc56c76f199d))
-- **nx-spring-boot:** add support for additional params for `run` and `buildImage` builders ([1d9fbb3](https://github.com/tinesoft/nxrocks/commit/1d9fbb3b232e1ea662376dd02650ec875b0807a7))
+- **nx-spring-boot:** add executors for run, buildJar/War, buildImage and buildInfo commands ([5c75781](https://github.com/tinesoft/nxrocks/commit/5c757815c2a07231d49d66f4da44c1ffe268efe7))
+- **nx-spring-boot:** add support for additional params for `buildJar` and `buildWar` executors ([b85ad9c](https://github.com/tinesoft/nxrocks/commit/b85ad9cdd401e9fb98a9992877f9cc56c76f199d))
+- **nx-spring-boot:** add support for additional params for `run` and `buildImage` executors ([1d9fbb3](https://github.com/tinesoft/nxrocks/commit/1d9fbb3b232e1ea662376dd02650ec875b0807a7))

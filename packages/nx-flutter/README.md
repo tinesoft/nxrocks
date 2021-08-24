@@ -101,9 +101,9 @@ Option           | Value | Description
 
 Once your app is generated, you can now use **buidlers** to manage it.
 
-Here the list of available builders<sup>1</sup>:
+Here the list of available executors<sup>1</sup>:
 
-| Builder        | Arguments        | Description                                |
+| Executor        | Arguments        | Description                                |
 | -------------- | ---------------- | ------------------------------------------ |
 | `analyze`      | _see `flutter help analyze`_    | Analyze the project's Dart code |
 | `assemble`     | _see `flutter help assemble`_   | Assemble and build Flutter resources |
@@ -125,10 +125,10 @@ Here the list of available builders<sup>1</sup>:
 | `symbolize`    | _see `flutter help symbolize`_  | Symbolize a stack trace from an AOT-compiled Flutter app |
 | `test`         | _see `flutter help test`_       | Run Flutter unit tests for the current project |
 
-<sup>1</sup> : *Actual builders in your `workspace.json` will depend on the type of `flutter` project (`template`), target `platforms` that you choose to generate.*
+<sup>1</sup> : *Actual executors in your `workspace.json` will depend on the type of `flutter` project (`template`), target `platforms` that you choose to generate.*
 
-Each builder is based on an original project-level `flutter` command. The name is just **camelcased** to match builders' naming conventions.
-Besides, the arguments accepted by each builder, are the same as the original `flutter` command they are based upon, encapsulated
+Each executor is based on an original project-level `flutter` command. The name is just **camelcased** to match executors' naming conventions.
+Besides, the arguments accepted by each executor, are the same as the original `flutter` command they are based upon, encapsulated
 under a generic `--args='...'` option.
 
 For example:
