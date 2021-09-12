@@ -40,15 +40,15 @@
     "@commitlint/cli": "^12.0.1",
     "@commitlint/config-angular": "^12.0.1",
     "@commitlint/config-conventional": "^12.0.1",
-    "@nrwl/cli": "12.6.5",
-    "@nrwl/devkit": "12.6.5",
-    "@nrwl/eslint-plugin-nx": "12.6.5",
-    "@nrwl/jest": "12.6.5",
-    "@nrwl/node": "12.6.5",
-    "@nrwl/nx-cloud": "12.3.6",
-    "@nrwl/nx-plugin": "12.6.5",
-    "@nrwl/tao": "12.6.5",
-    "@nrwl/workspace": "12.6.5",
+    "@nrwl/cli": "12.9.0",
+    "@nrwl/devkit": "12.9.0",
+    "@nrwl/eslint-plugin-nx": "12.9.0",
+    "@nrwl/jest": "12.9.0",
+    "@nrwl/node": "12.9.0",
+    "@nrwl/nx-cloud": "12.3.10",
+    "@nrwl/nx-plugin": "12.9.0",
+    "@nrwl/tao": "12.9.0",
+    "@nrwl/workspace": "12.9.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/exec": "^5.0.0",
     "@semantic-release/git": "^9.0.0",
@@ -59,7 +59,7 @@
     "@types/unzipper": "^0.10.3",
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
-    "dotenv": "8.2.0",
+    "dotenv": "10.0.0",
     "eslint": "7.10.0",
     "eslint-config-prettier": "8.1.0",
     "husky": "^6.0.0",
@@ -78,3 +78,4 @@
     "url": "https://github.com/tinesoft/nxrocks.git"
   }
 }
+
