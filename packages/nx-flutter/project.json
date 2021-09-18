@@ -1,0 +1,62 @@
+{
+  "root": "packages/nx-flutter",
+  "sourceRoot": "packages/nx-flutter/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["packages/nx-flutter/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "packages/nx-flutter/jest.config.js",
+        "passWithNoTests": true
+      },
+      "outputs": ["coverage/packages/nx-flutter"]
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "options": {
+        "outputPath": "dist/packages/nx-flutter",
+        "tsConfig": "packages/nx-flutter/tsconfig.lib.json",
+        "packageJson": "packages/nx-flutter/package.json",
+        "main": "packages/nx-flutter/src/index.ts",
+        "assets": [
+          "packages/nx-flutter/*.md",
+          {
+            "input": "./packages/nx-flutter/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-flutter/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-flutter",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-flutter",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      },
+      "outputs": ["{options.outputPath}"]
+    },
+    "release": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx semantic-release",
+        "cwd": "packages/nx-flutter"
+      }
+    }
+  },
+  "tags": []
+}
