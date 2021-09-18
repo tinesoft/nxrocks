@@ -26,29 +26,7 @@
       }
     }
   },
-  "projects": {
-    "nx-flutter": {
-      "tags": []
-    },
-    "nx-flutter-e2e": {
-      "tags": [],
-      "implicitDependencies": ["nx-flutter"]
-    },
-    "nx-quarkus": {
-      "tags": []
-    },
-    "nx-quarkus-e2e": {
-      "tags": [],
-      "implicitDependencies": ["nx-quarkus"]
-    },
-    "nx-spring-boot": {
-      "tags": []
-    },
-    "nx-spring-boot-e2e": {
-      "tags": [],
-      "implicitDependencies": ["nx-spring-boot"]
-    }
-  },
+  "projects": {},
   "workspaceLayout": {
     "appsDir": "e2e",
     "libsDir": "packages"
