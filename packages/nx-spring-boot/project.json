@@ -1,0 +1,63 @@
+{
+  "root": "packages/nx-spring-boot",
+  "sourceRoot": "packages/nx-spring-boot/src",
+  "projectType": "library",
+  "generators": {},
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["packages/nx-spring-boot/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "packages/nx-spring-boot/jest.config.js",
+        "passWithNoTests": true
+      },
+      "outputs": ["coverage/packages/nx-spring-boot"]
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "options": {
+        "outputPath": "dist/packages/nx-spring-boot",
+        "tsConfig": "packages/nx-spring-boot/tsconfig.lib.json",
+        "packageJson": "packages/nx-spring-boot/package.json",
+        "main": "packages/nx-spring-boot/src/index.ts",
+        "assets": [
+          "packages/nx-spring-boot/*.md",
+          {
+            "input": "./packages/nx-spring-boot/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-spring-boot/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-spring-boot",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-spring-boot",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      },
+      "outputs": ["{options.outputPath}"]
+    },
+    "release": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx semantic-release",
+        "cwd": "packages/nx-spring-boot"
+      }
+    }
+  },
+  "tags": []
+}
