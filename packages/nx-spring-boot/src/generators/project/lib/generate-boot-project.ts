@@ -4,15 +4,15 @@ import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
 import fetch from 'node-fetch';
 import { Entry, Parse } from 'unzipper';
 import { NormalizedSchema } from '../schema';
-import { getPackageLatestNpmVersion, buildBootDownloadUrl } from '../../../utils/boot-utils';
+import { buildBootDownloadUrl } from '../../../utils/boot-utils';
+import { getPackageLatestNpmVersion, NX_SPRING_BOOT_PKG } from '@nxrocks/common';
 
 export async function generateBootProject(tree: Tree, options: NormalizedSchema): Promise<void> {
     const downloadUrl = buildBootDownloadUrl(options);
 
     logger.info(`Downloading Spring Boot project zip from : ${downloadUrl}...`);
 
-    const pkg = '@nxrocks/nx-spring-boot';
-    const pkgVersion = getPackageLatestNpmVersion(pkg);
+    const pkgVersion = getPackageLatestNpmVersion(NX_SPRING_BOOT_PKG);
     const userAgent = `@nxrocks_nx-spring-boot/${pkgVersion}`;
     const opts = {
         headers: {

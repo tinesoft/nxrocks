@@ -1,56 +1,25 @@
-import { logger } from '@nrwl/devkit'
-import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
 import { escape } from 'querystring'
-import { execSync } from 'child_process'
-import { BuildCommandAliasType, BuildCore } from '../core/build-core.class';
-import { GradleBuild } from '../core/gradle-build.class';
-import { MavenBuild } from '../core/maven-build.class';
 import { NormalizedSchema } from '../generators/project/schema';
+import { BuilderCommandAliasType, hasGradleProject, hasMavenProject, runBuilderCommand } from '@nxrocks/common';
+import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
 
 
-export function determineBuildSystem(cwd: string): BuildCore {
-    if (fileExists(`${cwd}/pom.xml`))
-        return new MavenBuild();
+const getBuilder = (cwd: string) => {
+    if (hasMavenProject(cwd)) return MAVEN_BUILDER;
+    if (hasGradleProject(cwd)) return GRADLE_BUILDER;
 
-    if (fileExists(`${cwd}/build.gradle`) || fileExists(`${cwd}/build.gradle.kts`))
-        return new GradleBuild();
-
-    throw new Error(`Cannot determine the build system. No 'pom.xml' nor 'build.gradle' file found under '${cwd}'`);
-}
-
-export function getPackageLatestNpmVersion(pkg: string): string {
-    try {
-        return execSync(`npm show ${pkg} version`).toString().trim() || 'latest';
-    } catch (e) {
-        return 'latest';
-    }
+    throw new Error(
+      `Cannot determine the build system. No 'pom.xml' nor 'build.gradle' file found under '${cwd}'`
+    );
 }
 
 export function runBootPluginCommand(
-    commandAlias: BuildCommandAliasType,
+    commandAlias: BuilderCommandAliasType,
     params: string[],
     options: { cwd?: string; ignoreWrapper?: boolean } = { ignoreWrapper: false },
 ): { success: boolean } {
-    // Take the parameters or set defaults
-    const cwd = options.cwd || process.cwd();
-    const buildSystem = determineBuildSystem(cwd);
-    const executable = buildSystem.getExecutable(options.ignoreWrapper);
-    const command = buildSystem.getCommand(commandAlias);
-
-    // Create the command to execute
-    const execute = `${executable} ${command} ${(params || []).join(' ')}`
-
-    try {
-        logger.info(`Executing command: ${execute}`);
-        execSync(execute, { cwd, stdio: [0, 1, 2] });
-        return { success: true };
-    } catch (e) {
-        logger.error(`Failed to execute command: ${execute}`);
-        logger.error(e);
-        return { success: false };
-    }
+    return runBuilderCommand(commandAlias, getBuilder, params, options);
 }
-
 
 export function buildBootDownloadUrl(options: NormalizedSchema) {
     const params = [
