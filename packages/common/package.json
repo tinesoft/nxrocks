@@ -1,0 +1,32 @@
+{
+  "name": "@nxrocks/common",
+  "description": "Common library to share code among the `@nxrocks/*` plugins.",
+  "version": "0.0.0-development",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "src/index.js",
+  "license": "MIT",
+  "author": "Tine Kondo ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinesoft/nxrocks.git",
+    "directory": "packages/common"
+  },
+  "homepage": "https://github.com/tinesoft/nxrocks/blob/master/packages/common#readme",
+  "bugs": {
+    "url": "https://github.com/tinesoft/nxrocks/issues"
+  },
+  "keywords": [
+    "nx-flutter",
+    "nx-spring-boot",
+    "nx-quarkus"
+  ],
+  "dependencies": {
+    "@nrwl/workspace": "*",
+    "@nrwl/devkit": "*",
+    "xmldoc": "^1.1.2",
+    "unzipper": "^0.10.11"
+  }
+}

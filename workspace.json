@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "common": "packages/common",
     "nx-flutter": "packages/nx-flutter",
     "nx-flutter-e2e": "e2e/nx-flutter-e2e",
     "nx-quarkus": "packages/nx-quarkus",
