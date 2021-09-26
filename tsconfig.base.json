@@ -16,6 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@nxrocks/common": ["packages/common/src/index.ts"],
+      "@nxrocks/common/testing": ["packages/common/src/testing.ts"],
       "@nxrocks/nx-flutter": ["packages/nx-flutter/src/index.ts"],
       "@nxrocks/nx-quarkus": ["packages/nx-quarkus/src/index.ts"],
       "nxrocks/nx-spring-boot": ["packages/nx-spring-boot/src/index.ts"]
