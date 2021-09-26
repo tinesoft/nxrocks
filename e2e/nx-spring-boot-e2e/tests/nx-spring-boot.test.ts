@@ -8,15 +8,35 @@ import {
   tmpProjPath
 } from '@nrwl/nx-plugin/testing';
 import { names } from '@nrwl/devkit';
+import {buildAndPublishPackages, disableVerdaccioRegistry, enableVerdaccioRegistry, spawnVerdaccioRegistry } from '@nxrocks/common/testing';
 
 import { lstatSync } from 'fs';
 
 describe('nx-spring-boot e2e', () => {
   const isWin = process.platform === "win32";
+  const verdaccioPort = 4871;
+  let verdaccioRegistry;
 
-  it('should create nx-spring-boot with default options', async() => {
-    const prjName = uniq('nx-spring-boot');
+  beforeAll(async () => {
+    verdaccioRegistry = await spawnVerdaccioRegistry(verdaccioPort);
+    enableVerdaccioRegistry(verdaccioPort);
+
+    process.env.NX_E2E_SKIP_BUILD_CLEANUP = 'true';
+    await buildAndPublishPackages(verdaccioPort);
+    
     ensureNxProject('@nxrocks/nx-spring-boot', 'dist/packages/nx-spring-boot');
+  }, 600000);
+
+  afterAll(() => {
+    disableVerdaccioRegistry();
+
+    if (verdaccioRegistry) {
+      verdaccioRegistry.kill();
+    }
+  });
+
+  it.only('should create nx-spring-boot with default options', async() => {
+    const prjName = uniq('nx-spring-boot');
     await runNxCommandAsync(
       `generate @nxrocks/nx-spring-boot:new ${prjName}`
     );
@@ -50,7 +70,6 @@ describe('nx-spring-boot e2e', () => {
     const description = 'My sample app';
     const version = '1.2.3';
 
-    ensureNxProject('@nxrocks/nx-spring-boot', 'dist/packages/nx-spring-boot');
     await runNxCommandAsync(
       `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --version=${version}`// --javaVersion="${javaVersion}"`
     );
@@ -88,10 +107,7 @@ describe('nx-spring-boot e2e', () => {
   describe('--buildSystem=gradle-project', () => {
     it('should create a gradle spring-boot project', async() => {
       const prjName = uniq('nx-spring-boot');
-      ensureNxProject(
-        '@nxrocks/nx-spring-boot',
-        'dist/packages/nx-spring-boot'
-      );
+
       await runNxCommandAsync(
         `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --buildSystem gradle-project`
       );
@@ -119,10 +135,7 @@ describe('nx-spring-boot e2e', () => {
   describe('--buildSystem=gradle-project and --language=kotlin', () => {
     it('should create a gradle spring-boot project with kotlin', async() => {
       const prjName = uniq('nx-spring-boot');
-      ensureNxProject(
-        '@nxrocks/nx-spring-boot',
-        'dist/packages/nx-spring-boot'
-      );
+
       await runNxCommandAsync(
         `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --buildSystem gradle-project --language kotlin`
       );
@@ -150,10 +163,7 @@ describe('nx-spring-boot e2e', () => {
   describe('--directory', () => {
     it('should create src in the specified directory', async() => {
       const prjName = uniq('nx-spring-boot');
-      ensureNxProject(
-        '@nxrocks/nx-spring-boot',
-        'dist/packages/nx-spring-boot'
-      );
+
       await runNxCommandAsync(
         `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --directory subdir`
       );
@@ -167,15 +177,12 @@ describe('nx-spring-boot e2e', () => {
   describe('--tags', () => {
     it('should add tags to nx.json', async() => {
       const prjName = uniq('nx-spring-boot');
-      ensureNxProject(
-        '@nxrocks/nx-spring-boot',
-        'dist/packages/nx-spring-boot'
-      );
+
       await runNxCommandAsync(
         `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --tags e2etag,e2ePackage`
       );
-      const nxJson = readJson('nx.json');
-      expect(nxJson.projects[prjName].tags).toEqual(['e2etag', 'e2ePackage']);
+      const project = readJson(`apps/${prjName}/project.json`);
+      expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
 
     }, 200000);
   });

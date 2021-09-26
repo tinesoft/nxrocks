@@ -3,9 +3,8 @@ import { mocked } from 'ts-jest/utils';
 
 import { testExecutor } from './executor';
 import { TestExecutorOptions } from './schema';
-import { mockExecutorContext } from '../../utils/test-utils';
-
-import * as path from 'path';
+import { GRADLE_WRAPPER_EXECUTABLE, MAVEN_WRAPPER_EXECUTABLE, NX_SPRING_BOOT_PKG } from '@nxrocks/common';
+import { expectExecutorCommandRanWith, mockExecutorContext } from '@nxrocks/common/testing';
 
 //first, we mock
 jest.mock('child_process');
@@ -15,11 +14,7 @@ jest.mock('@nrwl/workspace/src/utils/fileutils');
 import * as fsUtility from '@nrwl/workspace/src/utils/fileutils';
 import * as cp from 'child_process';
 
-const isWin = process.platform === "win32";
-const mvnw = isWin ? 'mvnw.cmd' : './mvnw';
-const gradlew = isWin ? 'gradlew.bat' : './gradlew';
-
-const mockContext = mockExecutorContext('test');
+const mockContext = mockExecutorContext(NX_SPRING_BOOT_PKG, 'test');
 const options: TestExecutorOptions = {
   root: 'apps/bootapp'
 };
@@ -39,21 +34,14 @@ describe('Test Executor', () => {
     ignoreWrapper | buildSystem | buildFile         | execute
     ${true}       | ${'maven'}  | ${'pom.xml'}      | ${'mvn test '}
     ${true}       | ${'gradle'} | ${'build.gradle'} | ${'gradle test '}
-    ${false}      | ${'maven'}  | ${'pom.xml'}      | ${mvnw + ' test '}
-    ${false}      | ${'gradle'} | ${'build.gradle'} | ${gradlew + ' test '}
+    ${false}      | ${'maven'}  | ${'pom.xml'}      | ${MAVEN_WRAPPER_EXECUTABLE + ' test '}
+    ${false}      | ${'gradle'} | ${'build.gradle'} | ${GRADLE_WRAPPER_EXECUTABLE + ' test '}
   `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
     mocked(fsUtility.fileExists).mockImplementation((filePath: string) => filePath.indexOf(buildFile) !== -1);
 
     await testExecutor({ ...options, ignoreWrapper }, mockContext);
 
-    expect(logger.info).toHaveBeenLastCalledWith(`Executing command: ${execute}`);
-    expect(cp.execSync).toHaveBeenCalledWith(
-      execute,
-      expect.objectContaining({
-        cwd: expect.stringContaining(path.join(mockContext.root,options.root)),
-        stdio: [0, 1, 2]
-      })
-    );
+    expectExecutorCommandRanWith(execute, mockContext, options);
   });
 
 });

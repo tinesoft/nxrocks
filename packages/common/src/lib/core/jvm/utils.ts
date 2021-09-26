@@ -4,28 +4,11 @@ import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
 import { XmlDocument } from 'xmldoc';
 
 import {
-  BuilderCommandAliasMapper,
   BuilderCommandAliasType,
   BuilderCore,
 } from './builder-core.interface';
-import { GradleBuilder } from './gradle-builder.class';
-import { MavenBuilder } from './maven-builder.class';
 import { getProjectFileContent, getProjectFilePath, getProjectRoot, PackageInfo } from '../workspace';
 
-export function determineBuildSystem(
-  cwd: string,
-  mapper: BuilderCommandAliasMapper
-): BuilderCore {
-  if (fileExists(`${cwd}/pom.xml`)) return new MavenBuilder(mapper);
-  if (
-    fileExists(`${cwd}/build.gradle`) ||
-    fileExists(`${cwd}/build.gradle.kts`)
-  )
-    return new GradleBuilder(mapper);
-  throw new Error(
-    `Cannot determine the build system. No 'pom.xml' nor 'build.gradle' file found under '${cwd}'`
-  );
-}
 
 export function runBuilderCommand(
   commandAlias: BuilderCommandAliasType,

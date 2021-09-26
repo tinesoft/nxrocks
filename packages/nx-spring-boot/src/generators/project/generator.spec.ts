@@ -13,7 +13,9 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-import { mockZipEntries, syncToAsyncIterable } from '../../utils/test-utils';
+import { NX_SPRING_BOOT_PKG} from '@nxrocks/common';
+import { mockZipEntries, syncToAsyncIterable } from '@nxrocks/common/testing';
+
 
 describe('project generator', () => {
   let tree: Tree;
@@ -102,16 +104,15 @@ describe('project generator', () => {
     }
 
     commands.forEach(cmd => {
-      expect(project.targets[cmd].executor).toBe(`@nxrocks/nx-spring-boot:${cmd}`);
+      expect(project.targets[cmd].executor).toBe(`${NX_SPRING_BOOT_PKG}:${cmd}`);
     });
   });
 
   it('should add plugin to nx.json', async () => {
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
-    expect(nxJson.plugins).toEqual(['@nxrocks/nx-spring-boot']);
+    expect(nxJson.plugins).toEqual([NX_SPRING_BOOT_PKG]);
 
   });
-
 });
 

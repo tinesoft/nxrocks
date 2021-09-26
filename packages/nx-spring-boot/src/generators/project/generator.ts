@@ -1,6 +1,7 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 import { ProjectGeneratorOptions } from './schema';
-import { normalizeOptions, generateBootProject, addBuilInfoTask, addPluginToNxJson, disableBootJarTask, removeBootMavenPlugin } from './lib';
+import { normalizeOptions, generateBootProject, addBuilInfoTask, disableBootJarTask, removeBootMavenPlugin } from './lib';
+import { addPluginToNxJson, NX_SPRING_BOOT_PKG } from '@nxrocks/common';
 
 
 export async function projectGenerator(tree: Tree, options: ProjectGeneratorOptions) {
@@ -16,7 +17,7 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
 
   for (const command of commands) {
     targets[command] = {
-      executor: `@nxrocks/nx-spring-boot:${command}`,
+      executor: `${NX_SPRING_BOOT_PKG}:${command}`,
       options: {
         root: normalizedOptions.projectRoot
       }
@@ -36,7 +37,7 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
   disableBootJarTask(tree, normalizedOptions);
   removeBootMavenPlugin(tree, normalizedOptions);
 
-  addPluginToNxJson(tree);
+  addPluginToNxJson(NX_SPRING_BOOT_PKG,tree);
 }
 
 export default projectGenerator;
