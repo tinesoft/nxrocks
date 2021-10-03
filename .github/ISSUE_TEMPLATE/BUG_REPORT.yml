@@ -1,0 +1,57 @@
+name: Bug Report
+description: Create a report to help us improve
+title: "[Bug] "
+labels: [':bug: Bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: dropdown
+    id: pluginName
+    attributes:
+      label: Plugin Name
+      options:
+        - "@nxrocks/nx-spring-boot"
+        - "@nxrocks/nx-flutter"
+        - "@nxrocks/nx-quarkus"
+    validations:
+      required: true
+  - type: input
+    id: pluginVersion
+    attributes:
+      label: Plugin Version
+      placeholder: for e.g. v1.0.0
+    validations:
+      required: true
+  - type: input
+    id: nxVersion
+    attributes:
+      label: Nx Version
+      description: "`nx --version`"
+    validations:
+      required: true
+  - type: textarea
+    id: expectedBehaviour
+    attributes:
+      label: Expected Behaviour
+      placeholder: ...
+    validations:
+      required: true
+  - type: textarea
+    id: actualBehaviour
+    attributes:
+      label: Actual Behaviour
+      placeholder: ...
+    validations:
+      required: true
+  - type: textarea
+    id: reproductionSteps
+    attributes:
+      label: Steps to reproduce the behaviour
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
