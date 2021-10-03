@@ -1,7 +1,8 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
+import { addPluginToNxJson, NX_FLUTTER_PKG } from '@nxrocks/common';
 
 import { isFlutterInstalled } from '../../utils/flutter-utils';
-import { normalizeOptions, promptAdditionalOptions, generateFlutterProject, addPluginToNxJson } from './lib';
+import { normalizeOptions, promptAdditionalOptions, generateFlutterProject } from './lib';
 import { ProjectGeneratorOptions } from './schema';
 
 export async function projectGenerator(tree:Tree, options: ProjectGeneratorOptions) {
@@ -68,7 +69,7 @@ export async function projectGenerator(tree:Tree, options: ProjectGeneratorOptio
       tags: normalizedOptions.parsedTags,
     });
    await generateFlutterProject(tree,normalizedOptions)
-   addPluginToNxJson(tree);
+   addPluginToNxJson(NX_FLUTTER_PKG, tree);
 }
 
 export default projectGenerator;

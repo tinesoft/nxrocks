@@ -5,12 +5,33 @@ import {
   runNxCommandAsync,
   uniq,
 } from '@nrwl/nx-plugin/testing';
+import { buildAndPublishPackages, disableVerdaccioRegistry, enableVerdaccioRegistry, spawnVerdaccioRegistry } from '@nxrocks/common/testing';
 
 jest.mock('inquirer'); // we mock 'inquirer' to bypass the interactive prompt
 import * as inquirer from 'inquirer';
 
 xdescribe('nx-flutter e2e', () => {
+  const verdaccioPort = 4873;
+  let verdaccioRegistry;
 
+  beforeAll(async () => {
+    verdaccioRegistry = await spawnVerdaccioRegistry(verdaccioPort);
+    enableVerdaccioRegistry(verdaccioPort);
+
+    process.env.NX_E2E_SKIP_BUILD_CLEANUP = 'true';
+    await buildAndPublishPackages(verdaccioPort);
+    
+    ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
+  }, 600000);
+
+  afterAll(() => {
+    disableVerdaccioRegistry();
+
+    if (verdaccioRegistry) {
+      verdaccioRegistry.kill();
+    }
+  });
+  
   beforeEach(() => {
     jest.spyOn(inquirer, 'prompt').mockResolvedValue({
       platforms: ['android', 'ios', 'web', 'linux', 'windows', 'macos'],
@@ -23,10 +44,10 @@ xdescribe('nx-flutter e2e', () => {
     jest.resetAllMocks();
   });
 
-  it('should create nx-flutter project with default options', async() => {
+  it.only('should create nx-flutter project with default options', async() => {
     const appName = uniq('nx-flutter');
-    ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
-    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --interactive=false`);
+
+    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --no-interactive`);
 
     const executors = [
       { name: 'analyze', output: `Analyzing ${appName}` },
@@ -62,10 +83,16 @@ xdescribe('nx-flutter e2e', () => {
       { name: 'test', output: `All tests passed!` },
     ];
 
+    let totalExecutorsTime = 0;
     for (const executor of executors) {
+      const start = new Date().getTime();
       const result = await runNxCommandAsync(`run ${appName}:${executor.name}`);
+      const end = new Date().getTime();
+      console.log(`${executor.name} took ${end - start}ms`);
+      totalExecutorsTime += end - start;
       expect(result.stdout).toContain(executor.output);
     }
+    console.log(`Total executors time: ${totalExecutorsTime}ms`);
 
     expect(() =>
       checkFilesExist(`apps/${appName}/pubspec.yaml`)
@@ -83,7 +110,6 @@ xdescribe('nx-flutter e2e', () => {
     const pub = true;
     const offline = true;
 
-    ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
     await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --interactive=false --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} `);
 
     const executors = [
@@ -110,7 +136,7 @@ xdescribe('nx-flutter e2e', () => {
   describe('--directory', () => {
     it('should create src in the specified directory', async() => {
       const appName = uniq('nx-flutter');
-      ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
+
       await runNxCommandAsync(
         `generate @nxrocks/nx-flutter:create ${appName} --interactive=false --directory subdir`
       );
@@ -123,12 +149,12 @@ xdescribe('nx-flutter e2e', () => {
   describe('--tags', () => {
     it('should add tags to nx.json', async() => {
       const appName = uniq('nx-flutter');
-      ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
+
       await runNxCommandAsync(
         `generate @nxrocks/nx-flutter:create ${appName}  --interactive=false --tags e2etag,e2ePackage`
       );
-      const nxJson = readJson('nx.json');
-      expect(nxJson.projects[appName].tags).toEqual(['e2etag', 'e2ePackage']);
+      const project = readJson(`apps/${appName}/project.json`);
+      expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
       }, 200000);
   });
 });

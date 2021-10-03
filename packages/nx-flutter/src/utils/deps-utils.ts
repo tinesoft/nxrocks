@@ -1,8 +1,8 @@
 import { load } from 'js-yaml';
-import * as path from 'path';
-import * as fs from 'fs';
 
 import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
+import { getProjectFileContent, getProjectFilePath, getProjectRoot, PackageInfo } from '@nxrocks/common';
+import { ProjectConfiguration } from '@nrwl/devkit';
 
 interface Pubspec {
   name: string;
@@ -14,30 +14,24 @@ interface Pubspec {
   dependencies?: Record<string, string>,
   dev_dependencies?: Record<string, string>
 }
-export interface PackageInfo {
-  packageId: string;
-  packageFile: string;
-  dependencies?: PackageInfo[];
-}
 
-export function getPackageInfo(projectRoot: string): PackageInfo {
+export function getPackageInfo(project: ProjectConfiguration): PackageInfo {
 
-  if (fileExists(path.join(projectRoot, 'pubspec.yaml'))) { //flutterproject
+  if (fileExists(getProjectFilePath(project, 'pubspec.yaml'))) { //
 
-    const packageFile = path.join(projectRoot, 'pubspec.yaml');
-    const pubspec = load(fs.readFileSync(packageFile, 'utf8')) as Pubspec;
+    const pubspec = load(getProjectFileContent(project, 'pubspec.yaml')) as Pubspec;
 
     const dependencies: PackageInfo[] = [];
 
     Object.keys(Object.assign({}, pubspec.dependencies, pubspec.dev_dependencies )).forEach(depId => {
-      dependencies.push({packageId: depId, packageFile});
+      dependencies.push({packageId: depId, packageFile: 'pubspec.yaml'});
     });
 
     return { packageId: pubspec.name, packageFile: 'pubspec.yaml', dependencies: dependencies};
   }
 
   throw new Error(
-    `Cannot inspect dependencies of Flutter projet at: '${projectRoot}'.\n` +
+    `Cannot inspect dependencies of Flutter projet at: '${getProjectRoot(project)}'.\n` +
     `No 'pubspec.yaml' was found.`
   );
 }
