@@ -4,15 +4,15 @@ import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
 import fetch from 'node-fetch';
 import { Entry, Parse } from 'unzipper';
 import { NormalizedSchema } from '../schema';
-import { getPackageLatestNpmVersion, buildQuarkusDownloadUrl } from '../../../utils/quarkus-utils';
+import {  buildQuarkusDownloadUrl } from '../../../utils/quarkus-utils';
+import { getPackageLatestNpmVersion, NX_QUARKUS_PKG } from '@nxrocks/common';
 
 export async function generateQuarkusProject(tree: Tree, options: NormalizedSchema): Promise<void> {
     const downloadUrl = buildQuarkusDownloadUrl(options);
 
     logger.info(`⬇️ Downloading Quarkus project zip from : ${downloadUrl}...`);
 
-    const pkg = '@nxrocks/nx-quarkus';
-    const pkgVersion = getPackageLatestNpmVersion(pkg);
+    const pkgVersion = getPackageLatestNpmVersion(NX_QUARKUS_PKG);
     const userAgent = `@nxrocks_nx-quarkus/${pkgVersion}`;
     const opts = {
         headers: {

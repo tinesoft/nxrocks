@@ -1,17 +1,17 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 import { ProjectGeneratorOptions } from './schema';
-import { normalizeOptions, generateQuarkusProject, addPluginToNxJson } from './lib';
-import { BuildCommandAliasType } from '../../core/build-core.class';
+import { normalizeOptions, generateQuarkusProject } from './lib';
+import { addPluginToNxJson, BuilderCommandAliasType, NX_QUARKUS_PKG,  } from '@nxrocks/common';
 
 
 export async function projectGenerator(tree: Tree, options: ProjectGeneratorOptions) {
   const normalizedOptions = normalizeOptions(tree,options);
 
   const targets = {};
-  const commands:BuildCommandAliasType[] = ['dev', 'remoteDev', 'test', 'clean', 'build', 'package', 'addExtension', 'listExtensions'];
+  const commands:BuilderCommandAliasType[] = ['dev', 'remoteDev', 'test', 'clean', 'build', 'package', 'addExtension', 'listExtensions'];
   for (const command of commands) {
     targets[command] = {
-      executor: `@nxrocks/nx-quarkus:${command}`,
+      executor: `${NX_QUARKUS_PKG}:${command}`,
       options: {
         root: normalizedOptions.projectRoot
       }
@@ -26,7 +26,7 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
   });
 
   await generateQuarkusProject(tree, normalizedOptions);
-  addPluginToNxJson(tree);
+  addPluginToNxJson(NX_QUARKUS_PKG, tree);
 }
 
 export default projectGenerator;

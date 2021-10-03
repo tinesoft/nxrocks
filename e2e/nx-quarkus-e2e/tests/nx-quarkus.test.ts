@@ -7,15 +7,35 @@ import {
   uniq,
   tmpProjPath
 } from '@nrwl/nx-plugin/testing';
+import { spawnVerdaccioRegistry, enableVerdaccioRegistry, buildAndPublishPackages, disableVerdaccioRegistry } from '@nxrocks/common/testing';
 
 import { lstatSync } from 'fs';
 
 describe('nx-quarkus e2e', () => {
   const isWin = process.platform === "win32";
+  const verdaccioPort = 4872;
+  let verdaccioRegistry;
 
+  beforeAll(async () => {
+    verdaccioRegistry = await spawnVerdaccioRegistry(verdaccioPort);
+    enableVerdaccioRegistry(verdaccioPort);
+
+    process.env.NX_E2E_SKIP_BUILD_CLEANUP = 'true';
+    await buildAndPublishPackages(verdaccioPort);
+    
+    ensureNxProject('@nxrocks/nx-quarkus', 'dist/packages/nx-quarkus');
+  }, 600000);
+
+  afterAll(() => {
+    disableVerdaccioRegistry();
+
+    if (verdaccioRegistry) {
+      verdaccioRegistry.kill();
+    }
+  });
+  
   it('should create nx-quarkus with default options', async() => {
     const prjName = uniq('nx-quarkus');
-    ensureNxProject('@nxrocks/nx-quarkus', 'dist/packages/nx-quarkus');
     await runNxCommandAsync(
       `generate @nxrocks/nx-quarkus:new ${prjName}`
     );
@@ -47,7 +67,6 @@ describe('nx-quarkus e2e', () => {
     const version = '1.2.3';
     const extensions="resteasy";
 
-    ensureNxProject('@nxrocks/nx-quarkus', 'dist/packages/nx-quarkus');
     await runNxCommandAsync(
       `generate @nxrocks/nx-quarkus:new ${prjName} --projectType application --buildSystem=${buildSystem} --groupId=${groupId} --artifactId=${artifactId} --version=${version} --extensions=${extensions}`
     );
@@ -83,10 +102,7 @@ describe('nx-quarkus e2e', () => {
   describe('--buildSystem=GRADLE', () => {
     it('should create a gradle quarkus project', async() => {
       const prjName = uniq('nx-quarkus');
-      ensureNxProject(
-        '@nxrocks/nx-quarkus',
-        'dist/packages/nx-quarkus'
-      );
+
       await runNxCommandAsync(
         `generate @nxrocks/nx-quarkus:new ${prjName} --projectType application --buildSystem GRADLE`
       );
@@ -114,10 +130,7 @@ describe('nx-quarkus e2e', () => {
   describe('--buildSystem=GRADLE_KOTLIN_DSL', () => {
     it('should create a gradle quarkus project with kotlin', async() => {
       const prjName = uniq('nx-quarkus');
-      ensureNxProject(
-        '@nxrocks/nx-quarkus',
-        'dist/packages/nx-quarkus'
-      );
+
       await runNxCommandAsync(
         `generate @nxrocks/nx-quarkus:new ${prjName} --projectType application --buildSystem GRADLE_KOTLIN_DSL`
       );
@@ -146,10 +159,7 @@ describe('nx-quarkus e2e', () => {
   describe('--directory', () => {
     it('should create src in the specified directory', async() => {
       const prjName = uniq('nx-quarkus');
-      ensureNxProject(
-        '@nxrocks/nx-quarkus',
-        'dist/packages/nx-quarkus'
-      );
+
       await runNxCommandAsync(
         `generate @nxrocks/nx-quarkus:new ${prjName} --projectType application --directory subdir`
       );
@@ -162,15 +172,12 @@ describe('nx-quarkus e2e', () => {
   describe('--tags', () => {
     it('should add tags to nx.json', async() => {
       const prjName = uniq('nx-quarkus');
-      ensureNxProject(
-        '@nxrocks/nx-quarkus',
-        'dist/packages/nx-quarkus'
-      );
+
       await runNxCommandAsync(
         `generate @nxrocks/nx-quarkus:new ${prjName} --projectType application --tags e2etag,e2ePackage`
       );
-      const nxJson = readJson('nx.json');
-      expect(nxJson.projects[prjName].tags).toEqual(['e2etag', 'e2ePackage']);
+      const project = readJson(`apps/${prjName}/project.json`);
+      expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 200000);
   });
 

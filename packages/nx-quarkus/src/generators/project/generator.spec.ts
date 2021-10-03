@@ -13,8 +13,8 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-import { BuildCommandAliasType } from '../../core/build-core.class';
-import { mockZipEntries, syncToAsyncIterable } from '../../utils/test-utils';
+import { BuilderCommandAliasType, NX_QUARKUS_PKG,  } from '@nxrocks/common';
+import { mockZipEntries, syncToAsyncIterable } from '@nxrocks/common/testing';
 
 describe('project generator', () => {
   let tree: Tree;
@@ -78,16 +78,16 @@ describe('project generator', () => {
     const project = readProjectConfiguration(tree, options.name);
     expect(project.root).toBe(`apps/${options.name}`);
 
-    const commands:BuildCommandAliasType[] = ['dev', 'remoteDev', 'test', 'clean', 'build', 'package', 'addExtension', 'listExtensions'];
+    const commands:BuilderCommandAliasType[] = ['dev', 'remoteDev', 'test', 'clean', 'build', 'package', 'addExtension', 'listExtensions'];
     commands.forEach(cmd => {
-      expect(project.targets[cmd].executor).toBe(`@nxrocks/nx-quarkus:${cmd}`);
+      expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
     });
   });
 
   it('should add plugin to nx.json', async () => {
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
-    expect(nxJson.plugins).toEqual(['@nxrocks/nx-quarkus']);
+    expect(nxJson.plugins).toEqual([NX_QUARKUS_PKG]);
 
   });
 
