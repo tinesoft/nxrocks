@@ -1,3 +1,6 @@
+import { ProjectConfiguration } from '@nrwl/devkit';
+import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
+import { getProjectFilePath } from '@nxrocks/common';
 import { execSync } from 'child_process'
 import { NormalizedSchema } from '../generators/project/schema';
 
@@ -8,6 +11,11 @@ export function isFlutterInstalled(): boolean {
     } catch (e) {
         return false;
     } 
+}
+
+export function isFlutterProject(project: ProjectConfiguration): boolean {
+
+    return fileExists(getProjectFilePath(project, 'pubspec.yaml'));
 }
 
 export function quote(text: string){

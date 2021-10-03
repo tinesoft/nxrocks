@@ -8,6 +8,7 @@ jest.mock('child_process'); // we need to mock 'execSync' so that it doesn't rea
 
 jest.mock('inquirer'); // we mock 'inquirer' to bypass the interactive prompt
 import * as inquirer from 'inquirer';
+import { NX_FLUTTER_PKG } from '@nxrocks/common';
 
 
 const appCommands = [
@@ -187,7 +188,7 @@ describe('application generator', () => {
   it('should add plugin to nx.json', async () => {
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
-    expect(nxJson.plugins).toEqual(['@nxrocks/nx-flutter']);
+    expect(nxJson.plugins).toEqual([NX_FLUTTER_PKG]);
 
   });
 
