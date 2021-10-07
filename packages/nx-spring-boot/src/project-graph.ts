@@ -23,24 +23,29 @@ interface WorkspacePackageInfoConfiguration {
     }
 }
 
+function checkProjectAndRoot(file: string, keyToCheckFor: string, project: ProjectConfiguration) {
+  const packageFile = path.join(appRootPath, project.root, file);
+
+  if(!fileExists(packageFile)) return false;
+
+  const inProject = fs.readFileSync(packageFile, 'utf8').includes(keyToCheckFor);
+
+  if(inProject) return inProject;
+
+  const rootFile =  path.join(appRootPath, project.root, file);
+
+  if(!fileExists(rootFile)) return false;
+
+  return fs.readFileSync(rootFile, 'utf8').includes(keyToCheckFor);
+}
 
 function isBootProject(project: ProjectConfiguration): boolean {
-    let packageFile = path.join(appRootPath, project.root, 'pom.xml');
-    if(fileExists(packageFile)) {
-        return fs.readFileSync(packageFile, 'utf8').indexOf('<artifactId>spring-boot-starter-parent</artifactId>') > -1;
-    }
 
-    packageFile = path.join(appRootPath, project.root, 'build.gradle');
-    if(fileExists(packageFile)) {
-        return fs.readFileSync(packageFile, 'utf8').indexOf('implementation \'org.springframework.boot:spring-boot-starter-parent\'') > -1;
-    }
-    
-    packageFile = path.join(appRootPath, project.root, 'build.gradle.kts');
-    if(fileExists(packageFile)) {
-        return fs.readFileSync(packageFile, 'utf8').indexOf('implementation("org.springframework.boot:spring-boot-starter")') > -1;
-    }
+  if(checkProjectAndRoot('pom.xml', '<artifactId>spring-boot-starter-parent</artifactId>', project)) return true;
 
-    return false;
+  if(checkProjectAndRoot('build.gradle', 'implementation \'org.springframework.boot:spring-boot-starter-parent\'', project)) return true;
+
+  return checkProjectAndRoot('build.gradle.kts', 'implementation("org.springframework.boot:spring-boot-starter")', project);
 }
 
 function getPackageInfosForNxSpringBootProjects(workspace: WorkspaceJsonConfiguration): WorkspacePackageInfoConfiguration {
@@ -73,7 +78,7 @@ function addDependenciesForProject(rootProjectFolder: string, rootProjectName: s
     if (process.env.NX_VERBOSE_LOGGING === 'true') {
         logger.debug(`[nx-spring-boot]: Adding dependencies for project '${rootProjectName}'...`);
     }
-    
+
     rootPkgInfo.dependencies.forEach(depPkgInfo => {
         const depProjectName = workspace.packages[depPkgInfo.packageId];
 
