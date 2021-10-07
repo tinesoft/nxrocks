@@ -32,7 +32,7 @@ function checkProjectAndRoot(file: string, keyToCheckFor: string, project: Proje
 
   if(inProject) return inProject;
 
-  const rootFile =  path.join(appRootPath, project.root, file);
+  const rootFile = path.join(appRootPath, file);
 
   if(!fileExists(rootFile)) return false;
 
