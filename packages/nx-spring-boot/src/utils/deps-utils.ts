@@ -13,6 +13,12 @@ export interface PackageInfo {
   dependencies?: PackageInfo[];
 }
 
+function determineGroupId(xmlDocument: XmlDocument): string | undefined {
+  const rootLevelGroupId = xmlDocument.valueWithPath('groupId');
+  if(rootLevelGroupId) return rootLevelGroupId;
+  return xmlDocument.childNamed('parent')?.valueWithPath('groupId');
+}
+
 export function inspectDeps(projectRoot: string): PackageInfo {
 
   if (fileExists(path.join(projectRoot, 'pom.xml'))) { //spring-boot maven project
@@ -20,7 +26,7 @@ export function inspectDeps(projectRoot: string): PackageInfo {
     const pomXmlStr = fs.readFileSync(packageFile, 'utf8');
     const pomXmlNode = new XmlDocument(pomXmlStr);
 
-    const groupId = pomXmlNode.valueWithPath('groupId');
+    const groupId = determineGroupId(pomXmlNode);
     const artifactId = pomXmlNode.valueWithPath('artifactId');
 
     const dependencies: PackageInfo[] = [];
