@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "id": "Application",
-  "title": "Creates a Duarkus project in the workspace",
+  "title": "Creates a Quarkus project in the workspace",
   "cli": "nx",
   "type": "object",
   "properties": {
