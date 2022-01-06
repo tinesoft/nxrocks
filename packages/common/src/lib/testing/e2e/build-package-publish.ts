@@ -70,7 +70,7 @@ async function publishPackage(packagePath: string, npmMajorVersion: number) {
     `);
   }
   try {
-    console.log(` 📦 Publishing package ${packagePath}...`);
+    console.log(` 📦 Publishing package '${packagePath}' to '${process.env.npm_config_registry}'...`);
 
     // NPM@7 requires a token to publish, thus, is just a matter of fake a token to bypass npm.
     // See: https://twitter.com/verdaccio_npm/status/1357798427283910660
@@ -89,7 +89,7 @@ async function publishPackage(packagePath: string, npmMajorVersion: number) {
     execSync(`npm publish`, {
       cwd: packagePath,
       env: process.env,
-      stdio: ['pipe', 'pipe', 'pipe'],
+      stdio: ['ignore', 'ignore', 'ignore'],
     });
   } catch (e: unknown) {
     console.log(e);

@@ -19,22 +19,40 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
+
       - name: Use Java
         uses: actions/setup-java@v1
         with:
           java-version: 11
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
+          
+      - name: Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache yarn
         uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./yarn.lock') }}
-      - name: Install dependencies and Run e2e tests
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ matrix.os }}-node-${{ matrix.node-version }}-yarn-
+
+      - name: Install packages
+        run: yarn install --prefer-offline --frozen-lockfile --non-interactive
+
+      - name: Run e2e tests
+        env:
+          npm_config_registry: http://localhost:4872
+          YARN_REGISTRY: http://localhost:4872
+          NX_E2E_CI_CACHE_KEY: e2e-gha-${{ matrix.os }}-${{ matrix.node-version }}
+          NX_VERBOSE_LOGGING: ${{ 'true' }}
+          NX_E2E_SKIP_BUILD_CLEANUP: ${{ 'true' }}
+          NX_E2E_SKIP_DAEMON_CLEANUP: ${{ 'true' }}
         run: |
-          yarn
+          yarn run ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-project.ts
           yarn run e2e nx-quarkus-e2e
