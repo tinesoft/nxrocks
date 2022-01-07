@@ -3,42 +3,37 @@
     "run": {
       "implementation": "./src/executors/run/executor",
       "schema": "./src/executors/run/schema.json",
-      "description": "Executor to run the application"
+      "description": "Executor to run the project"
     },
     "serve": {
       "implementation": "./src/executors/run/executor",
       "schema": "./src/executors/serve/schema.json",
-      "description": "Executor to serve the application (alias to 'run' executor)"
+      "description": "Executor to serve the project (alias to 'run' executor)"
     },
     "test": {
       "implementation": "./src/executors/test/executor",
       "schema": "./src/executors/test/schema.json",
-      "description": "Executor to test the application"
+      "description": "Executor to test the project"
     },
     "clean": {
       "implementation": "./src/executors/clean/executor",
       "schema": "./src/executors/clean/schema.json",
-      "description": "Executor to clean the application"
+      "description": "Executor to clean the project"
     },
-    "buildJar": {
-      "implementation": "./src/executors/build-jar/executor",
-      "schema": "./src/executors/build-jar/schema.json",
-      "description": "Executor to build the application's executable Jar"
-    },
-    "buildWar": {
-      "implementation": "./src/executors/build-war/executor",
-      "schema": "./src/executors/build-war/schema.json",
-      "description": "Executor to build the application's executable War"
+    "build": {
+      "implementation": "./src/executors/build/executor",
+      "schema": "./src/executors/build/schema.json",
+      "description": "Executor to build the project's Jar or War"
     },
     "buildImage": {
       "implementation": "./src/executors/build-image/executor",
       "schema": "./src/executors/build-image/schema.json",
-      "description": "Executor to build the application's OCI image"
+      "description": "Executor to build the project's OCI image"
     },
     "buildInfo": {
       "implementation": "./src/executors/build-info/executor",
       "schema": "./src/executors/build-info/schema.json",
-      "description": "Executor to build the application's build information"
+      "description": "Executor to build the project's build information"
     }
   }
 }

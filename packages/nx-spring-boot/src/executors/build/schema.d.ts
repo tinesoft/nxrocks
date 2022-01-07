@@ -1,5 +1,5 @@
 
-export interface BuildJarExecutorOptions {
+export interface BuildExecutorOptions {
     root: string;
     ignoreWrapper?: boolean;
     args?: string[];

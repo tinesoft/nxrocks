@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "title": "Build Jar executor",
+  "title": "Build  executor",
   "description": "",
   "cli": "nx",
   "type": "object",
