@@ -4,8 +4,7 @@ export const GRADLE_BOOT_COMMAND_MAPPER : BuilderCommandAliasMapper = {
     'run': 'bootRun',
     'test': 'test',
     'clean': 'clean',
-    'buildJar': 'bootJar',
-    'buildWar': 'bootWar',
+    'build': 'build',
     'buildImage': 'bootBuildImage',
     'buildInfo': 'bootBuildInfo'
 }
@@ -16,8 +15,7 @@ export const MAVEN_BOOT_COMMAND_MAPPER: BuilderCommandAliasMapper = {
     'run': 'spring-boot:run',
     'test': 'test',
     'clean': 'clean',
-    'buildJar': 'spring-boot:repackage',
-    'buildWar': 'spring-boot:repackage',
+    'build': 'package',
     'buildImage': 'spring-boot:build-image',
     'buildInfo': 'spring-boot:build-info'
 }
