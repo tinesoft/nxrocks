@@ -13,7 +13,8 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
     targets[command] = {
       executor: `${NX_QUARKUS_PKG}:${command}`,
       options: {
-        root: normalizedOptions.projectRoot
+        root: normalizedOptions.projectRoot,
+        ignoreWrapper: options.ignoreWrapper
       }
     };
   }
@@ -23,6 +24,7 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
     projectType: options.projectType,
     targets: targets,
     tags: normalizedOptions.parsedTags,
+    implicitDependencies: normalizedOptions.parsedDependencies
   });
 
   await generateQuarkusProject(tree, normalizedOptions);

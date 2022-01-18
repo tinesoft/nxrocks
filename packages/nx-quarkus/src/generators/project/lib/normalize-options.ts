@@ -21,6 +21,9 @@ export function normalizeOptions(tree:Tree,
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
+  const parsedDependencies = options.implicitDependencies
+    ? options.implicitDependencies.split(',').map((s) => s.trim())
+    : [];
   const projectExtensions = options.extensions?.split(',').map((s) => s.trim()) || [];
   return {
     ...options,
@@ -29,5 +32,6 @@ export function normalizeOptions(tree:Tree,
     projectDirectory,
     projectExtensions,
     parsedTags,
+    parsedDependencies
   };
 }

@@ -4,6 +4,7 @@ export interface ProjectGeneratorOptions {
   tags?: string;
   directory?: string;
 
+
   quarkusInitializerUrl?: string;
 
   buildSystem?: 'MAVEN' | 'GRADLE' | 'GRADLE_KOTLIN_DSL';
@@ -12,6 +13,8 @@ export interface ProjectGeneratorOptions {
   skipCodeSamples?: boolean;
   extensions?: string;
   version?: string;
+  ignoreWrapper?: boolean;
+  implicitDependencies?: string;
 }
 
 export interface NormalizedSchema extends ProjectGeneratorOptions {
@@ -20,4 +23,5 @@ export interface NormalizedSchema extends ProjectGeneratorOptions {
   projectDirectory: string;
   projectExtensions: string[];
   parsedTags: string[];
+  parsedDependencies: string[];
 }
