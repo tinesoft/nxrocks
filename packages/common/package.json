@@ -26,7 +26,7 @@
   "dependencies": {
     "@nrwl/workspace": "*",
     "@nrwl/devkit": "*",
-    "xmldoc": "^1.1.2",
+    "xmlbuilder2": "^3.0.2",
     "unzipper": "^0.10.11"
   }
 }

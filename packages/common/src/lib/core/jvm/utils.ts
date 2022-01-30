@@ -1,13 +1,13 @@
 import { logger, ProjectConfiguration } from '@nrwl/devkit';
 import { execSync } from 'child_process';
 import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
-import { XmlDocument } from 'xmldoc';
 
 import {
   BuilderCommandAliasType,
   BuilderCore,
 } from './builder-core.interface';
 import { getProjectFileContent, getProjectFilePath, getProjectRoot, PackageInfo } from '../workspace';
+import { findXmlMatching, findXmlNodeContent, readXml } from '../utils';
 
 
 export function runBuilderCommand(
@@ -67,24 +67,22 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
   if (isMavenProject(project)) {
     // maven project
     const pomXmlStr = getProjectFileContent(project, 'pom.xml');
-    const pomXmlNode = new XmlDocument(pomXmlStr);
+    const pomXmlNode = readXml(pomXmlStr);
 
-    const groupId = pomXmlNode.valueWithPath('groupId');
-    const artifactId = pomXmlNode.valueWithPath('artifactId');
+    const groupId = findXmlNodeContent(pomXmlNode, `/project/groupId/text()`);
+    const artifactId = findXmlNodeContent(pomXmlNode, `/project/artifactId/text()`);
 
     const dependencies: PackageInfo[] = [];
-    const dependencyNodes = pomXmlNode
-      .childNamed('dependencies')
-      ?.childrenNamed('dependency');
+    const dependencyNodes = findXmlMatching(pomXmlNode, `/project/dependencies/dependency`);
 
-    for (const depNode of dependencyNodes) {
-      const depGroupId = depNode.valueWithPath('groupId');
-      const depArtifactId = depNode.valueWithPath('artifactId');
+    dependencyNodes.each((node) => {
+      const depGroupId = findXmlNodeContent(node, `/dependency/groupId/text()`);
+      const depArtifactId = findXmlNodeContent(node, `/dependency/artifactId/text()`);
       dependencies.push({
         packageId: `${depGroupId}:${depArtifactId}`,
         packageFile: 'pom.xml',
       });
-    }
+    });
 
     return {
       packageId: `${groupId}:${artifactId}`,
@@ -153,3 +151,4 @@ export function checkProjectBuildFileContains(project: ProjectConfiguration, opt
 
   return false;
 }
+
