@@ -35,7 +35,8 @@
     "node-fetch": "^2.6.1",
     "tslib": "^2.0.0",
     "unzipper": "^0.10.11",
-    "xmldoc": "^1.1.2"
+    "xmlbuilder2": "^3.0.2",
+    "xpath": "^0.0.32"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
@@ -59,6 +60,7 @@
     "@types/node": "14.14.33",
     "@types/node-fetch": "^2.5.8",
     "@types/unzipper": "^0.10.3",
+    "@types/xmldoc": "^1.1.6",
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
     "dotenv": "10.0.0",

@@ -30,11 +30,11 @@ export function mockExecutorContext(
   };
 }
 
-export function mockZipEntries(files: string[]): Entry[] {
+export function mockZipEntries(files: (string | { filePath: string, fileContent?: string})[]): Entry[] {
   return files.map((e) => {
     return {
-      path: e,
-      buffer: () => Promise.resolve(Buffer.from(e)),
+      path: typeof e === 'string' ? e : e.filePath,
+      buffer: () => Promise.resolve(Buffer.from(typeof e === 'string' ? e : e.fileContent??e.filePath)),
       type: 'File',
     } as Entry;
   });
