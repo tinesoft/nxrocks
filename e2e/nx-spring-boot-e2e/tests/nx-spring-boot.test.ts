@@ -21,7 +21,6 @@ describe('nx-spring-boot e2e', () => {
     verdaccioRegistry = await spawnVerdaccioRegistry(verdaccioPort);
     enableVerdaccioRegistry(verdaccioPort);
 
-    process.env.NX_E2E_SKIP_BUILD_CLEANUP = 'true';
     await buildAndPublishPackages(verdaccioPort);
     
     ensureNxProject('@nxrocks/nx-spring-boot', 'dist/packages/nx-spring-boot');
@@ -35,7 +34,7 @@ describe('nx-spring-boot e2e', () => {
     }
   });
 
-  it.only('should create nx-spring-boot with default options', async() => {
+  it('should create nx-spring-boot with default options', async() => {
     const prjName = uniq('nx-spring-boot');
     await runNxCommandAsync(
       `generate @nxrocks/nx-spring-boot:new ${prjName}`

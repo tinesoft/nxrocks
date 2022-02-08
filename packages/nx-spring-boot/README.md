@@ -21,6 +21,7 @@ Here is a list of some of the coolest features of the plugin:
 
 - ✅ Generation of Spring Boot applications/libraries based on **Spring Initializr** API
 - ✅ Building, packaging, testing, etc your Spring Boot projects
+- ✅ Code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for Maven or Gradle
 - ✅ Integration with Nx's **dependency graph** (through `nx dep-graph` or `nx affected:dep-graph`): this allows you to **visualize** the dependencies of any Spring Boot's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
 
   ![Nx Spring Boot dependency graph](https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nx-spring-boot-dep-graph.png)
@@ -103,11 +104,12 @@ Once your app is generated, you can now use buidlers to manage it.
 
 Here the list of available executors:
 
-| Executor         | Arguments                                  | Description                                |
+| Executor        | Arguments                                  | Description                                |
 | --------------- | ------------------------------------------ | ------------------------------------------ |
 | `run` \| `serve`<sup>*</sup>| `ignoreWrapper:boolean`, `args: string[]`  | Runs the project using either `./mvnw\|mvn spring-boot:run` or `./gradlew\|gradle bootRun` |
 | `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
 | `clean`          | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
+| `format`         | `ignoreWrapper:boolean`, `args: string[]`  | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
 | `build`          | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project into an executable Jar using either `./mvnw\|mvn package` or `./gradlew\|gradle build` |
 | `buildInfo`<sup>*</sup>     | `ignoreWrapper:boolean`,                   | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo` |
 | `buildImage`<sup>*</sup>    | `ignoreWrapper:boolean`, `args: string[]`  | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn spring-boot:build-image` or `./gradlew\|gradle bootBuildImage` |
@@ -151,16 +153,10 @@ You can pass in additional arguments by editing the related section in the `work
 }
 ```
 
-### Building the Jar -  ('buildJar' Executor)
+### Building the Jar or War -  ('build' Executor)
 
 ```
-nx buildJar your-boot-app
-```
-
-### Building the War -  ('buildWar' Executor)
-
-```
-nx buildWar your-boot-app
+nx build your-boot-app
 ```
 
 ### Building the OCI Image -  ('buildImage' Executor)
@@ -203,6 +199,12 @@ nx test your-boot-app
 
 ```
 nx clean your-boot-app
+```
+
+### Formatting the project -  ('format' Executor)
+
+```
+nx run your-boot-app:format
 ```
 
 ## Compatibility with Nx
