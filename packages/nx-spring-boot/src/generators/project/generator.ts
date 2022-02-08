@@ -2,14 +2,15 @@ import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 import { ProjectGeneratorOptions } from './schema';
 import { normalizeOptions, generateBootProject, addBuilInfoTask, disableBootJarTask, removeBootMavenPlugin } from './lib';
 import { addPluginToNxJson, NX_SPRING_BOOT_PKG } from '@nxrocks/common';
+import { addFormattingWithSpotless } from './lib/add-formatting-with-spotless';
 
 
 export async function projectGenerator(tree: Tree, options: ProjectGeneratorOptions) {
   const normalizedOptions = normalizeOptions(tree, options);
 
   const targets = {};
-  const commands = ['test', 'clean'];
-  const bootOnlyCommands = ['run', 'serve', 'buildJar', 'buildWar', 'buildImage', 'buildInfo'];
+  const commands = ['build', 'test', 'clean', 'format'];
+  const bootOnlyCommands = ['run', 'serve', 'buildImage', 'buildInfo'];
 
   if (options.projectType === 'application') { //only 'application' projects should have 'boot' related commands
     commands.push(...bootOnlyCommands);
@@ -32,11 +33,20 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
   });
 
   await generateBootProject(tree, normalizedOptions);
+  
   addBuilInfoTask(tree, normalizedOptions);
 
-  disableBootJarTask(tree, normalizedOptions);
-  removeBootMavenPlugin(tree, normalizedOptions);
+  if(normalizedOptions.projectType === 'library') {
+    if(normalizedOptions.buildSystem === 'gradle-project') {
+      disableBootJarTask(tree, normalizedOptions);
+    }
+    else if (normalizedOptions.buildSystem === 'maven-project') {
+      removeBootMavenPlugin(tree, normalizedOptions);
+    }
+  }
 
+  addFormattingWithSpotless(tree, normalizedOptions);
+  
   addPluginToNxJson(NX_SPRING_BOOT_PKG,tree);
 }
 
