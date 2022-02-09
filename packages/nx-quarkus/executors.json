@@ -30,6 +30,11 @@
       "schema": "./src/executors/clean/schema.json",
       "description": "Executor to clean the project"
     },
+    "format": {
+      "implementation": "./src/executors/format/executor",
+      "schema": "./src/executors/format/schema.json",
+      "description": "Executor to format the project"
+    },
     "build": {
       "implementation": "./src/executors/build/executor",
       "schema": "./src/executors/build/schema.json",
