@@ -21,6 +21,7 @@ Here is a list of some of the coolest features of the plugin:
 
 - ✅ Generation of Quarkus applications/libraries based on **Quarkus app generator** API
 - ✅ Building, packaging, testing, etc your Quarkus projects
+- ✅ Code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for Maven or Gradle
 - ✅ Integration with Nx's **dependency graph** (through `nx dep-graph` or `nx affected:dep-graph`): this allows you to **visualize** the dependencies of any Quarkus's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
 
   ![Nx Quarkus dependency graph](https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nx-quarkus-dep-graph.png)
@@ -105,6 +106,7 @@ Here the list of available executors:
 | `build`         | `ignoreWrapper:boolean`, `args: string[]`  | Builds a native or container friendly image either `./mvnw\|mvn build` or `./gradlew\|gradle build` |
 | `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
 | `clean`         | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
+| `format`        | `ignoreWrapper:boolean`, `args: string[]`  | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
 | `package`       | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle package` |
 | `addExtension`  | `ignoreWrapper:boolean`, `args: string[]`  | Adds a new extension to the  project using either `./mvnw\|mvn quarkus:add-extension` or `./gradlew\|gradle quarkusAddExtension` |
 | `listExtensions`| `ignoreWrapper:boolean`, `args: string[]`  | Adds a new extension to the  project using either `./mvnw\|mvn quarkus:list-extensions` or `./gradlew\|gradle quarkusListExtensions` |
@@ -183,6 +185,12 @@ nx test your-quarkus-app
 
 ```
 nx clean your-quarkus-app
+```
+
+### Formatting the code -  ('format' Executor)
+
+```
+nx run your-quarkus-app:format
 ```
 
 ### Packaging the project -  ('package' Executor)

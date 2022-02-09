@@ -20,7 +20,6 @@ describe('nx-quarkus e2e', () => {
     verdaccioRegistry = await spawnVerdaccioRegistry(verdaccioPort);
     enableVerdaccioRegistry(verdaccioPort);
 
-    process.env.NX_E2E_SKIP_BUILD_CLEANUP = 'true';
     await buildAndPublishPackages(verdaccioPort);
     
     ensureNxProject('@nxrocks/nx-quarkus', 'dist/packages/nx-quarkus');
