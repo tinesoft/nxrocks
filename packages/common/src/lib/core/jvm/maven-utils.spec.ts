@@ -2,7 +2,7 @@ import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { addMavenPlugin } from '.';
 import { stripIndent } from '../utils';
-import { addSpotlessMavenPlugin } from './maven-utils';
+import { addSpotlessMavenPlugin, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_VERSION } from './maven-utils';
 
 const getPomXmlFile = (hasBuildNode = true, hasPluginsNode = true) => {
 
@@ -82,7 +82,7 @@ describe('maven-utils', () => {
             	<artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>` : '';
 
-            const added = addMavenPlugin(tree, '.', 'com.github.spotlesscode', 'spotless-maven-plugin', '2.19.2');
+            const added = addMavenPlugin(tree, '.', SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_VERSION);
             const pomXml = tree.read(`./pom.xml`, 'utf-8');
             expect(added).toEqual(true);
             expect(pomXml.replace(/\s+/g,'')).toContain(
@@ -91,9 +91,9 @@ describe('maven-utils', () => {
             	<plugins>
             		${previousPlugins}
             		<plugin>
-            			<groupId>com.github.spotlesscode</groupId>
-            			<artifactId>spotless-maven-plugin</artifactId>
-            			<version>2.19.2</version>
+            			<groupId>${SPOTLESS_MAVEN_PLUGIN_GROUP_ID}</groupId>
+            			<artifactId>${SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID}</artifactId>
+            			<version>${SPOTLESS_MAVEN_PLUGIN_VERSION}</version>
             		</plugin>
             	</plugins>
             </build>

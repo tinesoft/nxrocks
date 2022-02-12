@@ -1,9 +1,9 @@
 import { Tree } from "@nrwl/devkit";
 import { addXmlNode, findXmlMatching, readXml, stripIndent } from "../utils";
 
-export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.github.spotlesscode';
+export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.diffplug.spotless';
 export const SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID = 'spotless-maven-plugin';
-export const SPOTLESS_MAVEN_PLUGIN_VERSION = '2.19.2';
+export const SPOTLESS_MAVEN_PLUGIN_VERSION = '2.20.2';
 
 export function addMavenPlugin(tree: Tree, rootFolder: string, groudId: string, artifactId: string, version?: string, configuration?: { [key: string]: any } | string): boolean {
     const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
