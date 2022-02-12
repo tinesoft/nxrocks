@@ -45,6 +45,7 @@ function createScopedReleaseConfig({
       [
         '@semantic-release/git',
         {
+          assets: ["package.json", "CHANGELOG.md"],
           message: releaseCommit,
         },
       ],
