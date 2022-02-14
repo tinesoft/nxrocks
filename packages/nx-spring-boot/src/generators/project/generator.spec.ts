@@ -169,7 +169,7 @@ describe('project generator', () => {
     const project = readProjectConfiguration(tree, options.name);
     expect(project.root).toBe(`${subDir}/${options.name}`);
 
-    const commands = ['build', 'format', 'test', 'clean']
+    const commands = ['build', 'format', 'format-check', 'test', 'clean']
     const bootOnlyCommands = ['run', 'serve', 'buildImage', 'buildInfo'];
 
     if (projectType === 'application') {

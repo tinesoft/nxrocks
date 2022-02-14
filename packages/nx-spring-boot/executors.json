@@ -30,6 +30,14 @@
       "schema": "./src/executors/format/schema.json",
       "description": "Executor to format the project's files using Spotless plugin"
     },
+    "format-check": {
+      "implementation": "./src/executors/format-check/executor",
+      "schema": "./src/executors/format-check/schema.json",
+      "description": "Executor to check if project's files are well formatted using Spotless plugin",
+      "aliases": [
+        "check-format"
+      ]
+    },
     "buildImage": {
       "implementation": "./src/executors/build-image/executor",
       "schema": "./src/executors/build-image/schema.json",

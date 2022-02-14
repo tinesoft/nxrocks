@@ -110,6 +110,7 @@ Here the list of available executors:
 | `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
 | `clean`          | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
 | `format`         | `ignoreWrapper:boolean`, `args: string[]`  | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
+| `format-check`         | `ignoreWrapper:boolean`, `args: string[]`  | Check whether the project is well formatted using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
 | `build`          | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project into an executable Jar using either `./mvnw\|mvn package` or `./gradlew\|gradle build` |
 | `buildInfo`<sup>*</sup>     | `ignoreWrapper:boolean`,                   | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo` |
 | `buildImage`<sup>*</sup>    | `ignoreWrapper:boolean`, `args: string[]`  | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn spring-boot:build-image` or `./gradlew\|gradle bootBuildImage` |
@@ -205,6 +206,16 @@ nx clean your-boot-app
 
 ```
 nx run your-boot-app:format
+```
+
+### Checking the format the project -  ('format-check' Executor)
+
+```
+nx check-format your-boot-app
+
+or
+
+nx format-check your-boot-app
 ```
 
 ## Compatibility with Nx

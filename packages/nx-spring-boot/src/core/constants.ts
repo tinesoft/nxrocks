@@ -6,6 +6,7 @@ export const GRADLE_BOOT_COMMAND_MAPPER : BuilderCommandAliasMapper = {
     'clean': 'clean',
     'build': 'build',
     'format': 'spotlessApply',
+    'format-check': 'spotlessCheck',
     'buildImage': 'bootBuildImage',
     'buildInfo': 'bootBuildInfo'
 }
@@ -18,6 +19,7 @@ export const MAVEN_BOOT_COMMAND_MAPPER: BuilderCommandAliasMapper = {
     'clean': 'clean',
     'build': 'package',
     'format': 'spotless:apply',
+    'format-check': 'spotless:check',
     'buildImage': 'spring-boot:build-image',
     'buildInfo': 'spring-boot:build-info'
 }
