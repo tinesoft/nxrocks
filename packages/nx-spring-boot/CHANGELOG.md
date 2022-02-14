@@ -1,3 +1,21 @@
+# [@nxrocks/nx-spring-boot-v4.0.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v3.0.0...nx-spring-boot/v4.0.0) (2022-02-14)
+
+### Bug Fixes
+
+- **nx-spring-boot:** remove `ratchetFrom` from the default Spotless conf ([1462022](https://github.com/tinesoft/nxrocks/commit/1462022a22eb4714bb590b7b18b3addb8643387e))
+
+### Features
+
+- **nx-spring-boot:** add java 17 support to align w/ Spring Initializr ([131df91](https://github.com/tinesoft/nxrocks/commit/131df91c89ece06ddfae7eb93d1ace2cccad0cc9))
+- **nx-spring-boot:** add `format-check` executor to check code format ([337fca8](https://github.com/tinesoft/nxrocks/commit/337fca8356fba17a1ff54e32204a6d4351d63f8c))
+- **nx-spring-boot:** add `format` executor ([b5362ae](https://github.com/tinesoft/nxrocks/commit/b5362ae72fcec47be07df22df3e3ec3e9f047e9a))
+- **nx-spring-boot:** add aliases for the format executor ([cbcee00](https://github.com/tinesoft/nxrocks/commit/cbcee00da217a4b609efeecfa80c2d16bd44e170))
+- **nx-spring-boot:** merge `buildJar` and `buildWar` executors ([9fdfec2](https://github.com/tinesoft/nxrocks/commit/9fdfec2c629fd11c8e266ee81567196e6178136a)), closes [#43](https://github.com/tinesoft/nxrocks/issues/43)
+
+### BREAKING CHANGES
+
+- **nx-spring-boot:** `build` is now the only executor to use to build the final jar or war
+
 # [@nxrocks/nx-spring-boot-v3.0.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v2.1.0...nx-spring-boot/v3.0.0) (2021-08-23)
 
 ### Bug Fixes
