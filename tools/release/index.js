@@ -38,6 +38,7 @@ function createScopedReleaseConfig({
             copyFile(`${projectRoot}/CHANGELOG.md`, buildOutput),
             copyFile(`${projectRoot}/README.md`, buildOutput),
             copyFile(`LICENSE`, buildOutput),
+            copyFile(`${buildOutput}/package.json`, projectRoot),
           ].join(' && '),
           execCwd: relativeWorkspaceRoot,
         },
