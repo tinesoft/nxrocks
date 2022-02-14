@@ -28,7 +28,10 @@
     "format": {
       "implementation": "./src/executors/format/executor",
       "schema": "./src/executors/format/schema.json",
-      "description": "Executor to format the project's files using Spotless plugin"
+      "description": "Executor to format the project's files using Spotless plugin",
+      "aliases": [
+        "do-format", "apply-format"
+      ]
     },
     "format-check": {
       "implementation": "./src/executors/format-check/executor",
