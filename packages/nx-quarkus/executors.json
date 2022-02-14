@@ -35,6 +35,16 @@
       "schema": "./src/executors/format/schema.json",
       "description": "Executor to format the project"
     },
+    "do-format": {
+      "implementation": "./src/executors/format/executor",
+      "schema": "./src/executors/format/schema.json",
+      "description": "Executor to format the project (alias to 'format' executor)"
+    },
+    "apply-format": {
+      "implementation": "./src/executors/format/executor",
+      "schema": "./src/executors/format/schema.json",
+      "description": "Executor to format the project (alias to 'format' executor)"
+    },
     "build": {
       "implementation": "./src/executors/build/executor",
       "schema": "./src/executors/build/schema.json",
