@@ -23,8 +23,8 @@
     "update": "nx migrate latest",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "prerelease": "nx affected:build --all",
-    "release": "nx affected --target release --all",
+    "prerelease": "nx affected:build",
+    "release": "nx affected --target release",
     "workspace-generator": "nx workspace-generator",
     "prepare": "husky install"
   },
