@@ -29,4 +29,5 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           yarn
+          yarn run ts-node -P ./tools/tsconfig.tools.json ./tools/patch-semantic-release-monorepo.ts
           DEBUG=true yarn run release
