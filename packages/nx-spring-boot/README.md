@@ -206,6 +206,15 @@ nx clean your-boot-app
 
 ```
 nx run your-boot-app:format
+
+//or simply
+
+nx do-format your-boot-app
+
+//or
+
+nx apply-format your-boot-app
+
 ```
 
 ### Checking the format the project -  ('format-check' Executor)
@@ -213,7 +222,7 @@ nx run your-boot-app:format
 ```
 nx check-format your-boot-app
 
-or
+//or
 
 nx format-check your-boot-app
 ```
