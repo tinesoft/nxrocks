@@ -191,6 +191,15 @@ nx clean your-quarkus-app
 
 ```
 nx run your-quarkus-app:format
+
+// or simply
+
+nx do-format your-quarkus-app
+
+// or
+
+nx apply-format your-quarkus-app
+
 ```
 
 ### Packaging the project -  ('package' Executor)
