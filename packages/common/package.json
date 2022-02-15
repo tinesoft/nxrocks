@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/common",
   "description": "Common library to share code among the `@nxrocks/*` plugins.",
-  "version": "0.0.0-development",
+  "version": "1.0.1",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -27,6 +27,9 @@
     "@nrwl/workspace": "*",
     "@nrwl/devkit": "*",
     "xmlbuilder2": "^3.0.2",
-    "unzipper": "^0.10.11"
-  }
+    "unzipper": "^0.10.11",
+    "xpath": "^0.0.32"
+  },
+  "typings": "./src/index.d.ts",
+  "peerDependencies": {}
 }
