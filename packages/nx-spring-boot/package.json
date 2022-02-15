@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/nx-spring-boot",
   "description": "Nx Plugin to generate, run, package, build (and more) Spring Boot projects inside your Nx workspace",
-  "version": "0.0.0-development",
+  "version": "4.0.1",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -33,6 +33,10 @@
     "@nrwl/devkit": "*",
     "node-fetch": "^2.6.1",
     "unzipper": "^0.10.11",
-    "xmlbuilder2": "^3.0.2"
-  }
+    "xmlbuilder2": "^3.0.2",
+    "@nxrocks/common": "0.0.0-development",
+    "xpath": "^0.0.32"
+  },
+  "typings": "./src/index.d.ts",
+  "peerDependencies": {}
 }
