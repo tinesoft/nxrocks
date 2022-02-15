@@ -1,3 +1,9 @@
+# [@nxrocks/nx-quarkus-v2.1.1](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v2.1.0...nx-quarkus/v2.1.1) (2022-02-15)
+
+### Bug Fixes
+
+- include updated `package.json` in git when semantic releasing ([cb87139](https://github.com/tinesoft/nxrocks/commit/cb87139c95ba2f7256a8df7ff0c94410394ccb4f))
+
 # [@nxrocks/nx-quarkus-v2.1.0](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v2.0.0...nx-quarkus/v2.1.0) (2022-02-14)
 
 ### Bug Fixes
