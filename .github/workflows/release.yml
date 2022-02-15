@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
+      - run: | # we need to fetch the develop branch or else `affected:test` (run by husky after @semantic-release/git) will not work
+          git fetch --depth=1
+          git checkout develop
       - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
