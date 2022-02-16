@@ -5,9 +5,17 @@ const buildReversePath = path =>
     .map(() => '..')
     .join('/');
 
+const toolsScript = (script, ...args) =>
+  [
+    'ts-node',
+    '--project tools/tsconfig.tools.json',
+    `tools/${script}`,
+    ...args,
+  ].join(' ');
+
 const formatFile = file => `nx format:write --files ${file}`;
 const copyFile = (file, dest) => `cp ${file} ${dest}`;
-
+const patchVersions = () => toolsScript('release/patch-versions.ts');
 
 function createScopedReleaseConfig({
   projectScope,
@@ -38,6 +46,7 @@ function createScopedReleaseConfig({
             copyFile(`${projectRoot}/CHANGELOG.md`, buildOutput),
             copyFile(`${projectRoot}/README.md`, buildOutput),
             copyFile(`LICENSE`, buildOutput),
+            patchVersions(),
           ].join(' && '),
           execCwd: relativeWorkspaceRoot,
         },
