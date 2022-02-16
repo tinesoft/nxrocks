@@ -234,4 +234,4 @@ Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This ta
 | `>=v1.x.x`     | `>=v11.x.x`
 ## License
 
-Copyright (c) 2021 Tine Kondo. Licensed under the MIT License (MIT)
+Copyright (c) 2021-present Tine Kondo. Licensed under the MIT License (MIT)
