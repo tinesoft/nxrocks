@@ -1,3 +1,9 @@
+# [@nxrocks/nx-spring-boot-v4.0.2](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v4.0.1...nx-spring-boot/v4.0.2) (2022-02-16)
+
+### Bug Fixes
+
+- wrong `@nxrocks/common` version referenced in dependent packages ([1b4b0e6](https://github.com/tinesoft/nxrocks/commit/1b4b0e6b1df604177585e703e092cf3652ef86b0))
+
 # [@nxrocks/nx-spring-boot-v4.0.1](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v4.0.0...nx-spring-boot/v4.0.1) (2022-02-15)
 
 ### Bug Fixes
