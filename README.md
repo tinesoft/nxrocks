@@ -19,4 +19,4 @@ Status | Name     | Description
 
 ## License
 
-Copyright (c) 2020-2021 Tine Kondo. Licensed under the MIT License (MIT)
+Copyright (c) 2020-present Tine Kondo. Licensed under the MIT License (MIT)
