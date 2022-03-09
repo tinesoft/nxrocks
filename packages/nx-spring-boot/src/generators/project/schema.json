@@ -18,6 +18,7 @@
       "description": "Type of project",
       "default": "application",
       "type": "string",
+      "enum": ["application", "library"],
       "x-prompt": {
         "message": "What kind of project are you generating?",
         "type": "list",
@@ -38,6 +39,7 @@
       "alias": "type",
       "default": "maven-project",
       "type": "string",
+      "enum": ["maven-project", "gradle-project"],
       "x-prompt": {
         "message": "Which build system would you like to use?",
         "type": "list",
@@ -57,6 +59,7 @@
       "description": "Packaging of the project",
       "type": "string",
       "default": "jar",
+      "enum": ["jar", "war"],
       "x-prompt": {
         "message": "Which packaging would you like to use?",
         "type": "list",
@@ -74,8 +77,16 @@
     },
     "javaVersion": {
       "description": "Java version",
-      "type": "string",
+      "oneOf": [
+        {
+          "type":"string"
+        },
+        {
+          "type":"number"
+        }
+      ],
       "default": "11",
+      "enum": ["1.8", "11", "17"],
       "x-prompt": {
         "message": "Which version of Java would you like to use?",
         "type": "list",
@@ -99,6 +110,7 @@
       "description": "Language of the project",
       "type": "string",
       "default": "java",
+      "enum": ["java", "kotlin", "groovy"],
       "x-prompt": {
         "message": "Which language would you like to use?",
         "type": "list",

@@ -48,7 +48,7 @@ describe('nx-spring-boot e2e', () => {
   it('should create nx-spring-boot with given options', async() => {
     const prjName = uniq('nx-spring-boot');
     const buildSystem = 'maven-project';
-    const javaVersion = '15';
+    const javaVersion = '11';
     const packageName = 'com.tinesoft.api';
     const groupId = 'com.tinesoft';
     const artifactId = 'api' ;
@@ -56,7 +56,7 @@ describe('nx-spring-boot e2e', () => {
     const version = '1.2.3';
 
     await runNxCommandAsync(
-      `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --version=${version}`// --javaVersion="${javaVersion}"`
+      `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --version=${version} --javaVersion=${javaVersion}`
     );
 
     const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
@@ -76,7 +76,7 @@ describe('nx-spring-boot e2e', () => {
     expect(pomXml).toContain(`<name>${prjName}</name>`);
     expect(pomXml).toContain(`<description>${description}</description>`);
     expect(pomXml).toContain(`<version>${version}</version>`);
-    //expect(pomXml).toContain(`<java.version>${javaVersion}</java.version>`);
+    expect(pomXml).toContain(`<java.version>${javaVersion}</java.version>`);
 
     // make sure the build wrapper file is executable (*nix only)
     if(!isWin) {
