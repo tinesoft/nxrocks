@@ -47,8 +47,6 @@ jobs:
 
       - name: Run e2e tests
         env:
-          npm_config_registry: http://localhost:4871
-          YARN_REGISTRY: http://localhost:4871
           NX_E2E_CI_CACHE_KEY: e2e-gha-${{ matrix.os }}-${{ matrix.node-version }}
           NX_VERBOSE_LOGGING: ${{ 'true' }}
           NX_E2E_SKIP_BUILD_CLEANUP: ${{ 'true' }}

@@ -1,6 +1,5 @@
 import {
   checkFilesExist,
-  ensureNxProject,
   readFile,
   readJson,
   runNxCommandAsync,
@@ -8,31 +7,18 @@ import {
   tmpProjPath
 } from '@nrwl/nx-plugin/testing';
 import { names } from '@nrwl/devkit';
-import {buildAndPublishPackages, disableVerdaccioRegistry, enableVerdaccioRegistry, spawnVerdaccioRegistry } from '@nxrocks/common/testing';
+import {ensureNxProjectWithDeps} from '@nxrocks/common/testing';
 
 import { lstatSync } from 'fs';
 
 describe('nx-spring-boot e2e', () => {
   const isWin = process.platform === "win32";
-  const verdaccioPort = 4871;
-  let verdaccioRegistry;
 
   beforeAll(async () => {
-    verdaccioRegistry = await spawnVerdaccioRegistry(verdaccioPort);
-    enableVerdaccioRegistry(verdaccioPort);
 
-    await buildAndPublishPackages(verdaccioPort);
-    
-    ensureNxProject('@nxrocks/nx-spring-boot', 'dist/packages/nx-spring-boot');
+    ensureNxProjectWithDeps('@nxrocks/nx-spring-boot', 'dist/packages/nx-spring-boot',
+      [{ depPkgName: '@nxrocks/common', depDistPath: 'dist/packages/common' }]);
   }, 600000);
-
-  afterAll(() => {
-    disableVerdaccioRegistry();
-
-    if (verdaccioRegistry) {
-      verdaccioRegistry.kill();
-    }
-  });
 
   it('should create nx-spring-boot with default options', async() => {
     const prjName = uniq('nx-spring-boot');

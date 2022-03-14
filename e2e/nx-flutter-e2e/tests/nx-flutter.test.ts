@@ -1,36 +1,21 @@
 import {
   checkFilesExist,
-  ensureNxProject,
   readJson,
   runNxCommandAsync,
   uniq,
 } from '@nrwl/nx-plugin/testing';
-import { buildAndPublishPackages, disableVerdaccioRegistry, enableVerdaccioRegistry, spawnVerdaccioRegistry } from '@nxrocks/common/testing';
+import { ensureNxProjectWithDeps } from '@nxrocks/common/testing';
 
 jest.mock('inquirer'); // we mock 'inquirer' to bypass the interactive prompt
 import * as inquirer from 'inquirer';
 
 xdescribe('nx-flutter e2e', () => {
-  const verdaccioPort = 4873;
-  let verdaccioRegistry;
 
   beforeAll(async () => {
-    verdaccioRegistry = await spawnVerdaccioRegistry(verdaccioPort);
-    enableVerdaccioRegistry(verdaccioPort);
 
-    process.env.NX_E2E_SKIP_BUILD_CLEANUP = 'true';
-    await buildAndPublishPackages(verdaccioPort);
-    
-    ensureNxProject('@nxrocks/nx-flutter', 'dist/packages/nx-flutter');
+    ensureNxProjectWithDeps('@nxrocks/nx-flutter', 'dist/packages/nx-flutter',
+      [{ depPkgName: '@nxrocks/common', depDistPath: 'dist/packages/common' }]);
   }, 600000);
-
-  afterAll(() => {
-    disableVerdaccioRegistry();
-
-    if (verdaccioRegistry) {
-      verdaccioRegistry.kill();
-    }
-  });
   
   beforeEach(() => {
     jest.spyOn(inquirer, 'prompt').mockResolvedValue({
