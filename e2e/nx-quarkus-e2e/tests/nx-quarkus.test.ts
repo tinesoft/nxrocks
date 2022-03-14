@@ -1,37 +1,23 @@
 import {
   checkFilesExist,
-  ensureNxProject,
   readFile,
   readJson,
   runNxCommandAsync,
   uniq,
   tmpProjPath
 } from '@nrwl/nx-plugin/testing';
-import { spawnVerdaccioRegistry, enableVerdaccioRegistry, buildAndPublishPackages, disableVerdaccioRegistry } from '@nxrocks/common/testing';
+import { ensureNxProjectWithDeps } from '@nxrocks/common/testing';
 
 import { lstatSync } from 'fs';
 
 describe('nx-quarkus e2e', () => {
   const isWin = process.platform === "win32";
-  const verdaccioPort = 4872;
-  let verdaccioRegistry;
 
   beforeAll(async () => {
-    verdaccioRegistry = await spawnVerdaccioRegistry(verdaccioPort);
-    enableVerdaccioRegistry(verdaccioPort);
 
-    await buildAndPublishPackages(verdaccioPort);
-    
-    ensureNxProject('@nxrocks/nx-quarkus', 'dist/packages/nx-quarkus');
+    ensureNxProjectWithDeps('@nxrocks/nx-quarkus', 'dist/packages/nx-quarkus',
+      [{ depPkgName: '@nxrocks/common', depDistPath: 'dist/packages/common' }]);
   }, 600000);
-
-  afterAll(() => {
-    disableVerdaccioRegistry();
-
-    if (verdaccioRegistry) {
-      verdaccioRegistry.kill();
-    }
-  });
   
   it('should create nx-quarkus with default options', async() => {
     const prjName = uniq('nx-quarkus');
