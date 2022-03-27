@@ -6,4 +6,4 @@ COPY package.json yarn.lock ./
 FROM source as tester
 RUN yarn
 COPY . .
-RUN yarn run ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-project.ts
+RUN npm run ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-project.ts
