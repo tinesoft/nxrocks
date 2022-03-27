@@ -30,20 +30,20 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           
-      - name: Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: NPM cache directory path
+        id: npm-cache-dir-path
+        run: echo "::set-output name=dir::$(npm config get cache)"
 
-      - name: Cache yarn
+      - name: Cache NPM
         uses: actions/cache@v2
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-yarn-${{ hashFiles('yarn.lock') }}
+          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
+          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ matrix.os }}-node-${{ matrix.node-version }}-yarn-
+            ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-
 
       - name: Install packages
-        run: yarn install --prefer-offline --frozen-lockfile --non-interactive
+        run: npm ci
 
       - name: Run e2e tests
         env:
@@ -52,5 +52,5 @@ jobs:
           NX_E2E_SKIP_BUILD_CLEANUP: ${{ 'true' }}
           NX_E2E_SKIP_DAEMON_CLEANUP: ${{ 'true' }}
         run: |
-          yarn run ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-project.ts
-          yarn run e2e nx-quarkus-e2e
+          npm run ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-project.ts
+          npm run e2e nx-quarkus-e2e
