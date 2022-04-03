@@ -3,10 +3,10 @@ name: Run e2e Tests for nx-spring-boot
 on:
   push:
     branches: [ develop ]
-    paths:    [ "packages/nx-spring-boot/**" ]
+    paths:    [ "nx.json", "package.json", "workspace.json", "packages/common", "packages/nx-spring-boot/**" ]
   pull_request:
     branches: [ develop ]
-    paths:    [ "packages/nx-spring-boot/**" ]
+    paths:    [ "nx.json", "package.json", "workspace.json", "packages/common", "packages/nx-spring-boot/**" ]
 
 jobs:
   run_e2e:
