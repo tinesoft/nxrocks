@@ -52,5 +52,5 @@ jobs:
           NX_E2E_SKIP_BUILD_CLEANUP: ${{ 'true' }}
           NX_E2E_SKIP_DAEMON_CLEANUP: ${{ 'true' }}
         run: |
-          npm run ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-project.ts
+          npx --no-install ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-project.ts
           npm run e2e nx-quarkus-e2e
