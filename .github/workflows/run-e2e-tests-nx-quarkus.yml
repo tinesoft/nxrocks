@@ -3,10 +3,10 @@ name: Run e2e Tests for nx-quarkus
 on:
   push:
     branches: [ develop ]
-    paths:    [ "packages/nx-quarkus/**" ]
+    paths:    [ "nx.json", "package.json", "workspace.json", "packages/common/**", "packages/nx-quarkus/**" ]
   pull_request:
     branches: [ develop ]
-    paths:    [ "packages/nx-quarkus/**" ]
+    paths:    [ "nx.json", "package.json", "workspace.json", "packages/common/**", "packages/nx-quarkus/**" ]
 
 jobs:
   run_e2e:
