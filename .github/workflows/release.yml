@@ -31,6 +31,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          yarn
-          npm run ts-node -P ./tools/tsconfig.tools.json ./tools/patch-semantic-release-monorepo.ts
+          npm ci
+          npx --no-install ts-node -P ./tools/tsconfig.tools.json ./tools/patch-semantic-release-monorepo.ts
           DEBUG=true npm run release
