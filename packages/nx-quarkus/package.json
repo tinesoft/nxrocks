@@ -33,10 +33,7 @@
     "@nrwl/workspace": "*",
     "@nrwl/devkit": "*",
     "node-fetch": "^2.6.1",
-    "unzipper": "^0.10.11",
-    "xmlbuilder2": "^3.0.2",
-    "@nxrocks/common": "0.0.0-development",
-    "xpath": "^0.0.32"
+    "@nxrocks/common": "0.0.0-development"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {}
