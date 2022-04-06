@@ -1,5 +1,5 @@
 import { logger } from '@nrwl/devkit';
-import { mocked } from 'ts-jest/utils';
+import { mocked } from 'jest-mock';
 
 import { buildInfoExecutor } from './executor';
 import { BuildInfoExecutorOptions } from './schema';
