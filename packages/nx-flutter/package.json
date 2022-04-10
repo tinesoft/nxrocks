@@ -32,10 +32,7 @@
     "@nrwl/devkit": "*",
     "inquirer": "^7.3.3",
     "js-yaml": "4.1.0",
-    "@nxrocks/common": "0.0.0-development",
-    "xmlbuilder2": "^3.0.2",
-    "unzipper": "^0.10.11",
-    "xpath": "^0.0.32"
+    "@nxrocks/common": "0.0.0-development"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {}
