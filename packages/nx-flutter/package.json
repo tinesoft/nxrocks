@@ -31,8 +31,7 @@
     "@nrwl/workspace": "*",
     "@nrwl/devkit": "*",
     "inquirer": "^7.3.3",
-    "js-yaml": "4.1.0",
-    "@nxrocks/common": "0.0.0-development"
+    "js-yaml": "4.1.0"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {}

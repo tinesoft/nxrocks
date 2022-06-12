@@ -53,9 +53,11 @@ export function ensureNxProjectWithDeps(
   ensureDirSync(tmpProjPath());
   cleanup();
   runNxNewCommand('', false);
+
   patchPackageJsonForPlugin(npmPackageName, pluginDistPath);
 
   dependencies?.forEach(({ depPkgName, depDistPath }) => {
+    patchPackageJsonForPlugin(depPkgName, depDistPath);
     patchDependencyOfPlugin(pluginDistPath, depPkgName, depDistPath);
   });
 
