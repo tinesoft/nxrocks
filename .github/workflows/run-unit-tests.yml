@@ -27,19 +27,21 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: NPM cache directory path
-        id: npm-cache-dir-path
-        run: echo "::set-output name=dir::$(npm config get cache)"
+      - name: Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Cache NPM
-        uses: actions/cache@v2
+      - name: Cache Yarn
+        uses: actions/cache@v3
+        env:
+          cache-name: yarn
         with:
-          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
-          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-
 
-      - run: npm ci
-      - run: npm run affected:test -- --base=origin/develop --parallel
+      - run: yarn install --frozen-lockfile
+      - run: yarn run affected:test -- --base=origin/develop --parallel
           
           
