@@ -30,20 +30,22 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           
-      - name: NPM cache directory path
-        id: npm-cache-dir-path
+      - name: Yarn cache directory path
+        id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Cache NPM
-        uses: actions/cache@v2
+      - name: Cache Yarn
+        uses: actions/cache@v3
+        env:
+          cache-name: yarn
         with:
-          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
-          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-
 
       - name: Install packages
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Run e2e tests
         env:
@@ -52,5 +54,5 @@ jobs:
           NX_E2E_SKIP_BUILD_CLEANUP: ${{ 'true' }}
           NX_E2E_SKIP_DAEMON_CLEANUP: ${{ 'true' }}
         run: |
-          npx --no-install ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-project.ts
-          npm run e2e nx-spring-boot-e2e
+          yarn ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-project.ts
+          yarn run e2e nx-spring-boot-e2e
