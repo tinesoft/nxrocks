@@ -31,8 +31,7 @@
   "dependencies": {
     "@nrwl/workspace": "*",
     "@nrwl/devkit": "*",
-    "node-fetch": "^2.6.1",
-    "@nxrocks/common": "0.0.0-development"
+    "node-fetch": "^2.6.1"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {}
