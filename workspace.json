@@ -8,5 +8,6 @@
     "nx-quarkus-e2e": "e2e/nx-quarkus-e2e",
     "nx-spring-boot": "packages/nx-spring-boot",
     "nx-spring-boot-e2e": "e2e/nx-spring-boot-e2e"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }

@@ -1,6 +1,6 @@
 const { getJestProjects } = require('@nrwl/jest');
 
-module.exports = {
+export default {
   projects: [
     ...getJestProjects(),
     '<rootDir>/e2e/nx-spring-boot-e2e',

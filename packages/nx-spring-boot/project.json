@@ -1,5 +1,5 @@
 {
-  "root": "packages/nx-spring-boot",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-spring-boot/src",
   "projectType": "library",
   "generators": {},
@@ -13,13 +13,13 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
-        "jestConfig": "packages/nx-spring-boot/jest.config.js",
+        "jestConfig": "packages/nx-spring-boot/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": ["coverage/packages/nx-spring-boot"]
     },
     "build": {
-      "executor": "@nrwl/node:package",
+      "executor": "@nrwl/js:tsc",
       "options": {
         "outputPath": "dist/packages/nx-spring-boot",
         "tsConfig": "packages/nx-spring-boot/tsconfig.lib.json",

@@ -1,5 +1,5 @@
 {
-  "root": "packages/nx-quarkus",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-quarkus/src",
   "projectType": "library",
   "targets": {
@@ -13,12 +13,12 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/packages/nx-quarkus"],
       "options": {
-        "jestConfig": "packages/nx-quarkus/jest.config.js",
+        "jestConfig": "packages/nx-quarkus/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "build": {
-      "executor": "@nrwl/node:package",
+      "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/nx-quarkus",
