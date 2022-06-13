@@ -19,16 +19,8 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "accessToken": "YjU2ZDEwNGUtMmE2ZC00ODJmLTg1MjktY2E2YmRhZGRmZDE2fHJlYWQtd3JpdGU=",
-        "cacheableOperations": [
-          "build",
-          "test",
-          "lint",
-          "e2e"
-        ],
-        "runtimeCacheInputs": [
-          "node -v",
-          "echo $RUNNER_OS"
-        ],
+        "cacheableOperations": ["build", "test", "lint", "e2e"],
+        "runtimeCacheInputs": ["node -v", "echo $RUNNER_OS"],
         "canTrackAnalytics": false,
         "showUsageWarnings": true,
         "parallel": 1
@@ -39,27 +31,16 @@
     "appsDir": "e2e",
     "libsDir": "packages"
   },
-  "targetDependencies": {
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ],
-    "e2e": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ],
-    "release": [
-      {
-        "target": "release",
-        "projects": "dependencies"
-      }
-    ]
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/workspace"
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"]
+    },
+    "e2e": {
+      "dependsOn": ["^build"]
+    },
+    "release": {
+      "dependsOn": ["^release"]
+    }
   }
 }

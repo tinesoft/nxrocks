@@ -1,5 +1,5 @@
 {
-  "root": "packages/nx-flutter",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-flutter/src",
   "projectType": "library",
   "targets": {
@@ -12,13 +12,13 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
-        "jestConfig": "packages/nx-flutter/jest.config.js",
+        "jestConfig": "packages/nx-flutter/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": ["coverage/packages/nx-flutter"]
     },
     "build": {
-      "executor": "@nrwl/node:package",
+      "executor": "@nrwl/js:tsc",
       "options": {
         "outputPath": "dist/packages/nx-flutter",
         "tsConfig": "packages/nx-flutter/tsconfig.lib.json",

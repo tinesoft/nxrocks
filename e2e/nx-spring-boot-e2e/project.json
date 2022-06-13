@@ -1,6 +1,6 @@
 {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "root": "e2e/nx-spring-boot-e2e",
   "sourceRoot": "e2e/nx-spring-boot-e2e/src",
   "targets": {
     "e2e": {
@@ -12,5 +12,7 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["nx-spring-boot"]
+  "implicitDependencies": [
+    "nx-spring-boot"
+  ]
 }
