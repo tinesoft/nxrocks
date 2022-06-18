@@ -53,10 +53,10 @@ describe('nx-spring-boot e2e', () => {
     const groupId = 'com.tinesoft';
     const artifactId = 'api' ;
     const description = 'My sample app';
-    const version = '1.2.3';
+    //const version = '1.2.3'; https://github.com/nrwl/nx/issues/10786
 
     await runNxCommandAsync(
-      `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --version=${version} --javaVersion=${javaVersion}`
+      `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType application --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --javaVersion=${javaVersion}`
     );
 
     const resultBuildInfo= await runNxCommandAsync(`buildInfo ${prjName}`);
@@ -75,7 +75,7 @@ describe('nx-spring-boot e2e', () => {
     expect(pomXml).toContain(`<artifactId>${artifactId}</artifactId>`);
     expect(pomXml).toContain(`<name>${prjName}</name>`);
     expect(pomXml).toContain(`<description>${description}</description>`);
-    expect(pomXml).toContain(`<version>${version}</version>`);
+    //expect(pomXml).toContain(`<version>${version}</version>`);
     expect(pomXml).toContain(`<java.version>${javaVersion}</java.version>`);
 
     // make sure the build wrapper file is executable (*nix only)
