@@ -22,10 +22,10 @@ jobs:
       - run: | # we need to fetch the develop branch or else `affected:test` (run by husky after @semantic-release/git) will not work
           git fetch --depth=1
           git checkout develop
-      - name: Use Node.js 14.x
+      - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 16.x
       - name: Build, Release on GitHub & Publish to NPM
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
