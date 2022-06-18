@@ -49,11 +49,11 @@ describe('nx-quarkus e2e', () => {
     const buildSystem = 'MAVEN';
     const groupId = 'com.tinesoft';
     const artifactId = 'api' ;
-    const version = '1.2.3';
+    //const version = '1.2.3'; https://github.com/nrwl/nx/issues/10786
     const extensions="resteasy";
 
     await runNxCommandAsync(
-      `generate @nxrocks/nx-quarkus:new ${prjName} --projectType application --buildSystem=${buildSystem} --groupId=${groupId} --artifactId=${artifactId} --version=${version} --extensions=${extensions}`
+      `generate @nxrocks/nx-quarkus:new ${prjName} --projectType application --buildSystem=${buildSystem} --groupId=${groupId} --artifactId=${artifactId} --extensions=${extensions}`
     );
 
     const resultBuildInfo= await runNxCommandAsync(`clean ${prjName}`);
@@ -70,7 +70,7 @@ describe('nx-quarkus e2e', () => {
     const pomXml = readFile(`apps/${prjName}/pom.xml`);
     expect(pomXml).toContain(`<groupId>${groupId}</groupId>`);
     expect(pomXml).toContain(`<artifactId>${artifactId}</artifactId>`);
-    expect(pomXml).toContain(`<version>${version}</version>`);
+    //expect(pomXml).toContain(`<version>${version}</version>`);
 
     // make sure the build wrapper file is executable (*nix only)
     if(!isWin) {
