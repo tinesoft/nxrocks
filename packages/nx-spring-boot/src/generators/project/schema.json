@@ -92,6 +92,10 @@
         "type": "list",
         "items": [
           {
+            "value": "18",
+            "label": "18"
+          },
+          {
             "value": "17",
             "label": "17"
           },
