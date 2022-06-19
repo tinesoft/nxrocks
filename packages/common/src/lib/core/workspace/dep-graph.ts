@@ -1,11 +1,11 @@
-import { logger, ProjectConfiguration, ProjectGraph, ProjectGraphBuilder, ProjectGraphProcessorContext, WorkspaceJsonConfiguration } from "@nrwl/devkit";
+import { logger, ProjectConfiguration, ProjectGraph, ProjectGraphBuilder, ProjectGraphProcessorContext, ProjectsConfigurations } from "@nrwl/devkit";
 import { join } from "path";
 import { PackageInfo, WorkspacePackageInfoConfiguration } from "./models";
 
 export function getPackageInfosForNxProjects(pluginName: string,
     projectFilter: (project: ProjectConfiguration) => boolean,
     getPackageInfo: (project: ProjectConfiguration) => PackageInfo,
-    workspace: WorkspaceJsonConfiguration,
+    workspace: ProjectsConfigurations,
 ): WorkspacePackageInfoConfiguration {
     const workspacePackageInfo = {
         projects: {},
