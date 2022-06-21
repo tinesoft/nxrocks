@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "Link",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "sourceProjectName": {
+      "type": "string",
+      "description": "The name of the source(Quarkus) project to link from ",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name of the source (Quarkus) project to link from?"
+    },
+    "targetProjectName": {
+      "type": "string",
+      "description": "The name of the target project to link to ",
+      "$default": {
+        "$source": "argv",
+        "index": 1
+      },
+      "x-prompt": "What name of the target project to link to?"
+    }
+  },
+  "required": ["sourceProjectName", "targetProjectName"]
+}
