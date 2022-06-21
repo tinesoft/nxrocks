@@ -1,3 +1,15 @@
+# [@nxrocks/nx-spring-boot-v4.1.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v4.0.2...nx-spring-boot/v4.1.0) (2022-06-21)
+
+### Bug Fixes
+
+- **nx-spring-boot:** fix `Premature close` error when generating project ([f6b433d](https://github.com/tinesoft/nxrocks/commit/f6b433d458b0f94c297b4581cd18f0bef3c0c5e6)), closes [#97](https://github.com/tinesoft/nxrocks/issues/97)
+- **nx-spring-boot:** fix generation error when setting `javaVersion` ([364b228](https://github.com/tinesoft/nxrocks/commit/364b22885e74706fd3f6d10323325323439aa2f1)), closes [#98](https://github.com/tinesoft/nxrocks/issues/98)
+
+### Features
+
+- **nx-spring-boot:** add `link` generator to link projects implicitly ([1142d04](https://github.com/tinesoft/nxrocks/commit/1142d0438a1c2d28668efcdce8804c43bef56717))
+- **nx-spring-boot:** add support for Java 18 ([6dd94e1](https://github.com/tinesoft/nxrocks/commit/6dd94e1a34a2d5a597284332b0eac66c569fa559))
+
 # [@nxrocks/nx-spring-boot-v4.0.2](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v4.0.1...nx-spring-boot/v4.0.2) (2022-02-16)
 
 ### Bug Fixes
