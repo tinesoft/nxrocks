@@ -1,3 +1,13 @@
+# [@nxrocks/nx-quarkus-v2.2.0](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v2.1.2...nx-quarkus/v2.2.0) (2022-06-21)
+
+### Bug Fixes
+
+- **nx-quarkus:** fix `Premature close` error when generating project ([6ebcd85](https://github.com/tinesoft/nxrocks/commit/6ebcd85fd18cd923627f44630f0b1ad18fb88a57)), closes [#97](https://github.com/tinesoft/nxrocks/issues/97)
+
+### Features
+
+- **nx-quarkus:** add `link` generator to link projects implicitly ([2655b4f](https://github.com/tinesoft/nxrocks/commit/2655b4f326f4386893706d4ae024f6f84f419eac))
+
 # [@nxrocks/nx-quarkus-v2.1.2](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v2.1.1...nx-quarkus/v2.1.2) (2022-02-16)
 
 ### Bug Fixes
