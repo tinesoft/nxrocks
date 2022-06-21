@@ -55,7 +55,7 @@ npm install @nxrocks/nx-quarkus --save-dev
 yarn add @nxrocks/nx-quarkus --dev
 ```
 
-### Generating Project
+### Generating Project (`new` generator)
 
 Simply run the `project` generator with the following command:
 
@@ -92,6 +92,42 @@ Option                 | Value | Description
 `skipeCodeSamples`     | `string` | Whether or not to include code samples from extensions (when available)
 `tags`                 | `string` | Tags to use for linting (comma-separated)
 `directory`            | `string` | Directory where the project is placed
+
+### Linking Projects (`link` generator)
+
+This generator is used to link a Quarkus project inside the workspace (the *source* project) with another project (the _*target* project), by adding the source project as an **implicit dependency** of the later.
+
+Simply run the `link` generator with the following command:
+
+```
+nx g @nxrocks/nx-spring-boot:link
+```
+
+> you can also use the following aliases to call the generator: `link-project`
+
+You will be prompted for entering the most commonly customized generation options (`sourceProjectName`, `targetProjectName`).
+
+To skip the interactive prompt, you can pass options along directly when running the command, as such:
+
+```
+nx g @nxrocks/nx-spring-boot:link --sourceProjectName <your-quarkus-app> --targetProjectName <your-other-app>
+```
+
+or even simpler:
+
+```
+nx g @nxrocks/nx-spring-boot:link  <your-quarkus-app>  <your-other-app>
+```
+
+
+#### Generation Options
+
+Here the list of available generation options :
+
+| Arguments | Description              |
+| --------- | ------------------------ |
+| `<sourceProjectName>`  | The name of the source(Spring-Boot) project to link from. 1st argument of the `link` generator. Can also be provided as option `--sourceProjectName`|
+| `<targetProjectName>`  | The name of the target project to link to. 2nd argument of the `link` generator. Can also be provided as option `--targetProjectName`|
 
 ## Plugin Usage
 
