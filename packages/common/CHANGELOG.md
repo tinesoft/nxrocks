@@ -1,3 +1,9 @@
+# [@nxrocks/common-v1.1.0](https://github.com/tinesoft/nxrocks/compare/common/v1.0.2...common/v1.1.0) (2022-06-21)
+
+### Features
+
+- **common:** add utility to unzip a zip stream ([a472c00](https://github.com/tinesoft/nxrocks/commit/a472c00cdf32bf6513914cf031de4adef107e9f6))
+
 # [@nxrocks/common-v1.0.2](https://github.com/tinesoft/nxrocks/compare/common/v1.0.1...common/v1.0.2) (2022-02-16)
 
 ### Bug Fixes
