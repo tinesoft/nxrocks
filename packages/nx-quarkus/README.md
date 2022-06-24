@@ -57,7 +57,7 @@ yarn add @nxrocks/nx-quarkus --dev
 
 ### Generating Project (`new` generator)
 
-Simply run the `project` generator with the following command:
+Simply run the `new` generator with the following command:
 
 ```
 nx g @nxrocks/nx-quarkus:new <your-app-name>
@@ -70,7 +70,7 @@ You will be prompted for entering the most commonly customized generation option
 To skip the interactive prompt, or if you want to customize all non-prompted options, you can pass them along directly when running the command, as such:
 
 ```
-nx g @nxrocks/nx-quarkus:project <your-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
+nx g @nxrocks/nx-quarkus:new <your-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
 ```
 
 #### Generation Options
@@ -100,7 +100,7 @@ This generator is used to link a Quarkus project inside the workspace (the *sour
 Simply run the `link` generator with the following command:
 
 ```
-nx g @nxrocks/nx-spring-boot:link
+nx g @nxrocks/nx-quarkus:link
 ```
 
 > you can also use the following aliases to call the generator: `link-project`
@@ -110,13 +110,13 @@ You will be prompted for entering the most commonly customized generation option
 To skip the interactive prompt, you can pass options along directly when running the command, as such:
 
 ```
-nx g @nxrocks/nx-spring-boot:link --sourceProjectName <your-quarkus-app> --targetProjectName <your-other-app>
+nx g @nxrocks/nx-quarkus:link --sourceProjectName <your-quarkus-app> --targetProjectName <your-other-app>
 ```
 
 or even simpler:
 
 ```
-nx g @nxrocks/nx-spring-boot:link  <your-quarkus-app>  <your-other-app>
+nx g @nxrocks/nx-quarkus:link  <your-quarkus-app>  <your-other-app>
 ```
 
 
@@ -126,7 +126,7 @@ Here the list of available generation options :
 
 | Arguments | Description              |
 | --------- | ------------------------ |
-| `<sourceProjectName>`  | The name of the source(Spring-Boot) project to link from. 1st argument of the `link` generator. Can also be provided as option `--sourceProjectName`|
+| `<sourceProjectName>`  | The name of the source(Quarkus) project to link from. 1st argument of the `link` generator. Can also be provided as option `--sourceProjectName`|
 | `<targetProjectName>`  | The name of the target project to link to. 2nd argument of the `link` generator. Can also be provided as option `--targetProjectName`|
 
 ## Plugin Usage
