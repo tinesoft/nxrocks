@@ -1,5 +1,5 @@
 import { Tree, logger, readProjectConfiguration, readJson } from '@nrwl/devkit';
-import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
+import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
 
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
@@ -125,7 +125,7 @@ describe('project generator', () => {
 
     expect(logger.info).toHaveBeenNthCalledWith(1, `⬇️ Downloading Quarkus project zip from : ${downloadUrl}...`);
 
-    expect(logger.info).toHaveBeenNthCalledWith(2, `📦 Extracting Quarkus project zip to '${appRootPath}/${rootDir}/${options.name}'...`);
+    expect(logger.info).toHaveBeenNthCalledWith(2, `📦 Extracting Quarkus project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`);
   });
 
   it('should update workspace.json', async () => {

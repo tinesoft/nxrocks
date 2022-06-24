@@ -1,5 +1,5 @@
 import { Tree, logger } from '@nrwl/devkit';
-import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
+import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
 
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
@@ -20,7 +20,7 @@ export async function generateQuarkusProject(tree: Tree, options: NormalizedSche
     }
     const response = await fetch(downloadUrl, opts);
 
-    logger.info(`📦 Extracting Quarkus project zip to '${appRootPath}/${options.projectRoot}'...`);
+    logger.info(`📦 Extracting Quarkus project zip to '${workspaceRoot}/${options.projectRoot}'...`);
 
     await extractFromZipStream(response.body, (entryPath, entryContent) => {
         const filePath = entryPath.replace(`${options.artifactId}/`,''); // remove the inner folder in the zip

@@ -1,5 +1,5 @@
 import { Tree, logger } from '@nrwl/devkit';
-import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
+import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
 
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
@@ -20,7 +20,7 @@ export async function generateBootProject(tree: Tree, options: NormalizedSchema)
     }
     const response = await fetch(downloadUrl, opts);
 
-    logger.info(`Extracting Spring Boot project zip to '${appRootPath}/${options.projectRoot}'...`);
+    logger.info(`Extracting Spring Boot project zip to '${workspaceRoot}/${options.projectRoot}'...`);
 
     await extractFromZipStream(response.body, (entryPath, entryContent) => {
         const execPermission = entryPath.endsWith('mvnw') || entryPath.endsWith('gradlew') ? '755': undefined;

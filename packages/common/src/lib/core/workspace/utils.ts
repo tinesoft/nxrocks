@@ -1,11 +1,11 @@
 import { join } from 'path';
-import { appRootPath } from '@nrwl/workspace/src/utils/app-root';
+import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
 
 import { ProjectConfiguration } from '@nrwl/devkit';
 import { readFileSync } from 'fs';
 
 export function getProjectRoot(project: ProjectConfiguration) {
-  return join(appRootPath, project.root);
+  return join(workspaceRoot, project.root);
 }
 
 export function getProjectFilePath(

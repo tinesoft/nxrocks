@@ -9,7 +9,7 @@ import {
   tmpProjPath
 } from '@nrwl/nx-plugin/testing';
 import { readJsonFile, writeJsonFile } from "@nrwl/devkit";
-import { appRootPath } from "@nrwl/tao/src/utils/app-root";
+import { workspaceRoot } from "@nrwl/tao/src/utils/app-root";
 
 
 function patchDependencyOfPlugin(
@@ -17,9 +17,9 @@ function patchDependencyOfPlugin(
   dependencyPackageName: string,
   dependencyDistPath: string
 ) {
-  const path = join(appRootPath, pluginDistPath, 'package.json');
+  const path = join(workspaceRoot, pluginDistPath, 'package.json');
   const json = readJsonFile(path);
-  json.dependencies[dependencyPackageName] = `file:${appRootPath}/${dependencyDistPath}`;
+  json.dependencies[dependencyPackageName] = `file:${workspaceRoot}/${dependencyDistPath}`;
   writeJsonFile(path, json);
 }
 

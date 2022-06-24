@@ -1,4 +1,4 @@
-import { appRootPath } from "@nrwl/workspace/src/utils/app-root";
+import { workspaceRoot } from "@nrwl/workspace/src/utils/app-root";
 import { fork, execSync, Serializable } from "child_process";
 import path = require("path");
 
@@ -6,7 +6,7 @@ export function spawnVerdaccioRegistry(port = 4873) {
   return new Promise((resolve, reject) => {
 
     const pathVerdaccioModule = require.resolve("verdaccio/bin/verdaccio");
-    const configPath = path.join(appRootPath, ".verdaccio", "config.yaml");
+    const configPath = path.join(workspaceRoot, ".verdaccio", "config.yaml");
 
     const childFork = fork(
       pathVerdaccioModule,

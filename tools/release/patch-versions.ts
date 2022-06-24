@@ -1,4 +1,4 @@
-import { appRootPath } from '@nrwl/tao/src/utils/app-root';
+import { workspaceRoot } from '@nrwl/tao/src/utils/app-root';
 import { execSync } from 'child_process';
 import { readJsonSync, writeFileSync } from 'fs-extra';
 import { join } from 'path';
@@ -8,7 +8,7 @@ import { join } from 'path';
 // for example, 'nx-spring-boot' contains a dependency on 'common' package
 // after the release of 'common' package, we need to update the version of 'common' in 'nx-spring-boot' before releasing it
 
-const distFolder = join(appRootPath, 'dist');
+const distFolder = join(workspaceRoot, 'dist');
 const packagesFolder = join(distFolder,'packages');
 
 execSync('nx dep-graph --file dist/deps.json', { stdio: 'inherit'});
