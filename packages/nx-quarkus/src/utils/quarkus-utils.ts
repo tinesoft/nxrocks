@@ -1,6 +1,8 @@
 import { NormalizedSchema } from '../generators/project/schema';
-import { BuilderCommandAliasType, hasGradleProject, hasMavenProject, runBuilderCommand } from '@nxrocks/common';
+import { isMavenProject, checkProjectBuildFileContains, isGradleProject, BuilderCommandAliasType, hasGradleProject, hasMavenProject, runBuilderCommand } from '@nxrocks/common';
+
 import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
+import { ProjectConfiguration } from '@nrwl/devkit';
 
 const getBuilder = (cwd: string) => {
     if (hasMavenProject(cwd)) return MAVEN_BUILDER;
@@ -33,5 +35,20 @@ export function buildQuarkusDownloadUrl(options: NormalizedSchema) {
     const queryParams = params.map(e => `${e.key}=${e.value}`).join('&').concat(...(extensions?.length ? ['&',extensions]: []));
 
     return `${options.quarkusInitializerUrl}/d?${queryParams}`;
+}
+
+
+export function isQuarkusProject(project: ProjectConfiguration): boolean {
+    
+    if(isMavenProject(project)) {
+        return checkProjectBuildFileContains(project, { fragments: ['<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>']}) ;
+    }
+
+    if(isGradleProject(project)) {
+        return checkProjectBuildFileContains(project, { fragments: ['implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")',
+            'implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))']}) ;
+    }
+
+    return false;
 }
 
