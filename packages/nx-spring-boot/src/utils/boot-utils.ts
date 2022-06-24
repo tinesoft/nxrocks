@@ -1,7 +1,8 @@
 import { escape } from 'querystring'
 import { NormalizedSchema } from '../generators/project/schema';
-import { BuilderCommandAliasType, hasGradleProject, hasMavenProject, runBuilderCommand } from '@nxrocks/common';
+import { BuilderCommandAliasType, hasGradleProject, hasMavenProject, runBuilderCommand, isMavenProject, checkProjectBuildFileContains, isGradleProject } from '@nxrocks/common';
 import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
+import { ProjectConfiguration } from '@nrwl/devkit';
 
 
 const getBuilder = (cwd: string) => {
@@ -42,3 +43,15 @@ export function buildBootDownloadUrl(options: NormalizedSchema) {
     return `${options.springInitializerUrl}/starter.zip?${queryParams}`;
 }
 
+export function isBootProject(project: ProjectConfiguration): boolean {
+    
+    if(isMavenProject(project)) {
+        return checkProjectBuildFileContains(project, { fragments: ['<artifactId>spring-boot-starter-parent</artifactId>']}) ;
+    }
+
+    if(isGradleProject(project)) {
+        return checkProjectBuildFileContains(project, { fragments: ['implementation \'org.springframework.boot:spring-boot-starter-parent\'', 'implementation("org.springframework.boot:spring-boot-starter")']}) ;
+    }
+
+    return false;
+}

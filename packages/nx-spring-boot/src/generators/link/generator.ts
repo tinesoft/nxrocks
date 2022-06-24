@@ -4,11 +4,15 @@ import {
   updateProjectConfiguration,
 } from '@nrwl/devkit';
 import { LinkGeneratorSchema } from './schema';
+import { isBootProject } from '../../utils/boot-utils';
 
 
 export default async function (tree: Tree, options: LinkGeneratorSchema) {
 
-  readProjectConfiguration(tree, options.sourceProjectName);
+  const sourceProject = readProjectConfiguration(tree, options.sourceProjectName);
+  if(!isBootProject(sourceProject)) {
+    throw new Error (`The source project (1st argument of this 'link' generator) must be a Spring-Boot project`);
+  }
   const targetProject = readProjectConfiguration(tree, options.targetProjectName);
 
   const targetProjectImplicitDependencies = targetProject.implicitDependencies || [];
