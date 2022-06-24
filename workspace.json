@@ -4,6 +4,8 @@
     "common": "packages/common",
     "nx-flutter": "packages/nx-flutter",
     "nx-flutter-e2e": "e2e/nx-flutter-e2e",
+    "nx-micronaut": "packages/nx-micronaut",
+    "nx-micronaut-e2e": "e2e/nx-micronaut-e2e",
     "nx-quarkus": "packages/nx-quarkus",
     "nx-quarkus-e2e": "e2e/nx-quarkus-e2e",
     "nx-spring-boot": "packages/nx-spring-boot",

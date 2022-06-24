@@ -1,0 +1,64 @@
+{
+  "executors": {
+    "run": {
+      "implementation": "./src/executors/run/executor",
+      "schema": "./src/executors/run/schema.json",
+      "description": "Executor to serve the project (alias to 'run' executor)"
+    },
+    "serve": {
+      "implementation": "./src/executors/run/executor",
+      "schema": "./src/executors/run/schema.json",
+      "description": "Executor to serve the project (alias to 'run' executor)"
+    },
+    "dockerfile": {
+      "implementation": "./src/executors/dockerfile/executor",
+      "schema": "./src/executors/dockerfile/schema.json",
+      "description": "Executor to Generates a Dockerfile depending on the 'packaging' and 'micronaut.runtime' properties."
+    },
+    "test": {
+      "implementation": "./src/executors/test/executor",
+      "schema": "./src/executors/test/schema.json",
+      "description": "Executor to test the project"
+    },
+    "clean": {
+      "implementation": "./src/executors/clean/executor",
+      "schema": "./src/executors/clean/schema.json",
+      "description": "Executor to clean the project"
+    },
+    "format": {
+      "implementation": "./src/executors/format/executor",
+      "schema": "./src/executors/format/schema.json",
+      "description": "Executor to format the project"
+    },
+    "do-format": {
+      "implementation": "./src/executors/format/executor",
+      "schema": "./src/executors/format/schema.json",
+      "description": "Executor to format the project (alias to 'format' executor)"
+    },
+    "apply-format": {
+      "implementation": "./src/executors/format/executor",
+      "schema": "./src/executors/format/schema.json",
+      "description": "Executor to format the project (alias to 'format' executor)"
+    },
+    "format-check": {
+      "implementation": "./src/executors/format-check/executor",
+      "schema": "./src/executors/format-check/schema.json",
+      "description": "Executor to check if project's files are well formatted using Spotless plugin"
+    },
+    "check-format": {
+      "implementation": "./src/executors/format-check/executor",
+      "schema": "./src/executors/format-check/schema.json",
+      "description": "Executor to check if project's files are well formatted using Spotless plugin (alias to 'format-check' executor)"
+    },
+    "build": {
+      "implementation": "./src/executors/build/executor",
+      "schema": "./src/executors/build/schema.json",
+      "description": "Executor to build the project"
+    },
+    "aotSampleConfig": {
+      "implementation": "./src/executors/aot-sample-config/executor",
+      "schema": "./src/executors/aot-sample-config/schema.json",
+      "description": "Executor to list extensions in the project"
+    }
+  }
+}

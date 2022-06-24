@@ -20,7 +20,7 @@
 
 Here is a list of some of the coolest features of the plugin:
 
-- ✅ Generation of Flutter applications/packages/modules/plugins based on **Flutter CLI** API
+- ✅ Generation of Flutter applications/packages/modules/plugins based on **Flutter cli** API
 - ✅ Building, packaging, testing, etc your Flutter projects
 - ✅ Integration with Nx's **dependency graph** (through `nx dep-graph` or `nx affected:dep-graph`): this allows you to **visualize** the dependencies of any Flutter projects inside your workspace, just like Nx natively does it for JS/TS-based projects!
 

@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "Aot Config Sample executor",
+  "description": "",
+  "cli": "nx",
+  "type": "object",
+  "properties": {
+    "root": {
+      "description": "The project root",
+      "type": "string"
+    },
+    "ignoreWrapper": {
+      "description": "Whether or not to use the embedded wrapper (`mvnw`or `gradlew`) to perfom build operations",
+      "type": "boolean",
+      "default": false
+    },
+    "args": {
+      "description": "The argument to be passed to the underlying Micronaut command",
+      "type": "array",
+      "default": []
+    }
+  },
+  "required": []
+}

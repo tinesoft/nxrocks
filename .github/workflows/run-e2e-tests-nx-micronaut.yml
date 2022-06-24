@@ -1,0 +1,57 @@
+name: Run e2e Tests for nx-micronaut
+
+on:
+  push:
+    branches: [ develop ]
+    paths:    [ "nx.json", "package.json", "workspace.json", "packages/common/**", "packages/nx-micronaut/**" ]
+  pull_request:
+    branches: [ develop ]
+    paths:    [ "nx.json", "package.json", "workspace.json", "packages/common/**", "packages/nx-micronaut/**" ]
+
+jobs:
+  run_e2e:
+    name: Run e2e Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [16.x]
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Use Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          
+      - name: Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache Yarn
+        uses: actions/cache@v3
+        env:
+          cache-name: yarn
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-
+
+      - name: Install packages
+        run: yarn install --frozen-lockfile
+
+      - name: Run e2e tests
+        env:
+          NX_E2E_CI_CACHE_KEY: e2e-gha-${{ matrix.os }}-${{ matrix.node-version }}
+          NX_E2E_SKIP_BUILD_CLEANUP: ${{ 'true' }}
+          NX_E2E_SKIP_DAEMON_CLEANUP: ${{ 'true' }}
+        run: |
+          yarn ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-project.ts
+          yarn run e2e nx-micronaut-e2e
