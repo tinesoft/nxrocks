@@ -1,0 +1,68 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/nx-micronaut/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/nx-micronaut",
+        "main": "packages/nx-micronaut/src/index.ts",
+        "packageJson": "packages/nx-micronaut/package.json",
+        "tsConfig": "packages/nx-micronaut/tsconfig.lib.json",
+        "assets": [
+          "packages/nx-micronaut/*.md",
+          {
+            "input": "./packages/nx-micronaut/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-micronaut/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-micronaut",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./packages/nx-micronaut",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/nx-micronaut/**/*.ts",
+          "packages/nx-micronaut/generators.json",
+          "packages/nx-micronaut/executors.json",
+          "packages/nx-micronaut/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/nx-micronaut"],
+      "options": {
+        "jestConfig": "packages/nx-micronaut/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "release": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx semantic-release",
+        "cwd": "packages/nx-micronaut"
+      }
+    }
+  },
+  "tags": []
+}

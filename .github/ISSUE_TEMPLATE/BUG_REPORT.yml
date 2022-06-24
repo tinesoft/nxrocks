@@ -15,6 +15,7 @@ body:
         - "@nxrocks/nx-spring-boot"
         - "@nxrocks/nx-flutter"
         - "@nxrocks/nx-quarkus"
+        - "@nxrocks/nx-micronaut"
     validations:
       required: true
   - type: input

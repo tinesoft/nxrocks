@@ -1,0 +1,197 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "Application",
+  "title": "Creates a Micronaut application in the workspace",
+  "cli": "nx",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the project",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?"
+    },
+    "type": {
+      "description": "Type of application",
+      "default": "default",
+      "type": "string",
+      "x-prompt": {
+        "message": "What kind of application are you generating?",
+        "type": "list",
+        "items": [
+          {
+            "value": "default",
+            "label": "Micronaut Application"
+          },
+          {
+            "value": "cli",
+            "label": "Command Line Application"
+          },
+          {
+            "value": "function",
+            "label": "Function Application for Serverless" 
+          },
+          {
+            "value": "grpc",
+            "label": "gRPC Application"
+          },
+          {
+            "value": "messaging",
+            "label": "Messaging-Driven Application"
+          }
+        ]
+      }
+    },
+    "micronautVersion": {
+      "description": "Micronaut version",
+      "type": "string",
+      "default": "current",
+      "enum": ["current", "snapshot", "previous"],
+      "x-prompt": {
+        "message": "Which version of Micronaut would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "current",
+            "label": "Current Stable"
+          },
+          {
+            "value": "snapshot",
+            "label": "Latest Snapshot"
+          },
+          {
+            "value": "previous",
+            "label": "Previous Stable"
+          }
+        ]
+      }
+    },
+    "buildSystem": {
+      "description": "Build system",
+      "alias": "type",
+      "default": "MAVEN",
+      "type": "string",
+      "x-prompt": {
+        "message": "Which build system would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "MAVEN",
+            "label": "Maven"
+          },
+          {
+            "value": "GRADLE",
+            "label": "Gradle"
+          },
+          {
+            "value": "GRADLE_KOTLIN",
+            "label": "Gradle Kotlin"
+          }
+        ]
+      }
+    },
+    "javaVersion": {
+      "description": "Java version",
+      "type": "string",
+      "default": "JDK_8",
+      "enum": ["JDK_8", "JDK_11", "JDK_16"],
+      "x-prompt": {
+        "message": "Which version of Java would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "JDK_8",
+            "label": "8"
+          },
+          {
+            "value": "JDK_11",
+            "label": "11"
+          },
+          {
+            "value": "JDK_16",
+            "label": "16"
+          }
+        ]
+      }
+    },
+    "language": {
+      "description": "Language of the project",
+      "type": "string",
+      "default": "JAVA",
+      "enum": ["JAVA", "KOTLIN", "GROOVY"],
+      "x-prompt": {
+        "message": "Which language would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "JAVA",
+            "label": "Java"
+          },
+          {
+            "value": "KOTLIN",
+            "label": "Kotlin"
+          },
+          {
+            "value": "GROOVY",
+            "label": "Groovy"
+          }
+        ]
+      }
+    },
+    "basePackage": {
+      "description": "Base package of the project",
+      "type": "string",
+      "default": "com.example",
+      "x-prompt": "What base package would you like to use?"
+    },
+    "testFramework": {
+      "description": "Test framework",
+      "type": "string",
+      "default": "JUNIT",
+      "enum": ["JUNIT", "SPOCK", "KOTEST"],
+      "x-prompt": {
+        "message": "Which test framework would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "JUNIT",
+            "label": "JUnit"
+          },
+          {
+            "value": "SPOCK",
+            "label": "Spock"
+          },
+          {
+            "value": "KOTEST",
+            "label": "Kotest"
+          }
+        ]
+      }
+    },
+    "features": {
+      "type": "string",
+      "x-prompt": "What features would you like to use (comma separated)?\n👉 Go to https://micronaut.io/launch to get the ids needed here"
+    },
+    "micronautLaunchUrl": {
+      "type": "string",
+      "default": "https://launch.micronaut.io",
+      "description": "The URL to the Micronaut Launch instance to use to generate the project"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting)",
+      "alias": "t"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed",
+      "alias": "d"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
