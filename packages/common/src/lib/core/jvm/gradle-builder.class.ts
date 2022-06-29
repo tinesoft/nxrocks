@@ -13,7 +13,7 @@ export class GradleBuilder implements BuilderCore {
     return BuildSystem.GRADLE;
   }
 
-  getExecutable(ignoreWrapper: boolean) {
+  getExecutable(ignoreWrapper: boolean, useLegacyWrapper = false) {
     return ignoreWrapper ? GRADLE_EXECUTABLE : GRADLE_WRAPPER_EXECUTABLE;
   }
 

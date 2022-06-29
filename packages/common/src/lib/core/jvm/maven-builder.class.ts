@@ -1,4 +1,4 @@
-import { MAVEN_EXECUTABLE, MAVEN_WRAPPER_EXECUTABLE } from './constants';
+import { MAVEN_EXECUTABLE, MAVEN_WRAPPER_EXECUTABLE, MAVEN_WRAPPER_EXECUTABLE_LEGACY } from './constants';
 import {
   BuilderCommandAliasMapper,
   BuilderCommandAliasType,
@@ -13,8 +13,11 @@ export class MavenBuilder implements BuilderCore {
     return BuildSystem.MAVEN;
   }
 
-  getExecutable(ignoreWrapper: boolean) {
-    return ignoreWrapper ? MAVEN_EXECUTABLE : MAVEN_WRAPPER_EXECUTABLE;
+  getExecutable(ignoreWrapper: boolean, useLegacyWrapper = false) {
+    if(ignoreWrapper)
+      return  MAVEN_EXECUTABLE;
+    else 
+      return useLegacyWrapper ? MAVEN_WRAPPER_EXECUTABLE_LEGACY : MAVEN_WRAPPER_EXECUTABLE;
   }
 
   getCommand(alias: BuilderCommandAliasType) {
