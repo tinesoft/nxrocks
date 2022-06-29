@@ -5,6 +5,21 @@ export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.diffplug.spotless';
 export const SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID = 'spotless-maven-plugin';
 export const SPOTLESS_MAVEN_PLUGIN_VERSION = '2.20.2';
 
+export function hasMavenPlugin(tree: Tree, rootFolder: string, groudId: string, artifactId: string, version?: string): boolean {
+    const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
+    const pomXml = readXml(pomXmlStr);
+
+    const pluginGrouIdNode = findXmlMatching(pomXml, '/project/build/plugins/plugin/groupId/text()[.="' + groudId + '"]');
+    const pluginArtifactIdNode = findXmlMatching(pomXml, '/project/build/plugins/plugin/artifactId/text()[.="' + artifactId + '"]');
+    if (pluginGrouIdNode && pluginArtifactIdNode) {
+        const pluginVersionNode = findXmlMatching(pomXml, '/project/build/plugins/plugin/version/text()[.="' + version + '"]');
+
+        return version ? !!pluginVersionNode : true;
+    }
+
+    return false;
+}
+
 export function addMavenPlugin(tree: Tree, rootFolder: string, groudId: string, artifactId: string, version?: string, configuration?: { [key: string]: any } | string): boolean {
     const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
     const pomXml = readXml(pomXmlStr);
