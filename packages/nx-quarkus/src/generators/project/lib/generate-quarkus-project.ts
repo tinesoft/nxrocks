@@ -1,4 +1,4 @@
-import { Tree, logger } from '@nrwl/devkit';
+import { Tree, logger, stripIndents } from '@nrwl/devkit';
 import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
 
 import fetch from 'node-fetch';
@@ -22,9 +22,21 @@ export async function generateQuarkusProject(tree: Tree, options: NormalizedSche
 
     logger.info(`📦 Extracting Quarkus project zip to '${workspaceRoot}/${options.projectRoot}'...`);
 
-    await extractFromZipStream(response.body, (entryPath, entryContent) => {
-        const filePath = entryPath.replace(`${options.artifactId}/`,''); // remove the inner folder in the zip
-        const execPermission = filePath.endsWith('mvnw') || filePath.endsWith('gradlew') ? '755': undefined;
-        tree.write(`${options.projectRoot}/${filePath}`, entryContent, {mode: execPermission});
-    });
+    if(response.ok){
+        await extractFromZipStream(response.body, (entryPath, entryContent) => {
+            const filePath = entryPath.replace(`${options.artifactId}/`,''); // remove the inner folder in the zip
+            const execPermission = filePath.endsWith('mvnw') || filePath.endsWith('gradlew') ? '755': undefined;
+            tree.write(`${options.projectRoot}/${filePath}`, entryContent, {mode: execPermission});
+        });
+    }
+    else {
+        throw new Error( stripIndents`
+        ❌ Error downloading Quarkus project zip from '${options.quarkusInitializerUrl}'
+        If the problem persists, please open an issue at https://github.com/tinesoft/nxrocks/issues, with the following information:
+        ------------------------------------------------------
+        Download URL: ${downloadUrl}
+        Response status: ${response.status}
+        Response headers: ${JSON.stringify(response.headers)}
+        ------------------------------------------------------`);
+    }
 }
