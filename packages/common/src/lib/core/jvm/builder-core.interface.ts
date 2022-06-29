@@ -19,7 +19,7 @@ export interface BuilderCommandAliasMapper {
 export interface BuilderCore {
   getBuildSystemType();
 
-  getExecutable(ignoreWrapper: boolean);
+  getExecutable(ignoreWrapper: boolean, useLegacyWrapper: boolean);
 
   getCommand(alias: BuilderCommandAliasType): string;
 }

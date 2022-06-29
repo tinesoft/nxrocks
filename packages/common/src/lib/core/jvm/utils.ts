@@ -14,12 +14,12 @@ export function runBuilderCommand(
   commandAlias: BuilderCommandAliasType,
   getBuilder : (cwd: string) => BuilderCore,
   params: string[],
-  options: { cwd?: string; ignoreWrapper?: boolean } = { ignoreWrapper: false }
+  options: { cwd?: string; ignoreWrapper?: boolean, useLegacyWrapper?: boolean } = { ignoreWrapper: false, useLegacyWrapper: false }
 ): { success: boolean } {
   // Take the parameters or set defaults
   const cwd = options.cwd || process.cwd();
   const buildSystem = getBuilder(cwd);
-  const executable = buildSystem.getExecutable(options.ignoreWrapper);
+  const executable = buildSystem.getExecutable(options.ignoreWrapper, options.useLegacyWrapper);
   const command = buildSystem.getCommand(commandAlias);
   // Create the command to execute
   const execute = `${executable} ${command} ${(params || []).join(' ')}`;
