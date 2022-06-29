@@ -6,7 +6,7 @@ import {
   uniq,
   tmpProjPath
 } from '@nrwl/nx-plugin/testing';
-import { ensureNxProjectWithDeps } from '@nxrocks/common/testing';
+import { ensureNxProjectWithDeps, octal } from '@nxrocks/common/testing';
 
 import { lstatSync } from 'fs';
 
@@ -165,9 +165,4 @@ describe('nx-quarkus e2e', () => {
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 200000);
   });
-
-  function octal(value: string | number): number {
-    if (typeof value === 'string') return parseInt(value, 8);
-    return value;
-  }
 });

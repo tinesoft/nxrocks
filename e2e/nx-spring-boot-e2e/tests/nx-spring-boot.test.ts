@@ -7,7 +7,7 @@ import {
   tmpProjPath
 } from '@nrwl/nx-plugin/testing';
 import { names } from '@nrwl/devkit';
-import {ensureNxProjectWithDeps} from '@nxrocks/common/testing';
+import {ensureNxProjectWithDeps, octal} from '@nxrocks/common/testing';
 
 import { lstatSync } from 'fs';
 
@@ -171,9 +171,4 @@ describe('nx-spring-boot e2e', () => {
 
     }, 200000);
   });
-
-  function octal(value: string | number): number {
-    if (typeof value === 'string') return parseInt(value, 8);
-    return value;
-  }
 });

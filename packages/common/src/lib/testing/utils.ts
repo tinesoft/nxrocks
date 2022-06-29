@@ -46,3 +46,9 @@ export async function* syncToAsyncIterable(syncIterable) {
     yield elem;
   }
 }
+
+
+export function octal(value: string | number): number {
+  if (typeof value === 'string') return parseInt(value, 8);
+  return value;
+}
