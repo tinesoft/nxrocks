@@ -1,4 +1,4 @@
-import { Tree, logger } from '@nrwl/devkit';
+import { Tree, logger, stripIndents } from '@nrwl/devkit';
 import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
 
 import fetch from 'node-fetch';
@@ -22,8 +22,20 @@ export async function generateBootProject(tree: Tree, options: NormalizedSchema)
 
     logger.info(`Extracting Spring Boot project zip to '${workspaceRoot}/${options.projectRoot}'...`);
 
-    await extractFromZipStream(response.body, (entryPath, entryContent) => {
-        const execPermission = entryPath.endsWith('mvnw') || entryPath.endsWith('gradlew') ? '755': undefined;
-        tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {mode: execPermission});
-    });
+    if(response.ok){
+        await extractFromZipStream(response.body, (entryPath, entryContent) => {
+            const execPermission = entryPath.endsWith('mvnw') || entryPath.endsWith('gradlew') ? '755': undefined;
+            tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {mode: execPermission});
+        });
+    }
+    else {
+        throw new Error( stripIndents`
+        ❌ Error downloading Spring Boot project zip from '${options.springInitializerUrl}'
+        If the problem persists, please open an issue at https://github.com/tinesoft/nxrocks/issues, with the following information:
+        ------------------------------------------------------
+        Download URL: ${downloadUrl}
+        Response status: ${response.status}
+        Response headers: ${JSON.stringify(response.headers)}
+        ------------------------------------------------------`);
+    }
 }
