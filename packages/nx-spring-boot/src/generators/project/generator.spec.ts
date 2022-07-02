@@ -13,7 +13,7 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-import { NX_SPRING_BOOT_PKG } from '@nxrocks/common';
+import { hasMavenPlugin, NX_SPRING_BOOT_PKG, stripIndent } from '@nxrocks/common';
 import { mockZipEntries, syncToAsyncIterable } from '@nxrocks/common/testing';
 
 const POM_XML = `<?xml version="1.0" encoding="UTF-8"?>
@@ -193,5 +193,72 @@ describe('project generator', () => {
     expect(nxJson.plugins).toEqual([NX_SPRING_BOOT_PKG]);
 
   });
+
+
+  it.each`
+  projectType      | expectedAction  
+  ${'application'} | ${'keep as-is'} 
+  ${'library'}     | ${'remove'}     
+`(`should $expectedAction the Spring Boot Maven plugin in pom.xml when generating a '$projectType'`, async ({ projectType }) => {
+
+    const opts: ProjectGeneratorOptions = { ...options, buildSystem: 'maven-project', projectType};
+
+    const zipFiles = [{ filePath: 'pom.xml', fileContent: POM_XML }, 'mvnw', 'README.md',];
+    const starterZip = mockZipEntries(zipFiles);
+    // mock the zip content returned by the real call to Spring Initializer
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(starterZip));
+
+    await projectGenerator(tree, opts);
+
+    const expectedResult = projectType === 'application';
+    expect(hasMavenPlugin(tree, `./${projectType === 'application' ? 'apps':'libs'}/${options.name}`, 'org.springframework.boot', 'spring-boot-maven-plugin')).toEqual(expectedResult);
+  });
+
+
+  it.each`
+  projectType      | expectedAction  
+  ${'application'} | ${'keep as-is'} 
+  ${'library'}     | ${'disable'}    
+`(`should $expectedAction the Spring Boot Gradle plugin in build.gradle when generating a '$projectType'`, async ({ projectType }) => {
+
+    const opts: ProjectGeneratorOptions = { ...options, buildSystem: 'gradle-project', projectType};
+
+    const zipFiles = [{ filePath: 'build.gradle', fileContent: BUILD_GRADLE }, 'gradlew', 'README.md',];
+    const starterZip = mockZipEntries(zipFiles);
+    // mock the zip content returned by the real call to Spring Initializer
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(starterZip));
+
+    await projectGenerator(tree, opts);
+
+    const buildGradle = tree.read( `./${projectType === 'application' ? 'apps':'libs'}/${options.name}/build.gradle`, 'utf-8');
+
+    const bootJarDisabledTask = 
+    stripIndent`
+
+    // spring boot library projects don't need an executable jar, so we disable it
+    bootJar {
+    	enabled = false
+    }
+    `;
+    const jarEnabledTask = 
+    stripIndent`
+    
+    jar {
+    	enabled = true
+    }
+    `;
+    
+    if(projectType === 'application') {
+      expect(buildGradle).not.toContain(bootJarDisabledTask);
+      expect(buildGradle).not.toContain(jarEnabledTask);
+    }
+    else {
+      expect(buildGradle).toContain(bootJarDisabledTask);
+      expect(buildGradle).toContain(jarEnabledTask);
+    }
+
+  });
+
+
 });
 
