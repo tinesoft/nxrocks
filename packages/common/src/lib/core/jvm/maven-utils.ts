@@ -1,18 +1,18 @@
 import { Tree } from "@nrwl/devkit";
-import { addXmlNode, findXmlMatching, readXml, stripIndent } from "../utils";
+import { addXmlNode, findXmlMatching, isXmlNodeEmpty, readXml, removeXmlNode, stripIndent } from "../utils";
 
 export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.diffplug.spotless';
 export const SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID = 'spotless-maven-plugin';
 export const SPOTLESS_MAVEN_PLUGIN_VERSION = '2.20.2';
 
-export function hasMavenPlugin(tree: Tree, rootFolder: string, groudId: string, artifactId: string, version?: string): boolean {
+export function hasMavenPlugin(tree: Tree, rootFolder: string, groupId: string, artifactId: string, version?: string): boolean {
     const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
     const pomXml = readXml(pomXmlStr);
 
-    const pluginGrouIdNode = findXmlMatching(pomXml, '/project/build/plugins/plugin/groupId/text()[.="' + groudId + '"]');
-    const pluginArtifactIdNode = findXmlMatching(pomXml, '/project/build/plugins/plugin/artifactId/text()[.="' + artifactId + '"]');
+    const pluginGrouIdNode = findXmlMatching(pomXml, `/project/build/plugins/plugin/groupId/text()[.="${groupId}"]`);
+    const pluginArtifactIdNode = findXmlMatching(pomXml, `/project/build/plugins/plugin/artifactId/text()[.="${artifactId}"]`);
     if (pluginGrouIdNode && pluginArtifactIdNode) {
-        const pluginVersionNode = findXmlMatching(pomXml, '/project/build/plugins/plugin/version/text()[.="' + version + '"]');
+        const pluginVersionNode = findXmlMatching(pomXml, `/project/build/plugins/plugin/version/text()[.="${version}"]`);
 
         return version ? !!pluginVersionNode : true;
     }
@@ -20,12 +20,12 @@ export function hasMavenPlugin(tree: Tree, rootFolder: string, groudId: string, 
     return false;
 }
 
-export function addMavenPlugin(tree: Tree, rootFolder: string, groudId: string, artifactId: string, version?: string, configuration?: { [key: string]: any } | string): boolean {
+export function addMavenPlugin(tree: Tree, rootFolder: string, groupId: string, artifactId: string, version?: string, configuration?: { [key: string]: any } | string): boolean {
     const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
     const pomXml = readXml(pomXmlStr);
 
-    const pluginGrouIdNode = findXmlMatching(pomXml, '/project/build/plugins/plugin/groupId/text()[.="' + groudId + '"]');
-    const pluginArtifactIdNode = findXmlMatching(pomXml, '/project/build/plugins/plugin/artifactId/text()[.="' + artifactId + '"]');
+    const pluginGrouIdNode = findXmlMatching(pomXml, `/project/build/plugins/plugin/groupId/text()[.="${groupId}"]`);
+    const pluginArtifactIdNode = findXmlMatching(pomXml, `/project/build/plugins/plugin/artifactId/text()[.="${artifactId}"]`);
     if (pluginGrouIdNode && pluginArtifactIdNode) {
         return false;// plugin already exists
     }
@@ -54,14 +54,14 @@ export function addMavenPlugin(tree: Tree, rootFolder: string, groudId: string, 
     const pluginNode = configuration && typeof configuration === 'object' ?
         {
             'plugin': {
-                'groupId': groudId,
+                'groupId': groupId,
                 'artifactId': artifactId,
                 ...(version && { 'version' : version}),
                 'configuration': configuration
             }
         } :
         `<plugin>
-            <groupId>${groudId}</groupId>
+            <groupId>${groupId}</groupId>
             <artifactId>${artifactId}</artifactId>
             ${version ? `<version>${version}</version>`: ''}
             ${configuration ? `<configuration>${configuration}</configuration>` : ''}
@@ -70,6 +70,32 @@ export function addMavenPlugin(tree: Tree, rootFolder: string, groudId: string, 
     addXmlNode(pluginsNode, pluginNode);
     tree.write(`${rootFolder}/pom.xml`, pomXml.toString({ prettyPrint: true, indent: '\t' }));
     return true;
+}
+
+export function removeMavenPlugin(tree: Tree, rootFolder: string, groupId: string, artifactId: string): boolean {
+    const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
+    const pomXml = readXml(pomXmlStr);
+
+    const pluginNode = findXmlMatching(pomXml, `/project/build/plugins/plugin/groupId/text()[.="${groupId}"]/../../artifactId/text()[.="${artifactId}"]`)?.up()?.up();
+    if (pluginNode) {
+        
+        const pluginsNode = removeXmlNode(pluginNode);
+        
+        //if parent 'plugins' node is now empty, remove it
+        if (isXmlNodeEmpty(pluginsNode)) {
+            const buildNode = removeXmlNode( pluginsNode);
+
+             //if parent 'build' node is now empty, remove it
+            if(isXmlNodeEmpty(buildNode)) {
+                removeXmlNode(buildNode);
+            }   
+        }
+
+        tree.write(`${rootFolder}/pom.xml`, pomXml.toString({ prettyPrint: true, indent: '\t' }));
+        return true;
+    }
+
+    return false;
 }
 
 function getMavenSpotlessBaseConfig(languageConfig: string, baseGitBranch?: string): string {
