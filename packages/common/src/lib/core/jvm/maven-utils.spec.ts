@@ -2,7 +2,7 @@ import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { addMavenPlugin } from '.';
 import { stripIndent } from '../utils';
-import { addSpotlessMavenPlugin, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_VERSION } from './maven-utils';
+import { addSpotlessMavenPlugin, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_VERSION, removeMavenPlugin } from './maven-utils';
 
 const getPomXmlFile = (hasBuildNode = true, hasPluginsNode = true) => {
 
@@ -94,6 +94,40 @@ describe('maven-utils', () => {
             			<groupId>${SPOTLESS_MAVEN_PLUGIN_GROUP_ID}</groupId>
             			<artifactId>${SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID}</artifactId>
             			<version>${SPOTLESS_MAVEN_PLUGIN_VERSION}</version>
+            		</plugin>
+            	</plugins>
+            </build>
+            `.replace(/\s+/g,'')
+            );
+        });
+    });
+
+    describe('removeMavenPlugin', () => {
+
+        let tree: Tree;
+        beforeEach(() => {
+            tree = createTreeWithEmptyWorkspace();
+        });
+
+        it('should not remove the plugin if does not exist', () => {
+            tree.write(`./pom.xml`, getPomXmlFile());
+            const removed = removeMavenPlugin(tree, '.', 'org.springframework.boot.fake', 'spring-boot-maven-plugin-fake');
+            expect(removed).toEqual(false);
+        });
+
+        it(`should remove the plugin node if found along with its ancestors 'plugins' and 'build' node if empty afterwards`, () => {
+            tree.write(`./pom.xml`, getPomXmlFile());
+
+            const removed = removeMavenPlugin(tree, '.','org.springframework.boot', 'spring-boot-maven-plugin');
+            const pomXml = tree.read(`./pom.xml`, 'utf-8');
+            expect(removed).toEqual(true);
+            expect(pomXml.replace(/\s+/g,'')).not.toContain(
+            `
+            <build>
+            	<plugins>
+            		<plugin>
+            			<groupId>org.springframework.boot</groupId>
+            			<artifactId>spring-boot-maven-plugin</artifactId>
             		</plugin>
             	</plugins>
             </build>
