@@ -21,6 +21,11 @@ export class XmlBuilder  {
 }
 
 export function readXml(xmlContent: string, ignoreNamespace = true): XMLBuilder {
+
+    if(!xmlContent) {
+        throw new Error('Cannot read XML, provided content is empty');
+    }
+
     return create(ignoreNamespace ? {
         defaultNamespace: {
             ele: null,
@@ -77,6 +82,11 @@ export function newXmlNode(content: { [key: string]: any } | string): XMLBuilder
 export function addXmlNode(target: XMLBuilder, node: { [key: string]: any } | string) {
     return target.import(newXmlNode(node));
 }
+
+export function removeXmlNode(nodeToRemove: XMLBuilder): XMLBuilder {
+    return nodeToRemove.remove();
+}
+
 export function addXmlElement(target: XMLBuilder, ...elements: (string | {name: string, attributes?:  {[key: string]: any} })[]) {
     let result = target;
 
@@ -84,6 +94,14 @@ export function addXmlElement(target: XMLBuilder, ...elements: (string | {name: 
        result =  (typeof elm === 'string') ? result.ele(elm) : result.ele(elm.name, elm.attributes);
     });
     return result;
+}
+
+export function isXmlNodeEmpty(xml: XMLBuilder): boolean {
+    try {
+        return !!xml.first();
+    } catch (error) {
+        return true;
+    }
 }
 
 function asXmlNode(xml: XMLBuilder): Node {
