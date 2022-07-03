@@ -9,24 +9,19 @@ export function hasMavenPlugin(tree: Tree, rootFolder: string, groupId: string, 
     const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
     const pomXml = readXml(pomXmlStr);
 
-    const pluginGrouIdNode = findXmlMatching(pomXml, `/project/build/plugins/plugin/groupId/text()[.="${groupId}"]`);
-    const pluginArtifactIdNode = findXmlMatching(pomXml, `/project/build/plugins/plugin/artifactId/text()[.="${artifactId}"]`);
-    if (pluginGrouIdNode && pluginArtifactIdNode) {
-        const pluginVersionNode = findXmlMatching(pomXml, `/project/build/plugins/plugin/version/text()[.="${version}"]`);
-
-        return version ? !!pluginVersionNode : true;
+    let pluginXPath = `/project/build/plugins/plugin/groupId/text()[.="${groupId}"]/../../artifactId/text()[.="${artifactId}"]`;
+    if (version) {
+        pluginXPath += `/../../version/text()[.="${version}"]`;
     }
 
-    return false;
+    return !! findXmlMatching(pomXml, pluginXPath)?.up()?.up();
 }
 
 export function addMavenPlugin(tree: Tree, rootFolder: string, groupId: string, artifactId: string, version?: string, configuration?: { [key: string]: any } | string): boolean {
     const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
     const pomXml = readXml(pomXmlStr);
 
-    const pluginGrouIdNode = findXmlMatching(pomXml, `/project/build/plugins/plugin/groupId/text()[.="${groupId}"]`);
-    const pluginArtifactIdNode = findXmlMatching(pomXml, `/project/build/plugins/plugin/artifactId/text()[.="${artifactId}"]`);
-    if (pluginGrouIdNode && pluginArtifactIdNode) {
+      if (hasMavenPlugin(tree, rootFolder, groupId, artifactId, version)) {
         return false;// plugin already exists
     }
 
