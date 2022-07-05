@@ -3,7 +3,7 @@ import { addXmlNode, findXmlMatching, isXmlNodeEmpty, readXml, removeXmlNode, st
 
 export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.diffplug.spotless';
 export const SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID = 'spotless-maven-plugin';
-export const SPOTLESS_MAVEN_PLUGIN_VERSION = '2.20.2';
+export const SPOTLESS_MAVEN_PLUGIN_VERSION = '2.23.0';
 
 export function hasMavenPlugin(tree: Tree, rootFolder: string, groupId: string, artifactId: string, version?: string): boolean {
     const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
