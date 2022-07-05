@@ -5,7 +5,7 @@ export const SPOTLESS_CONFIG_REGEX = /(?:(spotless|configure<com.diffplug.gradle
 export const GRADLE_PLUGIN_REGEX = /\s*(id|java|kotlin)(?:\s*\(?\s*['"]([^'"]+)['"]\s*\)?\s*(?:version\s+['"]([^'"]+)['"])?)?/g;
 
 export const SPOTLESS_GRADLE_PLUGIN_ID = 'com.diffplug.spotless';
-export const SPOTLESS_GRADLE_PLUGIN_VERSION = '6.2.2';
+export const SPOTLESS_GRADLE_PLUGIN_VERSION = '6.8.0';
 export interface GradlePlugin {
     id: string;
     version?: string;
