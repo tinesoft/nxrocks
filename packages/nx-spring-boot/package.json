@@ -29,10 +29,11 @@
     "java"
   ],
   "dependencies": {
-    "@nrwl/workspace": "*",
-    "@nrwl/devkit": "*",
     "node-fetch": "^2.6.1"
   },
   "typings": "./src/index.d.ts",
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@nrwl/workspace": ">=13.8.0",
+    "@nrwl/devkit": ">=13.8.0"
+  }
 }

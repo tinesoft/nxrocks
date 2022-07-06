@@ -28,11 +28,12 @@
     "dart"
   ],
   "dependencies": {
-    "@nrwl/workspace": "*",
-    "@nrwl/devkit": "*",
     "inquirer": "^7.3.3",
     "js-yaml": "4.1.0"
   },
   "typings": "./src/index.d.ts",
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@nrwl/workspace": ">=13.8.0",
+    "@nrwl/devkit": ">=13.8.0"
+  }
 }
