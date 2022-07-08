@@ -13,6 +13,7 @@ export interface ProjectGeneratorOptions {
   language?: 'JAVA' | 'KOTLIN' | 'GROOVY';
   testFramework?: 'JUNIT' | 'SPOCK' | 'KOTEST';
   features?: string;
+  skipFormat?: boolean;
 }
 
 export interface NormalizedSchema extends ProjectGeneratorOptions {

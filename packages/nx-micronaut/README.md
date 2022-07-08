@@ -87,6 +87,7 @@ Option                 | Value | Description
 `javaVersion`          | `JDK_8` \| `JDK_11` \| `JDK_16`| Java version to use
 `language`             | `JAVA` \| `GROOVY` \| `KOTLIN`      | Language to use
 `testFramework`        | `JUNIT` \| `SPOCK` \| `KOTEST`      | Test Framework to use
+`skipFormat`           | `boolean` | Do not add the ability to format code (using Spotless plugin)
 `features`             | `string` | List of features to use (comma-separated). Go to https://micronaut.io/launch to get the ids needed here
 `micronautVersion`     | `current` \| `snapshot` \| `previous`  |Micronaut version to use
 `micronautLaunchUrl`   | `https://launch.micronaut.io`            | URL to the Micronaut Launch instance to use

@@ -187,7 +187,6 @@ describe('project generator', () => {
       });
     }
     expect(hasMavenPlugin(tree, `./${options.projectType === 'application' ? 'apps':'libs'}/${options.name}`, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID)).toEqual(!skipFormat);
-
   });
 
 });

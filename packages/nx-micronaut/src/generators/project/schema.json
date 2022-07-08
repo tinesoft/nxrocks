@@ -171,6 +171,11 @@
         ]
       }
     },
+    "skipFormat": {
+      "type": "boolean",
+      "default": false,
+      "x-prompt": "Do not allow code formatting (using Spotless plugin) ?"
+    },
     "features": {
       "type": "string",
       "x-prompt": "What features would you like to use (comma separated)?\n👉 Go to https://micronaut.io/launch to get the ids needed here"
