@@ -13,7 +13,7 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-import { BuilderCommandAliasType, NX_QUARKUS_PKG,  } from '@nxrocks/common';
+import { BuilderCommandAliasType, hasMavenPlugin, NX_QUARKUS_PKG, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_GROUP_ID,  } from '@nxrocks/common';
 import { mockZipEntries, syncToAsyncIterable } from '@nxrocks/common/testing';
 
 const POM_XML = `<?xml version="1.0"?>
@@ -78,6 +78,7 @@ describe('project generator', () => {
     projectType: 'application',
     groupId:'com.tinesoft', 
     artifactId:'demo',
+    buildSystem: 'MAVEN',
     quarkusInitializerUrl: 'https://code.quarkus.io'
   };
 
@@ -138,7 +139,7 @@ describe('project generator', () => {
     const project = readProjectConfiguration(tree, options.name);
     expect(project.root).toBe(`apps/${options.name}`);
 
-    const commands:BuilderCommandAliasType[] = ['dev', 'remoteDev', 'test', 'clean', 'build', 'package', 'addExtension', 'listExtensions'];
+    const commands:BuilderCommandAliasType[] = ['dev', 'remoteDev', 'test', 'clean', 'build', 'format', 'format-check', 'package', 'addExtension', 'listExtensions'];
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
     });
@@ -154,6 +155,38 @@ describe('project generator', () => {
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
     expect(nxJson.plugins).toEqual([NX_QUARKUS_PKG]);
+  });
+
+  
+  it.each`
+  skipFormat      | expectedAction
+  ${true}         | ${'not add'}
+  ${false}        | ${'add'}
+`(`should $expectedAction code formatting features if skipFormat=$skipFormat`, async ({ skipFormat }) => {
+
+    const zipFiles = [{ filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML}, `${options.artifactId}/mvnw`, `${options.artifactId}/README.md`, ];
+    const quarkusZip = mockZipEntries(zipFiles);
+    // mock the zip content returned by the real call to Quarkus Initializer
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(quarkusZip));
+
+    await projectGenerator(tree, { ...options, skipFormat });
+
+    const project = readProjectConfiguration(tree, options.name);
+    const formatCommands = ['format', 'format-check'];
+    
+    if(skipFormat) {
+      // expect project.targets not to have the format commands
+      formatCommands.forEach(cmd => {
+        expect(project.targets[cmd]).toBeUndefined();
+      });
+    }
+    else {
+      // expect project.targets to have the format commands
+      formatCommands.forEach(cmd => {
+        expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
+      });
+    }
+    expect(hasMavenPlugin(tree, `./${options.projectType === 'application' ? 'apps':'libs'}/${options.name}`, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID)).toEqual(!skipFormat);
 
   });
 

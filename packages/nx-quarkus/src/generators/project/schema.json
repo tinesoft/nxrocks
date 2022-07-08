@@ -67,6 +67,11 @@
       "default": "demo",
       "x-prompt": "What artifactId would you like to use?"
     },
+    "skipFormat": {
+      "type": "boolean",
+      "default":false,
+      "x-prompt": "Do not allow code formatting (using Spotless plugin) ?"
+    },
     "extensions": {
       "type": "string",
       "default": "",

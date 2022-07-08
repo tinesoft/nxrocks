@@ -12,6 +12,7 @@ export interface ProjectGeneratorOptions {
   skipCodeSamples?: boolean;
   extensions?: string;
   version?: string;
+  skipFormat?: boolean;
 }
 
 export interface NormalizedSchema extends ProjectGeneratorOptions {

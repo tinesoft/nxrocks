@@ -9,7 +9,12 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
   const normalizedOptions = normalizeOptions(tree,options);
 
   const targets = {};
-  const commands:BuilderCommandAliasType[] = ['dev', 'remoteDev', 'test', 'clean', 'format', 'build', 'package', 'addExtension', 'listExtensions'];
+  const commands:BuilderCommandAliasType[] = ['dev', 'remoteDev', 'test', 'clean', 'build', 'package', 'addExtension', 'listExtensions'];
+
+  if(!options.skipFormat) {
+    commands.push('format', 'format-check');
+  }
+
   for (const command of commands) {
     targets[command] = {
       executor: `${NX_QUARKUS_PKG}:${command}`,
@@ -28,7 +33,9 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
 
   await generateQuarkusProject(tree, normalizedOptions);
 
-  addFormattingWithSpotless(tree, normalizedOptions);
+  if(!options.skipFormat) { //if skipFormat is true, then we don't want to add Spotless plugin
+    addFormattingWithSpotless(tree, normalizedOptions);
+  }
 
   addPluginToNxJson(NX_QUARKUS_PKG, tree);
 }

@@ -87,7 +87,8 @@ Option                 | Value | Description
 `buildSystem`          | `MAVEN` \| `GRADLE`  | Build system
 `groupId`              | `string` | GroupId of the project
 `artifactId`           | `string` | ArtifactId of the project
-`extensions`         | `string` | List of extensions to use (comma-separated). Go to https://code.quarkus.io/api/extensions to get the ids needed here
+`skipFormat`           | `boolean` | Do not add the ability to format code (using Spotless plugin)
+`extensions`           | `string` | List of extensions to use (comma-separated). Go to https://code.quarkus.io/api/extensions to get the ids needed here
 `quarkusInitializerUrl` | `https://code.quarkus.io`            | URL to the Quarkus Initializer instance to use
 `skipeCodeSamples`     | `string` | Whether or not to include code samples from extensions (when available)
 `tags`                 | `string` | Tags to use for linting (comma-separated)
