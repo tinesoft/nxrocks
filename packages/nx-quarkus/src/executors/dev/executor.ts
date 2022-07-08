@@ -5,13 +5,7 @@ import { runQuarkusPluginCommand } from '../../utils/quarkus-utils'
 
 export async function devExecutor(options: DevExecutorOptions, context: ExecutorContext){
   const root = path.resolve(context.root, options.root);
-  const result = runQuarkusPluginCommand('dev', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
-  
-  if (!result.success) {
-    throw new Error();
-  }
-
-  return result;
+  return runQuarkusPluginCommand('dev', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
 }
 
 export default devExecutor;
