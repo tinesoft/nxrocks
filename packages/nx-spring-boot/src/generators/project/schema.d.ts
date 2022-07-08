@@ -17,6 +17,7 @@ export interface ProjectGeneratorOptions {
   packaging?: 'jar' | 'war';
   dependencies?: string;
   version?: string;
+  skipFormat?: boolean;
 }
 
 export interface NormalizedSchema extends ProjectGeneratorOptions {

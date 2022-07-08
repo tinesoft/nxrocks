@@ -92,6 +92,7 @@ Option                 | Value | Description
 `artifactId`           | `string` | ArtifactId of the project
 `packageName`          | `string` | Main package name
 `description`          | `string` | Description of the project
+`skipFormat`           | `boolean` | Do not add the ability to format code (using Spotless plugin)
 `dependencies`         | `string` | List of dependencies to use (comma-separated). Go to https://start.spring.io/dependencies to get the ids needed here
 `springInitializerUrl` | `https://start.spring.io`            | URL to the Spring Initializer instance to use
 `bootVersion`          | `string` | Spring Boot version to use

@@ -13,7 +13,7 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-import { hasMavenPlugin, NX_SPRING_BOOT_PKG, stripIndent } from '@nxrocks/common';
+import { hasMavenPlugin, NX_SPRING_BOOT_PKG, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, stripIndent } from '@nxrocks/common';
 import { mockZipEntries, syncToAsyncIterable } from '@nxrocks/common/testing';
 
 const POM_XML = `<?xml version="1.0" encoding="UTF-8"?>
@@ -259,6 +259,37 @@ describe('project generator', () => {
 
   });
 
+  it.each`
+  skipFormat      | expectedAction
+  ${true}         | ${'not add'}
+  ${false}        | ${'add'}
+`(`should $expectedAction code formatting features if skipFormat=$skipFormat`, async ({ skipFormat }) => {
+
+    const zipFiles = [{ filePath: 'pom.xml', fileContent: POM_XML }, 'mvnw', 'README.md',];
+    const starterZip = mockZipEntries(zipFiles);
+    // mock the zip content returned by the real call to Spring Initializer
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(starterZip));
+
+    await projectGenerator(tree, { ...options, skipFormat });
+
+    const project = readProjectConfiguration(tree, options.name);
+    const formatCommands = ['format', 'format-check'];
+    
+    if(skipFormat) {
+      // expect project.targets not to have the format commands
+      formatCommands.forEach(cmd => {
+        expect(project.targets[cmd]).toBeUndefined();
+      });
+    }
+    else {
+      // expect project.targets to have the format commands
+      formatCommands.forEach(cmd => {
+        expect(project.targets[cmd].executor).toBe(`${NX_SPRING_BOOT_PKG}:${cmd}`);
+      });
+    }
+
+    expect(hasMavenPlugin(tree, `./${options.projectType === 'application' ? 'apps':'libs'}/${options.name}`, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID)).toEqual(!skipFormat);
+  });
 
 });
 
