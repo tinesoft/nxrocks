@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
 
-import { ProjectConfiguration } from '@nrwl/devkit';
+import { getWorkspaceLayout, ProjectConfiguration, Tree } from '@nrwl/devkit';
 import { readFileSync } from 'fs';
 
 export function getProjectRoot(project: ProjectConfiguration) {
@@ -23,3 +23,7 @@ export function getProjectFileContent(
   return readFileSync(filePath, 'utf8');
 }
 
+export function getProjectRootDir(tree:Tree, projectType: 'application' | 'library') {
+  const { appsDir, libsDir } = getWorkspaceLayout(tree);
+  return projectType === 'application' ? appsDir : libsDir;
+}
