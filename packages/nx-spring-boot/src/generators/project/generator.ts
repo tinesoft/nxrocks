@@ -25,7 +25,8 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
       executor: `${NX_SPRING_BOOT_PKG}:${command}`,
       options: {
         root: normalizedOptions.projectRoot
-      }
+      },
+      ...( command == 'build' ? {outputs: [`${normalizedOptions.projectRoot}/${normalizedOptions.buildSystem === 'maven-project' ? 'target' : 'build'}`]}: {})
     };
   }
   addProjectConfiguration(tree, normalizedOptions.projectName, {

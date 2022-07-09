@@ -6,7 +6,7 @@ export interface ProjectGeneratorOptions {
 
   springInitializerUrl?: string;
 
-  buildSystem?: 'maven-project' | 'gradle-project';
+  buildSystem: 'maven-project' | 'gradle-project';
   language?: 'java' | 'kotlin' | 'groovy';
   bootVersion?: string;
   groupId?: string;

@@ -90,7 +90,8 @@ describe('project generator', () => {
     name: 'bootapp',
     projectType: 'application',
     springInitializerUrl: 'https://start.spring.io',
-    language: 'java'
+    language: 'java',
+    buildSystem: 'maven-project',
   };
 
   const mockedFetch = (fetch as jest.MockedFunction<typeof fetch>);
@@ -154,10 +155,10 @@ describe('project generator', () => {
   });
 
   it.each`
-    projectType      | subDir
-    ${'application'} | ${'apps'}
-    ${'library'}     | ${'libs'}
-  `(`should update workspace.json for '$projectType'`, async ({ projectType, subDir }) => {
+    projectType     
+    ${'application'}
+    ${'library'}    
+  `(`should update workspace.json for '$projectType'`, async ({ projectType }) => {
 
     const zipFiles = [{ filePath: 'pom.xml', fileContent: POM_XML }, 'mvnw', 'README.md',];
     const starterZip = mockZipEntries(zipFiles);
@@ -167,7 +168,8 @@ describe('project generator', () => {
     await projectGenerator(tree, { ...options, projectType });
 
     const project = readProjectConfiguration(tree, options.name);
-    expect(project.root).toBe(`${subDir}/${options.name}`);
+    const projectDir = projectType === 'application' ? 'apps' : 'libs';
+    expect(project.root).toBe(`${projectDir}/${options.name}`);
 
     const commands = ['build', 'format', 'format-check', 'test', 'clean']
     const bootOnlyCommands = ['run', 'serve', 'buildImage', 'buildInfo'];
@@ -178,6 +180,9 @@ describe('project generator', () => {
 
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`${NX_SPRING_BOOT_PKG}:${cmd}`);
+      if(cmd === 'build') { 
+        expect(project.targets[cmd].outputs).toEqual([`${project.root}/target`]);
+      }
     });
   });
 
