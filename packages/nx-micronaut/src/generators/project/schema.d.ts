@@ -6,7 +6,7 @@ export interface ProjectGeneratorOptions {
   micronautLaunchUrl?: string;
 
   type: 'default' | 'cli' | 'function' | 'grpc' | 'messaging';
-  buildSystem?: 'MAVEN' | 'GRADLE' | 'GRADLE_KOTLIN';
+  buildSystem: 'MAVEN' | 'GRADLE' | 'GRADLE_KOTLIN';
   basePackage: string;
   micronautVersion?:  'current' | 'snapshot' | 'previous';
   javaVersion?: 'string';

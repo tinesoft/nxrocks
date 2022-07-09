@@ -20,7 +20,8 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
       executor: `${NX_MICRONAUT_PKG}:${command}`,
       options: {
         root: normalizedOptions.projectRoot
-      }
+      },
+      ...( command == 'build' ? {outputs: [`${normalizedOptions.projectRoot}/${normalizedOptions.buildSystem === 'MAVEN' ? 'target' : 'build'}`]}: {})
     };
   }
   addProjectConfiguration(tree, normalizedOptions.projectName, {
