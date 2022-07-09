@@ -128,20 +128,28 @@ describe('project generator', () => {
 
     expect(logger.info).toHaveBeenNthCalledWith(2, `📦 Extracting Quarkus project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`);
   });
-
-  it('should update workspace.json', async () => {
+  it.each`
+    projectType     
+    ${'application'}
+    ${'library'}    
+  `(`should update workspace.json for '$projectType'`, async ({ projectType }) => {
     const zipFiles = [{ filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML}, `${options.artifactId}/mvnw`, `${options.artifactId}/README.md`, ];
     const quarkusZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Quarkus Initializer
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(quarkusZip));
 
-    await projectGenerator(tree, options);
+    await projectGenerator(tree, {...options, projectType});
+
     const project = readProjectConfiguration(tree, options.name);
-    expect(project.root).toBe(`apps/${options.name}`);
+    const projectDir = projectType === 'application' ? 'apps' : 'libs';
+    expect(project.root).toBe(`${projectDir}/${options.name}`);
 
     const commands:BuilderCommandAliasType[] = ['dev', 'remoteDev', 'test', 'clean', 'build', 'format', 'format-check', 'package', 'addExtension', 'listExtensions'];
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
+      if(cmd === 'build') { 
+        expect(project.targets[cmd].outputs).toEqual([`${project.root}/target`]);
+      }
     });
   });
 
