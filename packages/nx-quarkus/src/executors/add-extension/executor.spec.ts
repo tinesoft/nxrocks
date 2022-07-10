@@ -36,7 +36,7 @@ describe('Add Extension Executor', () => {
     ${true}       | ${'gradle'} | ${'build.gradle'} | ${'gradle quarkusAddExtension '}
     ${false}      | ${'maven'}  | ${'pom.xml'}      | ${MAVEN_WRAPPER_EXECUTABLE + ' quarkus:add-extension '}
     ${false}      | ${'gradle'} | ${'build.gradle'} | ${GRADLE_WRAPPER_EXECUTABLE + ' quarkusAddExtension '}
-  `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
+  `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildFile, execute }) => {
     mocked(fsUtility.fileExists).mockImplementation((filePath: string) => filePath.indexOf(buildFile) !== -1);
 
     await addExtensionExecutor({ ...options, ignoreWrapper }, mockContext);

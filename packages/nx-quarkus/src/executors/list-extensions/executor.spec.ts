@@ -36,7 +36,7 @@ describe('List Extensions Executor', () => {
     ${true}       | ${'gradle'} | ${'build.gradle'} | ${'gradle quarkusListExtensions '}
     ${false}      | ${'maven'}  | ${'pom.xml'}      | ${MAVEN_WRAPPER_EXECUTABLE + ' quarkus:list-extensions '}
     ${false}      | ${'gradle'} | ${'build.gradle'} | ${GRADLE_WRAPPER_EXECUTABLE + ' quarkusListExtensions '}
-  `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
+  `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildFile, execute }) => {
     mocked(fsUtility.fileExists).mockImplementation((filePath: string) => filePath.indexOf(buildFile) !== -1);
 
     await listExtensionsExecutor({ ...options, ignoreWrapper }, mockContext);

@@ -36,7 +36,7 @@ describe('Aot Sample Config Executor', () => {
     ${true}       | ${'gradle'} | ${'build.gradle'} | ${'gradle createAotSampleConfigurationFiles '}
     ${false}      | ${'maven'}  | ${'pom.xml'}      | ${MAVEN_WRAPPER_EXECUTABLE_LEGACY + ' mn:aot-sample-config '}
     ${false}      | ${'gradle'} | ${'build.gradle'} | ${GRADLE_WRAPPER_EXECUTABLE + ' createAotSampleConfigurationFiles '}
-  `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
+  `('should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildFile, execute }) => {
     mocked(fsUtility.fileExists).mockImplementation((filePath: string) => filePath.indexOf(buildFile) !== -1);
 
     await aotSampleConfigExecutor({ ...options, ignoreWrapper }, mockContext);

@@ -36,7 +36,7 @@ describe('DockerfileJar Executor', () => {
     ${true}       | ${'gradle'} | ${'build.gradle'}      | ${'gradle dockerfile '}
     ${false}      | ${'maven'}  | ${'pom.xml'}           | ${MAVEN_WRAPPER_EXECUTABLE_LEGACY + ' mn:dockerfile '}
     ${false}      | ${'gradle'} | ${'build.gradle'}      | ${GRADLE_WRAPPER_EXECUTABLE + ' dockerfile '}
-  `('should execute a $buildSystem dockerfile and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
+  `('should execute a $buildSystem dockerfile and ignoring wrapper : $ignoreWrapper', async ({ ignoreWrapper, buildFile, execute }) => {
     (fsUtility.fileExists as jest.Mock).mockImplementation((filePath: string) => filePath.indexOf(buildFile) !== -1);
 
     await buildExecutor({ ...options, ignoreWrapper }, mockContext);
