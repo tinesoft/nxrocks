@@ -7,12 +7,10 @@
       "executor": "@nrwl/nx-plugin:e2e",
       "options": {
         "target": "nx-spring-boot:build",
-        "jestConfig": "e2e/nx-spring-boot-e2e/jest.config.js"
+        "jestConfig": "e2e/nx-spring-boot-e2e/jest.config.ts"
       }
     }
   },
   "tags": [],
-  "implicitDependencies": [
-    "nx-spring-boot"
-  ]
+  "implicitDependencies": ["nx-spring-boot"]
 }

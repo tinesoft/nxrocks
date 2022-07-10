@@ -20,6 +20,12 @@ describe('nx-spring-boot e2e', () => {
       [{ depPkgName: '@nxrocks/common', depDistPath: 'dist/packages/common' }]);
   }, 600000);
 
+  afterAll(() => {
+    // `nx reset` kills the daemon, and performs
+    // some work which can help clean up e2e leftovers
+    runNxCommandAsync('reset');
+  });
+  
   it('should create nx-spring-boot with default options', async() => {
     const prjName = uniq('nx-spring-boot');
     await runNxCommandAsync(

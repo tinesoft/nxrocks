@@ -2,29 +2,15 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-spring-boot/src",
   "projectType": "library",
-  "generators": {},
   "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "options": {
-        "lintFilePatterns": ["packages/nx-spring-boot/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "options": {
-        "jestConfig": "packages/nx-spring-boot/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "outputs": ["coverage/packages/nx-spring-boot"]
-    },
     "build": {
       "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/nx-spring-boot",
-        "tsConfig": "packages/nx-spring-boot/tsconfig.lib.json",
-        "packageJson": "packages/nx-spring-boot/package.json",
         "main": "packages/nx-spring-boot/src/index.ts",
+        "packageJson": "packages/nx-spring-boot/package.json",
+        "tsConfig": "packages/nx-spring-boot/tsconfig.lib.json",
         "assets": [
           "packages/nx-spring-boot/*.md",
           {
@@ -48,8 +34,27 @@
             "output": "."
           }
         ]
-      },
-      "outputs": ["{options.outputPath}"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/nx-spring-boot/**/*.ts",
+          "packages/nx-spring-boot/generators.json",
+          "packages/nx-spring-boot/executors.json",
+          "packages/nx-spring-boot/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/nx-spring-boot"],
+      "options": {
+        "jestConfig": "packages/nx-spring-boot/jest.config.ts",
+        "passWithNoTests": true
+      }
     },
     "release": {
       "executor": "@nrwl/workspace:run-commands",
