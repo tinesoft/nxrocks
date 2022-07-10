@@ -1,9 +1,10 @@
-module.exports = {
+/* eslint-disable */
+export default {
   displayName: 'nx-flutter-e2e',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
-      tsConfig: '<rootDir>/tsconfig.spec.json',
+      tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
   transform: {

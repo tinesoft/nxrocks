@@ -7,12 +7,10 @@
       "executor": "@nrwl/nx-plugin:e2e",
       "options": {
         "target": "nx-flutter:build",
-        "jestConfig": "e2e/nx-flutter-e2e/jest.config.js"
+        "jestConfig": "e2e/nx-flutter-e2e/jest.config.ts"
       }
     }
   },
   "tags": [],
-  "implicitDependencies": [
-    "nx-flutter"
-  ]
+  "implicitDependencies": ["nx-flutter"]
 }

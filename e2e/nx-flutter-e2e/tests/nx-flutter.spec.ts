@@ -16,6 +16,12 @@ xdescribe('nx-flutter e2e', () => {
     ensureNxProjectWithDeps('@nxrocks/nx-flutter', 'dist/packages/nx-flutter',
       [{ depPkgName: '@nxrocks/common', depDistPath: 'dist/packages/common' }]);
   }, 600000);
+
+  afterAll(() => {
+    // `nx reset` kills the daemon, and performs
+    // some work which can help clean up e2e leftovers
+    runNxCommandAsync('reset');
+  });
   
   beforeEach(() => {
     jest.spyOn(inquirer, 'prompt').mockResolvedValue({
