@@ -1,12 +1,9 @@
 {
-  "extends": "../../.eslintrc.json",
+  "extends": ["../../.eslintrc.json"],
   "ignorePatterns": ["!**/*", ".releaserc.js"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "parserOptions": {
-        "project": ["packages/nx-quarkus/tsconfig.*?.json"]
-      },
       "rules": {}
     },
     {
@@ -16,6 +13,13 @@
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
+    },
+    {
+      "files": ["./package.json", "./generators.json", "./executors.json"],
+      "parser": "jsonc-eslint-parser",
+      "rules": {
+        "@nrwl/nx/nx-plugin-checks": "error"
+      }
     }
   ]
 }

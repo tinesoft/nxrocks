@@ -1,4 +1,5 @@
-module.exports = {
+/* eslint-disable */
+export default {
   displayName: 'nx-quarkus-e2e',
   preset: '../../jest.preset.js',
   globals: {

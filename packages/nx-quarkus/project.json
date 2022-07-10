@@ -3,20 +3,6 @@
   "sourceRoot": "packages/nx-quarkus/src",
   "projectType": "library",
   "targets": {
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "options": {
-        "lintFilePatterns": ["packages/nx-quarkus/**/*.ts"]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/nx-quarkus"],
-      "options": {
-        "jestConfig": "packages/nx-quarkus/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
@@ -29,7 +15,12 @@
           "packages/nx-quarkus/*.md",
           {
             "input": "./packages/nx-quarkus/src",
-            "glob": "**/*.!(ts)",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./packages/nx-quarkus/src",
+            "glob": "**/*.d.ts",
             "output": "./src"
           },
           {
@@ -43,6 +34,26 @@
             "output": "."
           }
         ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/nx-quarkus/**/*.ts",
+          "packages/nx-quarkus/generators.json",
+          "packages/nx-quarkus/executors.json",
+          "packages/nx-quarkus/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/nx-quarkus"],
+      "options": {
+        "jestConfig": "packages/nx-quarkus/jest.config.ts",
+        "passWithNoTests": true
       }
     },
     "release": {

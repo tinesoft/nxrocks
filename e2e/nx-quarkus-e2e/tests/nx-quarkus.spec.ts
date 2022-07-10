@@ -19,6 +19,12 @@ describe('nx-quarkus e2e', () => {
       [{ depPkgName: '@nxrocks/common', depDistPath: 'dist/packages/common' }]);
   }, 600000);
   
+  afterAll(() => {
+    // `nx reset` kills the daemon, and performs
+    // some work which can help clean up e2e leftovers
+    runNxCommandAsync('reset');
+  });
+  
   it('should create nx-quarkus with default options', async() => {
     const prjName = uniq('nx-quarkus');
     await runNxCommandAsync(
