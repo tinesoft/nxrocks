@@ -36,10 +36,14 @@ export function hasGradlePlugin(content: string, pluginId: string, pluginVersion
     return plugins.some(plugin => plugin.id === pluginId && (!pluginVersion || plugin.version === pluginVersion));
 }
 
-export function addGradlePlugin(tree: Tree, rootFolder: string, language: 'java' | 'kotlin' | 'groovy', pluginId: string, pluginVersion: string, withKotlinDSL = language === 'kotlin') {
+export function addGradlePlugin(tree: Tree, rootFolder: string, language: 'java' | 'kotlin' | 'groovy', pluginId: string, pluginVersion?: string, withKotlinDSL = language === 'kotlin') {
     const ext = withKotlinDSL ? '.gradle.kts' : '.gradle';
     const buildGradle = tree.read(`${rootFolder}/build${ext}`, 'utf-8');
-    const pluginToAdd = withKotlinDSL ? `id("${pluginId}") version "${pluginVersion}"` : `id '${pluginId}' version '${pluginVersion}'`;
+    let withVersion = '';
+    if(pluginVersion) {
+        withVersion = withKotlinDSL ? ` version "${pluginVersion}"` : ` version '${pluginVersion}'`;
+    }
+    const pluginToAdd = withKotlinDSL ? `id("${pluginId}")${withVersion}` : `id '${pluginId}'${withVersion}`;
 
     if (!hasGradlePlugin(buildGradle, pluginId)) {
         if (!GRADLE_PLUGINS_REGEX.test(buildGradle)) {

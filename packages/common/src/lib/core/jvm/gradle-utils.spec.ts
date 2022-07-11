@@ -194,6 +194,21 @@ describe('gradle-utils', () => {
             `);
         });
 
+        it('should still add plugin to build.gradle file when version is not specified', () => {
+            tree.write('./build.gradle', '');
+            const added = addGradlePlugin(tree, '.', 'java', 'java-library');
+            expect(added).toBe(true);
+
+            const buildGradle = tree.read('./build.gradle', 'utf-8');
+            console.log(buildGradle);
+            expect(buildGradle).toContain(
+            stripIndent`
+            plugins {
+            	id 'java-library'
+            }
+            `);
+        });
+
     });
 
    describe('applySpotlessGradlePlugin', () => {
