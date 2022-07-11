@@ -140,13 +140,15 @@ describe('project generator', () => {
 
     expect(logger.info).toHaveBeenNthCalledWith(2, `Extracting Spring Boot project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`);
 
+    
     if (buildSystem === 'gradle-project') {
-
+      
       if (projectType === 'library') {
-        expect(logger.debug).toHaveBeenCalledWith(`Disabling 'spring-boot' gradle plugin on a library project...`);
+        expect(logger.debug).toHaveBeenNthCalledWith(1,`Disabling 'spring-boot' gradle plugin on a library project...`);
       } else {
-        expect(logger.debug).toHaveBeenCalledWith(`Adding 'buildInfo' task to the build.gradle file...`);
+        expect(logger.debug).toHaveBeenNthCalledWith(1,`Adding 'buildInfo' task to the build.gradle file...`);
       }
+      expect(logger.debug).toHaveBeenNthCalledWith(2,`Adding 'maven-publish' plugin...`);
     }
 
     if (buildSystem === 'maven-project' && projectType === 'library') {
@@ -171,16 +173,16 @@ describe('project generator', () => {
     const projectDir = projectType === 'application' ? 'apps' : 'libs';
     expect(project.root).toBe(`${projectDir}/${options.name}`);
 
-    const commands = ['build', 'format', 'format-check', 'test', 'clean']
-    const bootOnlyCommands = ['run', 'serve', 'buildImage', 'buildInfo'];
+    const commands = ['build', 'install', 'format', 'format-check', 'test', 'clean']
+    const appOnlyCommands = ['run', 'serve', 'buildImage', 'buildInfo'];
 
     if (projectType === 'application') {
-      commands.push(...bootOnlyCommands);
+      commands.push(...appOnlyCommands);
     }
 
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`${NX_SPRING_BOOT_PKG}:${cmd}`);
-      if(cmd === 'build') { 
+      if(['build', 'install'].includes(cmd)) { 
         expect(project.targets[cmd].outputs).toEqual([`${project.root}/target`]);
       }
     });
