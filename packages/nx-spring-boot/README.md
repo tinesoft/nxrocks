@@ -149,6 +149,7 @@ Here the list of available executors:
 | `format`         | `ignoreWrapper:boolean`, `args: string[]`  | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
 | `format-check`         | `ignoreWrapper:boolean`, `args: string[]`  | Check whether the project is well formatted using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
 | `build`          | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project into an executable Jar using either `./mvnw\|mvn package` or `./gradlew\|gradle build` |
+| `install`          | `ignoreWrapper:boolean`, `args: string[]`  | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
 | `buildInfo`<sup>*</sup>     | `ignoreWrapper:boolean`,                   | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo` |
 | `buildImage`<sup>*</sup>    | `ignoreWrapper:boolean`, `args: string[]`  | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn spring-boot:build-image` or `./gradlew\|gradle bootBuildImage` |
 
@@ -195,6 +196,12 @@ You can pass in additional arguments by editing the related section in the `work
 
 ```
 nx build your-boot-app
+```
+
+### Install the project's artifacts to local Maven repository (in ~/.m2/repository) -  ('install' Executor)
+
+```
+nx install your-boot-app
 ```
 
 ### Building the OCI Image -  ('buildImage' Executor)

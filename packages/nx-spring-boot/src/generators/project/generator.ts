@@ -4,17 +4,18 @@ import { normalizeOptions, generateBootProject, addBuilInfoTask, removeBootMaven
 import { addPluginToNxJson, NX_SPRING_BOOT_PKG } from '@nxrocks/common';
 import { addFormattingWithSpotless } from './lib/add-formatting-with-spotless';
 import { disableBootGradlePlugin } from './lib/disable-boot-gradle-plugin';
+import { addMavenPublishPlugin } from './lib/add-maven-publish-plugin';
 
 
 export async function projectGenerator(tree: Tree, options: ProjectGeneratorOptions) {
   const normalizedOptions = normalizeOptions(tree, options);
 
   const targets = {};
-  const commands = ['build', 'test', 'clean'];
-  const bootOnlyCommands = ['run', 'serve', 'buildImage', 'buildInfo'];
+  const commands = ['build', 'install', 'test', 'clean'];
+  const appOnlyCommands = ['run', 'serve', 'buildImage', 'buildInfo'];
 
   if (options.projectType === 'application') { //only 'application' projects should have 'boot' related commands
-    commands.push(...bootOnlyCommands);
+    commands.push(...appOnlyCommands);
   }
 
   if(!options.skipFormat) {
@@ -27,7 +28,8 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
       options: {
         root: normalizedOptions.projectRoot
       },
-      ...( command == 'build' ? {outputs: [`${normalizedOptions.projectRoot}/${normalizedOptions.buildSystem === 'maven-project' ? 'target' : 'build'}`]}: {})
+      ...(command === 'build' ? { dependsOn: ['^înstall'] } : {}),
+      ...( ['build', 'install'].includes(command) ? {outputs: [`${normalizedOptions.projectRoot}/${normalizedOptions.buildSystem === 'maven-project' ? 'target' : 'build'}`]}: {})
     };
   }
   addProjectConfiguration(tree, normalizedOptions.projectName, {
@@ -50,6 +52,8 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
       removeBootMavenPlugin(tree, normalizedOptions);
     }
   }
+
+  addMavenPublishPlugin(tree, normalizedOptions);
 
   if(!options.skipFormat) { //if skipFormat is true, then we don't want to add Spotless plugin
     addFormattingWithSpotless(tree, normalizedOptions);
