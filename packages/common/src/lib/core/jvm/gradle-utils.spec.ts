@@ -1,6 +1,6 @@
 
 import { Tree } from '@nrwl/devkit';
-import { getGradlePlugins, hasGradlePlugin, addGradlePlugin, applySpotlessGradlePlugin, addSpotlessGradlePlugin } from './gradle-utils';
+import { getGradlePlugins, hasGradlePlugin, addGradlePlugin, applySpotlessGradlePlugin, addSpotlessGradlePlugin, disableGradlePlugin, getGradlePlugin } from './gradle-utils';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { stripIndent } from '../utils';
 import { SPOTLESS_GRADLE_PLUGIN_ID } from '.';
@@ -80,18 +80,21 @@ describe('gradle-utils', () => {
                         id: 'org.springframework.boot',
                         version: '2.6.2',
                         kotlin: false,
-                        java: false
+                        java: false, 
+                        applied: true
                     },
                     {
                         id: 'io.spring.dependency-management',
                         version: '1.0.11.RELEASE',
                         kotlin: false,
-                        java: false
+                        java: false, 
+                        applied: true
                     },
                     {
                         id: 'groovy',
                         kotlin: false,
-                        java: false
+                        java: false, 
+                        applied: true
                     }
                 ])
             );
@@ -108,25 +111,29 @@ describe('gradle-utils', () => {
                         id: 'org.springframework.boot',
                         version: '2.6.2',
                         kotlin: false,
-                        java: false
+                        java: false, 
+                        applied: true
                     },
                     {
                         id: 'io.spring.dependency-management',
                         version: '1.0.11.RELEASE',
                         kotlin: false,
-                        java: false
+                        java: false, 
+                        applied: true
                     },
                     {
                         id: 'jvm',
                         version: '1.6.10',
                         kotlin: true,
-                        java: false
+                        java: false, 
+                        applied: true
                     },
                     {
                         id: 'plugin.spring',
                         version: '1.6.10',
                         kotlin: true,
-                        java: false
+                        java: false, 
+                        applied: true
                     }
                 ])
             );
@@ -150,7 +157,6 @@ describe('gradle-utils', () => {
                 expect(hasGradlePlugin(buildGradle, pluginId, pluginVersion)).toBe(expected);
             }
         );
-
     });
 
     describe('addGradlePlugin', () => {
@@ -209,6 +215,38 @@ describe('gradle-utils', () => {
             `);
         });
 
+    });
+
+    describe.only('disableGradlePlugin', () => {
+        let tree: Tree;
+        beforeEach(() => {
+            tree = createTreeWithEmptyWorkspace();
+        });
+
+        it.each`
+        pluginId                                | language              | buildGradle                  | expected
+        ${'org.springframework.boot'}           | ${'java'}             | ${BUILD_GRADLE_FILE}         | ${true}
+        ${'org.springframework.fake'}           | ${'java'}             | ${BUILD_GRADLE_FILE}         | ${false}
+        ${'io.spring.dependency-management'}    | ${'java'}             | ${BUILD_GRADLE_FILE}         | ${true}
+        ${'groovy'}                             | ${'groovy'}           | ${BUILD_GRADLE_FILE}         | ${true}
+        ${'org.springframework.boot'}           | ${'kotlin'}           | ${BUILD_GRADLE_KOTLIN_FILE}  | ${true}
+        ${'org.springframework.fake'}           | ${'kotlin'}           | ${BUILD_GRADLE_KOTLIN_FILE}  | ${false}
+        ${'io.spring.dependency-management'}    | ${'kotlin'}           | ${BUILD_GRADLE_KOTLIN_FILE}  | ${true}
+        ${'jvm'}                                | ${'kotlin'}           | ${BUILD_GRADLE_KOTLIN_FILE}  | ${true}
+        `(`should disable:$expected plugin '$pluginId' in '$language' build file`,
+            ({ pluginId, language, buildGradle, expected }) => {
+                const withKotlinDSL = language === 'kotlin';
+                const ext = withKotlinDSL ? '.gradle.kts' : '.gradle';
+                tree.write(`./build${ext}`, buildGradle);
+                const disabled = disableGradlePlugin(tree, '.', language, pluginId);
+                expect(disabled).toBe(expected);
+
+                const newBuildGradle = tree.read(`./build${ext}`, 'utf-8');
+                if (expected) {
+                    expect(getGradlePlugin(newBuildGradle, pluginId).applied).toBe(false);
+                }
+            }
+        );
     });
 
    describe('applySpotlessGradlePlugin', () => {

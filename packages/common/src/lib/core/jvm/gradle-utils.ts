@@ -2,7 +2,7 @@ import { Tree } from "@nrwl/devkit";
 
 export const GRADLE_PLUGINS_REGEX = /(?:plugins\s*\{\s*)([^}]+)(?:\s*\})/g;
 export const SPOTLESS_CONFIG_REGEX = /(?:(spotless|configure<com.diffplug.gradle.spotless.SpotlessExtension>)\s*\{\s*)([^}]+)(?:\s*\})/g;
-export const GRADLE_PLUGIN_REGEX = /\s*(id|java|kotlin)(?:\s*\(?\s*['"]([^'"]+)['"]\s*\)?\s*(?:version\s+['"]([^'"]+)['"])?)?/g;
+export const GRADLE_PLUGIN_REGEX = /\s*(id|java|kotlin)(?:\s*\(?\s*['"]([^'"]+)['"]\s*\)?\s*(?:version\s+['"]([^'"]+)['"])?\s*(?:apply\s+(true|false))?)?/g;
 
 export const SPOTLESS_GRADLE_PLUGIN_ID = 'com.diffplug.spotless';
 export const SPOTLESS_GRADLE_PLUGIN_VERSION = '6.8.0';
@@ -11,6 +11,7 @@ export interface GradlePlugin {
     version?: string;
     kotlin?: boolean;
     java?: boolean;
+    applied?: boolean;
 }
 
 export function getGradlePlugins(content: string): GradlePlugin[] {
@@ -22,9 +23,10 @@ export function getGradlePlugins(content: string): GradlePlugin[] {
         while (pluginMatches) {
             const id = pluginMatches[2];
             const version = pluginMatches[3];
+            const applied = pluginMatches[4] ? pluginMatches[4] === 'true' : true;
             const kotlin = pluginMatches[1] === 'kotlin';
             const java = pluginMatches[1] === 'java';
-            plugins.push({ id, version, kotlin, java });
+            plugins.push({ id, version, kotlin, java, applied });
             pluginMatches = pluginRegExp.exec(pluginsContent);
         }
     }
@@ -34,6 +36,33 @@ export function getGradlePlugins(content: string): GradlePlugin[] {
 export function hasGradlePlugin(content: string, pluginId: string, pluginVersion?: string): boolean {
     const plugins = getGradlePlugins(content);
     return plugins.some(plugin => plugin.id === pluginId && (!pluginVersion || plugin.version === pluginVersion));
+}
+
+export function getGradlePlugin(content: string, pluginId: string): GradlePlugin {
+    const plugins = getGradlePlugins(content);
+    return plugins.find(plugin => plugin.id === pluginId);
+}
+
+export function disableGradlePlugin(tree: Tree, rootFolder: string, language: 'java' | 'kotlin' | 'groovy', pluginId: string, withKotlinDSL = language === 'kotlin') {
+    const ext = withKotlinDSL ? '.gradle.kts' : '.gradle';
+    const buildGradle = tree.read(`${rootFolder}/build${ext}`, 'utf-8');
+
+    const plugin = getGradlePlugin(buildGradle, pluginId);
+    if (plugin && plugin.applied) {
+        const newBuildGradle = buildGradle.replace(GRADLE_PLUGINS_REGEX, (_match, content) => {
+            const newContent = content.replace(GRADLE_PLUGIN_REGEX, (pluginMatch: string, _: string, id: string, ) => {
+                if (id === pluginId) {
+                    return `${pluginMatch.trimEnd()} apply false\n\t`;
+                }
+                return pluginMatch;
+            });
+            return `plugins {\n${newContent}\n}`;
+        });
+        tree.write(`${rootFolder}/build${ext}`, newBuildGradle);
+        return true
+    }
+
+    return false;
 }
 
 export function addGradlePlugin(tree: Tree, rootFolder: string, language: 'java' | 'kotlin' | 'groovy', pluginId: string, pluginVersion?: string, withKotlinDSL = language === 'kotlin') {
