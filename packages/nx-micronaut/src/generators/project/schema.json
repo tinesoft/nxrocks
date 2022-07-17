@@ -173,8 +173,8 @@
     },
     "skipFormat": {
       "type": "boolean",
-      "default": false,
-      "x-prompt": "Do not allow code formatting (using Spotless plugin) ?"
+      "default": true,
+      "x-prompt": "Do not add code formatting support(using Spotless plugin)?"
     },
     "features": {
       "type": "string",
