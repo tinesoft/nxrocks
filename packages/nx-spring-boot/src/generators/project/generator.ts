@@ -1,8 +1,9 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 import { ProjectGeneratorOptions } from './schema';
-import { normalizeOptions, generateBootProject, addBuilInfoTask, disableBootJarTask, removeBootMavenPlugin } from './lib';
+import { normalizeOptions, generateBootProject, addBuilInfoTask, removeBootMavenPlugin } from './lib';
 import { addPluginToNxJson, NX_SPRING_BOOT_PKG } from '@nxrocks/common';
 import { addFormattingWithSpotless } from './lib/add-formatting-with-spotless';
+import { disableBootGradlePlugin } from './lib/disable-boot-gradle-plugin';
 
 
 export async function projectGenerator(tree: Tree, options: ProjectGeneratorOptions) {
@@ -43,7 +44,7 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
 
   if(normalizedOptions.projectType === 'library') { // 'library' projects should not be "spring-boot- executable"
     if(normalizedOptions.buildSystem === 'gradle-project') {
-      disableBootJarTask(tree, normalizedOptions);
+      disableBootGradlePlugin(tree, normalizedOptions);
     }
     else if (normalizedOptions.buildSystem === 'maven-project') {
       removeBootMavenPlugin(tree, normalizedOptions);

@@ -143,7 +143,7 @@ describe('project generator', () => {
     if (buildSystem === 'gradle-project') {
 
       if (projectType === 'library') {
-        expect(logger.debug).toHaveBeenCalledWith(`Disabling 'bootJar' task on a library project...`);
+        expect(logger.debug).toHaveBeenCalledWith(`Disabling 'spring-boot' gradle plugin on a library project...`);
       } else {
         expect(logger.debug).toHaveBeenCalledWith(`Adding 'buildInfo' task to the build.gradle file...`);
       }
@@ -237,29 +237,22 @@ describe('project generator', () => {
 
     const buildGradle = tree.read( `./${projectType === 'application' ? 'apps':'libs'}/${options.name}/build.gradle`, 'utf-8');
 
-    const bootJarDisabledTask = 
+    const dependencyManagement = 
     stripIndent`
+    dependencyManagement {
+    	imports {
+    		mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    	}
+    }
+    `;
 
-    // spring boot library projects don't need an executable jar, so we disable it
-    bootJar {
-    	enabled = false
-    }
-    `;
-    const jarEnabledTask = 
-    stripIndent`
-    
-    jar {
-    	enabled = true
-    }
-    `;
-    
     if(projectType === 'application') {
-      expect(buildGradle).not.toContain(bootJarDisabledTask);
-      expect(buildGradle).not.toContain(jarEnabledTask);
+      expect(buildGradle).not.toContain(`id 'org.springframework.boot' version '2.6.2' apply false`);
+      expect(buildGradle).not.toContain(dependencyManagement);
     }
     else {
-      expect(buildGradle).toContain(bootJarDisabledTask);
-      expect(buildGradle).toContain(jarEnabledTask);
+      expect(buildGradle).toContain(`id 'org.springframework.boot' version '2.6.2' apply false`);
+      expect(buildGradle).toContain(dependencyManagement);
     }
 
   });
