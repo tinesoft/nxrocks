@@ -24,4 +24,4 @@ export interface BuilderCore {
   getCommand(alias: BuilderCommandAliasType): string;
 }
 
-export type BuilderCommandAliasType = keyof BuilderCommandAliasMapper;
+export type BuilderCommandAliasType = keyof BuilderCommandAliasMapper & string; // enforce that the key is a string (default result of keyof would be string|number)
