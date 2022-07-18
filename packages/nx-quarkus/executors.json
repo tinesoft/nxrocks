@@ -60,6 +60,11 @@
       "schema": "./src/executors/build/schema.json",
       "description": "Executor to build the project"
     },
+    "install": {
+      "implementation": "./src/executors/install/executor",
+      "schema": "./src/executors/install/schema.json",
+      "description": "Executor to install the project's artifacts (i.e jar or war) to the local Maven repository"
+    },
     "package": {
       "implementation": "./src/executors/package/executor",
       "schema": "./src/executors/package/schema.json",

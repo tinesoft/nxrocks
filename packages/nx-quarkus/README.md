@@ -145,6 +145,7 @@ Here the list of available executors:
 | `clean`         | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
 | `format`        | `ignoreWrapper:boolean`, `args: string[]`  | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
 | `package`       | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle package` |
+| `install`       | `ignoreWrapper:boolean`, `args: string[]`  | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
 | `addExtension`  | `ignoreWrapper:boolean`, `args: string[]`  | Adds a new extension to the  project using either `./mvnw\|mvn quarkus:add-extension` or `./gradlew\|gradle quarkusAddExtension` |
 | `listExtensions`| `ignoreWrapper:boolean`, `args: string[]`  | Adds a new extension to the  project using either `./mvnw\|mvn quarkus:list-extensions` or `./gradlew\|gradle quarkusListExtensions` |
 
@@ -194,6 +195,12 @@ nx serve your-quarkus-app
 // or
 
 nx dev your-quarkus-app
+```
+
+### Install the project's artifacts to local Maven repository (in ~/.m2/repository) -  ('install' Executor)
+
+```
+nx install your-quarkus-app
 ```
 
 ### Running the project in remote dev mode - ('remoteDev' Executor)
