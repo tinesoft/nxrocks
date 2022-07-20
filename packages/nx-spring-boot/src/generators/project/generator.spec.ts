@@ -174,7 +174,7 @@ describe('project generator', () => {
     expect(project.root).toBe(`${projectDir}/${options.name}`);
 
     const commands = ['build', 'install', 'format', 'format-check', 'test', 'clean']
-    const appOnlyCommands = ['run', 'serve', 'buildImage', 'buildInfo'];
+    const appOnlyCommands = ['run', 'serve', 'build-image', 'build-info'];
 
     if (projectType === 'application') {
       commands.push(...appOnlyCommands);
