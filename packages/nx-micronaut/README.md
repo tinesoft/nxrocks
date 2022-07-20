@@ -141,6 +141,7 @@ Here the list of available executors:
 | `run` \| `dev` \| `serve`| `ignoreWrapper:boolean`, `args: string[]`  | Runs the project in dev mode using either `./mvnw\|mvn micronaut:dev` or `./gradlew\|gradle micronautDev` |
 | `dockerfile`    | `ignoreWrapper:boolean`, `args: string[]`  | Generates a `Dockerfile` depending on the `packaging` and `micronaut.runtime properties` using either `./mvnw\|mvn micronaut:dockerfile` or `./gradlew\|gradle dockerfile` |
 | `build`         | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle build` |
+| `install`       | `ignoreWrapper:boolean`, `args: string[]`  | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
 | `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
 | `clean`         | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
 | `format`        | `ignoreWrapper:boolean`, `args: string[]`  | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
@@ -198,6 +199,12 @@ nx dev your-micronaut-app
 
 ```
 nx build your-miconaut-app
+```
+
+### Install the project's artifacts to local Maven repository (in ~/.m2/repository) -  ('install' Executor)
+
+```
+nx install your-quarkus-app
 ```
 
 ### Generating the project dockerfile - ('dockerfile' Executor)

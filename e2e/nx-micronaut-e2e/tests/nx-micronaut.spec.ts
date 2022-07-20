@@ -36,8 +36,8 @@ describe('nx-micronaut e2e', () => {
       `generate @nxrocks/nx-micronaut:new ${prjName}`
     );
 
-    const resultClean= await runNxCommandAsync(`clean ${prjName}`);
-    expect(resultClean.stdout).toContain(`Executing command: ${isWin ? 'mvnw.bat' : './mvnw'} clean`)
+    const resultBuild= await runNxCommandAsync(`build ${prjName}`);
+    expect(resultBuild.stdout).toContain(`Executing command: ${isWin ? 'mvnw.bat' : './mvnw'} package`)
 
     expect(() =>
       checkFilesExist(`apps/${prjName}/mvnw`,`apps/${prjName}/pom.xml`, `apps/${prjName}/README.md`)
@@ -65,8 +65,8 @@ describe('nx-micronaut e2e', () => {
       `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --basePackage=${basePackage} --features=${features}`
     );
 
-    const resultClean= await runNxCommandAsync(`clean ${prjName}`);
-    expect(resultClean.stdout).toContain(`Executing command: ${isWin ? 'mvnw.bat' : './mvnw'} clean`)
+    const resultBuild= await runNxCommandAsync(`build ${prjName}`);
+    expect(resultBuild.stdout).toContain(`Executing command: ${isWin ? 'mvnw.bat' : './mvnw'} package`)
 
     expect(() =>
       checkFilesExist(
@@ -100,8 +100,8 @@ describe('nx-micronaut e2e', () => {
         `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem GRADLE`
       );
 
-      const resultClean= await runNxCommandAsync(`clean ${prjName}`);
-      expect(resultClean.stdout).toContain(`Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} clean`)
+      const resultBuild= await runNxCommandAsync(`build ${prjName}`);
+      expect(resultBuild.stdout).toContain(`Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`)
   
       expect(() =>
       checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle`, `apps/${prjName}/README.md`)
@@ -128,8 +128,8 @@ describe('nx-micronaut e2e', () => {
         `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem GRADLE_KOTLIN`
       );
 
-      const resultClean= await runNxCommandAsync(`clean ${prjName}`);
-      expect(resultClean.stdout).toContain(`Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} clean`)
+      const resultBuild= await runNxCommandAsync(`build ${prjName}`);
+      expect(resultBuild.stdout).toContain(`Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`)
   
       expect(() =>
       checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle.kts`, `apps/${prjName}/README.md`)
