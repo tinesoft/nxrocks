@@ -5,7 +5,7 @@ import { runBootPluginCommand } from '../../utils/boot-utils'
 
 export async function buildInfoExecutor(options: BuildInfoExecutorOptions, context: ExecutorContext){
   const root = path.resolve(context.root, options.root);
-  return runBootPluginCommand('buildInfo', [], { cwd : root, ignoreWrapper: options.ignoreWrapper});
+  return runBootPluginCommand('build-info', [], { cwd : root, ignoreWrapper: options.ignoreWrapper});
 }
 
 export default buildInfoExecutor;

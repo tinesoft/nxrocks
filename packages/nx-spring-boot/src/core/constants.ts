@@ -8,8 +8,8 @@ export const GRADLE_BOOT_COMMAND_MAPPER : BuilderCommandAliasMapper = {
     'install': 'publishToMavenLocal',
     'format': 'spotlessApply',
     'format-check': 'spotlessCheck',
-    'buildImage': 'bootBuildImage',
-    'buildInfo': 'bootBuildInfo'
+    'build-image': 'bootBuildImage',
+    'build-info': 'bootBuildInfo'
 }
 
 export const GRADLE_BUILDER = new GradleBuilder(GRADLE_BOOT_COMMAND_MAPPER);
@@ -22,8 +22,8 @@ export const MAVEN_BOOT_COMMAND_MAPPER: BuilderCommandAliasMapper = {
     'install': 'install',
     'format': 'spotless:apply',
     'format-check': 'spotless:check',
-    'buildImage': 'spring-boot:build-image',
-    'buildInfo': 'spring-boot:build-info'
+    'build-image': 'spring-boot:build-image',
+    'build-info': 'spring-boot:build-info'
 }
 
 export const MAVEN_BUILDER = new MavenBuilder(MAVEN_BOOT_COMMAND_MAPPER);

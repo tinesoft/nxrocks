@@ -10,7 +10,7 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
 
   const targets = {};
   const commands = ['build', 'install', 'test', 'clean'];
-  const appOnlyCommands = ['run', 'serve', 'buildImage', 'buildInfo'];
+  const appOnlyCommands = ['run', 'serve', 'build-image', 'build-info'];
 
   if (options.projectType === 'application') { //only 'application' projects should have 'boot' related commands
     commands.push(...appOnlyCommands);

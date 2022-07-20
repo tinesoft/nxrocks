@@ -150,8 +150,8 @@ Here the list of available executors:
 | `format-check`         | `ignoreWrapper:boolean`, `args: string[]`  | Check whether the project is well formatted using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
 | `build`          | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project into an executable Jar using either `./mvnw\|mvn package` or `./gradlew\|gradle build` |
 | `install`          | `ignoreWrapper:boolean`, `args: string[]`  | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
-| `buildInfo`<sup>*</sup>     | `ignoreWrapper:boolean`,                   | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo` |
-| `buildImage`<sup>*</sup>    | `ignoreWrapper:boolean`, `args: string[]`  | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn spring-boot:build-image` or `./gradlew\|gradle bootBuildImage` |
+| `build-info`<sup>*</sup>     | `ignoreWrapper:boolean`,                   | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo` |
+| `build-image`<sup>*</sup>    | `ignoreWrapper:boolean`, `args: string[]`  | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn spring-boot:build-image` or `./gradlew\|gradle bootBuildImage` |
 
 In order to execute the requested command, each executor will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
 If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.
@@ -204,10 +204,10 @@ nx build your-boot-app
 nx install your-boot-app
 ```
 
-### Building the OCI Image -  ('buildImage' Executor)
+### Building the OCI Image -  ('build-image' Executor)
 
 ```
-nx buildImage your-boot-app
+nx build-image your-boot-app
 ```
 You can pass in additional arguments by editing the related section in the `workspace.json` file, as such:
 ```json
@@ -219,8 +219,8 @@ You can pass in additional arguments by editing the related section in the `work
       "root": "apps/you-boot-app",
       "sourceRoot": "apps/you-boot-app/src",
       "targets": {
-        "buildImage": {
-          "executor": "@nxrocks/nx-spring-boot:buildImage",
+        "build-image": {
+          "executor": "@nxrocks/nx-spring-boot:build-image",
           "options": {
             "root": "apps/you-boot-app",
             "args": ["--executor=gcr.io/paketo-buildpacks/executor:base-platform-api-0.3", "--runImage=my-image"]
