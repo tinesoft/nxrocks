@@ -7,6 +7,7 @@ export const GRADLE_MICRONAUT_COMMAND_MAPPER : BuilderCommandAliasMapper = {
     'format': 'spotlessApply',
     'format-check': 'spotlessCheck',
     'build': 'build',
+    'install': 'publishToMavenLocal',
     'aotSampleConfig': 'createAotSampleConfigurationFiles',
     'dockerfile': 'dockerfile'
 }
@@ -20,6 +21,7 @@ export const MAVEN_MICRONAUT_COMMAND_MAPPER: BuilderCommandAliasMapper = {
     'format': 'spotless:apply',
     'format-check': 'spotless:check',
     'build': 'package',
+    'install': 'install',
     'aotSampleConfig': 'mn:aot-sample-config',
     'dockerfile': 'mn:dockerfile'
 }

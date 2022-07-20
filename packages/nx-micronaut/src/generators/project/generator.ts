@@ -1,8 +1,7 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 import { ProjectGeneratorOptions } from './schema';
-import { normalizeOptions, generateMicronautProject } from './lib';
+import { normalizeOptions, generateMicronautProject, addMavenPublishPlugin, addFormattingWithSpotless } from './lib';
 import { addPluginToNxJson, BuilderCommandAliasType, NX_MICRONAUT_PKG,  } from '@nxrocks/common';
-import { addFormattingWithSpotless } from './lib/add-formatting-with-spotless';
 
 
 export async function projectGenerator(tree: Tree, options: ProjectGeneratorOptions) {
@@ -21,7 +20,8 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
       options: {
         root: normalizedOptions.projectRoot
       },
-      ...( command == 'build' ? {outputs: [`${normalizedOptions.projectRoot}/${normalizedOptions.buildSystem === 'MAVEN' ? 'target' : 'build'}`]}: {})
+      ...(command === 'build' ? { dependsOn: ['^install'] } : {}),
+      ...( ['build', 'install'].includes(command) ? {outputs: [`${normalizedOptions.projectRoot}/${normalizedOptions.buildSystem === 'MAVEN' ? 'target' : 'build'}`]}: {})
     };
   }
   addProjectConfiguration(tree, normalizedOptions.projectName, {
@@ -33,6 +33,8 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
   });
 
   await generateMicronautProject(tree, normalizedOptions);
+
+  addMavenPublishPlugin(tree, normalizedOptions);
 
   if(!options.skipFormat) { //if skipFormat is true, then we don't want to add Spotless plugin
     addFormattingWithSpotless(tree, normalizedOptions);
