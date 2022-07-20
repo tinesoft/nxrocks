@@ -144,7 +144,7 @@ describe('project generator', () => {
     const projectDir = projectType === 'application' ? 'apps' : 'libs';
     expect(project.root).toBe(`${projectDir}/${options.name}`);
 
-    const commands:BuilderCommandAliasType[] = ['dev', 'remoteDev', 'test', 'clean', 'build', 'format', 'format-check', 'package', 'addExtension', 'listExtensions'];
+    const commands:BuilderCommandAliasType[] = ['dev', 'remote-dev', 'test', 'clean', 'build', 'format', 'format-check', 'package', 'add-extension', 'list-extensions'];
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
       if(cmd === 'build') { 
