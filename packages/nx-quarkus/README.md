@@ -139,15 +139,15 @@ Here the list of available executors:
 | Executor         | Arguments                                  | Description                                |
 | --------------- | ------------------------------------------ | ------------------------------------------ |
 | `run` \| `dev` \| `serve`| `ignoreWrapper:boolean`, `args: string[]`  | Runs the project in dev mode using either `./mvnw\|mvn quarkus:dev` or `./gradlew\|gradle quarkusDev` |
-| `remoteDev`     | `ignoreWrapper:boolean`, `args: string[]`  | Runs the project in remote dev mode using either `./mvnw\|mvn quarkus:remoteDev` or `./gradlew\|gradle quarkusRemoteDev` |
+| `remote-dev`     | `ignoreWrapper:boolean`, `args: string[]`  | Runs the project in remote dev mode using either `./mvnw\|mvn quarkus:remote-dev` or `./gradlew\|gradle quarkusRemoteDev` |
 | `build`         | `ignoreWrapper:boolean`, `args: string[]`  | Builds a native or container friendly image either `./mvnw\|mvn build` or `./gradlew\|gradle build` |
 | `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
 | `clean`         | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
 | `format`        | `ignoreWrapper:boolean`, `args: string[]`  | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
 | `package`       | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle package` |
 | `install`       | `ignoreWrapper:boolean`, `args: string[]`  | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
-| `addExtension`  | `ignoreWrapper:boolean`, `args: string[]`  | Adds a new extension to the  project using either `./mvnw\|mvn quarkus:add-extension` or `./gradlew\|gradle quarkusAddExtension` |
-| `listExtensions`| `ignoreWrapper:boolean`, `args: string[]`  | Adds a new extension to the  project using either `./mvnw\|mvn quarkus:list-extensions` or `./gradlew\|gradle quarkusListExtensions` |
+| `add-extension`  | `ignoreWrapper:boolean`, `args: string[]`  | Adds a new extension to the  project using either `./mvnw\|mvn quarkus:add-extension` or `./gradlew\|gradle quarkusAddExtension` |
+| `list-extensions`| `ignoreWrapper:boolean`, `args: string[]`  | Adds a new extension to the  project using either `./mvnw\|mvn quarkus:list-extensions` or `./gradlew\|gradle quarkusListExtensions` |
 
 In order to execute the requested command, each executor will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
 If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.
@@ -156,7 +156,7 @@ This can be useful in a CI environment for example, or in a restricted environme
 
 You can pass in additional arguments to the underlying Gradle or Maven, either temporarily (via `--args="..."`). For example:
 ```
-nx remoteDev your-quarkus-app --args="-Dquarkus.live-reload.url=http://my-remote-host:8080"
+nx remote-dev your-quarkus-app --args="-Dquarkus.live-reload.url=http://my-remote-host:8080"
 ```
 
 Or, permanently by editing the related executor in the `workspace.json` file, as such:
@@ -169,8 +169,8 @@ Or, permanently by editing the related executor in the `workspace.json` file, as
       "root": "apps/your-quarkus-app",
       "sourceRoot": "apps/your-quarkus-app/src",
       "targets": {
-        "remoteDev": {
-          "executor": "@nxrocks/nx-quarkus:remoteDev",
+        "remote-dev": {
+          "executor": "@nxrocks/nx-quarkus:remote-dev",
           "options": {
             "root": "apps/your-quarkus-app",
             "args": ["-Dquarkus.live-reload.url=http://my-remote-host:8080"]// your additional args here
@@ -203,14 +203,14 @@ nx dev your-quarkus-app
 nx install your-quarkus-app
 ```
 
-### Running the project in remote dev mode - ('remoteDev' Executor)
+### Running the project in remote dev mode - ('remote-dev' Executor)
 
 ```
 // for a maven-based project
-nx remoteDev your-quarkus-app --args="-Dquarkus.live-reload.url=http://my-remote-host:8080"
+nx remote-dev your-quarkus-app --args="-Dquarkus.live-reload.url=http://my-remote-host:8080"
 
 // for a gradle-based project
-nx remoteDev your-quarkus-app --args="-Dquarkus.live-reload.url=http://my-remote-host:8080"
+nx remote-dev your-quarkus-app --args="-Dquarkus.live-reload.url=http://my-remote-host:8080"
 ```
 
 ### Building the aplication -  ('build' Executor)
@@ -256,16 +256,16 @@ nx package your-quarkus-app
 
 ```
 // for a maven-based project
-nx addExtension your-quarkus-app --args="-Dextensions=resteasy,hibernate-validator"
+nx add-extension your-quarkus-app --args="-Dextensions=resteasy,hibernate-validator"
 
 // for a gradle-based project
-nx addExtension your-quarkus-app --args="--extensions=resteasy,hibernate-validator"
+nx add-extension your-quarkus-app --args="--extensions=resteasy,hibernate-validator"
 ```
 
 ### List Extensions in the  project -  ('List Extensions' Executor)
 
 ```
-nx listExtensions your-quarkus-app
+nx list-extensions your-quarkus-app
 ```
 
 ## Compatibility with Nx

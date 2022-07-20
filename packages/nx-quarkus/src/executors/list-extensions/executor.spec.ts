@@ -14,7 +14,7 @@ jest.mock('@nrwl/workspace/src/utils/fileutils');
 import * as fsUtility from '@nrwl/workspace/src/utils/fileutils';
 import * as cp from 'child_process';
 
-const mockContext = mockExecutorContext(NX_QUARKUS_PKG,'listExtensions');
+const mockContext = mockExecutorContext(NX_QUARKUS_PKG,'list-extensions');
 const options: ListExtensionsExecutorOptions = {
   root: 'apps/quarkusapp'
 };

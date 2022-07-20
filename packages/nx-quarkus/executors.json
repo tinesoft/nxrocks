@@ -15,7 +15,7 @@
       "schema": "./src/executors/dev/schema.json",
       "description": "Executor to serve the project (alias to 'dev' executor)"
     },
-    "remoteDev": {
+    "remote-dev": {
       "implementation": "./src/executors/remote-dev/executor",
       "schema": "./src/executors/remote-dev/schema.json",
       "description": "Executor to run the project from remote location"
@@ -70,12 +70,12 @@
       "schema": "./src/executors/package/schema.json",
       "description": "Executor to package the project"
     },
-    "addExtension": {
+    "add-extension": {
       "implementation": "./src/executors/add-extension/executor",
       "schema": "./src/executors/add-extension/schema.json",
       "description": "Executor to add an extension to the project"
     },
-    "listExtensions": {
+    "list-extensions": {
       "implementation": "./src/executors/list-extensions/executor",
       "schema": "./src/executors/list-extensions/schema.json",
       "description": "Executor to list extensions in the project"

@@ -9,7 +9,7 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
   const normalizedOptions = normalizeOptions(tree,options);
 
   const targets = {};
-  const commands:BuilderCommandAliasType[] = ['dev', 'remoteDev', 'test', 'clean', 'build', 'install', 'package', 'addExtension', 'listExtensions'];
+  const commands:BuilderCommandAliasType[] = ['dev', 'remote-dev', 'test', 'clean', 'build', 'install', 'package', 'add-extension', 'list-extensions'];
 
   if(!options.skipFormat) {
     commands.push('format', 'format-check');
