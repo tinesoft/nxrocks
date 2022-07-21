@@ -108,13 +108,13 @@ Here the list of available executors<sup>1</sup>:
 | `analyze`      | _see `flutter help analyze`_    | Analyze the project's Dart code |
 | `assemble`     | _see `flutter help assemble`_   | Assemble and build Flutter resources |
 | `attach`       | _see `flutter help attach`_     | Attach to a running app |
-| `buildAar`     | _see `flutter help build aar`_  | Build a repository containing an AAR and a POM file |
-| `buildApk`     | _see `flutter help build apk`_  | Build an Android APK file from your app |
-| `buildAppbundle` | _see `flutter help build appbundle`_ | Build an Android App Bundle file from your app |
-| `buildBundle`  | _see `flutter help build bundle`_ | Build the Flutter assets directory from your app |
-| `buildIos`     | _see `flutter help build ios`_  | Build an iOS application bundle (Mac OS X host only) |
+| `build-aar`     | _see `flutter help build aar`_  | Build a repository containing an AAR and a POM file |
+| `build-apk`     | _see `flutter help build apk`_  | Build an Android APK file from your app |
+| `build-appbundle` | _see `flutter help build appbundle`_ | Build an Android App Bundle file from your app |
+| `build-bundle`  | _see `flutter help build bundle`_ | Build the Flutter assets directory from your app |
+| `build-ios`     | _see `flutter help build ios`_  | Build an iOS application bundle (Mac OS X host only) |
 | `buildIosframework` | _see `flutter help build ios-framework`_ | Produces a .framework directory for a Flutter module and its plugins for integration into existing, plain Xcode projects |
-| `buildIpa`     | _see `flutter help build ipa`_  | Build an iOS archive bundle (Mac OS X host only) |
+| `build-ipa`     | _see `flutter help build ipa`_  | Build an iOS archive bundle (Mac OS X host only) |
 | `clean`        | _see `flutter help clean`_      | Delete the `build/` and `dart_tool/` directories |
 | `drive`        | _see `flutter help drive`_      | Run integration tests for the project on an attached device or emulator |
 | `format`       | _see `flutter help format`_     | Format one or more Dart files |
@@ -127,7 +127,7 @@ Here the list of available executors<sup>1</sup>:
 
 <sup>1</sup> : *Actual executors in your `workspace.json` will depend on the type of `flutter` project (`template`), target `platforms` that you choose to generate.*
 
-Each executor is based on an original project-level `flutter` command. The name is just **camelcased** to match executors' naming conventions.
+Each executor is based on an original project-level `flutter` command. The name is just **kebab-cased** to match executors' naming conventions.
 Besides, the arguments accepted by each executor, are the same as the original `flutter` command they are based upon, encapsulated
 under a generic `--args='...'` option.
 
@@ -138,10 +138,10 @@ $ flutter gen-l10n --header "/// my header"
 
 becomes 👉🏾
 
-$ nx genL10n your-flutterapp --args='--header="/// my header"'
+$ nx gen-l10n your-flutterapp --args='--header="/// my header"'
 ```
 
-> Note that the original `flutter` command name (`gen-l10n`) has been camelcased for creating its `nx-flutter` equivalent (`genL10n`)
+> Note that the original `flutter` command name (`gen-l10n`) has been camelcased for creating its `nx-flutter` equivalent (`gen-l10n`)
 
 > Note that the arguments of the original `flutter` command are wrapped under `--args='...'` option in  the `nx-flutter` equivalent
 
