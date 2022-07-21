@@ -60,7 +60,7 @@
       "schema": "./src/executors/install/schema.json",
       "description": "Executor to install the project's artifacts (i.e jar or war) to the local Maven repository"
     },
-    "aotSampleConfig": {
+    "aot-sample-config": {
       "implementation": "./src/executors/aot-sample-config/executor",
       "schema": "./src/executors/aot-sample-config/schema.json",
       "description": "Executor to list extensions in the project"

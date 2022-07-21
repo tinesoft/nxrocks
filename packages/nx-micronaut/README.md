@@ -213,10 +213,10 @@ nx install your-quarkus-app
 nx dockerfile your-micronaut-app"
 ```
 
-### Generating a sample AOT config file - ('aotConfigSample' Executor)
+### Generating a sample AOT config file - ('aot-sample-config' Executor)
 
 ```
-nx aotConfigSample your-micronaut-app"
+nx aot-sample-config your-micronaut-app"
 ```
 
 ### Building the aplication -  ('build' Executor)

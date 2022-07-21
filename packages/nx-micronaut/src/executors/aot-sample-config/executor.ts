@@ -5,7 +5,7 @@ import { runMicronautPluginCommand } from '../../utils/micronaut-utils'
 
 export async function aotSampleConfigExecutor(options: AotSampleConfigExecutorOptions, context: ExecutorContext){
   const root = path.resolve(context.root, options.root);
-  return runMicronautPluginCommand('aotSampleConfig', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
+  return runMicronautPluginCommand('aot-sample-config', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
 }
 
 export default aotSampleConfigExecutor;
