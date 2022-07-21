@@ -15,26 +15,26 @@ const appCommands = [
   { key: 'assemble', value: 'assemble' },
   { key: 'attach', value: 'attach' },
   { key: 'drive', value: 'drive' },
-  { key: 'genL10n', value: 'gen-l10n' },
+  { key: 'gen-l10n', value: 'gen-l10n' },
   { key: 'install', value: 'install' },
   { key: 'run', value: 'run' },
 ];
 
 const pluginOrModOnlyCommands = [
-  { key: 'buildAar', value: 'build aar' },
+  { key: 'build-aar', value: 'build aar' },
 ];
 
 const androidOnlyCommands = [
-  { key: 'buildAar', value: 'build aar' },
-  { key: 'buildApk', value: 'build apk' },
-  { key: 'buildAppbundle', value: 'build appbundle' },
-  { key: 'buildBundle', value: 'build bundle' },
+  { key: 'build-aar', value: 'build aar' },
+  { key: 'build-apk', value: 'build apk' },
+  { key: 'build-appbundle', value: 'build appbundle' },
+  { key: 'build-bundle', value: 'build bundle' },
 ];
 
 const iOsOnlyCommands = [
-  { key: 'buildIos', value: 'build ios' },
-  { key: 'buildIosFramework', value: 'build ios-framework' },
-  { key: 'buildIpa', value: 'build ipa' },
+  { key: 'build-ios', value: 'build ios' },
+  { key: 'build-ios-framework', value: 'build ios-framework' },
+  { key: 'build-ipa', value: 'build ipa' },
 ];
 
 describe('application generator', () => {
