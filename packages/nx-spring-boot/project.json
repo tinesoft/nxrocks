@@ -57,7 +57,7 @@
       }
     },
     "release": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "npx semantic-release",
         "cwd": "packages/nx-spring-boot"
