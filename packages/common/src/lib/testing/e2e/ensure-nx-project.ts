@@ -12,14 +12,15 @@ import { readJsonFile, writeJsonFile } from "@nrwl/devkit";
 import { workspaceRoot } from "@nrwl/tao/src/utils/app-root";
 
 
-function patchDependencyOfPlugin(
+export function patchDependencyOfPlugin(
   pluginDistPath: string,
   dependencyPackageName: string,
-  dependencyDistPath: string
+  dependencyDistPath: string, 
+  root = workspaceRoot
 ) {
-  const path = join(workspaceRoot, pluginDistPath, 'package.json');
+  const path = join(root, pluginDistPath, 'package.json');
   const json = readJsonFile(path);
-  json.dependencies[dependencyPackageName] = `file:${workspaceRoot}/${dependencyDistPath}`;
+  json.dependencies[dependencyPackageName] = `file:${root}/${dependencyDistPath}`;
   writeJsonFile(path, json);
 }
 

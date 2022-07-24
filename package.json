@@ -64,6 +64,7 @@
     "@types/jest": "27.4.1",
     "@types/node": "14.14.33",
     "@types/node-fetch": "^2.5.8",
+    "@types/tmp": "^0.2.3",
     "@types/unzipper": "^0.10.3",
     "@types/xmldoc": "^1.1.6",
     "@typescript-eslint/eslint-plugin": "4.3.0",

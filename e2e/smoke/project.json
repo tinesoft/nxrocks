@@ -1,0 +1,30 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "e2e/smoke/src",
+  "projectType": "application",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["e2e/smoke/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/e2e/smoke"],
+      "options": {
+        "jestConfig": "e2e/smoke/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["^build"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": [
+    "nx-spring-boot",
+    "nx-quarkus",
+    "nx-micronaut",
+    "nx-flutter"
+  ]
+}

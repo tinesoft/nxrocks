@@ -1,0 +1,59 @@
+
+
+name: Nightly Smoke Tests
+
+on:
+  # Trigger manually or on schedule
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  run_smoke_tests:
+    name: Run Smoke Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [16.x]
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Use Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Use Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          
+      - name: Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache Yarn
+        uses: actions/cache@v3
+        env:
+          cache-name: yarn
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-
+
+      - name: Install packages
+        run: yarn install --frozen-lockfile
+
+      - name: Run smoke tests
+        env:
+          NX_E2E_CI_CACHE_KEY: smoke-gha-${{ matrix.os }}-${{ matrix.node-version }}
+          NX_RUN_GROUP: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}
+        run: yarn nx test smoke
