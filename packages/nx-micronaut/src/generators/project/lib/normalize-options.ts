@@ -21,7 +21,7 @@ export function normalizeOptions(tree:Tree,
     ? options.tags.split(',').map((s) => s.trim())
     : [];
   const projectFeatures = options.features?.split(',').map((s) => s.trim()) || [];
-  const fullPackage = options.basePackage + '.' + name.replace(/-/g, '.').toLowerCase();
+  const fullPackage = options.basePackage + '.' + name.replace(/-_/g, '').toLowerCase();
   return {
     ...options,
     projectName,

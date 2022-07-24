@@ -73,12 +73,13 @@ describe('nx-micronaut e2e', () => {
         `apps/${prjName}/mvnw`,
         `apps/${prjName}/pom.xml`, 
         `apps/${prjName}/README.md`,
-        `apps/${prjName}/src/main/java/com/tinesoft/${prjName.split('-')[0]}/Application.java`)
+        `apps/${prjName}/src/main/java/com/tinesoft/Application.java`)
     ).not.toThrow();
 
     const pomXml = readFile(`apps/${prjName}/pom.xml`);
-    expect(pomXml).toContain(`<groupId>${basePackage}.${prjName.split('-')[0]}</groupId>`);
-    expect(pomXml).toContain(`<artifactId>${prjName.split('-')[1]}</artifactId>`);
+    expect(pomXml).toContain(`<groupId>${basePackage}</groupId>`);
+    
+    expect(pomXml).toContain(`<artifactId>${prjName}</artifactId>`);
 
     // make sure the build wrapper file is executable (*nix only)
     if(!isWin) {
