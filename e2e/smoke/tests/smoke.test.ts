@@ -54,7 +54,7 @@ describe('nxrocks smoke tests', () => {
       console.log('Skipping smoke test because not running on CI');
       return;
     }
-    
+
     execSync(
       `npx create-nx-workspace@latest ${workspaceName} --preset empty --nxCloud false`,
       {
@@ -96,11 +96,11 @@ describe('nxrocks smoke tests', () => {
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --projectType application --no-interactive`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --projectType application --interactive=false`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --projectType library --no-interactive`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --projectType library --interactive=false`,
       execSyncOptions(),
     );
 
@@ -167,11 +167,11 @@ describe('nxrocks smoke tests', () => {
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --projectType application --no-interactive`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --projectType application --interactive=false`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --projectType library --no-interactive`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --projectType library --interactive=false`,
       execSyncOptions(),
     );
 
