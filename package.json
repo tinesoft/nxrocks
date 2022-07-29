@@ -27,7 +27,9 @@
     "prerelease": "nx run-many --target build --all",
     "release": "nx run-many --target release --all",
     "workspace-generator": "nx workspace-generator",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "smoke": "FORCE_SMOKE_TESTS=true yarn nx test smoke",
+    "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true yarn run smoke"
   },
   "private": true,
   "dependencies": {

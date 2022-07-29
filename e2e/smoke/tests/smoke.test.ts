@@ -45,18 +45,23 @@ describe('nxrocks smoke tests', () => {
   });
 
   afterEach(async () => {
-    cleanup();
+    if(!process.env.KEEP_SMOKE_TESTS_DIR) {
+      cleanup();
+    }
+    else {
+      console.warn(`Keeping smoke test directory at '${smokeDirectory}'. Do not forget to remove it when done!`);
+    }
   });
 
   it('should sucessfully run using latest Nx workspace and latest plugins(from local)', async () => {
 
-    if(!process.env.CI) {
-      console.log('Skipping smoke test because not running on CI');
+    if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
+      console.log('Skipping smoke test because not running on CI and FORCE_SMOKE_TESTS is not set');
       return;
     }
 
     execSync(
-      `npx create-nx-workspace@latest ${workspaceName} --preset empty --nxCloud false`,
+      `npx --yes create-nx-workspace@latest ${workspaceName} --preset empty --nxCloud false`,
       {
         cwd: smokeDirectory,
         env: process.env,
@@ -130,13 +135,13 @@ describe('nxrocks smoke tests', () => {
 
   xit('should sucessfully run using latest Nx workspace and latest published plugins(from NPM)', async () => {
 
-    if(!process.env.CI) {
-      console.log('Skipping smoke test because not running on CI');
+    if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
+      console.log('Skipping smoke test because not running on CI and FORCE_SMOKE_TESTS is not set');
       return;
     }
 
     execSync(
-      `npx create-nx-workspace@latest ${workspaceName} --preset empty --nxCloud false`,
+      `npx --yes create-nx-workspace@latest ${workspaceName} --preset empty --nxCloud false`,
       {
         cwd: smokeDirectory,
         env: process.env,

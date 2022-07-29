@@ -1,9 +1,12 @@
 const { readdirSync } = require('fs');
 const path = require('path');
 
-const packageScopes = readdirSync(path.resolve(__dirname, 'packages'), { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .map(dirent => dirent.name);
+const packageScopes = [
+  "smoke",
+  ...(readdirSync(path.resolve(__dirname, 'packages'), { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name))
+  ];
 
 module.exports = {
   extends: ['@commitlint/config-angular'],
