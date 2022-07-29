@@ -1,4 +1,3 @@
-import { uniq } from '@nrwl/nx-plugin/testing';
 import { patchDependencyOfPlugin } from '@nxrocks/common/testing';
 
 import { execSync, ExecSyncOptions } from 'child_process';
@@ -12,7 +11,7 @@ let cleanup: () => void;
 
 let workspaceRoot: string;
 
-const workspaceName = 'nxrocks-host';
+const workspaceName = 'host';
 const packagesDistDirectory = resolve(__dirname, '../../../dist/packages');
 
 const execSyncOptions: () => ExecSyncOptions = () => ({
@@ -27,17 +26,19 @@ const execSyncOptions: () => ExecSyncOptions = () => ({
   stdio: 'inherit',
 });
 
-const bootapp = uniq('boot-app-');
-const bootlib = uniq('boot-lib-');
-const quarkusapp = uniq('quarkus-app-');
-const quarkuslib = uniq('quarkus-lib-');
-const flutterapp = uniq('flutter-app-');
-const flutterlib = uniq('flutter-lib-');
-const mnApp = uniq('mnapp-');
+const bootapp = 'bootapp';
+const bootlib = 'bootlib';
+const quarkusapp = 'quarkusapp';
+const quarkuslib = 'quarkuslib';
+const flutterapp = 'flutterapp';
+const flutterlib = 'flutterlib';
+const mnApp = 'mnapp';
 
 describe('nxrocks smoke tests', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
+      prefix: 'nxrocks-smoke',
+      keep: !!process.env.KEEP_SMOKE_TESTS_DIR,
       unsafeCleanup: true,
     }));
     workspaceRoot = join(smokeDirectory, workspaceName);
@@ -49,7 +50,7 @@ describe('nxrocks smoke tests', () => {
       cleanup();
     }
     else {
-      console.warn(`Keeping smoke test directory at '${smokeDirectory}'. Do not forget to remove it when done!`);
+      console.warn(`Keeping smoke test directory at '${workspaceRoot}'. Do not forget to remove it when done!`);
     }
   });
 
@@ -83,34 +84,34 @@ describe('nxrocks smoke tests', () => {
     execSync('npm install', execSyncOptions());
 
     execSync(
-      `npx nx g @nxrocks/nx-spring-boot:new ${bootapp} --projectType application --no-interactive`,
+      `npx nx g @nxrocks/nx-spring-boot:new ${bootapp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-spring-boot:new ${bootlib} --projectType library --no-interactive`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `npx nx g @nxrocks/nx-quarkus:new ${quarkusapp} --projectType application --no-interactive`,
-      execSyncOptions(),
-    );
-    execSync(
-      `npx nx g @nxrocks/nx-quarkus:new ${quarkuslib} --projectType library --no-interactive`,
+      `npx nx g @nxrocks/nx-spring-boot:new ${bootlib} --skip-format=false --projectType library --no-interactive`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --projectType application --interactive=false`,
+      `npx nx g @nxrocks/nx-quarkus:new ${quarkusapp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --projectType library --interactive=false`,
+      `npx nx g @nxrocks/nx-quarkus:new ${quarkuslib} --skip-format=false --projectType library --no-interactive`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-micronaut:new ${mnApp} --projectType application --no-interactive`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --skip-format=false --projectType application --interactive=false`,
+      execSyncOptions(),
+    );
+    execSync(
+      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --skip-format=false --projectType library --interactive=false`,
+      execSyncOptions(),
+    );
+
+    execSync(
+      `npx nx g @nxrocks/nx-micronaut:new ${mnApp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
 
@@ -154,34 +155,34 @@ describe('nxrocks smoke tests', () => {
     execSync(`npm i --save-dev @nxrocks/nx-spring-boot @nxrocks/nx-quarkus @nxrocks/nx-flutter @nxrocks/nx-micronaut`, execSyncOptions());
 
     execSync(
-      `npx nx g @nxrocks/nx-spring-boot:new ${bootapp} --projectType application --no-interactive`,
+      `npx nx g @nxrocks/nx-spring-boot:new ${bootapp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-spring-boot:new ${bootlib} --projectType library --no-interactive`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `npx nx g @nxrocks/nx-quarkus:new ${quarkusapp} --projectType application --no-interactive`,
-      execSyncOptions(),
-    );
-    execSync(
-      `npx nx g @nxrocks/nx-quarkus:new ${quarkuslib} --projectType library --no-interactive`,
+      `npx nx g @nxrocks/nx-spring-boot:new ${bootlib} --skip-format=false --projectType library --no-interactive`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --projectType application --interactive=false`,
+      `npx nx g @nxrocks/nx-quarkus:new ${quarkusapp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --projectType library --interactive=false`,
+      `npx nx g @nxrocks/nx-quarkus:new ${quarkuslib} --skip-format=false --projectType library --no-interactive`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-micronaut:new ${mnApp} --projectType application --no-interactive`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --skip-format=false --projectType application --interactive=false`,
+      execSyncOptions(),
+    );
+    execSync(
+      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --skip-format=false --projectType library --interactive=false`,
+      execSyncOptions(),
+    );
+
+    execSync(
+      `npx nx g @nxrocks/nx-micronaut:new ${mnApp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
 
