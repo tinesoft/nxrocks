@@ -173,7 +173,7 @@ describe('project generator', () => {
     const projectDir = projectType === 'application' ? 'apps' : 'libs';
     expect(project.root).toBe(`${projectDir}/${options.name}`);
 
-    const commands = ['build', 'install', 'format', 'format-check', 'test', 'clean']
+    const commands = ['build', 'install', 'format', 'apply-format', 'check-format', 'test', 'clean']
     const appOnlyCommands = ['run', 'serve', 'build-image', 'build-info'];
 
     if (projectType === 'application') {
@@ -273,7 +273,7 @@ describe('project generator', () => {
     await projectGenerator(tree, { ...options, skipFormat });
 
     const project = readProjectConfiguration(tree, options.name);
-    const formatCommands = ['format', 'format-check'];
+    const formatCommands = ['format', 'apply-format', 'check-format'];
     
     if(skipFormat) {
       // expect project.targets not to have the format commands

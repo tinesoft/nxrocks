@@ -147,7 +147,7 @@ Here the list of available executors:
 | `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
 | `clean`          | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
 | `format`         | `ignoreWrapper:boolean`, `args: string[]`  | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
-| `format-check`         | `ignoreWrapper:boolean`, `args: string[]`  | Check whether the project is well formatted using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
+| `check-format`         | `ignoreWrapper:boolean`, `args: string[]`  | Check whether the project is well formatted using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
 | `build`          | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project into an executable Jar using either `./mvnw\|mvn package` or `./gradlew\|gradle build` |
 | `install`          | `ignoreWrapper:boolean`, `args: string[]`  | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
 | `build-info`<sup>*</sup>     | `ignoreWrapper:boolean`,                   | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo` |
@@ -249,26 +249,20 @@ nx clean your-boot-app
 ### Formatting the project -  ('format' Executor)
 
 ```
+
 nx run your-boot-app:format
 
-//or simply
-
-nx do-format your-boot-app
-
-//or
+// or simply
 
 nx apply-format your-boot-app
 
 ```
+> Note: You *cannot** use the shorter `nx format your-boot-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
 
-### Checking the format the project -  ('format-check' Executor)
+### Checking the format the project -  ('check-format' Executor)
 
 ```
 nx check-format your-boot-app
-
-//or
-
-nx format-check your-boot-app
 ```
 
 ## Compatibility with Nx

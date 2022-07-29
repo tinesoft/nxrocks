@@ -5,7 +5,7 @@ import { FormatCheckExecutorOptions } from './schema'
 
 export async function formatCheckExecutor(options: FormatCheckExecutorOptions, context: ExecutorContext){
   const root = path.resolve(context.root, options.root);
-  return runBootPluginCommand('format-check', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
+  return runBootPluginCommand('check-format', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
 }
 
 export default formatCheckExecutor;

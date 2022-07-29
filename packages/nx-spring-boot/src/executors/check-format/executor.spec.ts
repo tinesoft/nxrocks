@@ -14,7 +14,7 @@ jest.mock('@nrwl/workspace/src/utils/fileutils');
 import * as fsUtility from '@nrwl/workspace/src/utils/fileutils';
 import * as cp from 'child_process';
 
-const mockContext = mockExecutorContext(NX_SPRING_BOOT_PKG, 'format-check');
+const mockContext = mockExecutorContext(NX_SPRING_BOOT_PKG, 'check-format');
 const options: FormatCheckExecutorOptions = {
   root: 'apps/bootapp'
 };

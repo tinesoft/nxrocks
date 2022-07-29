@@ -1,7 +1,7 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 import { ProjectGeneratorOptions } from './schema';
 import { normalizeOptions, generateBootProject, addBuilInfoTask, removeBootMavenPlugin, addFormattingWithSpotless, addMavenPublishPlugin, disableBootGradlePlugin } from './lib';
-import { addPluginToNxJson, NX_SPRING_BOOT_PKG } from '@nxrocks/common';
+import { addPluginToNxJson, BuilderCommandAliasType, NX_SPRING_BOOT_PKG } from '@nxrocks/common';
 
 
 
@@ -9,7 +9,7 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
   const normalizedOptions = normalizeOptions(tree, options);
 
   const targets = {};
-  const commands = ['build', 'install', 'test', 'clean'];
+  const commands: BuilderCommandAliasType[] = ['build', 'install', 'test', 'clean'];
   const appOnlyCommands = ['run', 'serve', 'build-image', 'build-info'];
 
   if (options.projectType === 'application') { //only 'application' projects should have 'boot' related commands
@@ -17,7 +17,7 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
   }
 
   if(!options.skipFormat) {
-    commands.push('format', 'format-check');
+    commands.push('format', 'apply-format', 'check-format');
   }
 
   for (const command of commands) {
