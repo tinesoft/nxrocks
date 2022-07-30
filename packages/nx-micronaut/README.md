@@ -189,10 +189,6 @@ nx run your-micronaut-app:run
 
 // or
 nx serve your-micronaut-app
-
-// or
-
-nx dev your-micronaut-app
 ```
 
 ### Building the aplication -  ('build' Executor)
@@ -244,13 +240,11 @@ nx run your-micronaut-app:format
 
 // or simply
 
-nx do-format your-micronaut-app
-
-// or
-
 nx apply-format your-micronaut-app
 
 ```
+
+> Note: You *cannot** use the shorter `nx format your-boot-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
 
 ## Compatibility with Nx
 

@@ -14,7 +14,7 @@ jest.mock('@nrwl/workspace/src/utils/fileutils');
 import * as fsUtility from '@nrwl/workspace/src/utils/fileutils';
 import * as cp from 'child_process';
 
-const mockContext = mockExecutorContext(NX_MICRONAUT_PKG,'format-check');
+const mockContext = mockExecutorContext(NX_MICRONAUT_PKG,'check-format');
 const options: FormatCheckExecutorOptions = {
   root: 'apps/mnapp'
 };

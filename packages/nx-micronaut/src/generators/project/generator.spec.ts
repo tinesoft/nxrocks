@@ -248,10 +248,10 @@ describe('project generator', () => {
     const project = readProjectConfiguration(tree, options.name);
     expect(project.root).toBe(`apps/${options.name}`);
 
-    const commands:BuilderCommandAliasType[] = ['run', 'dockerfile', 'test', 'clean', 'format', 'build', 'aot-sample-config'];
+    const commands:BuilderCommandAliasType[] = ['run', 'serve', 'dockerfile', 'test', 'clean', 'format', 'apply-format', 'check-format', 'build', 'aot-sample-config'];
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`${NX_MICRONAUT_PKG}:${cmd}`);
-      if(cmd === 'build') { 
+      if(['build', 'install'].includes(cmd)) { 
         expect(project.targets[cmd].outputs).toEqual([`${project.root}/target`]);
       }
     });
@@ -283,7 +283,7 @@ describe('project generator', () => {
     await projectGenerator(tree, { ...options, skipFormat });
 
     const project = readProjectConfiguration(tree, options.name);
-    const formatCommands = ['format', 'format-check'];
+    const formatCommands = ['format', 'apply-format', 'check-format'];
     
     if(skipFormat) {
       // expect project.targets not to have the format commands

@@ -8,10 +8,10 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
   const normalizedOptions = normalizeOptions(tree,options);
 
   const targets = {};
-  const commands:BuilderCommandAliasType[] = ['run', 'dockerfile', 'test', 'clean','build', 'aot-sample-config'];
+  const commands:BuilderCommandAliasType[] = ['run', 'serve', 'dockerfile', 'test', 'clean','build', 'aot-sample-config'];
 
   if(!options.skipFormat) {
-    commands.push('format', 'format-check');
+    commands.push('format', 'apply-format', 'check-format');
   }
 
   for (const command of commands) {

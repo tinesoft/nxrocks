@@ -2,10 +2,12 @@ import { BuilderCommandAliasMapper, GradleBuilder, MavenBuilder } from '@nxrocks
 
 export const GRADLE_MICRONAUT_COMMAND_MAPPER : BuilderCommandAliasMapper = {
     'run': 'run',
+    'serve': 'run',
     'test': 'test',
     'clean': 'clean',
     'format': 'spotlessApply',
-    'format-check': 'spotlessCheck',
+    'apply-format': 'spotlessApply',
+    'check-format': 'spotlessCheck',
     'build': 'build',
     'install': 'publishToMavenLocal',
     'aot-sample-config': 'createAotSampleConfigurationFiles',
@@ -16,10 +18,12 @@ export const GRADLE_BUILDER = new GradleBuilder(GRADLE_MICRONAUT_COMMAND_MAPPER)
 
 export const MAVEN_MICRONAUT_COMMAND_MAPPER: BuilderCommandAliasMapper = {
     'run': 'mn:run',
+    'serve': 'mn:run',
     'test': 'test',
     'clean': 'clean',
     'format': 'spotless:apply',
-    'format-check': 'spotless:check',
+    'apply-format': 'spotless:apply',
+    'check-format': 'spotless:check',
     'build': 'package',
     'install': 'install',
     'aot-sample-config': 'mn:aot-sample-config',
