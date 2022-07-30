@@ -184,12 +184,9 @@ Or, permanently by editing the related executor in the `workspace.json` file, as
 }
 ```
 
-### Running the project in dev mote - ('run' or 'dev' or 'serve' Executors)
+### Running the project in dev mote - ('dev' or 'serve' Executors)
 
 ```
-nx run your-quarkus-app:run
-
-// or
 nx serve your-quarkus-app
 
 // or
@@ -231,20 +228,18 @@ nx test your-quarkus-app
 nx clean your-quarkus-app
 ```
 
-### Formatting the code -  ('format' Executor)
+### Formatting the project -  ('format' Executor)
 
 ```
+
 nx run your-quarkus-app:format
 
-// or simply
-
-nx do-format your-quarkus-app
-
-// or
+// or its simpler alias
 
 nx apply-format your-quarkus-app
 
 ```
+> Note: You *cannot** use the shorter `nx format your-boot-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
 
 ### Packaging the project -  ('package' Executor)
 

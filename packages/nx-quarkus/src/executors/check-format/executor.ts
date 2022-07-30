@@ -5,7 +5,7 @@ import { runQuarkusPluginCommand } from '../../utils/quarkus-utils'
 
 export async function formatCheckExecutor(options: FormatCheckExecutorOptions, context: ExecutorContext){
   const root = path.resolve(context.root, options.root);
-  return runQuarkusPluginCommand('format-check', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
+  return runQuarkusPluginCommand('check-format', options.args, { cwd : root, ignoreWrapper: options.ignoreWrapper});
 }
 
 export default formatCheckExecutor;

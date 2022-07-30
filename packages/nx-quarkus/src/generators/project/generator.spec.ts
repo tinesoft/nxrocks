@@ -144,10 +144,10 @@ describe('project generator', () => {
     const projectDir = projectType === 'application' ? 'apps' : 'libs';
     expect(project.root).toBe(`${projectDir}/${options.name}`);
 
-    const commands:BuilderCommandAliasType[] = ['dev', 'remote-dev', 'test', 'clean', 'build', 'format', 'format-check', 'package', 'add-extension', 'list-extensions'];
+    const commands:BuilderCommandAliasType[] = ['dev', 'serve', 'remote-dev', 'test', 'clean', 'build', 'format', 'apply-format', 'check-format', 'package', 'add-extension', 'list-extensions'];
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
-      if(cmd === 'build') { 
+      if(['build', 'install'].includes(cmd)) { 
         expect(project.targets[cmd].outputs).toEqual([`${project.root}/target`]);
       }
     });
@@ -180,7 +180,7 @@ describe('project generator', () => {
     await projectGenerator(tree, { ...options, skipFormat });
 
     const project = readProjectConfiguration(tree, options.name);
-    const formatCommands = ['format', 'format-check'];
+    const formatCommands = ['format', 'apply-format', 'check-format'];
     
     if(skipFormat) {
       // expect project.targets not to have the format commands

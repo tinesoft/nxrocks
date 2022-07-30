@@ -2,11 +2,13 @@ import { BuilderCommandAliasMapper, GradleBuilder, MavenBuilder } from '@nxrocks
 
 export const GRADLE_QUARKUS_COMMAND_MAPPER : BuilderCommandAliasMapper = {
     'dev': 'quarkusDev',
+    'serve': 'quarkusDev',
     'remote-dev': 'quarkusRemoteDev',
     'test': 'test',
     'clean': 'clean',
     'format': 'spotlessApply',
-    'format-check': 'spotlessCheck',
+    'apply-format': 'spotlessApply',
+    'check-format': 'spotlessCheck',
     'build': 'build',
     'install': 'publishToMavenLocal',
     'package': 'package',
@@ -18,11 +20,13 @@ export const GRADLE_BUILDER = new GradleBuilder(GRADLE_QUARKUS_COMMAND_MAPPER);
 
 export const MAVEN_QUARKUS_COMMAND_MAPPER: BuilderCommandAliasMapper = {
     'dev': 'quarkus:dev',
+    'serve': 'quarkus:dev',
     'remote-dev': 'quarkus:remote-dev',
     'test': 'test',
     'clean': 'clean',
     'format': 'spotless:apply',
-    'format-check': 'spotless:check',
+    'apply-format': 'spotless:apply',
+    'check-format': 'spotless:check',
     'build': 'package',
     'install': 'install',
     'package': 'package',
