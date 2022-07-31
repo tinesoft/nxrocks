@@ -1,13 +1,13 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "Application",
+  "id": "Nx Spring Boot project generator",
   "title": "Creates a Spring boot project in the workspace",
   "cli": "nx",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "Name of the project",
+      "description": "Name of the project to generate",
       "$default": {
         "$source": "argv",
         "index": 0
@@ -35,7 +35,7 @@
       }
     },
     "buildSystem": {
-      "description": "Build system",
+      "description": "Build system to use",
       "alias": "type",
       "default": "maven-project",
       "type": "string",
@@ -156,7 +156,7 @@
     "skipFormat": {
       "type": "boolean",
       "default": true,
-      "x-prompt": "Do not add code formatting support(using Spotless plugin)?"
+      "x-prompt": "Skip code formatting support(using Spotless plugin)?"
     },
     "dependencies": {
       "type": "string",

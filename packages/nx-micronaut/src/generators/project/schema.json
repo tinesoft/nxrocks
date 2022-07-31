@@ -1,13 +1,13 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "Application",
+  "id": "Nx Micronaut project generator",
   "title": "Creates a Micronaut application in the workspace",
   "cli": "nx",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "Name of the project",
+      "description": "Name of the project to generate",
       "$default": {
         "$source": "argv",
         "index": 0
@@ -70,7 +70,7 @@
       }
     },
     "buildSystem": {
-      "description": "Build system",
+      "description": "Build system to use",
       "alias": "type",
       "default": "MAVEN",
       "type": "string",
@@ -174,7 +174,7 @@
     "skipFormat": {
       "type": "boolean",
       "default": true,
-      "x-prompt": "Do not add code formatting support(using Spotless plugin)?"
+      "x-prompt": "Skip code formatting support(using Spotless plugin)?"
     },
     "features": {
       "type": "string",
