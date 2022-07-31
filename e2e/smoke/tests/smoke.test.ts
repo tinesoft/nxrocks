@@ -102,11 +102,11 @@ describe('nxrocks smoke tests', () => {
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --skip-format=false --projectType application --interactive=false`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --projectType application --interactive=false`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --skip-format=false --projectType library --interactive=false`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --projectType library --interactive=false`,
       execSyncOptions(),
     );
 
@@ -173,11 +173,11 @@ describe('nxrocks smoke tests', () => {
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --skip-format=false --projectType application --interactive=false`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --projectType application --interactive=false`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --skip-format=false --projectType library --interactive=false`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --projectType library --interactive=false`,
       execSyncOptions(),
     );
 
