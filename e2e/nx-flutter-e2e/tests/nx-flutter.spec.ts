@@ -9,7 +9,7 @@ import { ensureNxProjectWithDeps } from '@nxrocks/common/testing';
 jest.mock('inquirer'); // we mock 'inquirer' to bypass the interactive prompt
 import * as inquirer from 'inquirer';
 
-xdescribe('nx-flutter e2e', () => {
+describe('nx-flutter e2e', () => {
 
   beforeAll(async () => {
 
@@ -35,10 +35,11 @@ xdescribe('nx-flutter e2e', () => {
     jest.resetAllMocks();
   });
 
-  it.only('should create nx-flutter project with default options', async() => {
+  it('should create nx-flutter project with default options', async() => {
     const appName = uniq('nx-flutter');
 
-    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --no-interactive`);
+    const sep = process.platform === 'win32' ? '\\' : '/';
+    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --skipAdditionalPrompts=true --no-interactive`);
 
     const executors = [
       { name: 'analyze', output: `Analyzing ${appName}` },
@@ -47,25 +48,25 @@ xdescribe('nx-flutter e2e', () => {
       //{ name: 'attach', output: `Attaching ${appName}` },
 
       //build commands
-      { name: 'build-aar', output: `Running Gradle task 'assembleAarDebug'...` },
-      { name: 'build-apk', output: `Built build/app/outputs/flutter-apk/app-release.apk` },
-      { name: 'build-appbundle', output: `Built build/app/outputs/bundle/release/app-release.aab` },
-      { name: 'build-bundle', output: `Done in` },
+      //{ name: 'build-aar', output: `Running Gradle task 'assembleAarDebug'...` }, // only for module or plugin projects
+      { name: 'build-apk', output: `Built build${sep}app${sep}outputs${sep}flutter-apk${sep}app-release.apk` },
+      //{ name: 'build-appbundle', output: `Built build/app/outputs/bundle/release/app-release.aab` },
+      //{ name: 'build-bundle', output: `Done in` },
 
       //required an iOS certificate
-      //{name: 'buildIos', output: `No valid code signing certificates were found`},
-      //{name: 'buildIosFramework', output: `Building frameworks for iOS is only supported from a module`},
-      //{name: 'buildIpa', output: `No valid code signing certificates were found`},
+      //{name: 'build-ios', output: `No valid code signing certificates were found`},
+      //{name: 'build-ios-framework', output: `Building frameworks for iOS is only supported from a module`},
+      //{name: 'build-ipa', output: `No valid code signing certificates were found`},
 
-      { name: 'clean', output: `Deleting flutter_export_environment.sh...` },
+      //{ name: 'clean', output: `Deleting flutter_export_environment.sh...` },
 
       //required a test file under 'test_driver/main_test.dart' (default)
       //{ name: 'drive', output: `xxx` },
 
-      { name: 'format', output: `Done in ` },
+      //{ name: 'format', output: `Formatted no files ` },
 
       //required arb files under 'lib/l10n'
-      //{ name: 'genL10n', output: `The 'arb-dir' directory, 'LocalDirectory: 'lib/l10n'', does not exist` },
+      //{ name: 'gen-l10n', output: `The 'arb-dir' directory, 'LocalDirectory: 'lib/l10n'', does not exist` },
 
       //required a running device
       //{ name: 'install', output: `No target device found` },
@@ -88,7 +89,7 @@ xdescribe('nx-flutter e2e', () => {
     expect(() =>
       checkFilesExist(`apps/${appName}/pubspec.yaml`)
     ).not.toThrow();
-  }, 200000);
+  }, 400000);
 
   it('should create nx-flutter project with given options', async() => {
     const appName = uniq('nx-flutter');
@@ -101,12 +102,12 @@ xdescribe('nx-flutter e2e', () => {
     const pub = true;
     const offline = true;
 
-    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --interactive=false --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} `);
+    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --skipAdditionalPrompts=true --no-interactive --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} `);
 
     const executors = [
 
       { name: 'clean', output: `Deleting flutter_export_environment.sh...` },
-      { name: 'format', output: `Done in ` },
+      { name: 'format', output: `Formatted no files ` },
       { name: 'test', output: `All tests passed!` },
     ];
 
@@ -129,7 +130,7 @@ xdescribe('nx-flutter e2e', () => {
       const appName = uniq('nx-flutter');
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-flutter:create ${appName} --interactive=false --directory subdir`
+        `generate @nxrocks/nx-flutter:create ${appName} --skipAdditionalPrompts=true --no-interactive --directory subdir`
       );
       expect(() =>
         checkFilesExist(`apps/subdir/${appName}/pubspec.yaml`)
@@ -142,7 +143,7 @@ xdescribe('nx-flutter e2e', () => {
       const appName = uniq('nx-flutter');
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-flutter:create ${appName}  --interactive=false --tags e2etag,e2ePackage`
+        `generate @nxrocks/nx-flutter:create ${appName}  --skipAdditionalPrompts=true --no-interactive --tags e2etag,e2ePackage`
       );
       const project = readJson(`apps/${appName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);

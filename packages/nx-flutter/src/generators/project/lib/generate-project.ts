@@ -1,6 +1,6 @@
 import { Tree, logger } from '@nrwl/devkit';
 import { execSync } from 'child_process'
-import { buildFlutterCreateOptions } from '../../../utils/flutter-utils';
+import { buildFlutterCreateOptions, isFlutterInstalled } from '../../../utils/flutter-utils';
 
 import { NormalizedSchema } from '../schema';
 
@@ -10,6 +10,10 @@ export async function generateFlutterProject(tree: Tree, options: NormalizedSche
 
     logger.info(`Generating Flutter project with following options : ${opts}...`);
 
+    if (!isFlutterInstalled()) {
+        throw new Error("'flutter' was not found on your system's PATH.\nPlease make sure you have installed it correctly.\n👉🏾 https://flutter.dev/docs/get-started/install");
+      }
+    
     // Create the command to execute
     const execute = `flutter create ${opts} ${options.projectRoot}`;
     try {

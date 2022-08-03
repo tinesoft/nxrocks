@@ -107,10 +107,10 @@
       "type": "boolean",
       "description": "Whether or not to overwrite existing files when performing operations"
     },
-    "interactive": {
+    "skipAdditionalPrompts": {
       "type": "boolean",
       "description": "Whether or not to prompt for additional options (like platforms, androidLanguage, etc)",
-      "default": true
+      "default": false
     }
   },
   "required": [

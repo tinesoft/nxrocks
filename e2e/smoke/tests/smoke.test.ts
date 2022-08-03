@@ -102,11 +102,11 @@ describe('nxrocks smoke tests', () => {
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --projectType application --interactive=false`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --projectType library --interactive=false`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
       execSyncOptions(),
     );
 
@@ -127,8 +127,8 @@ describe('nxrocks smoke tests', () => {
     execSync(`npx nx build ${bootlib}`, execSyncOptions());
     execSync(`npx nx build ${quarkusapp}`, execSyncOptions());
     execSync(`npx nx build ${quarkuslib}`, execSyncOptions());
-    execSync(`npx nx build ${flutterapp}`, execSyncOptions());
-    execSync(`npx nx build ${flutterlib}`, execSyncOptions());
+    execSync(`npx nx clean ${flutterapp}`, execSyncOptions());
+    execSync(`npx nx clean ${flutterlib}`, execSyncOptions());
     execSync(`npx nx build ${mnApp}`, execSyncOptions());
 
     expect(true).toBeTruthy();
@@ -173,11 +173,11 @@ describe('nxrocks smoke tests', () => {
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --projectType application --interactive=false`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --projectType library --interactive=false`,
+      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
       execSyncOptions(),
     );
 
@@ -199,8 +199,8 @@ describe('nxrocks smoke tests', () => {
     execSync(`npx nx build ${bootlib}`, execSyncOptions());
     execSync(`npx nx build ${quarkusapp}`, execSyncOptions());
     execSync(`npx nx build ${quarkuslib}`, execSyncOptions());
-    execSync(`npx nx build ${flutterapp}`, execSyncOptions());
-    execSync(`npx nx build ${flutterlib}`, execSyncOptions());
+    execSync(`npx nx clean ${flutterapp}`, execSyncOptions());
+    execSync(`npx nx clean ${flutterlib}`, execSyncOptions());
     execSync(`npx nx build ${mnApp}`, execSyncOptions());
 
     expect(true).toBeTruthy();
