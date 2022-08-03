@@ -21,7 +21,7 @@ export interface ProjectGeneratorOptions {
   tags?: string;
   directory?: string;
 
-  interactive?: boolean;
+  skipAdditionalPrompts?: boolean; //`interactive` is a reserved option for `nx generate` command, that gets deleted once Nx has interpreted it, so we need our own
 }
 
 export interface NormalizedSchema extends ProjectGeneratorOptions {

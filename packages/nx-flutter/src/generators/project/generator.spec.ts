@@ -43,7 +43,6 @@ describe('application generator', () => {
     name: 'testapp',
     template: 'app',
     platforms: ['android', 'ios', 'web', 'linux', 'windows', 'macos'],
-    interactive: true
   };
 
 
