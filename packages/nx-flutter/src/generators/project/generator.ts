@@ -18,6 +18,9 @@ export async function projectGenerator(tree:Tree, options: ProjectGeneratorOptio
     { key: 'clean', value: 'clean' },
     { key: 'format', value: `format ${normalizedOptions.projectRoot}/*` },
     { key: 'test', value: 'test' },
+    { key: 'test', value: 'test' },
+    { key: 'doctor', value: 'doctor' },
+
   ];
   
   if(normalizedOptions.template === 'app'){

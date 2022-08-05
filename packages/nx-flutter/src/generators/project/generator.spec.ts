@@ -73,6 +73,7 @@ describe('application generator', () => {
       { key: 'clean', value: 'clean' },
       { key: 'format', value: `format ${project.root}/*` },
       { key: 'test', value: 'test' },
+      { key: 'doctor', value: 'doctor' },
     ];
 
     const commands = [...commonCommands, ...appCommands, ...pluginOrModOnlyCommands, ...androidOnlyCommands, ...iOsOnlyCommands];

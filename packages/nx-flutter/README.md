@@ -124,6 +124,7 @@ Here the list of available executors<sup>1</sup>:
 | `screenshot`   | _see `flutter help screenshot`_ | Take a screenshot from a connected device |
 | `symbolize`    | _see `flutter help symbolize`_  | Symbolize a stack trace from an AOT-compiled Flutter app |
 | `test`         | _see `flutter help test`_       | Run Flutter unit tests for the current project |
+| `doctor`       | _see `flutter help doctor`_     | Run Flutter doctor to check the environment and status of Flutter installation |
 
 <sup>1</sup> : *Actual executors in your `workspace.json` will depend on the type of `flutter` project (`template`), target `platforms` that you choose to generate.*
 
