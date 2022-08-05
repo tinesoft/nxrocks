@@ -57,7 +57,9 @@ export async function projectGenerator(tree:Tree, options: ProjectGeneratorOptio
       options: {
         command: `flutter ${command.value}`,
         cwd: normalizedOptions.projectRoot
-      }
+      },
+      ...( command.key.startsWith('build-') ? {outputs: [`${normalizedOptions.projectRoot}/build`]}: {})
+
     };
   }
   addProjectConfiguration(tree, normalizedOptions.projectName, {
