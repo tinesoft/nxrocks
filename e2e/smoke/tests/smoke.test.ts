@@ -100,6 +100,11 @@ describe('nxrocks smoke tests', () => {
       `npx nx g @nxrocks/nx-quarkus:new ${quarkuslib} --skip-format=false --projectType library --no-interactive`,
       execSyncOptions(),
     );
+    
+    execSync(
+      `npx nx g @nxrocks/nx-micronaut:new ${mnApp} --skip-format=false --projectType application --no-interactive`,
+      execSyncOptions(),
+    );
 
     execSync(
       `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
@@ -107,11 +112,6 @@ describe('nxrocks smoke tests', () => {
     );
     execSync(
       `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `npx nx g @nxrocks/nx-micronaut:new ${mnApp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
 
@@ -127,9 +127,9 @@ describe('nxrocks smoke tests', () => {
     execSync(`npx nx build ${bootlib}`, execSyncOptions());
     execSync(`npx nx build ${quarkusapp}`, execSyncOptions());
     execSync(`npx nx build ${quarkuslib}`, execSyncOptions());
+    execSync(`npx nx build ${mnApp}`, execSyncOptions());
     execSync(`npx nx clean ${flutterapp}`, execSyncOptions());
     execSync(`npx nx clean ${flutterlib}`, execSyncOptions());
-    execSync(`npx nx build ${mnApp}`, execSyncOptions());
 
     expect(true).toBeTruthy();
   }, 1500000);
@@ -171,6 +171,11 @@ describe('nxrocks smoke tests', () => {
       `npx nx g @nxrocks/nx-quarkus:new ${quarkuslib} --skip-format=false --projectType library --no-interactive`,
       execSyncOptions(),
     );
+    
+    execSync(
+      `npx nx g @nxrocks/nx-micronaut:new ${mnApp} --skip-format=false --projectType application --no-interactive`,
+      execSyncOptions(),
+    );
 
     execSync(
       `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
@@ -178,11 +183,6 @@ describe('nxrocks smoke tests', () => {
     );
     execSync(
       `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `npx nx g @nxrocks/nx-micronaut:new ${mnApp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
 
@@ -199,9 +199,9 @@ describe('nxrocks smoke tests', () => {
     execSync(`npx nx build ${bootlib}`, execSyncOptions());
     execSync(`npx nx build ${quarkusapp}`, execSyncOptions());
     execSync(`npx nx build ${quarkuslib}`, execSyncOptions());
+    execSync(`npx nx build ${mnApp}`, execSyncOptions());
     execSync(`npx nx clean ${flutterapp}`, execSyncOptions());
     execSync(`npx nx clean ${flutterlib}`, execSyncOptions());
-    execSync(`npx nx build ${mnApp}`, execSyncOptions());
 
     expect(true).toBeTruthy();
   }, 1500000);
