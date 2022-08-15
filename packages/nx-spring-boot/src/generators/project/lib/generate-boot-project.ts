@@ -4,7 +4,7 @@ import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
 import { buildBootDownloadUrl } from '../../../utils/boot-utils';
-import { extractFromZipStream, getPackageLatestNpmVersion, NX_SPRING_BOOT_PKG } from '@nxrocks/common';
+import { extractFromZipStream, getHttpProxyAgent, getPackageLatestNpmVersion, NX_SPRING_BOOT_PKG } from '@nxrocks/common';
 
 export async function generateBootProject(tree: Tree, options: NormalizedSchema): Promise<void> {
     const downloadUrl = buildBootDownloadUrl(options);
@@ -13,11 +13,13 @@ export async function generateBootProject(tree: Tree, options: NormalizedSchema)
 
     const pkgVersion = getPackageLatestNpmVersion(NX_SPRING_BOOT_PKG);
     const userAgent = `@nxrocks_nx-spring-boot/${pkgVersion}`;
+    const proxyAgent = getHttpProxyAgent(options.proxyUrl);
     const opts = {
         headers: {
             'User-Agent': userAgent
-        }
-    }
+        },
+        ...(proxyAgent ? {agent: proxyAgent} : {})
+    };
     const response = await fetch(downloadUrl, opts);
 
     logger.info(`Extracting Spring Boot project zip to '${workspaceRoot}/${options.projectRoot}'...`);
