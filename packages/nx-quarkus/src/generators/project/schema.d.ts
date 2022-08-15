@@ -5,6 +5,7 @@ export interface ProjectGeneratorOptions {
   directory?: string;
 
   quarkusInitializerUrl?: string;
+  proxyUrl?: string;
 
   buildSystem: 'MAVEN' | 'GRADLE' | 'GRADLE_KOTLIN_DSL';
   groupId?: string;
