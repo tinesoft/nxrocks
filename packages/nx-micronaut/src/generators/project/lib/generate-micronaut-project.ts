@@ -4,7 +4,7 @@ import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
 import {  buildMicronautDownloadUrl } from '../../../utils/micronaut-utils';
-import { extractFromZipStream, getPackageLatestNpmVersion, NX_MICRONAUT_PKG } from '@nxrocks/common';
+import { extractFromZipStream, getHttpProxyAgent, getPackageLatestNpmVersion, NX_MICRONAUT_PKG } from '@nxrocks/common';
 
 export async function generateMicronautProject(tree: Tree, options: NormalizedSchema): Promise<void> {
     const downloadUrl = buildMicronautDownloadUrl(options);
@@ -13,11 +13,13 @@ export async function generateMicronautProject(tree: Tree, options: NormalizedSc
 
     const pkgVersion = getPackageLatestNpmVersion(NX_MICRONAUT_PKG);
     const userAgent = `@nxrocks_nx-micronaut/${pkgVersion}`;
+    const proxyAgent = getHttpProxyAgent(options.proxyUrl);
     const opts = {
         headers: {
             'User-Agent': userAgent
-        }
-    }
+        },
+        ...(proxyAgent ? {agent: proxyAgent} : {})
+    };
     const response = await fetch(downloadUrl, opts);
 
     logger.info(`📦 Extracting Micronaut project zip to '${workspaceRoot}/${options.projectRoot}'...`);
