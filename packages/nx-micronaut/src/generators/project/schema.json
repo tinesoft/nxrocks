@@ -185,6 +185,10 @@
       "default": "https://launch.micronaut.io",
       "description": "The URL to the Micronaut Launch instance to use to generate the project"
     },
+    "proxyUrl": {
+      "type": "string",
+      "description": "The URL of the (corporate) proxy server to use to access Micronaut Launch"
+    },
     "tags": {
       "type": "string",
       "description": "Add tags to the project (used for linting)",

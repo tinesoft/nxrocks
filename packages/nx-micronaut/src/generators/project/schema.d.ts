@@ -4,6 +4,7 @@ export interface ProjectGeneratorOptions {
   directory?: string;
 
   micronautLaunchUrl?: string;
+  proxyUrl?: string;
 
   type: 'default' | 'cli' | 'function' | 'grpc' | 'messaging';
   buildSystem: 'MAVEN' | 'GRADLE' | 'GRADLE_KOTLIN';
