@@ -22,6 +22,7 @@ Here is a list of some of the coolest features of the plugin:
 - ✅ Generation of Quarkus applications/libraries based on **Quarkus app generator** API
 - ✅ Building, packaging, testing, etc your Quarkus projects
 - ✅ Code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for Maven or Gradle
+- ✅ Support for corporate proxies (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
 - ✅ Integration with Nx's **dependency graph** (through `nx dep-graph` or `nx affected:dep-graph`): this allows you to **visualize** the dependencies of any Quarkus's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
 
   ![Nx Quarkus dependency graph](https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nx-quarkus-dep-graph.png)
@@ -90,9 +91,14 @@ Option                 | Value | Description
 `skipFormat`           | `boolean` | Do not add the ability to format code (using Spotless plugin)
 `extensions`           | `string` | List of extensions to use (comma-separated). Go to https://code.quarkus.io/api/extensions to get the ids needed here
 `quarkusInitializerUrl` | `https://code.quarkus.io`            | URL to the Quarkus Initializer instance to use
+`proxyUrl`             |          | The URL of the (corporate) proxy server to use to access Quarkus Initializer
 `skipeCodeSamples`     | `string` | Whether or not to include code samples from extensions (when available)
 `tags`                 | `string` | Tags to use for linting (comma-separated)
 `directory`            | `string` | Directory where the project is placed
+
+> **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
+> Otherwise, you'll get a [ETIMEDOUT error](https://github.com/tinesoft/nxrocks/issues/125) when trying to access official Spring Initializer to generate the project.
+> Even simpler, you can just define environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY` globally.
 
 ### Linking Projects (`link` generator)
 

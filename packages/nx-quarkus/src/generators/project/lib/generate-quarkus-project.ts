@@ -3,8 +3,8 @@ import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
 
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
-import {  buildQuarkusDownloadUrl } from '../../../utils/quarkus-utils';
-import { extractFromZipStream, getPackageLatestNpmVersion, NX_QUARKUS_PKG } from '@nxrocks/common';
+import { buildQuarkusDownloadUrl } from '../../../utils/quarkus-utils';
+import { extractFromZipStream, getHttpProxyAgent, getPackageLatestNpmVersion, NX_QUARKUS_PKG } from '@nxrocks/common';
 
 export async function generateQuarkusProject(tree: Tree, options: NormalizedSchema): Promise<void> {
     const downloadUrl = buildQuarkusDownloadUrl(options);
@@ -13,11 +13,13 @@ export async function generateQuarkusProject(tree: Tree, options: NormalizedSche
 
     const pkgVersion = getPackageLatestNpmVersion(NX_QUARKUS_PKG);
     const userAgent = `@nxrocks_nx-quarkus/${pkgVersion}`;
+    const proxyAgent = getHttpProxyAgent(options.proxyUrl);
     const opts = {
         headers: {
             'User-Agent': userAgent
-        }
-    }
+        },
+        ...(proxyAgent ? {agent: proxyAgent} : {})
+    };
     const response = await fetch(downloadUrl, opts);
 
     logger.info(`📦 Extracting Quarkus project zip to '${workspaceRoot}/${options.projectRoot}'...`);

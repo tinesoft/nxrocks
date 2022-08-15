@@ -82,6 +82,10 @@
       "default": "https://code.quarkus.io",
       "description": "The URL to the Quarkus Initializer instance to use to generate the project"
     },
+    "proxyUrl": {
+      "type": "string",
+      "description": "The URL of the (corporate) proxy server to use to access Quarkus Initializer"
+    },
     "skipCodeSamples": {
       "type": "boolean",
       "description": "Would you like to include code samples from extensions (when available)?"
