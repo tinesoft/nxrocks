@@ -1,4 +1,5 @@
 import { execSync } from 'child_process';
+import { HttpsProxyAgent, HttpProxyAgent } from 'hpagent';
 
 export function getPackageLatestNpmVersion(pkg: string): string {
   try {
@@ -8,4 +9,33 @@ export function getPackageLatestNpmVersion(pkg: string): string {
   } catch (e) {
     return 'latest';
   }
+}
+
+export function getHttpProxyAgent(proxyUrl?: string): HttpProxyAgent | HttpsProxyAgent | undefined {
+  const proxyAgentOpts = {
+    keepAlive: true,
+    keepAliveMsecs: 1000,
+    maxSockets: 256,
+    maxFreeSockets: 256,
+    //scheduling: 'lifo',
+    proxy: proxyUrl
+  };
+
+  const {
+    http_proxy: httpProxy,
+    https_proxy: httpsProxy,
+    HTTP_PROXY,
+    HTTPS_PROXY
+  } = process.env;
+
+  const proxy =  (proxyUrl || httpsProxy || HTTPS_PROXY || httpProxy || HTTP_PROXY)?.trim();
+
+  if (proxy?.startsWith('https')) {
+    return new HttpsProxyAgent(proxyAgentOpts);
+  } else if(proxy?.startsWith('http')){
+    return new HttpProxyAgent(proxyAgentOpts);
+  } else {
+    return undefined
+  }
+
 }

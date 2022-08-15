@@ -34,6 +34,7 @@
   "private": true,
   "dependencies": {
     "@swc/helpers": "~0.3.3",
+    "hpagent": "^1.0.0",
     "inquirer": "^8.2.0",
     "js-yaml": "^4.1.0",
     "node-fetch": "^2.6.1",
@@ -94,4 +95,3 @@
     "url": "https://github.com/tinesoft/nxrocks.git"
   }
 }
-
