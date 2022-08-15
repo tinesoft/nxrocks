@@ -5,6 +5,7 @@ export interface ProjectGeneratorOptions {
   directory?: string;
 
   springInitializerUrl?: string;
+  proxyUrl?: string;
 
   buildSystem: 'maven-project' | 'gradle-project';
   language?: 'java' | 'kotlin' | 'groovy';

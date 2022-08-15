@@ -168,6 +168,10 @@
       "default": "https://start.spring.io",
       "description": "The URL to the Spring Initializer instance to use to generate the project"
     },
+    "proxyUrl": {
+      "type": "string",
+      "description": "The URL of the (corporate) proxy server to use to access Spring Initializr"
+    },
     "bootVersion": {
       "type": "string",
       "description": "Spring Boot version"
