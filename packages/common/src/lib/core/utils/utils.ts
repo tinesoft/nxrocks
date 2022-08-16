@@ -30,6 +30,10 @@ export function getHttpProxyAgent(proxyUrl?: string): HttpProxyAgent | HttpsProx
 
   const proxy =  (proxyUrl || httpsProxy || HTTPS_PROXY || httpProxy || HTTP_PROXY)?.trim();
 
+  if(proxy){
+    console.log(`The proxy server at '${proxy}' will be used.`);
+  }
+  
   if (proxy?.startsWith('https')) {
     return new HttpsProxyAgent(proxyAgentOpts);
   } else if(proxy?.startsWith('http')){
