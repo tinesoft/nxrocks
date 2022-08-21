@@ -14,7 +14,7 @@ const packagesFolder = join(distFolder,'packages');
 execSync('nx dep-graph --file dist/deps.json', { stdio: 'inherit'});
 
 const depGraph =  readJsonSync(join(distFolder, 'deps.json'));
-const packages = Object.keys(depGraph.graph.nodes).filter(name => !name.endsWith('-e2e'));
+const packages = Object.keys(depGraph.graph.nodes).filter(name => !name.endsWith('-e2e') && name !== 'smoke');
 
 const dependencies = depGraph.graph.dependencies;
 
