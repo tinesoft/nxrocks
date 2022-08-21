@@ -1,3 +1,27 @@
+# [@nxrocks/nx-flutter-v4.0.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v3.0.2...nx-flutter/v4.0.0) (2022-08-21)
+
+### Bug Fixes
+
+- **nx-flutter:** fix non-interactive generation of flutter projects ([6c4a5aa](https://github.com/tinesoft/nxrocks/commit/6c4a5aa4bbbbb6c18a57c69749581df84290c6dc))
+- set `@nrwl/*` packages as `peerDependencies` ([d03b709](https://github.com/tinesoft/nxrocks/commit/d03b70983f278a86c19c8fa28d99603682cad2cd)), closes [#106](https://github.com/tinesoft/nxrocks/issues/106)
+
+### Features
+
+- **nx-flutter:** add `doctor` executor to run `flutter doctor` checks ([9d35de1](https://github.com/tinesoft/nxrocks/commit/9d35de18787ae3d8ab7d863727d0fa20592c19de))
+- **nx-flutter:** make all `build` executors results cacheable ([a08dbb8](https://github.com/tinesoft/nxrocks/commit/a08dbb831fb8cc29acc747f93f66fba3688eafd4))
+- **nx-flutter:** rename executors to use `kebab-case` ([319558f](https://github.com/tinesoft/nxrocks/commit/319558f912f5bea3826f242cea02ed51f727b38a))
+- **nx-micronaut:** add `nx-micronaut` plugin ([08d6099](https://github.com/tinesoft/nxrocks/commit/08d6099001bbfff830963584598da3d6a3eac66c))
+
+### BREAKING CHANGES
+
+- **nx-flutter:** `interactive` option has been renamed into `skipAdditionalPrompts`
+
+`interactive` is a reserved option for `nx generate` command, that gets deleted once Nx has interpreted it, so we need our own. Must still be combined with `--no-interactive` (from Nx), for fully non-interactivity
+
+- **nx-flutter:** All executors of this plugin now use `kebab-case` over `camelCase` for consistency
+
+This only affects `buildAar`, `buildApk`, `buildAppbundle`, `buildBundle`, `buildIos`, `buildIosFramework`, `buildIpa`, and `genL10n` executors, which have been renamed into `build-aar`, `build-apk`, `build-appbundle`, `build-bundle`, `build-ios`, `build-ios-framework`, `build-ipa`, and `gen-l10n` respectively.
+
 # [@nxrocks/nx-flutter-v3.0.2](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v3.0.1...nx-flutter/v3.0.2) (2022-02-16)
 
 ### Bug Fixes
