@@ -134,7 +134,7 @@ describe('nxrocks smoke tests', () => {
     expect(true).toBeTruthy();
   }, 1500000);
 
-  xit('should sucessfully run using latest Nx workspace and latest published plugins(from NPM)', async () => {
+  it('should sucessfully run using latest Nx workspace and latest published plugins(from NPM)', async () => {
 
     if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
       console.log('Skipping smoke test because not running on CI and FORCE_SMOKE_TESTS is not set');
