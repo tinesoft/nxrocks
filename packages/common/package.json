@@ -26,7 +26,8 @@
   "dependencies": {
     "xmlbuilder2": "^3.0.2",
     "unzipper": "^0.10.11",
-    "xpath": "^0.0.32"
+    "xpath": "^0.0.32",
+    "hpagent": "^1.0.0"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
