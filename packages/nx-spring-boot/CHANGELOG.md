@@ -1,3 +1,9 @@
+# [@nxrocks/nx-spring-boot-v5.0.1](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v5.0.0...nx-spring-boot/v5.0.1) (2022-08-22)
+
+### Bug Fixes
+
+- fix installation issue due to `hpagent` not being found ([3620d23](https://github.com/tinesoft/nxrocks/commit/3620d2329103076bbb4713bac48c4f0c734bd545)), closes [#128](https://github.com/tinesoft/nxrocks/issues/128)
+
 # [@nxrocks/nx-spring-boot-v5.0.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v4.1.0...nx-spring-boot/v5.0.0) (2022-08-21)
 
 ### Bug Fixes
