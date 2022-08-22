@@ -54,7 +54,11 @@ describe('nxrocks smoke tests', () => {
     }
   });
 
-  it('should sucessfully run using latest Nx workspace and latest plugins(from local)', async () => {
+  it.each`
+  pkgManager  | createCommand                               | installCommand            | runCommand
+  ${'npm'}    | ${'npx --yes create-nx-workspace@latest'}   | ${'npm i --save-dev'}     | ${'npx'}
+  ${'yarn'}   | ${'yarn create nx-workspace'}               | ${'yarn add --dev'}       | ${'yarn'}
+`(`should sucessfully run using latest Nx workspace, latest plugins(from local) and $pkgManager package manager`, async ({pkgManager,  createCommand, installCommand, runCommand }) => {
 
     if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
       console.log('Skipping smoke test because not running on CI and FORCE_SMOKE_TESTS is not set');
@@ -62,7 +66,7 @@ describe('nxrocks smoke tests', () => {
     }
 
     execSync(
-      `npx --yes create-nx-workspace@latest ${workspaceName} --preset empty --nxCloud false`,
+      `${createCommand} ${workspaceName} --preset empty --nxCloud false`,
       {
         cwd: smokeDirectory,
         env: process.env,
@@ -74,67 +78,71 @@ describe('nxrocks smoke tests', () => {
 
     execSync('git init', execSyncOptions()); 
 
-    execSync(`npm i --save-dev ${workspaceRoot}/packages/common ${workspaceRoot}/packages/nx-spring-boot ${workspaceRoot}/packages/nx-quarkus ${workspaceRoot}/packages/nx-flutter ${workspaceRoot}/packages/nx-micronaut`, execSyncOptions());
+    execSync(`${installCommand} ${workspaceRoot}/packages/common ${workspaceRoot}/packages/nx-spring-boot ${workspaceRoot}/packages/nx-quarkus ${workspaceRoot}/packages/nx-flutter ${workspaceRoot}/packages/nx-micronaut`, execSyncOptions());
 
     patchDependencyOfPlugin('packages/nx-spring-boot', '@nxrocks/common', 'packages/common', workspaceRoot);
     patchDependencyOfPlugin('packages/nx-micronaut', '@nxrocks/common', 'packages/common', workspaceRoot);
     patchDependencyOfPlugin('packages/nx-quarkus', '@nxrocks/common', 'packages/common', workspaceRoot);
     patchDependencyOfPlugin('packages/nx-flutter', '@nxrocks/common', 'packages/common', workspaceRoot);
 
-    execSync('npm install', execSyncOptions());
+    execSync(`${pkgManager} install`, execSyncOptions());
 
     execSync(
-      `npx nx g @nxrocks/nx-spring-boot:new ${bootapp} --skip-format=false --projectType application --no-interactive`,
+      `${runCommand} nx g @nxrocks/nx-spring-boot:new ${bootapp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-spring-boot:new ${bootlib} --skip-format=false --projectType library --no-interactive`,
+      `${runCommand} nx g @nxrocks/nx-spring-boot:new ${bootlib} --skip-format=false --projectType library --no-interactive`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-quarkus:new ${quarkusapp} --skip-format=false --projectType application --no-interactive`,
+      `${runCommand} nx g @nxrocks/nx-quarkus:new ${quarkusapp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-quarkus:new ${quarkuslib} --skip-format=false --projectType library --no-interactive`,
+      `${runCommand} nx g @nxrocks/nx-quarkus:new ${quarkuslib} --skip-format=false --projectType library --no-interactive`,
       execSyncOptions(),
     );
     
     execSync(
-      `npx nx g @nxrocks/nx-micronaut:new ${mnApp} --skip-format=false --projectType application --no-interactive`,
+      `${runCommand} nx g @nxrocks/nx-micronaut:new ${mnApp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
+      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
+      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
       execSyncOptions(),
     );
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    execSync('npx nx print-affected --target build', {
+    execSync(`${runCommand} nx print-affected --target build`, {
       ...execSyncOptions(),
       stdio: ['ignore', 'ignore', 'inherit'],
     });
 
 
-    execSync(`npx nx build ${bootapp}`, execSyncOptions());
-    execSync(`npx nx build ${bootlib}`, execSyncOptions());
-    execSync(`npx nx build ${quarkusapp}`, execSyncOptions());
-    execSync(`npx nx build ${quarkuslib}`, execSyncOptions());
-    execSync(`npx nx build ${mnApp}`, execSyncOptions());
-    execSync(`npx nx clean ${flutterapp}`, execSyncOptions());
-    execSync(`npx nx clean ${flutterlib}`, execSyncOptions());
+    execSync(`${runCommand} nx build ${bootapp}`, execSyncOptions());
+    execSync(`${runCommand} nx build ${bootlib}`, execSyncOptions());
+    execSync(`${runCommand} nx build ${quarkusapp}`, execSyncOptions());
+    execSync(`${runCommand} nx build ${quarkuslib}`, execSyncOptions());
+    execSync(`${runCommand} nx build ${mnApp}`, execSyncOptions());
+    execSync(`${runCommand} nx clean ${flutterapp}`, execSyncOptions());
+    execSync(`${runCommand} nx clean ${flutterlib}`, execSyncOptions());
 
     expect(true).toBeTruthy();
   }, 1500000);
 
-  it('should sucessfully run using latest Nx workspace and latest published plugins(from NPM)', async () => {
+  it.each`
+  pkgManager  | createCommand                               | installCommand            | runCommand
+  ${'npm'}    | ${'npx --yes create-nx-workspace@latest'}   | ${'npm i --save-dev'}     | ${'npx'}
+  ${'yarn'}   | ${'yarn create nx-workspace'}               | ${'yarn add --dev'}       | ${'yarn'}
+`(`should sucessfully run using latest Nx workspace, latest published plugins(from npm registry) and $pkgManager package manager`, async ({createCommand, installCommand, runCommand }) => {
 
     if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
       console.log('Skipping smoke test because not running on CI and FORCE_SMOKE_TESTS is not set');
@@ -142,7 +150,7 @@ describe('nxrocks smoke tests', () => {
     }
 
     execSync(
-      `npx --yes create-nx-workspace@latest ${workspaceName} --preset empty --nxCloud false`,
+      `${createCommand} --yes create-nx-workspace@latest ${workspaceName} --preset empty --nxCloud false`,
       {
         cwd: smokeDirectory,
         env: process.env,
@@ -152,56 +160,56 @@ describe('nxrocks smoke tests', () => {
 
     execSync('git init', execSyncOptions()); 
 
-    execSync(`npm i --save-dev @nxrocks/nx-spring-boot @nxrocks/nx-quarkus @nxrocks/nx-flutter @nxrocks/nx-micronaut`, execSyncOptions());
+    execSync(`${installCommand} @nxrocks/nx-spring-boot @nxrocks/nx-quarkus @nxrocks/nx-flutter @nxrocks/nx-micronaut`, execSyncOptions());
 
     execSync(
-      `npx nx g @nxrocks/nx-spring-boot:new ${bootapp} --skip-format=false --projectType application --no-interactive`,
+      `${runCommand} nx g @nxrocks/nx-spring-boot:new ${bootapp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-spring-boot:new ${bootlib} --skip-format=false --projectType library --no-interactive`,
+      `${runCommand} nx g @nxrocks/nx-spring-boot:new ${bootlib} --skip-format=false --projectType library --no-interactive`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-quarkus:new ${quarkusapp} --skip-format=false --projectType application --no-interactive`,
+      `${runCommand} nx g @nxrocks/nx-quarkus:new ${quarkusapp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-quarkus:new ${quarkuslib} --skip-format=false --projectType library --no-interactive`,
+      `${runCommand} nx g @nxrocks/nx-quarkus:new ${quarkuslib} --skip-format=false --projectType library --no-interactive`,
       execSyncOptions(),
     );
     
     execSync(
-      `npx nx g @nxrocks/nx-micronaut:new ${mnApp} --skip-format=false --projectType application --no-interactive`,
+      `${runCommand} nx g @nxrocks/nx-micronaut:new ${mnApp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),
     );
 
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
+      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
       execSyncOptions(),
     );
     execSync(
-      `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
+      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
       execSyncOptions(),
     );
 
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    execSync('npx nx print-affected --target build', {
+    execSync(`${runCommand} nx print-affected --target build`, {
       ...execSyncOptions(),
       stdio: ['ignore', 'ignore', 'inherit'],
     });
 
 
-    execSync(`npx nx build ${bootapp}`, execSyncOptions());
-    execSync(`npx nx build ${bootlib}`, execSyncOptions());
-    execSync(`npx nx build ${quarkusapp}`, execSyncOptions());
-    execSync(`npx nx build ${quarkuslib}`, execSyncOptions());
-    execSync(`npx nx build ${mnApp}`, execSyncOptions());
-    execSync(`npx nx clean ${flutterapp}`, execSyncOptions());
-    execSync(`npx nx clean ${flutterlib}`, execSyncOptions());
+    execSync(`${runCommand} nx build ${bootapp}`, execSyncOptions());
+    execSync(`${runCommand} nx build ${bootlib}`, execSyncOptions());
+    execSync(`${runCommand} nx build ${quarkusapp}`, execSyncOptions());
+    execSync(`${runCommand} nx build ${quarkuslib}`, execSyncOptions());
+    execSync(`${runCommand} nx build ${mnApp}`, execSyncOptions());
+    execSync(`${runCommand} nx clean ${flutterapp}`, execSyncOptions());
+    execSync(`${runCommand} nx clean ${flutterlib}`, execSyncOptions());
 
     expect(true).toBeTruthy();
   }, 1500000);
