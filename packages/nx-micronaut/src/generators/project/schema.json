@@ -3,6 +3,7 @@
   "id": "Nx Micronaut project generator",
   "title": "Creates a Micronaut application in the workspace",
   "cli": "nx",
+  "outputCapture": "pipe",
   "type": "object",
   "properties": {
     "name": {

@@ -3,6 +3,7 @@
   "title": "Serve executor (alias to Run executor)",
   "description": "",
   "cli": "nx",
+  "outputCapture": "pipe",
   "type": "object",
   "properties": {
     "root": {

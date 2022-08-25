@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
+  "outputCapture": "pipe",
   "$id": "Link",
   "title": "",
   "type": "object",

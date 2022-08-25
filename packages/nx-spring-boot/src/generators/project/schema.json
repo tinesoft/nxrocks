@@ -3,6 +3,7 @@
   "id": "Nx Spring Boot project generator",
   "title": "Creates a Spring boot project in the workspace",
   "cli": "nx",
+  "outputCapture": "pipe",
   "type": "object",
   "properties": {
     "name": {

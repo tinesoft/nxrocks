@@ -3,6 +3,7 @@
   "title": "Format executor",
   "description": "",
   "cli": "nx",
+  "outputCapture": "pipe",
   "type": "object",
   "properties": {
     "root": {

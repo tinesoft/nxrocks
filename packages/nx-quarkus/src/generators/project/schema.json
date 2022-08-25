@@ -3,6 +3,7 @@
   "id": "Nx Quarkus project generator",
   "title": "Creates a Quarkus project in the workspace",
   "cli": "nx",
+  "outputCapture": "pipe",
   "type": "object",
   "properties": {
     "name": {

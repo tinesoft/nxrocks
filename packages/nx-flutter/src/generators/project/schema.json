@@ -3,6 +3,7 @@
   "id": "NxFlutter",
   "title": "Creates a Flutter project in the workspace",
   "cli": "nx",
+  "outputCapture": "pipe",
   "type": "object",
   "properties": {
     "name": {
