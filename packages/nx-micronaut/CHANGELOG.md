@@ -1,3 +1,9 @@
+# [@nxrocks/nx-micronaut-v1.0.2](https://github.com/tinesoft/nxrocks/compare/nx-micronaut/v1.0.1...nx-micronaut/v1.0.2) (2022-08-25)
+
+### Bug Fixes
+
+- fix executor output not restored when found in Nx cache ([fbb385a](https://github.com/tinesoft/nxrocks/commit/fbb385ab2cb468c8b41b224e353d9b891bb4e48c)), closes [#111](https://github.com/tinesoft/nxrocks/issues/111)
+
 # [@nxrocks/nx-micronaut-v1.0.1](https://github.com/tinesoft/nxrocks/compare/nx-micronaut/v1.0.0...nx-micronaut/v1.0.1) (2022-08-22)
 
 ### Bug Fixes
