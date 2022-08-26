@@ -30,14 +30,14 @@ Here is a list of some of the coolest features of the plugin:
 
 ## Prerequisite
 
-If you have not already, [create an Nx workspace](https://github.com/nrwl/nx#creating-an-nx-workspace) with the following:
+If you have not already, [create an Nx workspace](https://nx.dev/getting-started/nx-setup) with the following:
 
 ```
 # npm
 npx create-nx-workspace@latest
 
 # yarn
-yarn create nx-workspace@latest
+yarn create nx-workspace 
 ```
 
 ## Getting Started
@@ -188,7 +188,7 @@ Or, permanently by editing the related executor in the `workspace.json` file, as
 }
 ```
 
-### Running the project in dev mode - ('run' or 'dev' or 'serve' Executors)
+### Running the project in dev mode - (`run` or `dev` or `serve` Executors)
 
 ```
 nx run your-micronaut-app:run
@@ -197,49 +197,46 @@ nx run your-micronaut-app:run
 nx serve your-micronaut-app
 ```
 
-### Building the aplication -  ('build' Executor)
-
-```
-nx build your-miconaut-app
-```
-
-### Install the project's artifacts to local Maven repository (in ~/.m2/repository) -  ('install' Executor)
-
-```
-nx install your-quarkus-app
-```
-
-### Generating the project dockerfile - ('dockerfile' Executor)
-
-```
-nx dockerfile your-micronaut-app"
-```
-
-### Generating a sample AOT config file - ('aot-sample-config' Executor)
-
-```
-nx aot-sample-config your-micronaut-app"
-```
-
-### Building the aplication -  ('build' Executor)
+### Building the aplication -  (`build` Executor)
 
 ```
 nx build your-micronaut-app
 ```
 
-### Testing the project -  ('test' Executor)
+> **Note:** a task dependency to `install` executor of dependent (library) projects [is added by the plugin](https://github.com/tinesoft/nxrocks/commit/10ab5b7e843d740cf1575ca967fba9356dfc6344), so that Nx will automatically `install` dependent artifacts to your local Maven repository, prior to running this command. This is particulaly useful, when for example, you have a Spring Boot **application** that depends on another Spring boot **library** in the workspace. No more need to install the library yourself first!
+
+
+### Install the project's artifacts to local Maven repository (in `~/.m2/repository`) -  (`install` Executor)
+
+```
+nx install your-quarkus-app
+```
+
+### Generating the project dockerfile - (`dockerfile` Executor)
+
+```
+nx dockerfile your-micronaut-app"
+```
+
+### Generating a sample AOT config file - (`aot-sample-config` Executor)
+
+```
+nx aot-sample-config your-micronaut-app"
+```
+
+### Testing the project -  (`test` Executor)
 
 ```
 nx test your-micronaut-app
 ```
 
-### Cleaning the project -  ('clean' Executor)
+### Cleaning the project -  (`clean` Executor)
 
 ```
 nx clean your-micronaut-app
 ```
 
-### Formatting the code -  ('format' Executor)
+### Formatting the code -  (`format` Executor)
 
 ```
 nx run your-micronaut-app:format

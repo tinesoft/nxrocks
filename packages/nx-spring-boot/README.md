@@ -31,14 +31,14 @@ Here is a list of some of the coolest features of the plugin:
 
 ## Prerequisite
 
-If you have not already, [create an Nx workspace](https://github.com/nrwl/nx#creating-an-nx-workspace) with the following:
+If you have not already, [create an Nx workspace](https://nx.dev/getting-started/nx-setup) with the following:
 
 ```
 # npm
 npx create-nx-workspace@latest
 
 # yarn
-yarn create nx-workspace@latest
+yarn create nx-workspace
 ```
 
 ## Getting Started
@@ -162,7 +162,7 @@ In order to execute the requested command, each executor will use, by default, t
 If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.
 This can be useful in a CI environment for example, or in a restricted environment where the binary cannot be downloaded (due to proxy/firewall limitations).
 
-### Running the project - ('run' or 'serve' Executors)
+### Running the project - (`run` or `serve` Executors)
 
 ```
 nx run your-boot-app:run
@@ -197,19 +197,21 @@ You can pass in additional arguments by editing the related section in the `work
 }
 ```
 
-### Building the Jar or War -  ('build' Executor)
+### Building the Jar or War -  (`build` Executor)
 
 ```
 nx build your-boot-app
 ```
 
-### Install the project's artifacts to local Maven repository (in ~/.m2/repository) -  ('install' Executor)
+> **Note:** a task dependency to `install` executor of dependent (library) projects [is added by the plugin](https://github.com/tinesoft/nxrocks/commit/68e1a5ef5ed266c65ee348c6ced022f87edb1fb7), so that Nx will automatically `install` dependent artifacts to your local Maven repository, prior to running this command. This is particulaly useful, when for example, you have a Spring Boot **application** that depends on another Spring boot **library** in the workspace. No more need to install the library yourself first!
+
+### Install the project's artifacts to local Maven repository (in `~/.m2/repository`) -  (`install` Executor)
 
 ```
 nx install your-boot-app
 ```
 
-### Building the OCI Image -  ('build-image' Executor)
+### Building the OCI Image -  (`build-image` Executor)
 
 ```
 nx build-image your-boot-app
@@ -239,19 +241,19 @@ You can pass in additional arguments by editing the related section in the `work
 }
 ```
 
-### Testing the project -  ('test' Executor)
+### Testing the project -  (`test` Executor)
 
 ```
 nx test your-boot-app
 ```
 
-### Cleaning the project -  ('clean' Executor)
+### Cleaning the project -  (`clean` Executor)
 
 ```
 nx clean your-boot-app
 ```
 
-### Formatting the project -  ('format' Executor)
+### Formatting the project -  (`format` Executor)
 
 ```
 
@@ -264,7 +266,7 @@ nx apply-format your-boot-app
 ```
 > Note: You *cannot** use the shorter `nx format your-boot-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
 
-### Checking the format the project -  ('check-format' Executor)
+### Checking the format the project -  (`check-format` Executor)
 
 ```
 nx check-format your-boot-app

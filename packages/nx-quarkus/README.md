@@ -32,14 +32,14 @@ Here is a list of some of the coolest features of the plugin:
 
 ## Prerequisite
 
-If you have not already, [create an Nx workspace](https://github.com/nrwl/nx#creating-an-nx-workspace) with the following:
+If you have not already, [create an Nx workspace](https://nx.dev/getting-started/nx-setup) with the following:
 
 ```
 # npm
 npx create-nx-workspace@latest
 
 # yarn
-yarn create nx-workspace@latest
+yarn create nx-workspace
 ```
 
 ## Getting Started
@@ -190,7 +190,7 @@ Or, permanently by editing the related executor in the `workspace.json` file, as
 }
 ```
 
-### Running the project in dev mote - ('dev' or 'serve' Executors)
+### Running the project in dev mote - (`dev` or `serve` Executors)
 
 ```
 nx serve your-quarkus-app
@@ -200,13 +200,13 @@ nx serve your-quarkus-app
 nx dev your-quarkus-app
 ```
 
-### Install the project's artifacts to local Maven repository (in ~/.m2/repository) -  ('install' Executor)
+### Install the project's artifacts to local Maven repository (in `~/.m2/repository`) -  (`install` Executor)
 
 ```
 nx install your-quarkus-app
 ```
 
-### Running the project in remote dev mode - ('remote-dev' Executor)
+### Running the project in remote dev mode - (`remote-dev` Executor)
 
 ```
 // for a maven-based project
@@ -216,25 +216,27 @@ nx remote-dev your-quarkus-app --args="-Dquarkus.live-reload.url=http://my-remot
 nx remote-dev your-quarkus-app --args="-Dquarkus.live-reload.url=http://my-remote-host:8080"
 ```
 
-### Building the aplication -  ('build' Executor)
+### Building the aplication -  (`build` Executor)
 
 ```
 nx build your-quarkus-app
 ```
 
-### Testing the project -  ('test' Executor)
+> **Note:** a task dependency to `install` executor of dependent (library) projects [is added by the plugin](https://github.com/tinesoft/nxrocks/commit/a18a9aaaeb92a779b98dfb82fdf72ac702c7ca34), so that Nx will automatically `install` dependent artifacts to your local Maven repository, prior to running this command. This is particulaly useful, when for example, you have a Spring Boot **application** that depends on another Spring boot **library** in the workspace. No more need to install the library yourself first!
+
+### Testing the project -  (`test` Executor)
 
 ```
 nx test your-quarkus-app
 ```
 
-### Cleaning the project -  ('clean' Executor)
+### Cleaning the project -  (`clean` Executor)
 
 ```
 nx clean your-quarkus-app
 ```
 
-### Formatting the project -  ('format' Executor)
+### Formatting the project -  (`format` Executor)
 
 ```
 
@@ -247,13 +249,13 @@ nx apply-format your-quarkus-app
 ```
 > Note: You *cannot** use the shorter `nx format your-boot-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
 
-### Packaging the project -  ('package' Executor)
+### Packaging the project -  (`package` Executor)
 
 ```
 nx package your-quarkus-app
 ```
 
-### Add Extension the project -  ('Add Extension' Executor)
+### Add Extension the project -  (`add-extension` Executor)
 
 ```
 // for a maven-based project
@@ -263,7 +265,7 @@ nx add-extension your-quarkus-app --args="-Dextensions=resteasy,hibernate-valida
 nx add-extension your-quarkus-app --args="--extensions=resteasy,hibernate-validator"
 ```
 
-### List Extensions in the  project -  ('List Extensions' Executor)
+### List Extensions in the  project -  (`list-extensions` Executor)
 
 ```
 nx list-extensions your-quarkus-app
