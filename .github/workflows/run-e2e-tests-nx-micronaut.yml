@@ -33,7 +33,7 @@ jobs:
           
       - name: Yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
 
       - name: Cache Yarn
         uses: actions/cache@v3
@@ -46,7 +46,7 @@ jobs:
             ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-
 
       - name: Install packages
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Run e2e tests
         env:

@@ -93,5 +93,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/tinesoft/nxrocks.git"
-  }
+  },
+  "packageManager": "yarn@3.2.3"
 }

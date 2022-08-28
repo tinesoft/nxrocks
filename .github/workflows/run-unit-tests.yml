@@ -29,7 +29,7 @@ jobs:
 
       - name: Yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
 
       - name: Cache Yarn
         uses: actions/cache@v3
@@ -41,7 +41,7 @@ jobs:
           restore-keys: |
             ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-
 
-      - run: yarn install --frozen-lockfile
+      - run: yarn install --immutable
       - run: yarn run affected:test -- --base=origin/develop --parallel=5 --exclude=smoke
           
           
