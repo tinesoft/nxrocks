@@ -10,6 +10,8 @@ import { getProjectFileContent, getProjectFilePath, getProjectRoot, PackageInfo 
 import { findXmlMatching, findXmlNodeContent, readXml } from '../utils';
 
 
+export const LARGE_BUFFER = 1024 * 1000000;
+
 export function runBuilderCommand(
   commandAlias: BuilderCommandAliasType,
   getBuilder : (cwd: string) => BuilderCore,
@@ -25,7 +27,7 @@ export function runBuilderCommand(
   const execute = `${executable} ${command} ${(params || []).join(' ')}`;
   try {
     logger.info(`Executing command: ${execute}`);
-    execSync(execute, { cwd, stdio: [0, 1, 2] });
+    execSync(execute, { cwd, stdio: [0, 1, 2],maxBuffer: LARGE_BUFFER});
     return { success: true };
   } catch (e) {
     logger.error(`Failed to execute command: ${execute}`);
