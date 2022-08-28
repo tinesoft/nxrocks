@@ -11,7 +11,7 @@ import { join } from 'path';
 const distFolder = join(workspaceRoot, 'dist');
 const packagesFolder = join(distFolder,'packages');
 
-execSync('nx dep-graph --file dist/deps.json', { stdio: 'inherit'});
+// execSync('nx dep-graph --file dist/deps.json', { stdio: 'inherit'}); // now generated during "prerelease" script in root package.json
 
 const depGraph =  readJsonSync(join(distFolder, 'deps.json'));
 const packages = Object.keys(depGraph.graph.nodes).filter(name => !name.endsWith('-e2e') && name !== 'smoke');

@@ -24,7 +24,7 @@
     "update": "nx migrate latest",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "prerelease": "nx run-many --target build --exclude=smoke",
+    "prerelease": "nx run-many --target build --exclude=smoke && nx dep-graph --file dist/deps.json --exclude=smoke",
     "release": "nx run-many --target release --exclude=smoke",
     "workspace-generator": "nx workspace-generator",
     "prepare": "husky install",
