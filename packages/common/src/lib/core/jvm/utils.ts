@@ -63,6 +63,8 @@ export function getGradleBuildFilesExtension(project: ProjectConfiguration) {
   return fileExists(getProjectFilePath(project, 'build.gradle')) ? '.gradle' : '';
 }
 
+export const getGradleDependencyIdRegEx = () => /\s*(api|implementation|testImplementation)\s*\(?['"](?<id>[^"']+)['"]\)?/g;
+
 export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
   if (isMavenProject(project)) {
     // maven project
@@ -102,18 +104,19 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
       /rootProject\.name\s*=\s*['"]([^"']+)['"]/
     )?.[1];
 
-    const dependencies: PackageInfo[] = [];
-    const dependencyIds =
-      buildGradle.match(
-        /\s*(api|implementation|testImplementation)\s*['"]([^"']+)['"]/
-      ) || [];
+    const gradleDependencyIdRegEx = getGradleDependencyIdRegEx();
+    const dependencyIds: string[] = [];
+    let match;
+    do {
+      match = gradleDependencyIdRegEx.exec(buildGradle);
+      if (match?.groups?.id) {
+        dependencyIds.push(match.groups.id);
+      }
+    } while (match);
 
-    for (const depId of dependencyIds) {
-      dependencies.push({
-        packageId: depId,
-        packageFile: `build.gradle${ext}`,
-      });
-    }
+    const dependencies: PackageInfo[] = dependencyIds.map(depId => {
+      return { packageId: depId, packageFile: `build.gradle${ext}` };
+    });
 
     return {
       packageId: `${groupId}:${artifactId}`,
