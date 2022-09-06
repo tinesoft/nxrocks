@@ -58,6 +58,7 @@ describe('nxrocks smoke tests', () => {
   pkgManager  | createCommand                               | installCommand            | runCommand
   ${'npm'}    | ${'npx --yes create-nx-workspace@latest'}   | ${'npm i --save-dev'}     | ${'npx'}
   ${'yarn'}   | ${'yarn create nx-workspace'}               | ${'yarn add --dev'}       | ${'yarn'}
+  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace@latest'}    | ${'pnpm add --save-dev'}  | ${'pnpm dlx'}
 `(`should sucessfully run using latest Nx workspace, latest plugins(from local) and $pkgManager package manager`, async ({pkgManager,  createCommand, installCommand, runCommand }) => {
 
     if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
@@ -142,6 +143,7 @@ describe('nxrocks smoke tests', () => {
   pkgManager  | createCommand                               | installCommand            | runCommand
   ${'npm'}    | ${'npx --yes create-nx-workspace@latest'}   | ${'npm i --save-dev'}     | ${'npx'}
   ${'yarn'}   | ${'yarn create nx-workspace'}               | ${'yarn add --dev'}       | ${'yarn'}
+  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace@latest'}    | ${'pnpm add --save-dev'}  | ${'pnpm dlx'}
 `(`should sucessfully run using latest Nx workspace, latest published plugins(from npm registry) and $pkgManager package manager`, async ({createCommand, installCommand, runCommand }) => {
 
     if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
@@ -150,7 +152,7 @@ describe('nxrocks smoke tests', () => {
     }
 
     execSync(
-      `${createCommand} --yes create-nx-workspace@latest ${workspaceName} --preset empty --nxCloud false`,
+      `${createCommand} ${workspaceName} --preset empty --nxCloud false`,
       {
         cwd: smokeDirectory,
         env: process.env,
