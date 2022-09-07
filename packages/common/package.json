@@ -23,15 +23,14 @@
     "nx-spring-boot",
     "nx-quarkus"
   ],
-  "dependencies": {
-    "xmlbuilder2": "^3.0.2",
-    "unzipper": "^0.10.11",
-    "xpath": "^0.0.32",
-    "hpagent": "^1.0.0"
-  },
+  "dependencies": {},
   "typings": "./src/index.d.ts",
   "peerDependencies": {
     "@nrwl/workspace": ">=15.0.0",
     "@nrwl/devkit": ">=15.0.0"
+  },
+  "devDependencies": {
+    "jest-mock": "*",
+    "@jest/globals": "*"
   }
 }

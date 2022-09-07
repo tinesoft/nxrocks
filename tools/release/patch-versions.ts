@@ -1,5 +1,4 @@
-import { workspaceRoot } from '@nrwl/tao/src/utils/app-root';
-import { execSync } from 'child_process';
+import { workspaceRoot } from '@nrwl/devkit';
 import { readJsonSync, writeFileSync } from 'fs-extra';
 import { join } from 'path';
 
