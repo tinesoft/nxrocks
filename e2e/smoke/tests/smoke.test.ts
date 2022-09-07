@@ -14,8 +14,8 @@ let workspaceRoot: string;
 const workspaceName = 'host';
 const packagesDistDirectory = resolve(__dirname, '../../../dist/packages');
 
-const execSyncOptions: () => ExecSyncOptions = () => ({
-  cwd: join(smokeDirectory, workspaceName),
+const execSyncOptions: (cwd?:string) => ExecSyncOptions = (cwd:string = join(smokeDirectory, workspaceName)) => ({
+  cwd: cwd,
   env: {
     ...process.env,
     GIT_COMMITTER_NAME: 'Smoke Test CI',
@@ -55,11 +55,11 @@ describe('nxrocks smoke tests', () => {
   });
 
   it.each`
-  pkgManager  | createCommand                               | installCommand            | runCommand
+  pkgManager  | createCommand                               | addDevCommand             | runCommand
   ${'npm'}    | ${'npx --yes create-nx-workspace@latest'}   | ${'npm i --save-dev'}     | ${'npx'}
   ${'yarn'}   | ${'yarn create nx-workspace'}               | ${'yarn add --dev'}       | ${'yarn'}
-  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace@latest'}    | ${'pnpm add --save-dev'}  | ${'pnpm dlx'}
-`(`should sucessfully run using latest Nx workspace, latest plugins(from local) and $pkgManager package manager`, async ({pkgManager,  createCommand, installCommand, runCommand }) => {
+  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace@latest'}    | ${'pnpm add --save-dev'}  | ${'pnpm exec'}
+`(`should sucessfully run using latest Nx workspace, latest plugins(from local) and $pkgManager package manager`, async ({createCommand, addDevCommand, runCommand }) => {
 
     if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
       console.log('Skipping smoke test because not running on CI and FORCE_SMOKE_TESTS is not set');
@@ -68,25 +68,19 @@ describe('nxrocks smoke tests', () => {
 
     execSync(
       `${createCommand} ${workspaceName} --preset empty --nxCloud false`,
-      {
-        cwd: smokeDirectory,
-        env: process.env,
-        stdio: 'inherit',
-      },
+      execSyncOptions(smokeDirectory),
     );
 
     copySync(packagesDistDirectory, join(workspaceRoot, 'packages')); //copy dist packages (from nxrocks) into host, to avoid them to be affected when installing them locally
 
     execSync('git init', execSyncOptions()); 
 
-    execSync(`${installCommand} ${workspaceRoot}/packages/common ${workspaceRoot}/packages/nx-spring-boot ${workspaceRoot}/packages/nx-quarkus ${workspaceRoot}/packages/nx-flutter ${workspaceRoot}/packages/nx-micronaut`, execSyncOptions());
-
     patchDependencyOfPlugin('packages/nx-spring-boot', '@nxrocks/common', 'packages/common', workspaceRoot);
     patchDependencyOfPlugin('packages/nx-micronaut', '@nxrocks/common', 'packages/common', workspaceRoot);
     patchDependencyOfPlugin('packages/nx-quarkus', '@nxrocks/common', 'packages/common', workspaceRoot);
     patchDependencyOfPlugin('packages/nx-flutter', '@nxrocks/common', 'packages/common', workspaceRoot);
 
-    execSync(`${pkgManager} install`, execSyncOptions());
+    execSync(`${addDevCommand} ${workspaceRoot}/packages/common ${workspaceRoot}/packages/nx-spring-boot ${workspaceRoot}/packages/nx-quarkus ${workspaceRoot}/packages/nx-flutter ${workspaceRoot}/packages/nx-micronaut`, execSyncOptions());
 
     execSync(
       `${runCommand} nx g @nxrocks/nx-spring-boot:new ${bootapp} --skip-format=false --projectType application --no-interactive`,
@@ -139,12 +133,12 @@ describe('nxrocks smoke tests', () => {
     expect(true).toBeTruthy();
   }, 1500000);
 
-  it.each`
-  pkgManager  | createCommand                               | installCommand            | runCommand
+  xit.each`
+  pkgManager  | createCommand                               | addDevCommand             | runCommand
   ${'npm'}    | ${'npx --yes create-nx-workspace@latest'}   | ${'npm i --save-dev'}     | ${'npx'}
   ${'yarn'}   | ${'yarn create nx-workspace'}               | ${'yarn add --dev'}       | ${'yarn'}
-  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace@latest'}    | ${'pnpm add --save-dev'}  | ${'pnpm dlx'}
-`(`should sucessfully run using latest Nx workspace, latest published plugins(from npm registry) and $pkgManager package manager`, async ({createCommand, installCommand, runCommand }) => {
+  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace@latest'}    | ${'pnpm add --save-dev'}  | ${'pnpm exec'}
+`(`should sucessfully run using latest Nx workspace, latest published plugins(from npm registry) and $pkgManager package manager`, async ({createCommand, addDevCommand, runCommand }) => {
 
     if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
       console.log('Skipping smoke test because not running on CI and FORCE_SMOKE_TESTS is not set');
@@ -153,16 +147,12 @@ describe('nxrocks smoke tests', () => {
 
     execSync(
       `${createCommand} ${workspaceName} --preset empty --nxCloud false`,
-      {
-        cwd: smokeDirectory,
-        env: process.env,
-        stdio: 'inherit',
-      },
+      execSyncOptions(smokeDirectory)
     );
 
     execSync('git init', execSyncOptions()); 
 
-    execSync(`${installCommand} @nxrocks/nx-spring-boot @nxrocks/nx-quarkus @nxrocks/nx-flutter @nxrocks/nx-micronaut`, execSyncOptions());
+    execSync(`${addDevCommand} @nxrocks/nx-spring-boot @nxrocks/nx-quarkus @nxrocks/nx-flutter @nxrocks/nx-micronaut`, execSyncOptions());
 
     execSync(
       `${runCommand} nx g @nxrocks/nx-spring-boot:new ${bootapp} --skip-format=false --projectType application --no-interactive`,

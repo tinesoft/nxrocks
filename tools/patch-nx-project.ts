@@ -1,5 +1,5 @@
-import { workspaceRoot } from '@nrwl/tao/src/utils/app-root';
 
+import { workspaceRoot } from '@nrwl/devkit';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 

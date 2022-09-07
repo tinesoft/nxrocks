@@ -8,8 +8,7 @@ import {
   runPackageManagerInstall,
   tmpProjPath
 } from '@nrwl/nx-plugin/testing';
-import { readJsonFile, writeJsonFile } from "@nrwl/devkit";
-import { workspaceRoot } from "@nrwl/tao/src/utils/app-root";
+import { readJsonFile, workspaceRoot, writeJsonFile } from "@nrwl/devkit";
 
 
 export function patchDependencyOfPlugin(
