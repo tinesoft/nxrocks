@@ -55,11 +55,10 @@ describe('nx-micronaut e2e', () => {
 
   }, 200000);
 
-  it('should create nx-micronaut with given options', async() => {
+  it.each(["graphql", "", " "])("should create nx-micronaut with given options (features='%s')", async(features: string) => {
     const prjName = uniq('nx-micronaut');
     const buildSystem = 'MAVEN';
     const basePackage = 'com.tinesoft';
-    const features="graphql";
 
     await runNxCommandAsync(
       `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --basePackage=${basePackage} --features=${features}`
@@ -91,43 +90,6 @@ describe('nx-micronaut e2e', () => {
       ).toEqual(octal(execPermission));
     }
 
-  }, 200000);
-
-  it('should create nx-micronaut without feature', async() => {
-    const prjName = uniq('nx-micronaut');
-    const buildSystem = 'MAVEN';
-    const basePackage = 'com.tinesoft';
-    const features="  ";
-
-    await runNxCommandAsync(
-      `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --basePackage=${basePackage} --features=${features}`
-    );
-
-    const resultBuild= await runNxCommandAsync(`build ${prjName}`);
-    expect(resultBuild.stdout).toContain(`Executing command: ${isWin ? 'mvnw.bat' : './mvnw'} package`)
-
-    expect(() =>
-      checkFilesExist(
-        `apps/${prjName}/mvnw`,
-        `apps/${prjName}/pom.xml`, 
-        `apps/${prjName}/README.md`,
-        `apps/${prjName}/src/main/java/com/tinesoft/Application.java`)
-    ).not.toThrow();
-
-    const pomXml = readFile(`apps/${prjName}/pom.xml`);
-    expect(pomXml).toContain(`<groupId>${basePackage}</groupId>`);
-    
-    expect(pomXml).toContain(`<artifactId>${prjName}</artifactId>`);
-
-    // make sure the build wrapper file is executable (*nix only)
-    if(!isWin) {
-      const execPermission = '755';
-      expect(
-        lstatSync(
-          tmpProjPath(`apps/${prjName}/mvnw`)
-        ).mode & octal(execPermission)
-      ).toEqual(octal(execPermission));
-    }
   }, 200000);
 
   describe('--buildSystem=GRADLE', () => {
