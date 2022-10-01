@@ -55,11 +55,10 @@ describe('nx-micronaut e2e', () => {
 
   }, 200000);
 
-  it('should create nx-micronaut with given options', async() => {
+  it.each(["graphql", "", " "])("should create nx-micronaut with given options (features='%s')", async(features: string) => {
     const prjName = uniq('nx-micronaut');
     const buildSystem = 'MAVEN';
     const basePackage = 'com.tinesoft';
-    const features="graphql";
 
     await runNxCommandAsync(
       `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --basePackage=${basePackage} --features=${features}`

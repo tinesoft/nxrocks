@@ -34,6 +34,7 @@ export function buildMicronautDownloadUrl(options: NormalizedSchema) {
     ].filter( e =>  !!e.value);
 
     const features = options.projectFeatures
+    .filter(feat => feat.trim().length)
     .map(feat => `features=${feat}`).join('&');
     const queryParams = params.map(e => `${e.key}=${e.value}`).join('&').concat(...(features.length ? ['&',features]: []));
 
