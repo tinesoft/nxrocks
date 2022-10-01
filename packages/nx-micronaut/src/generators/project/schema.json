@@ -98,7 +98,7 @@
       "description": "Java version",
       "type": "string",
       "default": "JDK_8",
-      "enum": ["JDK_8", "JDK_11", "JDK_16"],
+      "enum": ["JDK_8", "JDK_11", "JDK_17"],
       "x-prompt": {
         "message": "Which version of Java would you like to use?",
         "type": "list",
@@ -112,8 +112,8 @@
             "label": "11"
           },
           {
-            "value": "JDK_16",
-            "label": "16"
+            "value": "JDK_17",
+            "label": "17"
           }
         ]
       }
