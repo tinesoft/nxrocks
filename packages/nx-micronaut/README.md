@@ -85,7 +85,7 @@ Option                 | Value | Description
 `type`                 | `default` \| `cli` \| `function` \| `grpc` \| `messaging`  | Type of application to generate
 `buildSystem`          | `MAVEN` \| `GRADLE` \| `GRADLE_KOTLIN`  | Build system
 `basePackage`          | `string` | Base package of the project
-`javaVersion`          | `JDK_8` \| `JDK_11` \| `JDK_16`| Java version to use
+`javaVersion`          | `JDK_8` \| `JDK_11` \| `JDK_17`| Java version to use
 `language`             | `JAVA` \| `GROOVY` \| `KOTLIN`      | Language to use
 `testFramework`        | `JUNIT` \| `SPOCK` \| `KOTEST`      | Test Framework to use
 `skipFormat`           | `boolean` | Do not add the ability to format code (using Spotless plugin)

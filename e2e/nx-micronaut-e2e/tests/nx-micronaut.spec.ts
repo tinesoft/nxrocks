@@ -92,6 +92,18 @@ describe('nx-micronaut e2e', () => {
 
   }, 200000);
 
+  it.each([["JDK_8", "1.8"], ["JDK_11", "11"], ["JDK_17", "17"]])("should handle java version '%s'", async(javaVersion, expected) => {
+    const prjName = uniq('nx-micronaut');
+    const buildSystem = 'MAVEN';
+
+    await runNxCommandAsync(
+      `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --javaVersion=${javaVersion}`
+    );
+
+    const pomXml = readFile(`apps/${prjName}/pom.xml`);
+    expect(pomXml).toContain(`<jdk.version>${expected}</jdk.version>`);
+  });
+
   describe('--buildSystem=GRADLE', () => {
     it('should create a gradle micronaut project', async() => {
       const prjName = uniq('nx-micronaut');
