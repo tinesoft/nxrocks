@@ -68,7 +68,11 @@ describe('nxrocks smoke tests', () => {
 
     execSync(
       `${createCommand} ${workspaceName} --preset empty --nxCloud false`,
-      execSyncOptions(smokeDirectory),
+      {
+        cwd: smokeDirectory,
+        env: process.env,
+        stdio: 'inherit',
+      },
     );
 
     copySync(packagesDistDirectory, join(workspaceRoot, 'packages')); //copy dist packages (from nxrocks) into host, to avoid them to be affected when installing them locally
@@ -147,7 +151,11 @@ describe('nxrocks smoke tests', () => {
 
     execSync(
       `${createCommand} ${workspaceName} --preset empty --nxCloud false`,
-      execSyncOptions(smokeDirectory)
+      {
+        cwd: smokeDirectory,
+        env: process.env,
+        stdio: 'inherit',
+      },
     );
 
     execSync('git init', execSyncOptions()); 
