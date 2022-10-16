@@ -50,7 +50,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/nx-flutter"],
+      "outputs": ["{workspaceRoot}/coverage/packages/nx-flutter"],
       "options": {
         "jestConfig": "packages/nx-flutter/jest.config.ts",
         "passWithNoTests": true

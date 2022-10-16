@@ -1,5 +1,4 @@
-import { Tree, logger, readProjectConfiguration, readJson } from '@nrwl/devkit';
-import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
+import { Tree, logger, readProjectConfiguration, readJson, workspaceRoot } from '@nrwl/devkit';
 
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 

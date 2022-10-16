@@ -1,7 +1,6 @@
 import { join } from 'path';
-import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
 
-import { getWorkspaceLayout, ProjectConfiguration, Tree } from '@nrwl/devkit';
+import { getWorkspaceLayout, ProjectConfiguration, Tree, workspaceRoot } from '@nrwl/devkit';
 import { readFileSync } from 'fs';
 
 export function getProjectRoot(project: ProjectConfiguration) {
