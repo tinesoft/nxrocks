@@ -1,5 +1,4 @@
-import { Tree, logger, stripIndents } from '@nrwl/devkit';
-import { workspaceRoot } from '@nrwl/workspace/src/utils/app-root';
+import { Tree, logger, stripIndents, workspaceRoot } from '@nrwl/devkit';
 
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';

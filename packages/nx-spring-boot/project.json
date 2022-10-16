@@ -50,7 +50,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/nx-spring-boot"],
+      "outputs": ["{workspaceRoot}/coverage/packages/nx-spring-boot"],
       "options": {
         "jestConfig": "packages/nx-spring-boot/jest.config.ts",
         "passWithNoTests": true
