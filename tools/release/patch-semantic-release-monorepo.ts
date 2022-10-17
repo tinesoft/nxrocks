@@ -9,6 +9,7 @@ const fileToPatch = 'node_modules/semantic-release-monorepo/src/only-package-com
 const onlyPackageCommitsJs = readFileSync(join(workspaceRoot, fileToPatch), 'utf8');
 const patchedFile = onlyPackageCommitsJs
 
+.replace('  return commitsWithFiles.filter(({ files, subject }) => {', '  return commitsWithFiles.filter(async ({ files, subject }) => {')
 .replace( 
 `    if (packageFile) {
       debug(
@@ -43,7 +44,7 @@ const patchedFile = onlyPackageCommitsJs
     // attempt 3:  check if the commit must be included because it modifed a file in a dependent package (like in 'common')
     const pkgScope = packageSegments[0];
     const commitScope = /^[a-z]+\(([^)]+)\)\:/.exec(subject)?.[1];
-    const depGraph = require('fs').readFileSync(path.resolve(await gitRoot(), 'dist', 'deps.json')).graph;
+    const depGraph = JSON.parse(require('fs').readFileSync(path.resolve(await getRoot(), 'dist', 'deps.json'))).graph;
     const isDependentCommit = depGraph.dependencies[pkgScope]?.target === commitScope
     if(isDependentCommit){
       debug(
