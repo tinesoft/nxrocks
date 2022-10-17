@@ -18,12 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
-      - run: | # we need to fetch the develop branch or else `affected:test` (run by husky after @semantic-release/git) will not work
-          git fetch --depth=1
-          git checkout develop
+        uses: actions/checkout@v3
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
       - name: Build, Release on GitHub & Publish to NPM
