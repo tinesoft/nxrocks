@@ -23,7 +23,7 @@ jobs:
           git fetch --depth=1
           git checkout develop
       - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v3.5.1
         with:
           node-version: 16.x
       - name: Build, Release on GitHub & Publish to NPM
