@@ -21,22 +21,23 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Use Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.6.0
         with:
           distribution: 'temurin'
           java-version: 11
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v3.5.1
         with:
           node-version: ${{ matrix.node-version }}
           
       - name: Yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        shell: bash
 
       - name: Cache Yarn
-        uses: actions/cache@v3
+        uses: actions/cache@v3.0.11
         env:
           cache-name: yarn
         with:
