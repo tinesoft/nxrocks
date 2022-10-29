@@ -19,11 +19,11 @@ jobs:
       NX_RUN_GROUP: ${{ github.run_id }}
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.5.1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -33,7 +33,7 @@ jobs:
         shell: bash
 
       - name: Cache Yarn
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v3
         env:
           cache-name: yarn
         with:

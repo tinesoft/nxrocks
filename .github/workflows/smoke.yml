@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 11
+          java-version: 17
 
       - name: Use Flutter
         uses: subosito/flutter-action@v2
@@ -43,6 +43,7 @@ jobs:
       - name: Yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        shell: bash
 
       - name: Cache Yarn
         uses: actions/cache@v3

@@ -18,16 +18,16 @@ jobs:
         node-version: [16.x]
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v3
 
       - name: Use Java
-        uses: actions/setup-java@v3.6.0
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 11
+          java-version: 17
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3.5.1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -37,7 +37,7 @@ jobs:
         shell: bash
 
       - name: Cache Yarn
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v3
         env:
           cache-name: yarn
         with:
