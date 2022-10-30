@@ -87,14 +87,14 @@
         }
       ],
       "default": "11",
-      "enum": ["1.8", "11", "17"],
+      "enum": ["1.8", "11", "17", "19"],
       "x-prompt": {
         "message": "Which version of Java would you like to use?",
         "type": "list",
         "items": [
           {
-            "value": "18",
-            "label": "18"
+            "value": "19",
+            "label": "19"
           },
           {
             "value": "17",
