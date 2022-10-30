@@ -17,7 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@nxrocks/common": ["packages/common/src/index.ts"],
-      "@nxrocks/common/testing": ["packages/common/src/testing.ts"],
+      "@nxrocks/common/testing": ["packages/common/testing/index.ts"],
       "@nxrocks/nx-flutter": ["packages/nx-flutter/src/index.ts"],
       "@nxrocks/nx-micronaut": ["packages/nx-micronaut/src/index.ts"],
       "@nxrocks/nx-quarkus": ["packages/nx-quarkus/src/index.ts"],
