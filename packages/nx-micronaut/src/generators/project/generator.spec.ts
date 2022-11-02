@@ -13,7 +13,7 @@ import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
 import { BuilderCommandAliasType, hasMavenPlugin, NX_MICRONAUT_PKG, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_GROUP_ID,  } from '@nxrocks/common';
-import { mockZipEntries, syncToAsyncIterable } from '@nxrocks/common/testing';
+import { mockZipStream } from '@nxrocks/common/testing';
 
 const POM_XML = `<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -191,7 +191,7 @@ describe('project generator', () => {
     tree = createTreeWithEmptyWorkspace();
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable([]));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream([]));
     mockedFetch.mockResolvedValue(mockedResponse);
   });
 
@@ -217,9 +217,8 @@ describe('project generator', () => {
     const downloadUrl = `${options.micronautLaunchUrl}/create/${type}/${options.basePackage}.${options.name}?build=${buildSystem}`;
 
     const zipFiles = [{ filePath: `${buildFileName}`, fileContent: buildFileContent}, `${wrapperName}`, `README.md`, ];
-    const micronautZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Micronaut Launch
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(micronautZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, { ...options, type, buildSystem});
 
@@ -239,9 +238,8 @@ describe('project generator', () => {
 
   it('should update workspace.json', async () => {
     const zipFiles = [{ filePath: `pom.xml`, fileContent: POM_XML}, `mvnw`, `README.md`, ];
-    const micronautZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Micronaut Launch
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(micronautZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, options);
     const project = readProjectConfiguration(tree, options.name);
@@ -258,9 +256,8 @@ describe('project generator', () => {
 
   it('should add plugin to nx.json', async () => {
     const zipFiles = [{ filePath: `pom.xml`, fileContent: POM_XML}, `mvnw`, `README.md`, ];
-    const micronautZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Micronaut Launch
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(micronautZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     
     await projectGenerator(tree, options);
@@ -275,9 +272,8 @@ describe('project generator', () => {
 `(`should $expectedAction code formatting features if skipFormat=$skipFormat`, async ({ skipFormat }) => {
 
     const zipFiles = [{ filePath: `pom.xml`, fileContent: POM_XML}, `mvnw`, `README.md`, ];
-    const micronautZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Micronaut Launch
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(micronautZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, { ...options, skipFormat });
 

@@ -13,7 +13,7 @@ import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
 import { BuilderCommandAliasType, hasMavenPlugin, NX_QUARKUS_PKG, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_GROUP_ID,  } from '@nxrocks/common';
-import { mockZipEntries, syncToAsyncIterable } from '@nxrocks/common/testing';
+import { mockZipStream } from '@nxrocks/common/testing';
 
 const POM_XML = `<?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
@@ -88,7 +88,7 @@ describe('project generator', () => {
     tree = createTreeWithEmptyWorkspace();
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable([]));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream([]));
     mockedFetch.mockResolvedValue(mockedResponse);
   });
 
@@ -108,9 +108,8 @@ describe('project generator', () => {
     const downloadUrl = `${options.quarkusInitializerUrl}/d?b=${buildSystem}&g=${options.groupId}&a=${options.artifactId}`;
 
     const zipFiles = [{ filePath: `${options.artifactId}/${buildFileName}`, fileContent: buildFileContent}, `${options.artifactId}/${wrapperName}`, `${options.artifactId}/README.md`, ];
-    const quarkusZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Quarkus Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(quarkusZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, { ...options, projectType, buildSystem});
 
@@ -133,9 +132,8 @@ describe('project generator', () => {
     ${'library'}    
   `(`should update workspace.json for '$projectType'`, async ({ projectType }) => {
     const zipFiles = [{ filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML}, `${options.artifactId}/mvnw`, `${options.artifactId}/README.md`, ];
-    const quarkusZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Quarkus Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(quarkusZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, {...options, projectType});
 
@@ -154,9 +152,8 @@ describe('project generator', () => {
 
   it('should add plugin to nx.json', async () => {
     const zipFiles = [{ filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML}, `${options.artifactId}/mvnw`, `${options.artifactId}/README.md`, ];
-    const quarkusZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Quarkus Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(quarkusZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     
     await projectGenerator(tree, options);
@@ -172,9 +169,8 @@ describe('project generator', () => {
 `(`should $expectedAction code formatting features if skipFormat=$skipFormat`, async ({ skipFormat }) => {
 
     const zipFiles = [{ filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML}, `${options.artifactId}/mvnw`, `${options.artifactId}/README.md`, ];
-    const quarkusZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Quarkus Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(quarkusZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, { ...options, skipFormat });
 
