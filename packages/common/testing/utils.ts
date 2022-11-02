@@ -1,5 +1,14 @@
 import { ExecutorContext } from '@nrwl/devkit';
 import { Entry } from 'unzipper';
+import { PassThrough } from 'stream';
+
+function toEntry(e: (string | { filePath: string, fileContent?: string })) {
+  return {
+    path: typeof e === 'string' ? e : e.filePath,
+    buffer: () => Promise.resolve(Buffer.from(typeof e === 'string' ? e : e.fileContent ?? e.filePath)),
+    type: 'File',
+  } as Entry
+}
 
 export function mockExecutorContext(
   pluginName: string,
@@ -31,14 +40,26 @@ export function mockExecutorContext(
   };
 }
 
-export function mockZipEntries(files: (string | { filePath: string, fileContent?: string})[]): Entry[] {
-  return files.map((e) => {
-    return {
-      path: typeof e === 'string' ? e : e.filePath,
-      buffer: () => Promise.resolve(Buffer.from(typeof e === 'string' ? e : e.fileContent??e.filePath)),
-      type: 'File',
-    } as Entry;
-  });
+export function mockZipEntries(files: (string | { filePath: string, fileContent?: string })[]): Entry[] {
+  return files.map(toEntry);
+}
+
+export function mockZipStream(files: (string | { filePath: string, fileContent?: string })[]) {
+  const mockedStream = new PassThrough();
+
+  mockedStream['promise'] = () => {
+    return new Promise(function (resolve, reject) {
+      mockedStream.on('finish', resolve);
+      mockedStream.on('error', reject);
+
+      files.forEach(e => {
+        mockedStream.emit('entry', toEntry(e));
+      });
+
+      mockedStream.end();
+    });
+  };
+  return mockedStream;
 }
 
 export async function* syncToAsyncIterable(syncIterable) {

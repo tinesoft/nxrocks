@@ -13,7 +13,7 @@ import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
 import { hasMavenPlugin, NX_SPRING_BOOT_PKG, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, stripIndent } from '@nxrocks/common';
-import { mockZipEntries, syncToAsyncIterable } from '@nxrocks/common/testing';
+import { mockZipStream } from '@nxrocks/common/testing';
 
 const POM_XML = `<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -100,7 +100,7 @@ describe('project generator', () => {
     tree = createTreeWithEmptyWorkspace();
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable([]));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream([]));
     mockedFetch.mockResolvedValue(mockedResponse);
   });
 
@@ -120,9 +120,8 @@ describe('project generator', () => {
     const downloadUrl = `${options.springInitializerUrl}/starter.zip?type=${buildSystem}&language=${options.language}&name=${options.name}`;
 
     const zipFiles = [ { filePath: buildFile, fileContent: buildFileContent}, wrapperName, 'README.md',];
-    const starterZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Spring Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(starterZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, { ...options, projectType, buildSystem });
 
@@ -162,9 +161,8 @@ describe('project generator', () => {
   `(`should update workspace.json for '$projectType'`, async ({ projectType }) => {
 
     const zipFiles = [{ filePath: 'pom.xml', fileContent: POM_XML }, 'mvnw', 'README.md',];
-    const starterZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Spring Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(starterZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, { ...options, projectType });
 
@@ -189,9 +187,8 @@ describe('project generator', () => {
 
   it('should add plugin to nx.json', async () => {
     const zipFiles = [{ filePath: 'pom.xml', fileContent: POM_XML }, 'mvnw', 'README.md',];
-    const starterZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Spring Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(starterZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, options);
 
@@ -210,9 +207,8 @@ describe('project generator', () => {
     const opts: ProjectGeneratorOptions = { ...options, buildSystem: 'maven-project', projectType};
 
     const zipFiles = [{ filePath: 'pom.xml', fileContent: POM_XML }, 'mvnw', 'README.md',];
-    const starterZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Spring Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(starterZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, opts);
 
@@ -230,9 +226,8 @@ describe('project generator', () => {
     const opts: ProjectGeneratorOptions = { ...options, buildSystem: 'gradle-project', projectType};
 
     const zipFiles = [{ filePath: 'build.gradle', fileContent: BUILD_GRADLE }, 'gradlew', 'README.md',];
-    const starterZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Spring Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(starterZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, opts);
 
@@ -265,9 +260,8 @@ describe('project generator', () => {
 `(`should $expectedAction code formatting features if skipFormat=$skipFormat`, async ({ skipFormat }) => {
 
     const zipFiles = [{ filePath: 'pom.xml', fileContent: POM_XML }, 'mvnw', 'README.md',];
-    const starterZip = mockZipEntries(zipFiles);
     // mock the zip content returned by the real call to Spring Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(syncToAsyncIterable(starterZip));
+    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, { ...options, skipFormat });
 
