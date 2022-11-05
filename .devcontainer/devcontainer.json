@@ -1,0 +1,20 @@
+{
+	"name": "NxRocksDevContainer",
+	"image": "cirrusci/flutter:stable",
+	"features": {
+		"ghcr.io/devcontainers/features/java:1": {
+			"version": "17",
+			"installMaven": "true",
+			"installGradle": "true"
+		},
+		"ghcr.io/devcontainers/features/node:1": {
+			"version": "16"
+		},
+		"ghcr.io/devcontainers/features/git:1": {},
+		"ghcr.io/devcontainers/features/git-lfs:1": {}
+	},
+	"postCreateCommand": "npm install -g pnpm@latest-6",
+	"settings":{
+		"debug.javascript.usePreview": false
+	}
+}

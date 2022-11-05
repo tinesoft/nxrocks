@@ -4,9 +4,9 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
-    "build": "nx run-many --target build",
-    "test": "nx run-many --target test",
-    "e2e": "nx run-many --target e2e",
+    "build": "nx run-many --target build --parallel 5",
+    "test": "nx run-many --target test --parallel 5",
+    "e2e": "nx run-many --target e2e --parallel 5",
     "lint": "nx workspace-lint && nx lint",
     "many": "nx run-many",
     "affected:build": "nx affected:build",
