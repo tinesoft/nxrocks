@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "nx-melos",
+  "version": "0.0.1",
+  "generators": {
+    "init": {
+      "factory": "./src/generators/init/generator",
+      "schema": "./src/generators/init/schema.json",
+      "description": "Generator that initializes Melos for Flutter/Dart projects in the workspace",
+      "aliases": ["configure", "config", "new"]
+    }
+  }
+}
