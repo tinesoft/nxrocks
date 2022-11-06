@@ -85,7 +85,8 @@ describe('nxrocks smoke tests', () => {
       {name: '@nxrocks/nx-spring-boot', path:'packages/nx-spring-boot'},
       {name: '@nxrocks/nx-micronaut', path:'packages/nx-micronaut'},
       {name: '@nxrocks/nx-quarkus', path:'packages/nx-quarkus'},
-      {name: '@nxrocks/nx-flutter', path:'packages/nx-flutter'}],
+      {name: '@nxrocks/nx-flutter', path:'packages/nx-flutter'},
+      {name: '@nxrocks/nx-melos', path:'packages/nx-melos'}],
       [{name:'@nxrocks/common', path:'packages/common'}], 
       workspaceRoot);
       
@@ -121,6 +122,11 @@ describe('nxrocks smoke tests', () => {
       execSyncOptions(),
     );
 
+    execSync(
+      `${runCommand} nx g @nxrocks/nx-melos:init`,
+      execSyncOptions(),
+    );
+
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
     execSync(`${runCommand} nx print-affected --target build`, {
@@ -136,6 +142,7 @@ describe('nxrocks smoke tests', () => {
     execSync(`${runCommand} nx build ${mnApp}`, execSyncOptions());
     execSync(`${runCommand} nx clean ${flutterapp}`, execSyncOptions());
     execSync(`${runCommand} nx clean ${flutterlib}`, execSyncOptions());
+    execSync(`${runCommand} nx melos-bootstrap`, execSyncOptions());
 
     expect(true).toBeTruthy();
   }, 1500000);
@@ -163,7 +170,7 @@ describe('nxrocks smoke tests', () => {
 
     execSync('git init', execSyncOptions()); 
 
-    execSync(`${addDevCommand} @nxrocks/nx-spring-boot @nxrocks/nx-quarkus @nxrocks/nx-flutter @nxrocks/nx-micronaut`, execSyncOptions());
+    execSync(`${addDevCommand} @nxrocks/nx-spring-boot @nxrocks/nx-quarkus @nxrocks/nx-flutter @nxrocks/nx-micronaut @nxrocks/nx-melos`, execSyncOptions());
 
     execSync(
       `${runCommand} nx g @nxrocks/nx-spring-boot:new ${bootapp} --skip-format=false --projectType application --no-interactive`,
@@ -197,6 +204,10 @@ describe('nxrocks smoke tests', () => {
       execSyncOptions(),
     );
 
+    execSync(
+      `${runCommand} nx g @nxrocks/nx-melos:init`,
+      execSyncOptions(),
+    );
 
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
@@ -213,6 +224,8 @@ describe('nxrocks smoke tests', () => {
     execSync(`${runCommand} nx build ${mnApp}`, execSyncOptions());
     execSync(`${runCommand} nx clean ${flutterapp}`, execSyncOptions());
     execSync(`${runCommand} nx clean ${flutterlib}`, execSyncOptions());
+    execSync(`${runCommand} nx melos-bootstrap`, execSyncOptions());
+
 
     expect(true).toBeTruthy();
   }, 1500000);

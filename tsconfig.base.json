@@ -19,6 +19,7 @@
       "@nxrocks/common": ["packages/common/src/index.ts"],
       "@nxrocks/common/testing": ["packages/common/testing/index.ts"],
       "@nxrocks/nx-flutter": ["packages/nx-flutter/src/index.ts"],
+      "@nxrocks/nx-melos": ["packages/nx-melos/src/index.ts"],
       "@nxrocks/nx-micronaut": ["packages/nx-micronaut/src/index.ts"],
       "@nxrocks/nx-quarkus": ["packages/nx-quarkus/src/index.ts"],
       "nxrocks/nx-spring-boot": ["packages/nx-spring-boot/src/index.ts"]
