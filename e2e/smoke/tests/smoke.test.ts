@@ -34,6 +34,8 @@ const flutterapp = 'flutterapp';
 const flutterlib = 'flutterlib';
 const mnApp = 'mnapp';
 
+process.env.NODE_OPTIONS="--max-old-space-size=4096"; // to avoid oom error during the tests
+
 describe('nxrocks smoke tests', () => {
   beforeEach(async () => {
     ({ name: smokeDirectory, removeCallback: cleanup } = dirSync({
