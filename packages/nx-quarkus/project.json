@@ -1,4 +1,5 @@
 {
+  "name": "nx-quarkus",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-quarkus/src",
   "projectType": "library",

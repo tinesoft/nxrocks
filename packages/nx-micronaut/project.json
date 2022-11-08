@@ -1,4 +1,5 @@
 {
+  "name": "nx-micronaut",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-micronaut/src",
   "projectType": "library",
