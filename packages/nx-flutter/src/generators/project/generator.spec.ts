@@ -78,10 +78,10 @@ describe('application generator', () => {
 
     const commands = [...commonCommands, ...appCommands, ...pluginOrModOnlyCommands, ...androidOnlyCommands, ...iOsOnlyCommands];
     commands.forEach(e => {
-      expect(project.targets[e.key].executor).toBe('@nrwl/workspace:run-commands');
+      expect(project.targets[e.key].executor).toBe('nx:run-commands');
       expect(project.targets[e.key].options.command).toBe(`flutter ${e.value}`);
       if(e.key.startsWith('build-')) {
-        expect(project.targets[e.key].outputs).toEqual([`${project.root}/build`]);
+        expect(project.targets[e.key].outputs).toEqual([`{workspaceRoot}/${project.root}/build`]);
       }
     });
   });

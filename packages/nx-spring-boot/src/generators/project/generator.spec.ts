@@ -180,7 +180,7 @@ describe('project generator', () => {
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`${NX_SPRING_BOOT_PKG}:${cmd}`);
       if(['build', 'install'].includes(cmd)) { 
-        expect(project.targets[cmd].outputs).toEqual([`${project.root}/target`]);
+        expect(project.targets[cmd].outputs).toEqual([`{workspaceRoot}/${project.root}/target`]);
       }
     });
   });

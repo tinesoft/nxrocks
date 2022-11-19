@@ -53,12 +53,12 @@ export async function projectGenerator(tree:Tree, options: ProjectGeneratorOptio
   
   for (const command of commands) {
     targets[command.key] = {
-      executor: `@nrwl/workspace:run-commands`,
+      executor: `nx:run-commands`,
       options: {
         command: `flutter ${command.value}`,
         cwd: normalizedOptions.projectRoot
       },
-      ...( command.key.startsWith('build-') ? {outputs: [`${normalizedOptions.projectRoot}/build`]}: {})
+      ...( command.key.startsWith('build-') ? {outputs: [`{workspaceRoot}/${normalizedOptions.projectRoot}/build`]}: {})
 
     };
   }

@@ -145,7 +145,7 @@ describe('project generator', () => {
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
       if(['build', 'install'].includes(cmd)) { 
-        expect(project.targets[cmd].outputs).toEqual([`${project.root}/target`]);
+        expect(project.targets[cmd].outputs).toEqual([`{workspaceRoot}/${project.root}/target`]);
       }
     });
   });
