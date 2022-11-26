@@ -55,4 +55,4 @@ jobs:
           NX_RUN_GROUP: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}
         run: |
           yarn ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-project.ts
-          yarn run e2e nx-quarkus-e2e
+          yarn nx e2e nx-quarkus-e2e
