@@ -6,6 +6,8 @@ import { join, resolve } from 'path';
 
 import { dirSync } from 'tmp';
 
+process.env.NODE_OPTIONS="--max-old-space-size=4096"; // to avoid oom error during the tests
+
 let smokeDirectory: string;
 let cleanup: () => void;
 
@@ -33,8 +35,6 @@ const quarkuslib = 'quarkuslib';
 const flutterapp = 'flutterapp';
 const flutterlib = 'flutterlib';
 const mnApp = 'mnapp';
-
-process.env.NODE_OPTIONS="--max-old-space-size=4096"; // to avoid oom error during the tests
 
 describe('nxrocks smoke tests', () => {
   beforeEach(async () => {
