@@ -102,7 +102,7 @@ describe('nx-micronaut e2e', () => {
 
     const pomXml = readFile(`apps/${prjName}/pom.xml`);
     expect(pomXml).toContain(`<jdk.version>${expected}</jdk.version>`);
-  });
+  }, 150000);
 
   describe('--buildSystem=GRADLE', () => {
     it('should create a gradle micronaut project', async() => {

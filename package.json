@@ -5,8 +5,8 @@
   "scripts": {
     "nx": "nx",
     "build": "nx run-many --target build --parallel 5 --exclude smoke",
-    "test": "nx run-many --target test --parallel 5 --exclude smoke",
-    "e2e": "nx run-many --target e2e --parallel 5 --exclude smoke --verbose",
+    "test": "nx run-many --target test --parallel 5 --exclude smoke -- --runInBand",
+    "e2e": "nx run-many --target e2e --parallel 5 --exclude smoke -- --runInBand",
     "lint": "nx workspace-lint && nx lint",
     "many": "nx run-many",
     "affected:build": "nx affected:build",
