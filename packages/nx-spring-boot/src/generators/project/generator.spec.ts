@@ -82,6 +82,29 @@ test {
 	useJUnitPlatform()
 }`;
 
+const BUILD_GRADLE_KTS =
+`plugins {
+	java
+	id("org.springframework.boot") version "3.0.0"
+	id("io.spring.dependency-management") version "1.1.0"
+}
+
+group = "com.example"
+version = "0.0.1-SNAPSHOT"
+java.sourceCompatibility = JavaVersion.VERSION_17
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation("org.springframework.boot:spring-boot-starter")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
+}`;
 
 describe('project generator', () => {
   let tree: Tree;
@@ -112,8 +135,10 @@ describe('project generator', () => {
     projectType      | buildSystem         | buildFile         | buildFileContent | wrapperName
     ${'application'} | ${'maven-project'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
     ${'application'} | ${'gradle-project'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
+    ${'application'} | ${'gradle-project-kotlin'} | ${'build.gradle.kts'} | ${BUILD_GRADLE_KTS}  | ${'gradlew'}
     ${'library'}     | ${'maven-project'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
     ${'library'}     | ${'gradle-project'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
+    ${'library'}     | ${'gradle-project-kotlin'} | ${'build.gradle.kts'} | ${BUILD_GRADLE_KTS}  | ${'gradlew'}
   `(`should download a spring boot '$projectType' build with $buildSystem`, async ({ projectType, buildSystem, buildFile, buildFileContent, wrapperName }) => {
 
     const rootDir = projectType === 'application' ? 'apps' : 'libs';
@@ -144,7 +169,7 @@ describe('project generator', () => {
       if (projectType === 'library') {
         expect(logger.debug).toHaveBeenNthCalledWith(1,`Disabling 'spring-boot' gradle plugin on a library project...`);
       } else {
-        expect(logger.debug).toHaveBeenNthCalledWith(1,`Adding 'buildInfo' task to the build.gradle file...`);
+        expect(logger.debug).toHaveBeenNthCalledWith(1,`Adding 'buildInfo' task to the ${buildFile} file...`);
       }
       expect(logger.debug).toHaveBeenNthCalledWith(2,`Adding 'maven-publish' plugin...`);
     }

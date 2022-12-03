@@ -6,11 +6,11 @@ import { NormalizedSchema } from '../schema';
 
 export function addFormattingWithSpotless(tree: Tree, options: NormalizedSchema) {
 
-    if (options.buildSystem === 'gradle-project') {
-        addSpotlessGradlePlugin(tree, options.projectRoot, options.language, +(options.javaVersion));
+    if (options.buildSystem === 'maven-project') {
+        addSpotlessMavenPlugin(tree, options.projectRoot, options.language, +(options.javaVersion));
     }
     else {
-        addSpotlessMavenPlugin(tree, options.projectRoot, options.language, +(options.javaVersion));
+        addSpotlessGradlePlugin(tree, options.projectRoot, options.language, +(options.javaVersion),null, options.buildSystem === 'gradle-project-kotlin');
     }
 
 }

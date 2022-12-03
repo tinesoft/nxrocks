@@ -40,7 +40,7 @@
       "alias": "type",
       "default": "maven-project",
       "type": "string",
-      "enum": ["maven-project", "gradle-project"],
+      "enum": ["maven-project", "gradle-project", "gradle-project-kotlin"],
       "x-prompt": {
         "message": "Which build system would you like to use?",
         "type": "list",
@@ -52,6 +52,10 @@
           {
             "value": "gradle-project",
             "label": "Gradle"
+          },
+          {
+            "value": "gradle-project-kotlin",
+            "label": "Gradle - Kotlin"
           }
         ]
       }
