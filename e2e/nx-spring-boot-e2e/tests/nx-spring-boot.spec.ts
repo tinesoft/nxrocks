@@ -133,6 +133,39 @@ describe('nx-spring-boot e2e', () => {
     }, 200000);
   });
 
+  describe('--buildSystem=gradle-project-kotlin', () => {
+    it.each`
+    projectType     
+    ${'application'}
+    ${'library'}    
+  `(`should create a gradle spring-boot '$projectType'`, async ({ projectType }) => {
+      const prjName = uniq('nx-spring-boot');
+      const prjDir = projectType === 'application' ? 'apps' : 'libs';
+
+      await runNxCommandAsync(
+        `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem gradle-project-kotlin`
+      );
+
+      const resultBuild= await runNxCommandAsync(`build ${prjName}`);
+      expect(resultBuild.stdout).toContain(`Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`)
+  
+      expect(() =>
+      checkFilesExist(`${prjDir}/${prjName}/gradlew`,`${prjDir}/${prjName}/build.gradle.kts`, `${prjDir}/${prjName}/HELP.md`)
+      ).not.toThrow();
+
+      // make sure the build wrapper file is executable (*nix only)
+      if(!isWin) {
+        const execPermission = '755';
+        expect(
+          lstatSync(
+            tmpProjPath(`${prjDir}/${prjName}/gradlew`)
+          ).mode & octal(execPermission)
+        ).toEqual(octal(execPermission));
+      }
+
+    }, 200000);
+  });
+
   describe('--buildSystem=gradle-project and --language=kotlin', () => {
     it.each`
     projectType     
@@ -150,7 +183,7 @@ describe('nx-spring-boot e2e', () => {
       expect(resultBuild.stdout).toContain(`Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`)
   
       expect(() =>
-      checkFilesExist(`${prjDir}/${prjName}/gradlew`,`${prjDir}/${prjName}/build.gradle.kts`, `${prjDir}/${prjName}/HELP.md`)
+      checkFilesExist(`${prjDir}/${prjName}/gradlew`,`${prjDir}/${prjName}/build.gradle`, `${prjDir}/${prjName}/HELP.md`)
       ).not.toThrow();
 
       // make sure the build wrapper file is executable (*nix only)
