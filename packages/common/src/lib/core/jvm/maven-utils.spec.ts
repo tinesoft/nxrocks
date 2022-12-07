@@ -59,7 +59,7 @@ describe('maven-utils', () => {
 
         let tree: Tree;
         beforeEach(() => {
-            tree = createTreeWithEmptyWorkspace();
+            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
         });
 
         it('should not add the plugin if already exists', () => {
@@ -106,7 +106,7 @@ describe('maven-utils', () => {
 
         let tree: Tree;
         beforeEach(() => {
-            tree = createTreeWithEmptyWorkspace();
+            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
         });
 
         it('should not remove the plugin if does not exist', () => {
@@ -139,7 +139,7 @@ describe('maven-utils', () => {
     describe('addSpotlessMavenPlugin', () => {
         let tree: Tree;
         beforeEach(() => {
-            tree = createTreeWithEmptyWorkspace();
+            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
         });
 
         it.each`

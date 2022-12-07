@@ -47,7 +47,7 @@ describe('application generator', () => {
 
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace();
+    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
 
     jest.spyOn(inquirer, 'prompt').mockResolvedValue({
       platforms: options.platforms,

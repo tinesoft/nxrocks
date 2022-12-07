@@ -12,7 +12,7 @@ describe('link generator', () => {
   const options: LinkGeneratorSchema = { sourceProjectName: 'quarkusapp', targetProjectName: 'ngapp' };
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace();
+    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     addProjectConfiguration(tree, options.sourceProjectName, {
       projectType: 'application',
       sourceRoot: `apps/${options.sourceProjectName}/src`,
