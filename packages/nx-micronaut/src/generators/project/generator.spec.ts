@@ -188,7 +188,7 @@ describe('project generator', () => {
   const mockedResponse = new Response(Readable.from(['micronaut.zip']));
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace();
+    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream([]));

@@ -162,7 +162,7 @@ describe('gradle-utils', () => {
     describe('addGradlePlugin', () => {
         let tree: Tree;
         beforeEach(() => {
-            tree = createTreeWithEmptyWorkspace();
+            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
         });
         
         it('should add plugin to build.gradle file with no prexisting plugins section', () => {
@@ -220,7 +220,7 @@ describe('gradle-utils', () => {
     describe.only('disableGradlePlugin', () => {
         let tree: Tree;
         beforeEach(() => {
-            tree = createTreeWithEmptyWorkspace();
+            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
         });
 
         it.each`
@@ -252,7 +252,7 @@ describe('gradle-utils', () => {
    describe('applySpotlessGradlePlugin', () => {
         let tree: Tree;
         beforeEach(() => {
-            tree = createTreeWithEmptyWorkspace();
+            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
         });
 
         it.each`
@@ -289,7 +289,7 @@ describe('gradle-utils', () => {
     describe('addSpotlessGradlePlugin', () => {
         let tree: Tree;
         beforeEach(() => {
-            tree = createTreeWithEmptyWorkspace();
+            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
         });
 
         it.each`
