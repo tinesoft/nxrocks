@@ -1,6 +1,6 @@
 
 import { stripIndent } from '.';
-import { addXmlNode, findXmlMatching, findXmlNode, findXmlNodeContent, newXmlNode, readXml } from './xml-utils';
+import { addXmlNode, findXmlMatching, findXmlNode, findXmlContent, findNodeContent, findXmlNodes, newXmlNode, readXml } from './xml-utils';
 
 const XML_FILE = `<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -73,24 +73,76 @@ describe('xml-utils', () => {
         });
     });
 
-    describe('findXmlNodeContent', () => {
+    describe('findXmlContent', () => {
 
         it('should find xml node content if namespace info are missing from "xpath" but "ignoreNamespace" is true', () => {
             const xml = readXml(XML_FILE);
-            const content = findXmlNodeContent(xml, `/project/groupId/text()`, true);
+            const content = findXmlContent(xml, `/project/groupId/text()`, true);
             expect(content).toBeDefined();
             expect(content).toEqual('com.example');
         });
 
         it('should not find xml node content if namespace info are missing from "xpath"  and "ignoreNamespace" is false', () => {
             const xml = readXml(XML_FILE);
-            const content = findXmlNodeContent(xml, `/project/groupId/text()`, false);
+            const content = findXmlContent(xml, `/project/groupId/text()`, false);
             expect(content).toBeUndefined();
         });
 
         it('should still find xml node content if namespace info are present in "xpath" and "ignoreNamespace" is false', () => {
             const xml = readXml(XML_FILE);
-            const content = findXmlNodeContent(xml, `/*[local-name() = 'project']/*[local-name() = 'groupId']/text()`, false);
+            const content = findXmlContent(xml, `/*[local-name() = 'project']/*[local-name() = 'groupId']/text()`, false);
+            expect(content).toBeDefined();
+            expect(content).toEqual('com.example');
+        });
+    });
+
+    describe('findNodeContent', () => {
+
+        it('should find text content from node obtained after findXmlNodes', () => {
+            const xml = readXml(XML_FILE);
+
+            const dependencyNodes = findXmlNodes(xml, `/project/dependencies/dependency`);
+            const dependencies = [];
+            dependencyNodes?.forEach((node) => {
+                const depGroupId = findNodeContent(node, `/dependency/groupId/text()`);
+                const depArtifactId = findNodeContent(node, `/dependency/artifactId/text()`);
+                dependencies.push({
+                    packageId: `${depGroupId}:${depArtifactId}`,
+                    packageFile: 'pom.xml',
+                });
+            });
+            expect(dependencies).toEqual([
+                {
+                    packageId: 'org.springframework.boot:spring-boot-starter',
+                    packageFile: 'pom.xml',
+                },
+                {
+                    packageId: 'org.springframework.boot:spring-boot-starter-test',
+                    packageFile: 'pom.xml',
+                }
+            ]);
+        });
+
+        it('should find xml node content if namespace info are missing from "xpath" but "ignoreNamespace" is true', () => {
+            const xml = readXml(XML_FILE);
+            const node = findXmlNode(xml, '/project');
+            const content = findNodeContent(node, `/project/groupId/text()`, true);
+            expect(content).toBeDefined();
+            expect(content).toEqual('com.example');
+        });
+
+
+        it('should not find node content if namespace info are missing from "xpath"  and "ignoreNamespace" is false', () => {
+            const xml = readXml(XML_FILE);
+            const node = findXmlNode(xml, '/project');
+            const content = findNodeContent(node, `/project/groupId/text()`, false);
+            expect(content).toBeUndefined();
+        });
+
+        it('should still find node content if namespace info are present in "xpath" and "ignoreNamespace" is false', () => {
+            const xml = readXml(XML_FILE);
+            const node = findXmlNode(xml, '/project');
+            const content = findNodeContent(node, `/*[local-name() = 'project']/*[local-name() = 'groupId']/text()`, false);
             expect(content).toBeDefined();
             expect(content).toEqual('com.example');
         });
@@ -135,6 +187,7 @@ describe('xml-utils', () => {
 
         it(`should create a new xml from given string content`, () => {
             const xml = newXmlNode(stripIndent`
+            <?xml version="1.0"?>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

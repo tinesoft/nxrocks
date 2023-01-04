@@ -2,23 +2,6 @@ import { create, builder, fragment } from 'xmlbuilder2';
 import { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
 import { select, SelectedValue } from 'xpath';
 
-export class XmlBuilder  {
-
-    constructor(private xmlBuilder: XMLBuilder) {}
-
-    public addNode(node: string, content?: string, attributes?: { [key: string]: any }) {
-        let result = this.xmlBuilder.ele(node, attributes);
-        if (content) {
-            result = result.txt(content);
-        }
-    
-        return result;
-    }
-
-    public build(): XMLBuilder {
-        return this.xmlBuilder;
-    }
-}
 
 export function readXml(xmlContent: string, ignoreNamespace = true): XMLBuilder {
 
@@ -34,13 +17,13 @@ export function readXml(xmlContent: string, ignoreNamespace = true): XMLBuilder 
     } : {}, xmlContent);
 }
 
-export function findXmlNodes(xml: XMLBuilder, xpath: string, ignoreNamespace = true) {
+export function findXmlNodes(xml: XMLBuilder, xpath: string, ignoreNamespace = true): SelectedValue[] | undefined {
     let realXpath = xpath;
     if (ignoreNamespace) {
         const prefix = xpath.startsWith('//') ? '//' : '/';
         realXpath = prefix + xpath.split('/')
             .filter(p => p.length > 0)
-            .map(p => p.trim().replace(/^(\w+)(?:\[[^]+\])?$/, `*[local-name() = '$1']`))
+            .map(p => p.trim().replace(/^(\w+)(?:\[[^]+\])?$/, `*[local-name(.) = '$1']`))
             .join('/');
     }
 
@@ -51,8 +34,12 @@ export function findXmlNode(xml: XMLBuilder, xpath: string, ignoreNamespace = tr
     return findXmlNodes(xml, xpath, ignoreNamespace)?.[0];
 }
 
+export function findNodeContent(source: SelectedValue , xpath: string, ignoreNamespace = true): string | undefined {
 
-export function findXmlNodeContent(xml: XMLBuilder, xpath: string, ignoreNamespace = true): string | undefined {
+    return findXmlContent(asNewXMLBuilder(source as Node), xpath, ignoreNamespace);
+}
+
+export function findXmlContent(xml: XMLBuilder, xpath: string, ignoreNamespace = true): string | undefined {
 
     const node = findXmlNode(xml, xpath, ignoreNamespace);
     if (isNode(node)) {
@@ -61,16 +48,16 @@ export function findXmlNodeContent(xml: XMLBuilder, xpath: string, ignoreNamespa
     return node?.toString();
 }
 
-export function findXmlMatching(xml: XMLBuilder, xpath: string, ignoreNamespace = true) {
-    const node = findXmlNode(xml, xpath, ignoreNamespace);
+export function hasXmlMatching(xml: XMLBuilder, xpath: string, ignoreNamespace = true) : boolean {
+    const result = findXmlNodes(xml, xpath, ignoreNamespace);
+    return result?.length > 0;
+}
 
-    if (node) {
-        return builder(ignoreNamespace ?{
-            defaultNamespace: {
-                ele: null,
-                att: null
-            }
-        }: {}, node as any);
+export function findXmlMatching(xml: XMLBuilder, xpath: string, ignoreNamespace = true) : XMLBuilder | null {
+    const value = findXmlNode(xml, xpath, ignoreNamespace);
+
+    if (value) {
+        return asXMLBuilder(value as Node,ignoreNamespace);
     }
     return null;
 }
@@ -79,8 +66,9 @@ export function newXmlNode(content: { [key: string]: any } | string): XMLBuilder
     return create(content);
 }
 
-export function addXmlNode(target: XMLBuilder, node: { [key: string]: any } | string) {
-    return target.import(newXmlNode(node));
+export function addXmlNode(target: XMLBuilder, node: { [key: string]: any } | string): XMLBuilder {
+    const child = newXmlNode(node);
+    return target.import(child);
 }
 
 export function removeXmlNode(nodeToRemove: XMLBuilder): XMLBuilder {
@@ -102,6 +90,19 @@ export function isXmlNodeEmpty(xml: XMLBuilder): boolean {
     } catch (error) {
         return true;
     }
+}
+
+function asNewXMLBuilder(node: Node, ignoreNamespace = true): XMLBuilder {
+    return readXml(builder(node as any).toString(),ignoreNamespace);
+}
+
+function asXMLBuilder(node: Node, ignoreNamespace = true): XMLBuilder {
+    return builder(ignoreNamespace ?{
+        defaultNamespace: {
+            ele: null,
+            att: null
+        }
+    }: {}, node as any);
 }
 
 function asXmlNode(xml: XMLBuilder): Node {

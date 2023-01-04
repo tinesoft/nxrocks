@@ -1,5 +1,5 @@
 import { Tree } from "@nrwl/devkit";
-import { addXmlNode, findXmlMatching, isXmlNodeEmpty, readXml, removeXmlNode, stripIndent } from "../utils";
+import { addXmlNode, findXmlMatching, hasXmlMatching, isXmlNodeEmpty, readXml, removeXmlNode, stripIndent } from "../utils";
 
 export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.diffplug.spotless';
 export const SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID = 'spotless-maven-plugin';
@@ -14,7 +14,7 @@ export function hasMavenPlugin(tree: Tree, rootFolder: string, groupId: string, 
         pluginXPath += `/../../version/text()[.="${version}"]`;
     }
 
-    return !! findXmlMatching(pomXml, pluginXPath)?.up()?.up();
+    return hasXmlMatching(pomXml, pluginXPath);
 }
 
 export function addMavenPlugin(tree: Tree, rootFolder: string, groupId: string, artifactId: string, version?: string, configuration?: { [key: string]: any } | string): boolean {

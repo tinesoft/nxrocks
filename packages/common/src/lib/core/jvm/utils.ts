@@ -7,7 +7,7 @@ import {
   BuilderCore,
 } from './builder-core.interface';
 import { getProjectFileContent, getProjectFilePath, getProjectRoot, PackageInfo } from '../workspace';
-import { findXmlMatching, findXmlNodeContent, readXml } from '../utils';
+import { findXmlContent, readXml, findXmlNodes, findNodeContent } from '../utils';
 
 
 export const LARGE_BUFFER = 1024 * 1000000;
@@ -73,15 +73,15 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
     const pomXmlStr = getProjectFileContent(project, 'pom.xml');
     const pomXmlNode = readXml(pomXmlStr);
 
-    const groupId = findXmlNodeContent(pomXmlNode, `/project/groupId/text()`);
-    const artifactId = findXmlNodeContent(pomXmlNode, `/project/artifactId/text()`);
+    const groupId = findXmlContent(pomXmlNode, `/project/groupId/text()`);
+    const artifactId = findXmlContent(pomXmlNode, `/project/artifactId/text()`);
 
     const dependencies: PackageInfo[] = [];
-    const dependencyNodes = findXmlMatching(pomXmlNode, `/project/dependencies/dependency`);
+    const dependencyNodes = findXmlNodes(pomXmlNode, `/project/dependencies/dependency`);
 
-    dependencyNodes.each((node) => {
-      const depGroupId = findXmlNodeContent(node, `/dependency/groupId/text()`);
-      const depArtifactId = findXmlNodeContent(node, `/dependency/artifactId/text()`);
+    dependencyNodes?.forEach((node) => {
+      const depGroupId = findNodeContent(node, `/dependency/groupId/text()`);
+      const depArtifactId = findNodeContent(node, `/dependency/artifactId/text()`);
       dependencies.push({
         packageId: `${depGroupId}:${depArtifactId}`,
         packageFile: 'pom.xml',

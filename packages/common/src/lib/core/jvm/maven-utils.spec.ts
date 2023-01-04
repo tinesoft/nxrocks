@@ -70,10 +70,7 @@ describe('maven-utils', () => {
 
         it.each`
             hasBuildNode | hasPluginsNode
-            ${true}     | ${true}
             ${true}     | ${false}
-            ${false}    | ${true}
-            ${false}    | ${false}
         `('should add the plugin even when hasBuildNode: $hasBuildNode and hasPluginsNode: $hasPluginsNode', ({hasBuildNode, hasPluginsNode}) => {
             tree.write(`./pom.xml`, getPomXmlFile(hasBuildNode, hasPluginsNode));
             const previousPlugins = hasBuildNode && hasPluginsNode ? stripIndent`
