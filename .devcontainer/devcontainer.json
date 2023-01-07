@@ -13,8 +13,11 @@
 		"ghcr.io/devcontainers/features/git:1": {},
 		"ghcr.io/devcontainers/features/git-lfs:1": {}
 	},
-	"postCreateCommand": "npm install -g pnpm@latest-6",
 	"settings":{
 		"debug.javascript.usePreview": false
-	}
+	},
+	"mounts": [
+		"source=nxrocks-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+	],
+	"postCreateCommand": "./.devcontainer/postCreateCommand.sh"
 }
