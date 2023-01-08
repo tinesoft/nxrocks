@@ -32,6 +32,4 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           yarn install --frozen-lockfile
-          yarn ts-node -P ./tools/tsconfig.tools.json ./tools/release/patch-semantic-release-monorepo.ts
-          yarn ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-js-deps.ts
           DEBUG=true yarn run release
