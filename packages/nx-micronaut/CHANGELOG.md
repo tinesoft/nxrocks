@@ -1,3 +1,9 @@
+# [@nxrocks/nx-micronaut-v2.2.1](https://github.com/tinesoft/nxrocks/compare/nx-micronaut/v2.2.0...nx-micronaut/v2.2.1) (2023-01-10)
+
+### Bug Fixes
+
+- **nx-melos:** add missing `release` target in `project.json` ([a1d8c1f](https://github.com/tinesoft/nxrocks/commit/a1d8c1f235b051c9e2af17c722dd3a121af50ca6))
+
 # [@nxrocks/nx-micronaut-v2.2.0](https://github.com/tinesoft/nxrocks/compare/nx-micronaut/v2.1.0...nx-micronaut/v2.2.0) (2023-01-10)
 
 ### Bug Fixes
