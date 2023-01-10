@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Install pnpm
-npm install -g pnpm@latest-6
+npm install -g pnpm
 
 
 # Make sure 'node' user can access the 'node_modules' folder that will be mounted as a volume

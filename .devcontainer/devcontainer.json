@@ -19,5 +19,6 @@
 	"mounts": [
 		"source=nxrocks-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
 	],
+	"runArgs": [],
 	"postCreateCommand": "./.devcontainer/postCreateCommand.sh"
 }
