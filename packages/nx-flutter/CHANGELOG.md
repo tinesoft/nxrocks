@@ -1,3 +1,13 @@
+# [@nxrocks/nx-flutter-v5.2.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v5.1.0...nx-flutter/v5.2.0) (2023-01-10)
+
+### Bug Fixes
+
+- **common:** fix bug when fetching dependencies of maven based projects ([2ada704](https://github.com/tinesoft/nxrocks/commit/2ada704f17bdf4a2bec5314b1faf2147c460e4b2))
+
+### Features
+
+- **nx-melos:** add `nx-melos` plugin ([4fb5da8](https://github.com/tinesoft/nxrocks/commit/4fb5da8c7883e9a8703383bcf683a533269fc047))
+
 # [@nxrocks/nx-flutter-v5.1.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v5.0.0...nx-flutter/v5.1.0) (2022-12-05)
 
 ### Bug Fixes
