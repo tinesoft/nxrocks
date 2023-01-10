@@ -17,7 +17,7 @@ describe('nx-spring-boot e2e', () => {
   beforeAll(async () => {
 
     ensureNxProjectWithDeps('@nxrocks/nx-spring-boot', 'dist/packages/nx-spring-boot',
-      [{ depPkgName: '@nxrocks/common', depDistPath: 'dist/packages/common' }]);
+      [{ name: '@nxrocks/common', path: 'dist/packages/common' }]);
   }, 600000);
 
   afterAll(() => {

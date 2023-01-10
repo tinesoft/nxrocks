@@ -1,4 +1,4 @@
-import { patchDependencyOfPlugin } from '@nxrocks/common/testing';
+import { ensureLocalPluginsWithDeps } from '@nxrocks/common/testing';
 
 import { execSync, ExecSyncOptions } from 'child_process';
 import { copySync } from 'fs-extra';
@@ -81,13 +81,14 @@ describe('nxrocks smoke tests', () => {
 
     execSync('git init', execSyncOptions()); 
 
-    patchDependencyOfPlugin('packages/nx-spring-boot', '@nxrocks/common', 'packages/common', workspaceRoot);
-    patchDependencyOfPlugin('packages/nx-micronaut', '@nxrocks/common', 'packages/common', workspaceRoot);
-    patchDependencyOfPlugin('packages/nx-quarkus', '@nxrocks/common', 'packages/common', workspaceRoot);
-    patchDependencyOfPlugin('packages/nx-flutter', '@nxrocks/common', 'packages/common', workspaceRoot);
-
-    execSync(`${addDevCommand} ${workspaceRoot}/packages/common ${workspaceRoot}/packages/nx-spring-boot ${workspaceRoot}/packages/nx-quarkus ${workspaceRoot}/packages/nx-flutter ${workspaceRoot}/packages/nx-micronaut`, execSyncOptions());
-
+    ensureLocalPluginsWithDeps([
+      {name: '@nxrocks/nx-spring-boot', path:'packages/nx-spring-boot'},
+      {name: '@nxrocks/nx-micronaut', path:'packages/nx-micronaut'},
+      {name: '@nxrocks/nx-quarkus', path:'packages/nx-quarkus'},
+      {name: '@nxrocks/nx-flutter', path:'packages/nx-flutter'}],
+      [{name:'@nxrocks/common', path:'packages/common'}], 
+      workspaceRoot);
+      
     execSync(
       `${runCommand} nx g @nxrocks/nx-spring-boot:new ${bootapp} --skip-format=false --projectType application --no-interactive`,
       execSyncOptions(),

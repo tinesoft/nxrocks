@@ -14,7 +14,7 @@ describe('nx-flutter e2e', () => {
   beforeAll(async () => {
 
     ensureNxProjectWithDeps('@nxrocks/nx-flutter', 'dist/packages/nx-flutter',
-      [{ depPkgName: '@nxrocks/common', depDistPath: 'dist/packages/common' }]);
+      [{ name: '@nxrocks/common', path: 'dist/packages/common' }]);
   }, 600000);
 
   afterAll(() => {

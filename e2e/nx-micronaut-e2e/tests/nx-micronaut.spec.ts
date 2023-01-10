@@ -21,7 +21,7 @@ describe('nx-micronaut e2e', () => {
   // are not dependant on one another.
   beforeAll(() => {
     ensureNxProjectWithDeps('@nxrocks/nx-micronaut', 'dist/packages/nx-micronaut',
-    [{ depPkgName: '@nxrocks/common', depDistPath: 'dist/packages/common' }]);
+    [{ name: '@nxrocks/common', path: 'dist/packages/common' }]);
   });
 
   afterAll(() => {

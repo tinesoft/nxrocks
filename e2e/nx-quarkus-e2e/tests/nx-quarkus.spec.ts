@@ -16,7 +16,7 @@ describe('nx-quarkus e2e', () => {
   beforeAll(async () => {
 
     ensureNxProjectWithDeps('@nxrocks/nx-quarkus', 'dist/packages/nx-quarkus',
-      [{ depPkgName: '@nxrocks/common', depDistPath: 'dist/packages/common' }]);
+      [{ name: '@nxrocks/common', path: 'dist/packages/common' }]);
   }, 600000);
   
   afterAll(() => {
