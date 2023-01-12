@@ -16,6 +16,7 @@ body:
         - "@nxrocks/nx-flutter"
         - "@nxrocks/nx-quarkus"
         - "@nxrocks/nx-micronaut"
+        - "@nxrocks/nx-melos"
     validations:
       required: true
   - type: input
