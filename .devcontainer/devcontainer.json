@@ -20,5 +20,15 @@
 		"source=nxrocks-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
 	],
 	"runArgs": [],
-	"postCreateCommand": "./.devcontainer/postCreateCommand.sh"
+	"postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"mhutchie.git-graph",
+				"eamodio.gitlens",
+				"usernamehw.errorlens",
+				"nrwl.angular-console"
+			]
+		}
+	}
 }
