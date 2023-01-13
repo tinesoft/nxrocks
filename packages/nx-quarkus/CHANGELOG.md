@@ -1,18 +1,8 @@
-# [@nxrocks/nx-quarkus-v4.2.1](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v4.2.0...nx-quarkus/v4.2.1) (2023-01-10)
-
-### Bug Fixes
-
-- **nx-melos:** add missing `release` target in `project.json` ([a1d8c1f](https://github.com/tinesoft/nxrocks/commit/a1d8c1f235b051c9e2af17c722dd3a121af50ca6))
-
 # [@nxrocks/nx-quarkus-v4.2.0](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v4.1.0...nx-quarkus/v4.2.0) (2023-01-10)
 
 ### Bug Fixes
 
 - **common:** fix bug when fetching dependencies of maven based projects ([2ada704](https://github.com/tinesoft/nxrocks/commit/2ada704f17bdf4a2bec5314b1faf2147c460e4b2))
-
-### Features
-
-- **nx-melos:** add `nx-melos` plugin ([4fb5da8](https://github.com/tinesoft/nxrocks/commit/4fb5da8c7883e9a8703383bcf683a533269fc047))
 
 # [@nxrocks/nx-quarkus-v4.1.0](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v4.0.0...nx-quarkus/v4.1.0) (2022-12-05)
 
