@@ -42,10 +42,10 @@ const patchedFile = onlyPackageCommitsJs
     }
 
     // attempt 3:  check if the commit must be included because it modifed a file in a dependent package (like in 'common')
-    const pkgScope = packageSegments[0];
-    const commitScope = /^[a-z]+\(([^)]+)\)\:/.exec(subject)?.[1];
+    const pkgScope = packageSegments[1];
+    const commitScope = /^[a-z]+\(([^)]+)\):/.exec(subject)?.[1];
     const depGraph = JSON.parse(require('fs').readFileSync(path.resolve(await getRoot(), 'dist', 'deps.json'))).graph;
-    const isDependentCommit = depGraph.dependencies[pkgScope]?.target === commitScope
+    const isDependentCommit = depGraph.dependencies[pkgScope]?.some((dep) => dep.target === commitScope );
     if(isDependentCommit){
       debug(
         'Including commit "%s" because it modified file "%s" from dependent package "*s".',
