@@ -6,7 +6,7 @@ import { join, resolve } from 'path';
 
 import { dirSync } from 'tmp';
 
-process.env.NODE_OPTIONS="--max-old-space-size=4096"; // to avoid oom error during the tests
+process.env.NODE_OPTIONS="--max-old-space-size=8192"; // to avoid oom error during the tests
 
 let smokeDirectory: string;
 let cleanup: () => void;
@@ -114,16 +114,16 @@ describe('nxrocks smoke tests', () => {
     );
 
     execSync(
+      `${runCommand} nx g @nxrocks/nx-melos:init --scriptNameSeparator=-`,
+      execSyncOptions(),
+    );
+    
+    execSync(
       `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
       execSyncOptions(),
     );
     execSync(
       `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `${runCommand} nx g @nxrocks/nx-melos:init`,
       execSyncOptions(),
     );
 
@@ -134,20 +134,19 @@ describe('nxrocks smoke tests', () => {
       stdio: ['ignore', 'ignore', 'inherit'],
     });
 
-
     execSync(`${runCommand} nx build ${bootapp}`, execSyncOptions());
     execSync(`${runCommand} nx build ${bootlib}`, execSyncOptions());
     execSync(`${runCommand} nx build ${quarkusapp}`, execSyncOptions());
     execSync(`${runCommand} nx build ${quarkuslib}`, execSyncOptions());
     execSync(`${runCommand} nx build ${mnApp}`, execSyncOptions());
+    execSync(`${runCommand} nx melos-bootstrap`, execSyncOptions());
     execSync(`${runCommand} nx clean ${flutterapp}`, execSyncOptions());
     execSync(`${runCommand} nx clean ${flutterlib}`, execSyncOptions());
-    execSync(`${runCommand} nx melos-bootstrap`, execSyncOptions());
 
     expect(true).toBeTruthy();
   }, 1500000);
 
-  xit.each`
+  it.each`
   pkgManager  | createCommand                               | addDevCommand             | runCommand
   ${'npm'}    | ${'npx --yes create-nx-workspace@latest'}   | ${'npm i --save-dev'}     | ${'npx'}
   ${'yarn'}   | ${'yarn create nx-workspace'}               | ${'yarn add --dev'}       | ${'yarn'}
@@ -196,16 +195,16 @@ describe('nxrocks smoke tests', () => {
     );
 
     execSync(
+      `${runCommand} nx g @nxrocks/nx-melos:init --scriptNameSeparator=-`,
+      execSyncOptions(),
+    );
+
+    execSync(
       `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
       execSyncOptions(),
     );
     execSync(
       `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
-      execSyncOptions(),
-    );
-
-    execSync(
-      `${runCommand} nx g @nxrocks/nx-melos:init`,
       execSyncOptions(),
     );
 
@@ -216,17 +215,60 @@ describe('nxrocks smoke tests', () => {
       stdio: ['ignore', 'ignore', 'inherit'],
     });
 
-
     execSync(`${runCommand} nx build ${bootapp}`, execSyncOptions());
     execSync(`${runCommand} nx build ${bootlib}`, execSyncOptions());
     execSync(`${runCommand} nx build ${quarkusapp}`, execSyncOptions());
     execSync(`${runCommand} nx build ${quarkuslib}`, execSyncOptions());
     execSync(`${runCommand} nx build ${mnApp}`, execSyncOptions());
+    execSync(`${runCommand} nx melos-bootstrap`, execSyncOptions());
     execSync(`${runCommand} nx clean ${flutterapp}`, execSyncOptions());
     execSync(`${runCommand} nx clean ${flutterlib}`, execSyncOptions());
-    execSync(`${runCommand} nx melos-bootstrap`, execSyncOptions());
 
 
     expect(true).toBeTruthy();
   }, 1500000);
+
+
+it(`should sucessfully create flutter app/lib without oome`, async () => {
+
+if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
+  console.log('Skipping smoke test because not running on CI and FORCE_SMOKE_TESTS is not set');
+  return;
+}
+
+execSync(
+  `npx --yes create-nx-workspace@latest ${workspaceName} --preset empty --nxCloud false`,
+  {
+    cwd: smokeDirectory,
+    env: process.env,
+    stdio: 'inherit',
+  },
+);
+
+copySync(packagesDistDirectory, join(workspaceRoot, 'packages')); //copy dist packages (from nxrocks) into host, to avoid them to be affected when installing them locally
+
+execSync('git init', execSyncOptions()); 
+
+ensureLocalPluginsWithDeps([
+  {name: '@nxrocks/nx-flutter', path:'packages/nx-flutter'}],
+  [{name:'@nxrocks/common', path:'packages/common'}], 
+  workspaceRoot);
+  
+execSync(
+  `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
+  execSyncOptions(),
+);
+execSync(
+  `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
+  execSyncOptions(),
+);
+
+execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
+
+execSync(`npx nx clean ${flutterapp}`, execSyncOptions());
+execSync(`npx nx clean ${flutterlib}`, execSyncOptions());
+
+expect(true).toBeTruthy();
+}, 1500000);
+
 });
