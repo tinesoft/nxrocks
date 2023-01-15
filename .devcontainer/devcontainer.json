@@ -27,7 +27,8 @@
 				"mhutchie.git-graph",
 				"eamodio.gitlens",
 				"usernamehw.errorlens",
-				"nrwl.angular-console"
+				"nrwl.angular-console",
+				"firsttris.vscode-jest-runner"
 			]
 		}
 	}
