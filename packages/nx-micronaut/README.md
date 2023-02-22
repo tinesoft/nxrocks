@@ -82,7 +82,7 @@ Here the list of available generation options :
 
 Option                 | Value | Description
 ---------------------- | ----- | ------------
-`type`                 | `default` \| `cli` \| `function` \| `grpc` \| `messaging`  | Type of application to generate
+`projectType`          | `default` \| `cli` \| `function` \| `grpc` \| `messaging`  | Type of application to generate
 `buildSystem`          | `MAVEN` \| `GRADLE` \| `GRADLE_KOTLIN`  | Build system
 `basePackage`          | `string` | Base package of the project
 `javaVersion`          | `JDK_8` \| `JDK_11` \| `JDK_17`| Java version to use

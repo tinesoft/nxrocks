@@ -13,6 +13,8 @@ const getBuilder = (cwd: string) => {
     );
 }
 
+export const DEFAULT_MICRONAUT_LAUNCH_URL = 'https://micronaut.io/launch';
+
 export function runMicronautPluginCommand(
     commandAlias: BuilderCommandAliasType,
     params: string[],
@@ -33,9 +35,7 @@ export function buildMicronautDownloadUrl(options: NormalizedSchema) {
         { key: 'test', value: options.testFramework },
     ].filter( e =>  !!e.value);
 
-    const features = options.projectFeatures
-    .filter(feat => feat.trim().length)
-    .map(feat => `features=${feat}`).join('&');
+    const features = options.projectFeatures.map(feat => `features=${feat}`).join('&');
     const queryParams = params.map(e => `${e.key}=${e.value}`).join('&').concat(...(features.length ? ['&',features]: []));
 
     const versions = {
@@ -48,7 +48,7 @@ export function buildMicronautDownloadUrl(options: NormalizedSchema) {
      options.micronautLaunchUrl.replace('launch', versions[options.micronautVersion]) :
      options.micronautLaunchUrl;
 
-    return `${baseUrl}/create/${options.type}/${options.fullPackage}?${queryParams}`;
+    return `${baseUrl}/create/${options.projectType}/${options.fullPackage}?${queryParams}`;
 }
 
 

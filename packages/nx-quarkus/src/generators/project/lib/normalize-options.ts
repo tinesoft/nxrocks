@@ -20,7 +20,7 @@ export function normalizeOptions(tree:Tree,
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
-  const projectExtensions = options.extensions?.split(',').map((s) => s.trim()) || [];
+  const projectExtensions = options.extensions?.split(',').map((s) => s.trim()).filter(s=>!!s) || [];
   return {
     ...options,
     projectName,

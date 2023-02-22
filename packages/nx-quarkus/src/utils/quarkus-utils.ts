@@ -13,6 +13,8 @@ const getBuilder = (cwd: string) => {
     );
 }
 
+export const DEFAULT_QUARKUS_INITIALIZR_URL = 'https://code.quarkus.io';
+
 export function runQuarkusPluginCommand(
     commandAlias: BuilderCommandAliasType,
     params: string[],

@@ -14,6 +14,7 @@ const { Response } = jest.requireActual('node-fetch');
 
 import { hasMavenPlugin, NX_SPRING_BOOT_PKG, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, stripIndent } from '@nxrocks/common';
 import { mockZipStream } from '@nxrocks/common/testing';
+import { DEFAULT_SPRING_INITIALIZR_URL } from '../../utils/boot-utils';
 
 const POM_XML = `<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -111,7 +112,7 @@ describe('project generator', () => {
   const options: ProjectGeneratorOptions = {
     name: 'bootapp',
     projectType: 'application',
-    springInitializerUrl: 'https://start.spring.io',
+    springInitializerUrl: DEFAULT_SPRING_INITIALIZR_URL,
     language: 'java',
     buildSystem: 'maven-project',
   };

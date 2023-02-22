@@ -14,6 +14,8 @@ const getBuilder = (cwd: string) => {
     );
 }
 
+export const DEFAULT_SPRING_INITIALIZR_URL = 'https://start.spring.io';
+
 export function runBootPluginCommand(
     commandAlias: BuilderCommandAliasType,
     params: string[],
@@ -33,7 +35,7 @@ export function buildBootDownloadUrl(options: NormalizedSchema) {
         { key: 'packageName', value: options.packageName },
         { key: 'javaVersion', value: options.javaVersion },
         { key: 'packaging', value: options.packaging },
-        { key: 'dependencies', value: options.projectDependencies },
+        { key: 'dependencies', value: options.projectDependencies.join(',') },
         { key: 'description', value: options.description ? escape(options.description) : null },
         { key: 'bootVersion', value: options.bootVersion },
     ].filter(e => !!e.value);

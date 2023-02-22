@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "Nx Quarkus project generator",
+  "id": "@nxrocks/nx-quarkus:project",
+  "description": "Quarkus Project Generator.",
   "title": "Creates a Quarkus project in the workspace",
   "cli": "nx",
   "outputCapture": "pipe",
@@ -8,15 +9,17 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "Name of the project to generate",
+      "description": "Name of the project to generate.",
       "$default": {
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would you like to use?"
+      "x-prompt": "What name would you like to use?",
+      "pattern": "^[a-zA-Z].*$",
+      "x-priority": "important"
     },
     "projectType": {
-      "description": "Type of project",
+      "description": "Type of project.",
       "default": "application",
       "type": "string",
       "x-prompt": {
@@ -32,10 +35,11 @@
             "label": "Library"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "buildSystem": {
-      "description": "Build system to use",
+      "description": "Build system to use.",
       "alias": "type",
       "default": "MAVEN",
       "type": "string",
@@ -56,58 +60,73 @@
             "label": "Gradle with Kotlin DSL (Preview)"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "groupId": {
+      "description": "Group Id of the project.",
       "type": "string",
       "default": "com.example",
-      "x-prompt": "What groupId would you like to use?"
+      "x-prompt": "What groupId would you like to use?",
+      "x-priority": "important"
     },
     "artifactId": {
+      "description": "Artifact Id of the project.",
       "type": "string",
       "default": "demo",
-      "x-prompt": "What artifactId would you like to use?"
+      "x-prompt": "What artifactId would you like to use?",
+      "x-priority": "important"
     },
     "skipFormat": {
+      "description": "Skip formatting files (using Spotless plugin).",
       "type": "boolean",
       "default": true,
       "x-prompt": "Skip code formatting support(using Spotless plugin)?"
     },
     "extensions": {
+      "description": "Extensions to use in the project(comma-separated). Possible ids can be found at https://code.quarkus.io/api/extensions",
       "type": "string",
-      "default": "",
-      "x-prompt": "What extensions would you like to use (comma separated)?\n👉 Go to https://code.quarkus.io/api/extensions to get the ids needed here"
+      "default": " ",
+      "x-prompt": "What extensions would you like to use (comma separated)?\n👉 Go to https://code.quarkus.io/api/extensions to get the ids needed here",
+      "x-priority": "important"
     },
     "quarkusInitializerUrl": {
       "type": "string",
       "default": "https://code.quarkus.io",
-      "description": "The URL to the Quarkus Initializer instance to use to generate the project"
+      "description": "The URL to the Quarkus Initializer instance to use to generate the project.",
+      "x-priority": "internal"
     },
     "proxyUrl": {
       "type": "string",
-      "description": "The URL of the (corporate) proxy server to use to access Quarkus Initializer"
+      "description": "The URL of the (corporate) proxy server to use to access Quarkus Initializer.",
+      "x-priority": "internal"
     },
     "skipCodeSamples": {
+      "description": "Skip genetating code samples.",
       "type": "boolean",
-      "description": "Would you like to include code samples from extensions (when available)?"
+      "default":false,
+      "x-prompt": "Would you like to include code samples from extensions (when available)?"
     },
     "version": {
       "type": "string",
-      "description": "Version of the project to generate",
-      "alias": "v"
+      "description": "Version of the project to generate.",
+      "alias": "v",
+      "x-priority": "internal",
+      "visible": false
     },
     "tags": {
       "type": "string",
-      "description": "Add tags to the project (used for linting)",
-      "alias": "t"
+      "description": "Add tags to the project (used for linting).",
+      "alias": "t",
+      "x-priority": "internal"
     },
     "directory": {
       "type": "string",
-      "description": "A directory where the project is placed",
+      "description": "A directory where the project is placed.",
       "alias": "d"
     }
   },
   "required": [
-    "name"
+    "projectType", "name"
   ]
 }

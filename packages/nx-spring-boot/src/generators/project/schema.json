@@ -1,22 +1,25 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "Nx Spring Boot project generator",
-  "title": "Creates a Spring boot project in the workspace",
+  "id": "@nxrocks/nx-spring-boot:project",
+  "description": "Spring Boot Project Generator.",
+  "title": "Creates a Spring Boot project in the workspace",
   "cli": "nx",
   "outputCapture": "pipe",
   "type": "object",
   "properties": {
     "name": {
       "type": "string",
-      "description": "Name of the project to generate",
+      "description": "Name of the project to generate.",
       "$default": {
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would you like to use?"
+      "x-prompt": "What name would you like to use?",
+      "pattern": "^[a-zA-Z].*$",
+      "x-priority": "important"
     },
     "projectType": {
-      "description": "Type of project",
+      "description": "Type of project.",
       "default": "application",
       "type": "string",
       "enum": ["application", "library"],
@@ -33,10 +36,11 @@
             "label": "Library"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "buildSystem": {
-      "description": "Build system to use",
+      "description": "Build system to use.",
       "alias": "type",
       "default": "maven-project",
       "type": "string",
@@ -58,10 +62,11 @@
             "label": "Gradle - Kotlin"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "packaging": {
-      "description": "Packaging of the project",
+      "description": "Packaging of the project.",
       "type": "string",
       "default": "jar",
       "enum": ["jar", "war"],
@@ -78,10 +83,11 @@
             "label": "War"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "javaVersion": {
-      "description": "Java version",
+      "description": "Java version.",
       "oneOf": [
         {
           "type":"string"
@@ -113,10 +119,11 @@
             "label": "8"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "language": {
-      "description": "Language of the project",
+      "description": "Language of the project.",
       "type": "string",
       "default": "java",
       "enum": ["java", "kotlin", "groovy"],
@@ -137,67 +144,86 @@
             "label": "Groovy"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "groupId": {
+      "description": "Group Id of the project.",
       "type": "string",
       "default": "com.example",
-      "x-prompt": "What groupId would you like to use?"
+      "x-prompt": "What groupId would you like to use?",
+      "x-priority": "important"
     },
     "artifactId": {
+      "description": "Artifact Id of the project.",
       "type": "string",
       "default": "demo",
       "x-prompt": "What artifactId would you like to use?"
     },
     "packageName": {
+      "description": "Name of the main package of the project.",
       "type": "string",
       "default": "com.example.demo",
       "x-prompt": "What package name would you like to use?"
     },
     "description": {
+      "description": "Description of the project.",
       "type": "string",
-      "x-prompt": "What is the project about?"
+      "x-prompt": "What is the project about?",
+      "x-priority": "internal"
     },
     "skipFormat": {
+      "description": "Skip formatting files (using Spotless plugin).",
       "type": "boolean",
       "default": true,
-      "x-prompt": "Skip code formatting support(using Spotless plugin)?"
+      "x-prompt": "Skip code formatting support(using Spotless plugin)?",
+      "x-priority": "internal"
     },
     "dependencies": {
+      "description": "Dependencies to use in the project (comma-separated). Possible ids can be found at https://start.spring.io/dependencies",
       "type": "string",
-      "default": "",
-      "x-prompt": "What dependencies would you like to use (comma separated)?\n👉 Go to https://start.spring.io/dependencies to get the ids needed here"
+      "default": " ",
+      "x-prompt": "What dependencies would you like to use (comma separated)?\n👉 Go to https://start.spring.io/dependencies to get the ids needed here",
+      "x-priority": "important"
     },
     "springInitializerUrl": {
       "type": "string",
       "default": "https://start.spring.io",
-      "description": "The URL to the Spring Initializer instance to use to generate the project"
+      "description": "The URL to the Spring Initializer instance to use to generate the project.",
+      "x-priority": "internal"
+      
     },
     "proxyUrl": {
       "type": "string",
-      "description": "The URL of the (corporate) proxy server to use to access Spring Initializr"
+      "description": "The URL of the (corporate) proxy server to use to access Spring Initializr.",
+      "x-priority": "internal"
     },
     "bootVersion": {
       "type": "string",
-      "description": "Spring Boot version"
+      "description": "Spring Boot version",
+      "x-priority": "internal",
+      "visible": false
     },
     "version": {
       "type": "string",
-      "description": "Version of the project to generate",
-      "alias": "v"
+      "description": "Version of the project to generate.",
+      "alias": "v",
+      "x-priority": "internal",
+      "visible": false
     },
     "tags": {
       "type": "string",
-      "description": "Add tags to the project (used for linting)",
-      "alias": "t"
+      "description": "Add tags to the project (used for linting).",
+      "alias": "t",
+      "x-priority": "internal"
     },
     "directory": {
       "type": "string",
-      "description": "A directory where the project is placed",
+      "description": "A directory where the project is placed.",
       "alias": "d"
     }
   },
   "required": [
-    "name"
+   "projectType", "name"
   ]
 }

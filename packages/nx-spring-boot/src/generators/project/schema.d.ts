@@ -7,7 +7,7 @@ export interface ProjectGeneratorOptions {
   springInitializerUrl?: string;
   proxyUrl?: string;
 
-  buildSystem: 'maven-project' | 'gradle-project' | 'gradle-project-kotlin';
+  buildSystem?: 'maven-project' | 'gradle-project' | 'gradle-project-kotlin';
   language?: 'java' | 'kotlin' | 'groovy';
   bootVersion?: string;
   groupId?: string;
@@ -25,6 +25,6 @@ export interface NormalizedSchema extends ProjectGeneratorOptions {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
-  projectDependencies: string;
+  projectDependencies: string[];
   parsedTags: string[];
 }

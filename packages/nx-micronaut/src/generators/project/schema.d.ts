@@ -1,14 +1,14 @@
 export interface ProjectGeneratorOptions {
   name: string;
+  projectType: 'default' | 'cli' | 'function' | 'grpc' | 'messaging';
   tags?: string;
   directory?: string;
 
   micronautLaunchUrl?: string;
   proxyUrl?: string;
 
-  type: 'default' | 'cli' | 'function' | 'grpc' | 'messaging';
-  buildSystem: 'MAVEN' | 'GRADLE' | 'GRADLE_KOTLIN';
-  basePackage: string;
+  buildSystem?: 'MAVEN' | 'GRADLE' | 'GRADLE_KOTLIN';
+  basePackage?: string;
   micronautVersion?:  'current' | 'snapshot' | 'previous';
   javaVersion?: 'string';
   language?: 'JAVA' | 'KOTLIN' | 'GROOVY';

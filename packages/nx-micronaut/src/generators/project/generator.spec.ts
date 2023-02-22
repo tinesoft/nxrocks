@@ -14,6 +14,7 @@ const { Response } = jest.requireActual('node-fetch');
 
 import { BuilderCommandAliasType, hasMavenPlugin, NX_MICRONAUT_PKG, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_GROUP_ID,  } from '@nxrocks/common';
 import { mockZipStream } from '@nxrocks/common/testing';
+import { DEFAULT_MICRONAUT_LAUNCH_URL } from '../../utils/micronaut-utils';
 
 const POM_XML = `<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -178,10 +179,10 @@ describe('project generator', () => {
   let tree: Tree;
   const options: ProjectGeneratorOptions = {
     name: 'mnapp',
-    type: 'default',
+    projectType: 'default',
     basePackage:'com.tinesoft', 
     buildSystem: 'MAVEN',
-    micronautLaunchUrl: 'https://launch.micronaut.io'
+    micronautLaunchUrl: DEFAULT_MICRONAUT_LAUNCH_URL
   };
 
   const mockedFetch = (fetch as jest.MockedFunction<typeof fetch>);
@@ -200,7 +201,7 @@ describe('project generator', () => {
   });
 
   it.each`
-    type             | buildSystem | buildFileName     | buildFileContent | wrapperName
+  projectType    | buildSystem | buildFileName     | buildFileContent | wrapperName
     ${'default'} | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
     ${'default'} | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
     ${'cli'}     | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
@@ -211,16 +212,16 @@ describe('project generator', () => {
     ${'grpc'}     | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
     ${'messaging'} | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
     ${'messaging'} | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
-  `(`should download a micronaut '$type' build with $buildSystem`, async ({ type, buildSystem, buildFileName, buildFileContent, wrapperName }) => {
+  `(`should download a micronaut '$type' build with $buildSystem`, async ({ projectType, buildSystem, buildFileName, buildFileContent, wrapperName }) => {
 
     const rootDir = 'apps';
-    const downloadUrl = `${options.micronautLaunchUrl}/create/${type}/${options.basePackage}.${options.name}?build=${buildSystem}`;
+    const downloadUrl = `${options.micronautLaunchUrl}/create/${projectType}/${options.basePackage}.${options.name}?build=${buildSystem}`;
 
     const zipFiles = [{ filePath: `${buildFileName}`, fileContent: buildFileContent}, `${wrapperName}`, `README.md`, ];
     // mock the zip content returned by the real call to Micronaut Launch
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
 
-    await projectGenerator(tree, { ...options, type, buildSystem});
+    await projectGenerator(tree, { ...options, projectType, buildSystem});
 
     expect(mockedFetch).toHaveBeenCalledWith(
       downloadUrl,

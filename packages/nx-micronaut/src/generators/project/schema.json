@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "Nx Micronaut project generator",
+  "id": "@nxrocks/nx-micronaut:project",
+  "description": "Micronaut Project Generator.",
   "title": "Creates a Micronaut application in the workspace",
   "cli": "nx",
   "outputCapture": "pipe",
@@ -8,17 +9,20 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "Name of the project to generate",
+      "description": "Name of the project to generate.",
       "$default": {
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would you like to use?"
+      "x-prompt": "What name would you like to use?",
+      "pattern": "^[a-zA-Z].*$",
+      "x-priority": "important"
     },
-    "type": {
-      "description": "Type of application",
+    "projectType": {
+      "description": "Type of application.",
       "default": "default",
       "type": "string",
+      "alias": "type",
       "x-prompt": {
         "message": "What kind of application are you generating?",
         "type": "list",
@@ -44,10 +48,11 @@
             "label": "Messaging-Driven Application"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "micronautVersion": {
-      "description": "Micronaut version",
+      "description": "Micronaut version.",
       "type": "string",
       "default": "current",
       "enum": ["current", "snapshot", "previous"],
@@ -68,10 +73,11 @@
             "label": "Previous Stable"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "buildSystem": {
-      "description": "Build system to use",
+      "description": "Build system to use.",
       "alias": "type",
       "default": "MAVEN",
       "type": "string",
@@ -92,10 +98,11 @@
             "label": "Gradle Kotlin"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "javaVersion": {
-      "description": "Java version",
+      "description": "Java version.",
       "type": "string",
       "default": "JDK_8",
       "enum": ["JDK_8", "JDK_11", "JDK_17"],
@@ -116,10 +123,11 @@
             "label": "17"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "language": {
-      "description": "Language of the project",
+      "description": "Language of the project.",
       "type": "string",
       "default": "JAVA",
       "enum": ["JAVA", "KOTLIN", "GROOVY"],
@@ -140,16 +148,18 @@
             "label": "Groovy"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "basePackage": {
-      "description": "Base package of the project",
+      "description": "Base package of the project.",
       "type": "string",
       "default": "com.example",
-      "x-prompt": "What base package would you like to use?"
+      "x-prompt": "What base package would you like to use?",
+      "x-priority": "important"
     },
     "testFramework": {
-      "description": "Test framework",
+      "description": "Test framework to use.",
       "type": "string",
       "default": "JUNIT",
       "enum": ["JUNIT", "SPOCK", "KOTEST"],
@@ -170,38 +180,47 @@
             "label": "Kotest"
           }
         ]
-      }
+      },
+      "x-priority": "important"
     },
     "skipFormat": {
+      "description": "Skip formatting files (using Spotless plugin).",
       "type": "boolean",
       "default": true,
-      "x-prompt": "Skip code formatting support(using Spotless plugin)?"
+      "x-prompt": "Skip code formatting support(using Spotless plugin)?",
+      "x-priority": "internal"
     },
     "features": {
+      "description": "Features to use in the project(comma-separated). Possible ids can be found at https://micronaut.io/launch",
       "type": "string",
-      "x-prompt": "What features would you like to use (comma separated)?\n👉 Go to https://micronaut.io/launch to get the ids needed here"
+      "default": " ",
+      "x-prompt": "What features would you like to use (comma separated)?\n👉 Go to https://micronaut.io/launch to get the ids needed here",
+      "x-priority": "important"
     },
     "micronautLaunchUrl": {
       "type": "string",
       "default": "https://launch.micronaut.io",
-      "description": "The URL to the Micronaut Launch instance to use to generate the project"
+      "description": "The URL to the Micronaut Launch instance to use to generate the project.",
+      "x-priority": "internal"
     },
     "proxyUrl": {
       "type": "string",
-      "description": "The URL of the (corporate) proxy server to use to access Micronaut Launch"
+      "description": "The URL of the (corporate) proxy server to use to access Micronaut Launch.",
+      "x-priority": "internal"
     },
     "tags": {
       "type": "string",
-      "description": "Add tags to the project (used for linting)",
-      "alias": "t"
+      "description": "Add tags to the project (used for linting).",
+      "alias": "t",
+      "x-priority": "internal"
     },
     "directory": {
       "type": "string",
-      "description": "A directory where the project is placed",
+      "description": "A directory where the project is placed.",
       "alias": "d"
     }
   },
   "required": [
-    "name"
+    "projectType", "name"
   ]
 }
