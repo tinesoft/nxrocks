@@ -22,7 +22,7 @@
       "@nxrocks/nx-melos": ["packages/nx-melos/src/index.ts"],
       "@nxrocks/nx-micronaut": ["packages/nx-micronaut/src/index.ts"],
       "@nxrocks/nx-quarkus": ["packages/nx-quarkus/src/index.ts"],
-      "nxrocks/nx-spring-boot": ["packages/nx-spring-boot/src/index.ts"]
+      "@nxrocks/nx-spring-boot": ["packages/nx-spring-boot/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
