@@ -144,7 +144,7 @@ describe('project generator', () => {
     const commands:BuilderCommandAliasType[] = ['dev', 'serve', 'remote-dev', 'test', 'clean', 'build', 'format', 'apply-format', 'check-format', 'package', 'add-extension', 'list-extensions'];
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
-      if(['build', 'install'].includes(cmd)) { 
+      if(['build', 'install', 'test'].includes(cmd)) { 
         expect(project.targets[cmd].outputs).toEqual([`{workspaceRoot}/${project.root}/target`]);
       }
     });
