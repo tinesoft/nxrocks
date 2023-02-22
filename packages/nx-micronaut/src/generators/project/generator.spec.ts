@@ -248,7 +248,7 @@ describe('project generator', () => {
     const commands:BuilderCommandAliasType[] = ['run', 'serve', 'dockerfile', 'test', 'clean', 'format', 'apply-format', 'check-format', 'build', 'aot-sample-config'];
     commands.forEach(cmd => {
       expect(project.targets[cmd].executor).toBe(`${NX_MICRONAUT_PKG}:${cmd}`);
-      if(['build', 'install'].includes(cmd)) { 
+      if(['build', 'install', 'test'].includes(cmd)) { 
         expect(project.targets[cmd].outputs).toEqual([`{workspaceRoot}/${project.root}/target`]);
       }
     });

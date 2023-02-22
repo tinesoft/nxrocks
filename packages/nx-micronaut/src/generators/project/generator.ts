@@ -21,7 +21,7 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
         root: normalizedOptions.projectRoot
       },
       ...(command === 'build' ? { dependsOn: ['^install'] } : {}),
-      ...( ['build', 'install'].includes(command) ? {outputs: [`{workspaceRoot}/${normalizedOptions.projectRoot}/${normalizedOptions.buildSystem === 'MAVEN' ? 'target' : 'build'}`]}: {})
+      ...( ['build', 'install', 'test'].includes(command) ? {outputs: [`{workspaceRoot}/${normalizedOptions.projectRoot}/${normalizedOptions.buildSystem === 'MAVEN' ? 'target' : 'build'}`]}: {})
     };
   }
   addProjectConfiguration(tree, normalizedOptions.projectName, {
