@@ -17,8 +17,11 @@ Status | Name     | Description
   ✅   | [nx-quarkus](packages/nx-quarkus)  | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Quarkus](https://quarkus.io) projects inside your Nx workspace
   ✅   | [nx-micronaut](packages/nx-micronaut)  | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Micronaut](https://micronaut.io) projects inside your Nx workspace
   ✅   | [nx-melos](packages/nx-melos)  | [Nx](https://nx.dev) plugin adding first class support for [Melos](https://melos.invertase.dev/) in your Nx workspace
+  ✅   | [nx-ktor](packages/nx-ktor)  | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Ktor](https://ktor.io) projects inside your Nx workspace
+
 
 
 ## License
 
 Copyright (c) 2020-present Tine Kondo. Licensed under the MIT License (MIT)
+s

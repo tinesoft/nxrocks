@@ -4,9 +4,9 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
-    "build": "nx run-many --target build --parallel 6 --exclude smoke",
-    "test": "nx run-many --target test --parallel 6 --exclude smoke -- --runInBand",
-    "e2e": "nx run-many --target e2e --parallel 6 --exclude smoke -- --runInBand",
+    "build": "nx run-many --target build --parallel 7 --exclude smoke",
+    "test": "nx run-many --target test --parallel 7 --exclude smoke -- --runInBand",
+    "e2e": "nx run-many --target e2e --parallel 7 --exclude smoke -- --runInBand",
     "lint": "nx workspace-lint && nx lint",
     "many": "nx run-many",
     "affected:build": "nx affected:build",

@@ -1,0 +1,57 @@
+name: Run e2e Tests for nx-ktor
+
+on:
+  push:
+    branches: [ develop ]
+    paths:    [ "nx.json", "package.json", "workspace.json", "packages/common/**", "packages/nx-ktor/**" ]
+  pull_request:
+    branches: [ develop ]
+    paths:    [ "nx.json", "package.json", "workspace.json", "packages/common/**", "packages/nx-ktor/**" ]
+
+jobs:
+  run_e2e:
+    name: Run e2e Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [16.x]
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Use Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          
+      - name: Yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Cache Yarn
+        uses: actions/cache@v3
+        env:
+          cache-name: yarn
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-
+
+      - name: Install packages
+        run: yarn install --frozen-lockfile
+
+      - name: Run e2e tests
+        env:
+          NX_E2E_CI_CACHE_KEY: e2e-gha-${{ matrix.os }}-${{ matrix.node-version }}
+          NX_RUN_GROUP: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}
+        run: |
+          yarn nx e2e nx-ktor-e2e

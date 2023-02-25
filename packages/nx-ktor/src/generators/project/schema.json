@@ -1,0 +1,189 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "@nxrocks/nx-ktor:project",
+  "description": "Ktor Project Generator.",
+  "title": "Creates a Ktor application in the workspace",
+  "cli": "nx",
+  "outputCapture": "pipe",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the project to generate.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?",
+      "pattern": "^[a-zA-Z].*$",
+      "x-priority": "important"
+    },
+    "projectType": {
+      "description": "Type of application.",
+      "default": "application",
+      "type": "string",
+      "alias": "type",
+      "x-prompt": {
+        "message": "What kind of application are you generating?",
+        "type": "list",
+        "items": [
+          {
+            "value": "application",
+            "label": "Application"
+          },
+          {
+            "value": "library",
+            "label": "library"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "ktorVersion": {
+      "description": "Ktor version.",
+      "type": "string",
+      "default": "2.2.3"
+    },
+    "buildSystem": {
+      "description": "Build system to use.",
+      "alias": "type",
+      "default": "MAVEN",
+      "type": "string",
+      "x-prompt": {
+        "message": "Which build system would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "MAVEN",
+            "label": "Maven"
+          },
+          {
+            "value": "GRADLE",
+            "label": "Gradle"
+          },
+          {
+            "value": "GRADLE_KTS",
+            "label": "Gradle Kotlin"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "kotlinVersion": {
+      "description": "Kotlin version.",
+      "type": "string",
+      "default": "1.8.10"
+    },
+    "engine": {
+      "description": "Engine to use to serve the application.",
+      "type": "string",
+      "default": "JAVA",
+      "enum": ["NETTY", "JETTY", "CIO", "TOMCAT"],
+      "x-prompt": {
+        "message": "Which engine(application server) would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "NETTY",
+            "label": "Java"
+          },
+          {
+            "value": "JETTY",
+            "label": "Jetty"
+          },
+          {
+            "value": "CIO",
+            "label": "Cio"
+          },
+          {
+            "value": "TOMCAT",
+            "label": "Tomcat"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "groupId": {
+      "description": "Group Id of the project.",
+      "type": "string",
+      "default": "com.example",
+      "x-prompt": "What groupId would you like to use?",
+      "x-priority": "important"
+    },
+    "artifactId": {
+      "description": "Artifact Id of the project.",
+      "type": "string",
+      "default": "demo",
+      "x-prompt": "What artifactId would you like to use?",
+      "x-priority": "important"
+    },
+    "configurationLocation": {
+      "description": "Configuratin Location.",
+      "type": "string",
+      "default": "CODE",
+      "enum": ["YAML", "HOCON", "CODE"],
+      "x-prompt": {
+        "message": "Where would you like to put the configuration in?",
+        "type": "list",
+        "items": [
+          {
+            "value": "YAML",
+            "label": "YAML file"
+          },
+          {
+            "value": "HOCON",
+            "label": "HOCON file"
+          },
+          {
+            "value": "CODE",
+            "label": "Code"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "skipFormat": {
+      "description": "Skip formatting files (using Spotless plugin).",
+      "type": "boolean",
+      "default": true,
+      "x-prompt": "Skip code formatting support(using Spotless plugin)?",
+      "x-priority": "internal"
+    },
+    "skipCodeSamples": {
+      "description": "Skip genetating code samples.",
+      "type": "boolean",
+      "default":false,
+      "x-prompt": "Would you like to include code samples?"
+    },
+    "features": {
+      "description": "Features to use in the project(comma-separated). Follow this guide https://t.ly/s9bo for more instructions on how to proceed.",
+      "type": "string",
+      "x-priority": "important"
+    },
+    "ktorInitializrUrl": {
+      "type": "string",
+      "default": "https://ktor-plugin.europe-north1-gke.intellij.net",
+      "description": "The URL to the Ktor Initializr instance to use to generate the project.",
+      "x-priority": "internal"
+    },
+    "proxyUrl": {
+      "type": "string",
+      "description": "The URL of the (corporate) proxy server to use to access Ktor Initializr.",
+      "x-priority": "internal"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting).",
+      "alias": "t",
+      "x-priority": "internal"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed.",
+      "alias": "d"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

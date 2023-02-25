@@ -1,0 +1,11 @@
+FROM maven:3-openjdk-11 AS build
+COPY src /home/maven/src
+COPY pom.xml /home/maven/pom.xml
+WORKDIR /home/maven
+RUN mvn package
+
+FROM openjdk:11
+EXPOSE 8080:8080
+RUN mkdir /app
+COPY --from=build /home/maven/target/*-with-dependencies.jar /app/app.jar
+ENTRYPOINT ["java","-jar","/app/app.jar"]

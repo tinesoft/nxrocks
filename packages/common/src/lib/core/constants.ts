@@ -15,5 +15,8 @@ export const NX_MICRONAUT_PKG = '@nxrocks/nx-micronaut';
 export const NX_MELOS = 'nx-melos';
 export const NX_MELOS_PKG = '@nxrocks/nx-melos';
 
+export const NX_KTOR = 'nx-ktor';
+export const NX_KTOR_PKG = '@nxrocks/nx-ktor';
+
 export const COMMON = 'common';
 export const COMMON_PKG = '@nxrocks/common';
