@@ -14,6 +14,7 @@
         "$source": "argv",
         "index": 0
       },
+      "x-dropdown": "projects",
       "x-prompt": "What name of the source (Micronaut) project to link from?"
     },
     "targetProjectName": {
@@ -23,6 +24,7 @@
         "$source": "argv",
         "index": 1
       },
+      "x-dropdown": "projects",
       "x-prompt": "What name of the target project to link to?"
     }
   },
