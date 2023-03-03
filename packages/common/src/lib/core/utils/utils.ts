@@ -41,5 +41,16 @@ export function getHttpProxyAgent(proxyUrl?: string): HttpProxyAgent | HttpsProx
   } else {
     return undefined
   }
+}
 
+export function getCommonHttpHeaders( pkgName: string, proxyUrl?: string){
+  const pkgVersion = getPackageLatestNpmVersion(pkgName);
+  const userAgent = `${pkgName.replace('/','_')}/${pkgVersion}`;
+  const proxyAgent = getHttpProxyAgent(proxyUrl);
+  return {
+      headers: {
+          'User-Agent': userAgent
+      },
+      ...(proxyAgent ? {agent: proxyAgent} : {})
+  };
 }
