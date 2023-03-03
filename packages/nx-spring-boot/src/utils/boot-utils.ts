@@ -1,8 +1,9 @@
 import { escape } from 'querystring'
-import { NormalizedSchema } from '../generators/project/schema';
-import { BuilderCommandAliasType, hasGradleProject, hasMavenProject, runBuilderCommand, isMavenProject, checkProjectBuildFileContains, isGradleProject } from '@nxrocks/common';
+import { NormalizedSchema, ProjectGeneratorOptions } from '../generators/project/schema';
+import { BuilderCommandAliasType, hasGradleProject, hasMavenProject, runBuilderCommand, isMavenProject, checkProjectBuildFileContains, isGradleProject, getCommonHttpHeaders, NX_SPRING_BOOT_PKG, MavenDependency } from '@nxrocks/common';
 import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
 import { ProjectConfiguration } from '@nrwl/devkit';
+import fetch from 'node-fetch';
 
 
 const getBuilder = (cwd: string) => {
@@ -56,4 +57,11 @@ export function isBootProject(project: ProjectConfiguration): boolean {
     }
 
     return false;
+}
+
+export async function fetchBootDependencies(options:  ProjectGeneratorOptions): Promise<{ [id: string]: MavenDependency}> {
+    const response = await fetch(`${options.springInitializerUrl}/dependencies`, getCommonHttpHeaders(NX_SPRING_BOOT_PKG, options.proxyUrl));
+
+    return (await response.json())?.dependencies ?? {} ;
+
 }

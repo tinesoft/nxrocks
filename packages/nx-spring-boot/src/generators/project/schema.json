@@ -180,7 +180,7 @@
       "x-priority": "internal"
     },
     "dependencies": {
-      "description": "Dependencies to use in the project (comma-separated). Possible ids can be found at https://start.spring.io/dependencies",
+      "description": "Dependencies to use in the project (comma-separated). Follow this guide https://t.ly/Xyao for more instructions on how to proceed.",
       "type": "string",
       "x-priority": "important"
     },

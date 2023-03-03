@@ -1,6 +1,6 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 import { ProjectGeneratorOptions } from './schema';
-import { normalizeOptions, generateBootProject, addBuilInfoTask, removeBootMavenPlugin, addFormattingWithSpotless, addMavenPublishPlugin, disableBootGradlePlugin } from './lib';
+import { normalizeOptions, generateBootProject, addBuilInfoTask, removeBootMavenPlugin, addFormattingWithSpotless, addMavenPublishPlugin, disableBootGradlePlugin, promptBootDependencies } from './lib';
 import { addPluginToNxJson, BuilderCommandAliasType, NX_SPRING_BOOT_PKG } from '@nxrocks/common';
 
 
@@ -38,6 +38,8 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
     tags: normalizedOptions.parsedTags,
   });
 
+  await promptBootDependencies(normalizedOptions);
+  
   await generateBootProject(tree, normalizedOptions);
   
   addBuilInfoTask(tree, normalizedOptions);

@@ -33,7 +33,7 @@
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
-    "@nrwl/workspace": ">=15.0.0",
-    "@nrwl/devkit": ">=15.0.0"
+    "@nrwl/workspace": ">=15.8.0",
+    "@nrwl/devkit": ">=15.8.0"
   }
 }

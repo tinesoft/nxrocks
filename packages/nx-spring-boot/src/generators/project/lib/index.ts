@@ -4,4 +4,5 @@
  export { removeBootMavenPlugin } from './remove-spring-boot-plugin';
  export { addFormattingWithSpotless } from './add-formatting-with-spotless';
  export { addMavenPublishPlugin } from './add-maven-publish-plugin';
+ export { promptBootDependencies } from './prompt-boot-dependencies';
  export { normalizeOptions } from './normalize-options';
