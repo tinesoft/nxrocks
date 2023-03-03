@@ -27,7 +27,7 @@
     "prepare": "husky install",
     "smoke": "FORCE_SMOKE_TESTS=true yarn nx test smoke",
     "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true yarn run smoke",
-    "postinstall": "ts-node -P ./tools/tsconfig.tools.json ./tools/release/patch-semantic-release-monorepo.ts && ts-node -P ./tools/tsconfig.tools.json ./tools/patch-nx-js-deps.ts"
+    "postinstall": "ts-node -P ./tools/tsconfig.tools.json ./tools/patch/index.ts"
   },
   "private": true,
   "dependencies": {

@@ -3,15 +3,15 @@ import { workspaceRoot } from '@nrwl/tao/src/utils/app-root';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
-   
-// patch the check from `semantic-release-monorepo` to also include scopeless commits 
-const fileToPatch = 'node_modules/semantic-release-monorepo/src/only-package-commits.js';
-const onlyPackageCommitsJs = readFileSync(join(workspaceRoot, fileToPatch), 'utf8');
-const patchedFile = onlyPackageCommitsJs
+export function patchSemanticReleaseMonorepo() {
+  // patch the check from `semantic-release-monorepo` to also include scopeless commits 
+  const fileToPatch = 'node_modules/semantic-release-monorepo/src/only-package-commits.js';
+  const onlyPackageCommitsJs = readFileSync(join(workspaceRoot, fileToPatch), 'utf8');
+  const patchedFile = onlyPackageCommitsJs
 
-.replace('  return commitsWithFiles.filter(({ files, subject }) => {', '  return commitsWithFiles.filter(async ({ files, subject }) => {')
-.replace( 
-`    if (packageFile) {
+    .replace('  return commitsWithFiles.filter(({ files, subject }) => {', '  return commitsWithFiles.filter(async ({ files, subject }) => {')
+    .replace(
+      `    if (packageFile) {
       debug(
         'Including commit "%s" because it modified package file "%s".',
         subject,
@@ -21,7 +21,7 @@ const patchedFile = onlyPackageCommitsJs
 
     return !!packageFile;`,
 
- `    // attempt 1:  check if the commit must be included because it modified a direct file in the package
+      `    // attempt 1:  check if the commit must be included because it modified a direct file in the package
     if (packageFile) {
       debug(
         'Including commit "%s" because it modified package file "%s".',
@@ -58,4 +58,5 @@ const patchedFile = onlyPackageCommitsJs
 
     return false;`);
 
-writeFileSync(join(workspaceRoot, fileToPatch), patchedFile);
+  writeFileSync(join(workspaceRoot, fileToPatch), patchedFile);
+}
