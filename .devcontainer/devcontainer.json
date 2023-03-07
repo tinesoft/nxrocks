@@ -3,15 +3,26 @@
 	"image": "cirrusci/flutter:stable",
 	"features": {
 		"ghcr.io/devcontainers/features/java:1": {
-			"version": "17",
-			"installMaven": "true",
-			"installGradle": "true"
+			"installGradle": true,
+			"installMaven": true,
+			"version": "17"
 		},
 		"ghcr.io/devcontainers/features/node:1": {
+			"nodeGypDependencies": true,
 			"version": "16"
 		},
-		"ghcr.io/devcontainers/features/git:1": {},
-		"ghcr.io/devcontainers/features/git-lfs:1": {}
+		"ghcr.io/devcontainers/features/git:1": {
+			"ppa": true,
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": true,
+			"installOhMyZsh": true,
+			"upgradePackages": true,
+			"username": "automatic",
+			"userUid": "automatic",
+			"userGid": "automatic"
+		}
 	},
 	"settings":{
 		"debug.javascript.usePreview": false
