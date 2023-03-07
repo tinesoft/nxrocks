@@ -5,3 +5,4 @@ export * from './constants';
 export * from './utils';
 export * from './gradle-utils';
 export * from './maven-utils';
+export * from './models';
