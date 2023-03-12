@@ -160,9 +160,9 @@ describe('project generator', () => {
       })
     );
 
-    expect(logger.info).toHaveBeenNthCalledWith(1, `Downloading Spring Boot project zip from : ${downloadUrl}...`);
+    expect(logger.info).toHaveBeenNthCalledWith(1, `⬇️ Downloading Spring Boot project zip from : ${downloadUrl}...`);
 
-    expect(logger.info).toHaveBeenNthCalledWith(2, `Extracting Spring Boot project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`);
+    expect(logger.info).toHaveBeenNthCalledWith(2, `📦 Extracting Spring Boot project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`);
 
     
     if (buildSystem === 'gradle-project') {

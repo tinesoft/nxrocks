@@ -8,11 +8,11 @@ import { extractFromZipStream, getCommonHttpHeaders, NX_SPRING_BOOT_PKG } from '
 export async function generateBootProject(tree: Tree, options: NormalizedSchema): Promise<void> {
     const downloadUrl = buildBootDownloadUrl(options);
 
-    logger.info(`Downloading Spring Boot project zip from : ${downloadUrl}...`);
+    logger.info(`⬇️ Downloading Spring Boot project zip from : ${downloadUrl}...`);
 
     const response = await fetch(downloadUrl, getCommonHttpHeaders(NX_SPRING_BOOT_PKG, options.proxyUrl));
 
-    logger.info(`Extracting Spring Boot project zip to '${workspaceRoot}/${options.projectRoot}'...`);
+    logger.info(`📦 Extracting Spring Boot project zip to '${workspaceRoot}/${options.projectRoot}'...`);
 
     if(response.ok){
         await extractFromZipStream(response.body, (entryPath, entryContent) => {
