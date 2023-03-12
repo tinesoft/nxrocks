@@ -1,6 +1,6 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 import { ProjectGeneratorOptions } from './schema';
-import { normalizeOptions, generateQuarkusProject, addMavenPublishPlugin, addFormattingWithSpotless } from './lib';
+import { normalizeOptions, generateQuarkusProject, addMavenPublishPlugin, addFormattingWithSpotless, promptQuarkusExtensions } from './lib';
 import { addPluginToNxJson, BuilderCommandAliasType, NX_QUARKUS_PKG,  } from '@nxrocks/common';
 
 
@@ -32,6 +32,8 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
     targets: targets,
     tags: normalizedOptions.parsedTags,
   });
+
+  await promptQuarkusExtensions(normalizedOptions);
 
   await generateQuarkusProject(tree, normalizedOptions);
 

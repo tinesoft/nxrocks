@@ -84,10 +84,8 @@
       "x-prompt": "Skip code formatting support(using Spotless plugin)?"
     },
     "extensions": {
-      "description": "Extensions to use in the project(comma-separated). Possible ids can be found at https://code.quarkus.io/api/extensions",
+      "description": "Extensions to use in the project(comma-separated). Follow this guide https://t.ly/S6sk for more instructions on how to proceed.",
       "type": "string",
-      "default": " ",
-      "x-prompt": "What extensions would you like to use (comma separated)?\n👉 Go to https://code.quarkus.io/api/extensions to get the ids needed here",
       "x-priority": "important"
     },
     "quarkusInitializerUrl": {

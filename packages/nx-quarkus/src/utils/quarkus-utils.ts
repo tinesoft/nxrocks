@@ -1,8 +1,9 @@
 import { NormalizedSchema } from '../generators/project/schema';
-import { isMavenProject, checkProjectBuildFileContains, isGradleProject, BuilderCommandAliasType, hasGradleProject, hasMavenProject, runBuilderCommand } from '@nxrocks/common';
+import { isMavenProject, checkProjectBuildFileContains, isGradleProject, BuilderCommandAliasType, hasGradleProject, hasMavenProject, runBuilderCommand, getCommonHttpHeaders, NX_QUARKUS_PKG } from '@nxrocks/common';
 
 import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
 import { ProjectConfiguration } from '@nrwl/devkit';
+import fetch from 'node-fetch';
 
 const getBuilder = (cwd: string) => {
     if (hasMavenProject(cwd)) return MAVEN_BUILDER;
@@ -14,6 +15,15 @@ const getBuilder = (cwd: string) => {
 }
 
 export const DEFAULT_QUARKUS_INITIALIZR_URL = 'https://code.quarkus.io';
+
+export interface QuarkusExtension {
+    "id": string,
+    "shortName": string,
+    "version":string,
+    "name": string,
+    "description": string,
+    "category": string
+}
 
 export function runQuarkusPluginCommand(
     commandAlias: BuilderCommandAliasType,
@@ -54,3 +64,9 @@ export function isQuarkusProject(project: ProjectConfiguration): boolean {
     return false;
 }
 
+export async function fetchQuarkusExtensions(options:  NormalizedSchema): Promise<QuarkusExtension[]> {
+    const response = await fetch(`${options.quarkusInitializerUrl}/api/extensions`, getCommonHttpHeaders(NX_QUARKUS_PKG, options.proxyUrl));
+
+    return (await response.json()) ?? [] ;
+
+}
