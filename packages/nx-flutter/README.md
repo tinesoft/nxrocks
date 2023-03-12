@@ -93,7 +93,6 @@ Option           | Value | Description
 `platforms`      | `android` \| `ios` \| `linux` \| `macos` \| `windows` \| `web`  | Platforms supported by the project to generate
 `pub`            | `boolean` | Whether to run "flutter pub get" after the project has been created
 `offline`        | `boolean` | Whether or not to run 'flutter pub get' in offline mode
-`skipAdditionalPrompts`    | `boolean` | Whether or not to prompt for additional options (like `platforms`, `language`, etc). Useful in a CI environment, to avoid waiting for user input. Must be combined with `--interactive=false` or `--no-interactive` for full non-interactivity.
 `tags`           | `string` | Tags to use for linting (comma-separated)
 `directory`      | `string` | Directory where the project is placed
 
@@ -152,6 +151,7 @@ Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This ta
 
 | Plugin Version | Nx Workspace version
 | -------------- | --------------------
+| `>=v6.x.x`     | `>=v15.8.x`
 | `>=v5.x.x`     | `>=v15.x.x`
 | `>=v3.1.x`     | `>=v13.8.x`
 | `>=v3.x.x`     | `>=v12.6.x`

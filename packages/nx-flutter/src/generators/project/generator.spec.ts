@@ -3,13 +3,14 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import { projectGenerator } from './generator';
 import { ProjectGeneratorOptions } from './schema';
+import { NX_FLUTTER_PKG } from '@nxrocks/common';
 
 jest.mock('child_process'); // we need to mock 'execSync' so that it doesn't really run 'flutter' (reserved to e2e testing) (see __mocks__/child_process.js)
 
-jest.mock('inquirer'); // we mock 'inquirer' to bypass the interactive prompt
-import * as inquirer from 'inquirer';
-import { NX_FLUTTER_PKG } from '@nxrocks/common';
+//jest.mock('enquirer'); // we mock 'enquirer' to bypass the interactive prompt
+import * as enquirer from 'enquirer';
 
+process.env.NX_INTERACTIVE = 'true'; // simulate normal cli interactive mode (the prompt is mocked anyway)
 
 const appCommands = [
   { key: 'assemble', value: 'assemble' },
@@ -37,6 +38,7 @@ const iOsOnlyCommands = [
   { key: 'build-ipa', value: 'build ipa' },
 ];
 
+
 describe('application generator', () => {
   let tree: Tree;
   const options: ProjectGeneratorOptions = {
@@ -48,12 +50,13 @@ describe('application generator', () => {
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-
-    jest.spyOn(inquirer, 'prompt').mockResolvedValue({
-      platforms: options.platforms,
-      androidLanguage: 'kotlin',
-      iosLanguage: 'swift'
-    });
+    jest.spyOn(enquirer,'prompt').mockResolvedValue(
+      {
+        platforms: options.platforms,
+        androidLanguage: 'kotlin',
+        iosLanguage: 'swift'
+      }
+    );
     jest.spyOn(logger, 'info');
   });
 
@@ -110,75 +113,74 @@ describe('application generator', () => {
     ${'module'} | ${false}
     `('should prompt user to select "platforms" when generating "$template": $shouldPromptTempate', async ({ template, shouldPromptTempate }) => {
 
-    await projectGenerator(tree, { ...options, template: template });
+    await projectGenerator(tree, { ...options, template });
 
-    expect(inquirer.prompt).toHaveBeenCalledWith(
+    expect(enquirer.prompt).toHaveBeenNthCalledWith(1,
       expect.arrayContaining([
         expect.objectContaining({
-          when: shouldPromptTempate,
+          skip: !shouldPromptTempate,
           name: 'platforms',
-          type: 'checkbox',
+          type: 'multiselect',
           choices: expect.arrayContaining([
             {
-              value: "android",
-              name: "Android platform",
-              checked: true,
+              name: "android",
+              value: "Android platform",
             },
             {
-              value: "ios",
-              name: "iOS platform",
-              checked: true,
+              name: "ios",
+              value: "iOS platform",
             },
             {
-              value: "linux",
-              name: "Linux platform",
-              checked: true,
+              name: "linux",
+              value: "Linux platform",
             },
             {
-              value: "windows",
-              name: "Windows platform",
-              checked: true,
+              name: "windows",
+              value: "Windows platform",
             },
             {
-              value: "macos",
-              name: "MacOS platform",
-              checked: true,
+              name: "macos",
+              value: "MacOS platform",
             },
             {
-              value: "web",
-              name: "Web platform",
-              checked: true,
+              name: "web",
+              value: "Web platform",
             }
           ]),
-        }),
+        })
+      ])
+    );
+
+    expect(enquirer.prompt).toHaveBeenNthCalledWith(2,
+      expect.arrayContaining([
         expect.objectContaining({
           name: 'androidLanguage',
-          type: 'list',
-          default: 'kotlin',
+          type: 'select',
+          initial: 1,
           choices: expect.arrayContaining([
             {
-              value: "java",
-              name: "Java"
+              name: "java",
+              value: "Java"
             },
             {
-              value: "kotlin",
-              name: "Kotlin"
+              name: "kotlin",
+              value: "Kotlin"
             }
           ]),
           message: "Which Android language would you like to use?",
         }),
         expect.objectContaining({
           name: 'iosLanguage',
-          type: 'list',
-          default: 'swift',
+          type: 'select',
+          initial: 1,
           choices: expect.arrayContaining([
             {
-              value: "objc",
-              name: "Objective-C"
+              name: "objc",
+              value: "Objective-C"
             },
             {
-              value: "swift",
-              name: "Swift"
+              name: "swift",
+              value: "Swift"
             }
           ]),
           message: "Which iOS language would you like to use?",

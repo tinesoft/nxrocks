@@ -8,9 +8,7 @@ export async function projectGenerator(tree:Tree, options: ProjectGeneratorOptio
 
   const normalizedOptions = normalizeOptions(tree,options);
 
-  if(!options.skipAdditionalPrompts ) {
-    await promptAdditionalOptions(tree,normalizedOptions);
-  }
+  await promptAdditionalOptions(tree,normalizedOptions);
 
   const targets = {};
   const commands = [

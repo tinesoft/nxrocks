@@ -118,11 +118,6 @@
     "overwrite": {
       "type": "boolean",
       "description": "Whether or not to overwrite existing files when performing operations."
-    },
-    "skipAdditionalPrompts": {
-      "type": "boolean",
-      "description": "Whether or not to prompt for additional options (like platforms, androidLanguage, etc).",
-      "default": false
     }
   },
   "required": [

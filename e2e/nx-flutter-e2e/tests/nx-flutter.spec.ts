@@ -39,7 +39,7 @@ describe('nx-flutter e2e', () => {
     const appName = uniq('nx-flutter');
 
     const sep = process.platform === 'win32' ? '\\' : '/';
-    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --skipAdditionalPrompts=true --no-interactive`);
+    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --no-interactive`);
 
     const executors = [
       { name: 'analyze', output: `Analyzing ${appName}` },
@@ -102,7 +102,7 @@ describe('nx-flutter e2e', () => {
     const pub = true;
     const offline = true;
 
-    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --skipAdditionalPrompts=true --no-interactive --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} `);
+    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --no-interactive --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} `);
 
     const executors = [
 
@@ -130,7 +130,7 @@ describe('nx-flutter e2e', () => {
       const appName = uniq('nx-flutter');
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-flutter:create ${appName} --skipAdditionalPrompts=true --no-interactive --directory subdir`
+        `generate @nxrocks/nx-flutter:create ${appName} --no-interactive --directory subdir`
       );
       expect(() =>
         checkFilesExist(`apps/subdir/${appName}/pubspec.yaml`)
@@ -143,7 +143,7 @@ describe('nx-flutter e2e', () => {
       const appName = uniq('nx-flutter');
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-flutter:create ${appName}  --skipAdditionalPrompts=true --no-interactive --tags e2etag,e2ePackage`
+        `generate @nxrocks/nx-flutter:create ${appName}  --no-interactive --tags e2etag,e2ePackage`
       );
       const project = readJson(`apps/${appName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);

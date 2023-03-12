@@ -119,11 +119,11 @@ describe('nxrocks smoke tests', () => {
     );
     
     execSync(
-      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
+      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive`,
       execSyncOptions(),
     );
     execSync(
-      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
+      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive`,
       execSyncOptions(),
     );
 
@@ -200,11 +200,11 @@ describe('nxrocks smoke tests', () => {
     );
 
     execSync(
-      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
+      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive`,
       execSyncOptions(),
     );
     execSync(
-      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
+      `${runCommand} nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive`,
       execSyncOptions(),
     );
 
@@ -255,11 +255,11 @@ ensureLocalPluginsWithDeps([
   workspaceRoot);
   
 execSync(
-  `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive --skipAdditionalPrompts=true`,
+  `npx nx g @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive`,
   execSyncOptions(),
 );
 execSync(
-  `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive --skipAdditionalPrompts=true`,
+  `npx nx g @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive`,
   execSyncOptions(),
 );
 
