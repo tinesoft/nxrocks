@@ -1,8 +1,9 @@
 import { NormalizedSchema } from '../generators/project/schema';
-import { isMavenProject, checkProjectBuildFileContains, isGradleProject, BuilderCommandAliasType, hasGradleProject, hasMavenProject, runBuilderCommand } from '@nxrocks/common';
+import { isMavenProject, checkProjectBuildFileContains, isGradleProject, BuilderCommandAliasType, hasGradleProject, hasMavenProject, runBuilderCommand, NX_MICRONAUT_PKG, getCommonHttpHeaders } from '@nxrocks/common';
 
 import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
 import { ProjectConfiguration } from '@nrwl/devkit';
+import fetch from 'node-fetch';
 
 const getBuilder = (cwd: string) => {
     if (hasMavenProject(cwd)) return MAVEN_BUILDER;
@@ -13,7 +14,16 @@ const getBuilder = (cwd: string) => {
     );
 }
 
-export const DEFAULT_MICRONAUT_LAUNCH_URL = 'https://micronaut.io/launch';
+export const DEFAULT_MICRONAUT_LAUNCH_URL = 'https://launch.micronaut.io';
+
+export interface MicronautFeature {
+    name: string,
+    title: string,
+    description: string,
+    category: string,
+    preview: boolean,
+    community: boolean
+}
 
 export function runMicronautPluginCommand(
     commandAlias: BuilderCommandAliasType,
@@ -65,3 +75,10 @@ export function isMicronautProject(project: ProjectConfiguration): boolean {
     return false;
 }
 
+
+export async function fetchMicronautFeatures(options:  NormalizedSchema): Promise<MicronautFeature[]> {
+    const response = await fetch(`${options.micronautLaunchUrl}/application-types/${options.projectType}/features`, getCommonHttpHeaders(NX_MICRONAUT_PKG, options.proxyUrl));
+
+    return (await response.json())?.features ?? [] ;
+
+}

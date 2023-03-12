@@ -1,6 +1,6 @@
 import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
 import { ProjectGeneratorOptions } from './schema';
-import { normalizeOptions, generateMicronautProject, addMavenPublishPlugin, addFormattingWithSpotless } from './lib';
+import { normalizeOptions, generateMicronautProject, addMavenPublishPlugin, addFormattingWithSpotless, promptMicronautFeatures } from './lib';
 import { addPluginToNxJson, BuilderCommandAliasType, NX_MICRONAUT_PKG,  } from '@nxrocks/common';
 
 
@@ -32,6 +32,8 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
     tags: normalizedOptions.parsedTags,
   });
 
+  await promptMicronautFeatures(normalizedOptions);
+  
   await generateMicronautProject(tree, normalizedOptions);
 
   addMavenPublishPlugin(tree, normalizedOptions);

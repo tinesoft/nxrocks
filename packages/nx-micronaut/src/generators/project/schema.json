@@ -191,10 +191,8 @@
       "x-priority": "internal"
     },
     "features": {
-      "description": "Features to use in the project(comma-separated). Possible ids can be found at https://micronaut.io/launch",
+      "description": "Features to use in the project(comma-separated). Follow this guide https://t.ly/_K7V for more instructions on how to proceed.",
       "type": "string",
-      "default": " ",
-      "x-prompt": "What features would you like to use (comma separated)?\n👉 Go to https://micronaut.io/launch to get the ids needed here",
       "x-priority": "important"
     },
     "micronautLaunchUrl": {
