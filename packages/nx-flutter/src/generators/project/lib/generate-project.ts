@@ -10,12 +10,12 @@ export async function generateFlutterProject(tree: Tree, options: NormalizedSche
 
     logger.info(`Generating Flutter project with following options : ${opts}...`);
 
-    if (!isFlutterInstalled()) {
+    if (!isFlutterInstalled(options.fvm)) {
         throw new Error("'flutter' was not found on your system's PATH.\nPlease make sure you have installed it correctly.\n👉🏾 https://flutter.dev/docs/get-started/install");
       }
     
     // Create the command to execute
-    const execute = `flutter create ${opts} ${options.projectRoot}`;
+    const execute = `${options.fvm == true ? 'fvm ': ''}flutter create ${opts} ${options.projectRoot}`;
     try {
         logger.info(`Executing command: ${execute}`);
         execSync(execute, { stdio: [0, 1, 2] });

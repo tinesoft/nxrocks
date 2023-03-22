@@ -16,6 +16,7 @@ export interface ProjectGeneratorOptions {
   sample?:string;
   platforms?: PlatformType[];
 
+  fvm?: boolean;
   pub?: boolean;
   offline?:boolean;
   tags?: string;

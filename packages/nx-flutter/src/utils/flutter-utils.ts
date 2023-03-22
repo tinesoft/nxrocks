@@ -4,9 +4,9 @@ import { getProjectFilePath } from '@nxrocks/common';
 import { execSync } from 'child_process'
 import { NormalizedSchema } from '../generators/project/schema';
 
-export function isFlutterInstalled(): boolean {
+export function isFlutterInstalled(useFVM = false): boolean {
     try {
-        execSync('flutter --version', {  stdio: ['ignore', 'ignore', 'ignore'] });
+        execSync(`${useFVM == true ? 'fvm ' : ''}flutter --version`, {  stdio: ['ignore', 'ignore', 'ignore'] });
         return true;
     } catch (e) {
         return false;

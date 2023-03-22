@@ -2,12 +2,18 @@ import { Tree } from '@nrwl/devkit';
 import { prompt } from 'enquirer';
 import { AndroidLanguageType, IosLanguageType, NormalizedSchema, PlatformType } from '../schema';
 
-type PromptResultType = { platforms: PlatformType[], androidLanguage?: AndroidLanguageType, iosLanguage?: IosLanguageType };
+type PromptResultType = { platforms: PlatformType[], androidLanguage?: AndroidLanguageType, iosLanguage?: IosLanguageType, fvm: boolean };
 
 export async function promptAdditionalOptions(tree: Tree, options: NormalizedSchema) {
     if (process.env.NX_INTERACTIVE === 'true') {
 
-        await prompt([{
+        await prompt([
+          {
+            name: 'fvm',
+            type: 'confirm',
+            message: 'Are you using Flutter Version Manager (fvm)?'
+          },
+          {
             skip: ['app', 'plugin'].indexOf(options.template) === -1,
             name: 'platforms',
             type: 'multiselect',
@@ -79,6 +85,7 @@ export async function promptAdditionalOptions(tree: Tree, options: NormalizedSch
                     message: "Which iOS language would you like to use?",
                 }
             ]);
+            options.fvm = result?.fvm;
             options.platforms = result?.platforms;
             options.androidLanguage = languages?.androidLanguage;
             options.iosLanguage = languages?.iosLanguage;
