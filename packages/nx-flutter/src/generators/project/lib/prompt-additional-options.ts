@@ -2,12 +2,13 @@ import { Tree } from '@nrwl/devkit';
 import { prompt } from 'enquirer';
 import { AndroidLanguageType, IosLanguageType, NormalizedSchema, PlatformType } from '../schema';
 
-type PromptResultType = { platforms: PlatformType[], androidLanguage?: AndroidLanguageType, iosLanguage?: IosLanguageType };
+type PromptResultType = { platforms: PlatformType[], androidLanguage?: AndroidLanguageType, iosLanguage?: IosLanguageType};
 
 export async function promptAdditionalOptions(tree: Tree, options: NormalizedSchema) {
     if (process.env.NX_INTERACTIVE === 'true') {
 
-        await prompt([{
+        await prompt([
+          {
             skip: ['app', 'plugin'].indexOf(options.template) === -1,
             name: 'platforms',
             type: 'multiselect',
