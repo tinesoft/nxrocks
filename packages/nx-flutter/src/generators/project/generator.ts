@@ -53,7 +53,7 @@ export async function projectGenerator(tree:Tree, options: ProjectGeneratorOptio
     targets[command.key] = {
       executor: `nx:run-commands`,
       options: {
-        command: `flutter ${command.value}`,
+        command: `${normalizedOptions.useFvm === true ? 'fvm ': ''}flutter ${command.value}`,
         cwd: normalizedOptions.projectRoot
       },
       ...( command.key.startsWith('build-') ? {outputs: [`{workspaceRoot}/${normalizedOptions.projectRoot}/build`]}: {})

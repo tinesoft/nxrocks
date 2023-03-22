@@ -79,6 +79,13 @@
       ],
       "x-priority": "important"
     },
+    "useFvm": {
+      "description": "Use Flutter Version Manager (fvm) to run commands.",
+      "type": "boolean",
+      "default": false,
+      "x-priority": "important",
+      "x-prompt": "Are you using Flutter Version Manager (fvm)?"
+    },
     "androidLanguage": {
       "description": "Android Language of the project.",
       "type": "string",
