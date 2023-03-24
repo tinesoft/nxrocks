@@ -39,6 +39,7 @@ export async function generateMicronautProject(tree: Tree, options: NormalizedSc
         Download URL: ${downloadUrl}
         Response status: ${response.status}
         Response headers: ${JSON.stringify(response.headers)}
+        Response body: ${await response.text()}
         ------------------------------------------------------`);
     }
 }
