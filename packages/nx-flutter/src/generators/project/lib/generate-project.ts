@@ -12,7 +12,12 @@ export async function generateFlutterProject(tree: Tree, options: NormalizedSche
 
     if (!isFlutterInstalled()) {
         throw new Error("'flutter' was not found on your system's PATH.\nPlease make sure you have installed it correctly.\n👉🏾 https://flutter.dev/docs/get-started/install");
-      }
+    }
+
+    if(process.env.NX_DRY_RUN === 'true') {
+        logger.info('Skipping Flutter project generation because of --dry-run flag');
+        return;
+    }
     
     // Create the command to execute
     const execute = `flutter create ${opts} ${options.projectRoot}`;
