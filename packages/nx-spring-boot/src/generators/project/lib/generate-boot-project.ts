@@ -28,6 +28,7 @@ export async function generateBootProject(tree: Tree, options: NormalizedSchema)
         Download URL: ${downloadUrl}
         Response status: ${response.status}
         Response headers: ${JSON.stringify(response.headers)}
+        Response body: ${await response.text()}
         ------------------------------------------------------`);
     }
 }
