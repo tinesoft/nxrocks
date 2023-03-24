@@ -17,13 +17,25 @@ export function hasMavenPlugin(tree: Tree, rootFolder: string, groupId: string, 
     return hasXmlMatching(pomXml, pluginXPath);
 }
 
-export function addMavenPlugin(tree: Tree, rootFolder: string, groupId: string, artifactId: string, version?: string, configuration?: { [key: string]: any } | string): boolean {
+export function hasMavenProperty(tree: Tree, rootFolder: string, property: string, value?: string): boolean {
+    const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
+    const pomXml = readXml(pomXmlStr);
+
+    const propertyXPath = value ? `/project/properties/${property}/text()[.="${value}"]`: `/project/properties/${property}`;
+
+    return hasXmlMatching(pomXml, propertyXPath);
+}
+
+export function addMavenPlugin(tree: Tree, rootFolder: string, groupId: string, artifactId: string, version?: string, configuration?: { [key: string]: any } | string, executions?: { [key: string]: any } | string): boolean {
     const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
     const pomXml = readXml(pomXmlStr);
 
       if (hasMavenPlugin(tree, rootFolder, groupId, artifactId, version)) {
         return false;// plugin already exists
     }
+
+    if(configuration && executions && typeof configuration !== typeof executions)
+    throw new Error('"configuration" and "executions" must be of same type (either object or string)');
 
     const projectNode = findXmlMatching(pomXml, '/project');
     if(!projectNode)
@@ -46,13 +58,15 @@ export function addMavenPlugin(tree: Tree, rootFolder: string, groupId: string, 
         pluginsNode = findXmlMatching(pomXml, '/project/build/plugins');
     }
 
-    const pluginNode = configuration && typeof configuration === 'object' ?
+    const pluginNode = (configuration || executions) && (typeof configuration === 'object' || typeof executions === 'object') ?
         {
             'plugin': {
                 'groupId': groupId,
                 'artifactId': artifactId,
                 ...(version && { 'version' : version}),
-                'configuration': configuration
+                ...(configuration && { 'configuration' : configuration}),
+                ...(executions && { 'executions' : executions}),
+
             }
         } :
         `<plugin>
@@ -60,6 +74,7 @@ export function addMavenPlugin(tree: Tree, rootFolder: string, groupId: string, 
             <artifactId>${artifactId}</artifactId>
             ${version ? `<version>${version}</version>`: ''}
             ${configuration ? `<configuration>${configuration}</configuration>` : ''}
+            ${executions ? `<executions>${executions}</executions>` : ''}
         </plugin>`;
 
     addXmlNode(pluginsNode, pluginNode);
@@ -91,6 +106,35 @@ export function removeMavenPlugin(tree: Tree, rootFolder: string, groupId: strin
     }
 
     return false;
+}
+
+export function addMavenProperty(tree: Tree, rootFolder: string, property: string, value: string): boolean {
+    const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
+    const pomXml = readXml(pomXmlStr);
+
+      if (hasMavenProperty(tree, rootFolder, property, value)) {
+        return false;// property already exists
+    }
+
+
+    const projectNode = findXmlMatching(pomXml, '/project');
+    if(!projectNode)
+        throw new Error('The POM.xml is invalid (no "<project>" node found)');
+
+    let propertiesNode = findXmlMatching(pomXml, '/project/properties');
+    if (!propertiesNode) { // make sure the <properties> node exists
+        addXmlNode(projectNode, {
+            'properties': {
+            }
+        });
+        propertiesNode = findXmlMatching(pomXml, '/project/properties');
+    }
+
+    const propertyNode = `<${property}>${value}</${property}>`;
+
+    addXmlNode(propertiesNode, propertyNode);
+    tree.write(`${rootFolder}/pom.xml`, pomXml.toString({ prettyPrint: true, indent: '\t' }));
+    return true;
 }
 
 function getMavenSpotlessBaseConfig(languageConfig: string, baseGitBranch?: string): string {

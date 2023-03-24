@@ -2,9 +2,9 @@ import { Tree } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { addMavenPlugin } from '.';
 import { stripIndent } from '../utils';
-import { addSpotlessMavenPlugin, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_VERSION, removeMavenPlugin } from './maven-utils';
+import { addSpotlessMavenPlugin, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_VERSION, removeMavenPlugin, addMavenProperty } from './maven-utils';
 
-const getPomXmlFile = (hasBuildNode = true, hasPluginsNode = true) => {
+const getPomXmlFile = (hasBuildNode = true, hasPluginsNode = true, hasPropertiesNode = true) => {
 
     const pluginsNode = hasPluginsNode ? stripIndent`
     <plugins>
@@ -17,6 +17,11 @@ const getPomXmlFile = (hasBuildNode = true, hasPluginsNode = true) => {
     <build>
         ${pluginsNode}
     </build>` : '';
+
+    const propertiesNode = hasPropertiesNode ? stripIndent`
+    <properties>
+        <java.version>11</java.version>
+    </properties>`: '';
 
     return stripIndent`
     <?xml version="1.0" encoding="UTF-8"?>
@@ -34,9 +39,7 @@ const getPomXmlFile = (hasBuildNode = true, hasPluginsNode = true) => {
         <version>0.0.1-SNAPSHOT</version>
         <name>demo</name>
         <description>Demo project for Spring Boot</description>
-        <properties>
-            <java.version>11</java.version>
-        </properties>
+        ${propertiesNode}
         <dependencies>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -54,6 +57,43 @@ const getPomXmlFile = (hasBuildNode = true, hasPluginsNode = true) => {
 };
 
 describe('maven-utils', () => {
+
+    describe('addMavenProperty', () => {
+
+        let tree: Tree;
+        beforeEach(() => {
+            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+        });
+
+        it('should not add the property if already exists', () => {
+            tree.write(`./pom.xml`, getPomXmlFile());
+            const added = addMavenProperty(tree, '.', 'java.version', '11');
+            expect(added).toEqual(false);
+        });
+
+        it.each`
+            hasPropertiesNode
+            ${true}     
+            ${false}    
+        `('should add the property even when hasPropertiesNode: $hasPropertiesNode', ({hasPropertiesNode}) => {
+            tree.write(`./pom.xml`, getPomXmlFile(true, true, hasPropertiesNode));
+            const previousProperties = hasPropertiesNode ? stripIndent`
+            <java.version>11</java.version>
+            ` : '';
+
+            const added = addMavenProperty(tree, '.', 'docker.buildArg.ARG_FILE', 'artifact.jar');
+            const pomXml = tree.read(`./pom.xml`, 'utf-8');
+            expect(added).toEqual(true);
+            expect(pomXml.replace(/\s+/g,'')).toContain(
+            `
+            <properties>
+                ${previousProperties}
+                <docker.buildArg.ARG_FILE>artifact.jar</docker.buildArg.ARG_FILE>
+            </properties>
+            `.replace(/\s+/g,'')
+            );
+        });
+    });
 
     describe('addMavenPlugin', () => {
 

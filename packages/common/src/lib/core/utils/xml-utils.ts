@@ -23,7 +23,7 @@ export function findXmlNodes(xml: XMLBuilder, xpath: string, ignoreNamespace = t
         const prefix = xpath.startsWith('//') ? '//' : '/';
         realXpath = prefix + xpath.split('/')
             .filter(p => p.length > 0)
-            .map(p => p.trim().replace(/^(\w+)(?:\[[^]+\])?$/, `*[local-name(.) = '$1']`))
+            .map(p => p.trim() === '..' ? p : p.trim().replace(/^([\w-.:]+)(?:\[[^]+\])?$/, `*[local-name(.) = '$1']`))
             .join('/');
     }
 
