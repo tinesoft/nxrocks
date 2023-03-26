@@ -9,7 +9,7 @@
 		},
 		"ghcr.io/devcontainers/features/node:1": {
 			"nodeGypDependencies": true,
-			"version": "16"
+			"version": "18"
 		},
 		"ghcr.io/devcontainers/features/git:1": {
 			"ppa": true,

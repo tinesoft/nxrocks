@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/packages/nx-melos",
         "main": "packages/nx-melos/src/index.ts",
@@ -38,7 +40,9 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
         "lintFilePatterns": [
           "packages/nx-melos/**/*.ts",
@@ -50,18 +54,16 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "packages/nx-melos/jest.config.ts",
         "passWithNoTests": true
       }
     },
-    "release": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx semantic-release",
-        "cwd": "packages/nx-melos"
-      }
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release"
     }
   },
   "tags": []

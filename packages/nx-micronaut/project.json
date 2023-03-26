@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@nrwl/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/packages/nx-micronaut",
         "main": "packages/nx-micronaut/src/index.ts",
@@ -41,7 +43,9 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
         "lintFilePatterns": [
           "packages/nx-micronaut/**/*.ts",
@@ -53,18 +57,16 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/packages/nx-micronaut"],
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/nx-micronaut"
+      ],
       "options": {
         "jestConfig": "packages/nx-micronaut/jest.config.ts",
         "passWithNoTests": true
       }
     },
-    "release": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx semantic-release",
-        "cwd": "packages/nx-micronaut"
-      }
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release"
     }
   },
   "tags": []

@@ -36,7 +36,8 @@ module.exports = {
       'always',
       // prettier-ignore
       [
-        ...packageScopes
+        ...packageScopes,
+        "release"
       ],
     ],
   },

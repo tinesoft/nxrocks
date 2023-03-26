@@ -32,4 +32,4 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           yarn install --frozen-lockfile
-          DEBUG=true yarn run release
+          yarn run release
