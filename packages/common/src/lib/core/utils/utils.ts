@@ -11,7 +11,7 @@ export function getPackageLatestNpmVersion(pkg: string): string {
   }
 }
 
-export function getHttpProxyAgent(proxyUrl?: string): HttpProxyAgent | HttpsProxyAgent | undefined {
+export function getHttpProxyAgent(proxyUrl?: string, downloadUrl?: string): HttpProxyAgent | HttpsProxyAgent | undefined {
   const proxyAgentOpts = {
     keepAlive: true,
     keepAliveMsecs: 1000,
@@ -34,19 +34,19 @@ export function getHttpProxyAgent(proxyUrl?: string): HttpProxyAgent | HttpsProx
     console.log(`The proxy server at '${proxy}' will be used.`);
   }
   
-  if (proxy?.startsWith('https')) {
+  if (downloadUrl?.startsWith('https')) {
     return new HttpsProxyAgent(proxyAgentOpts);
-  } else if(proxy?.startsWith('http')){
+  } else if(downloadUrl?.startsWith('http')){
     return new HttpProxyAgent(proxyAgentOpts);
   } else {
     return undefined
   }
 }
 
-export function getCommonHttpHeaders( pkgName: string, proxyUrl?: string){
+export function getCommonHttpHeaders( pkgName: string, proxyUrl?: string, downloadUrl?: string){
   const pkgVersion = getPackageLatestNpmVersion(pkgName);
   const userAgent = `${pkgName.replace('/','_')}/${pkgVersion}`;
-  const proxyAgent = getHttpProxyAgent(proxyUrl);
+  const proxyAgent = getHttpProxyAgent(proxyUrl, downloadUrl);
   return {
       headers: {
           'User-Agent': userAgent

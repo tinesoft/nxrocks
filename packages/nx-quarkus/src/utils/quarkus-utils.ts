@@ -65,7 +65,7 @@ export function isQuarkusProject(project: ProjectConfiguration): boolean {
 }
 
 export async function fetchQuarkusExtensions(options:  NormalizedSchema): Promise<QuarkusExtension[]> {
-    const response = await fetch(`${options.quarkusInitializerUrl}/api/extensions`, getCommonHttpHeaders(NX_QUARKUS_PKG, options.proxyUrl));
+    const response = await fetch(`${options.quarkusInitializerUrl}/api/extensions`, getCommonHttpHeaders(NX_QUARKUS_PKG, options.proxyUrl, options.quarkusInitializerUrl));
 
     return (await response.json()) ?? [] ;
 
