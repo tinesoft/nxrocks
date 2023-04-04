@@ -60,7 +60,7 @@ export function isBootProject(project: ProjectConfiguration): boolean {
 }
 
 export async function fetchBootDependencies(options:  ProjectGeneratorOptions): Promise<{ [id: string]: MavenDependency}> {
-    const response = await fetch(`${options.springInitializerUrl}/dependencies`, getCommonHttpHeaders(NX_SPRING_BOOT_PKG, options.proxyUrl));
+    const response = await fetch(`${options.springInitializerUrl}/dependencies`, getCommonHttpHeaders(NX_SPRING_BOOT_PKG, options.springInitializerUrl, options.proxyUrl));
 
     return (await response.json())?.dependencies ?? {} ;
 

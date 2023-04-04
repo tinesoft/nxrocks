@@ -10,7 +10,7 @@ export async function generateBootProject(tree: Tree, options: NormalizedSchema)
 
     logger.info(`⬇️ Downloading Spring Boot project zip from : ${downloadUrl}...`);
 
-    const response = await fetch(downloadUrl, getCommonHttpHeaders(NX_SPRING_BOOT_PKG, options.proxyUrl, downloadUrl));
+    const response = await fetch(downloadUrl, getCommonHttpHeaders(NX_SPRING_BOOT_PKG, downloadUrl, options.proxyUrl));
 
     logger.info(`📦 Extracting Spring Boot project zip to '${workspaceRoot}/${options.projectRoot}'...`);
 
