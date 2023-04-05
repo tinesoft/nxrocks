@@ -12,7 +12,7 @@ export async function generateMicronautProject(tree: Tree, options: NormalizedSc
 
     const pkgVersion = getPackageLatestNpmVersion(NX_MICRONAUT_PKG);
     const userAgent = `@nxrocks_nx-micronaut/${pkgVersion}`;
-    const proxyAgent = getHttpProxyAgent(options.proxyUrl);
+    const proxyAgent = getHttpProxyAgent(downloadUrl, options.proxyUrl);
     const opts = {
         headers: {
             'User-Agent': userAgent

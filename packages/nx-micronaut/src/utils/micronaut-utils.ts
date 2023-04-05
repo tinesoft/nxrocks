@@ -77,7 +77,7 @@ export function isMicronautProject(project: ProjectConfiguration): boolean {
 
 
 export async function fetchMicronautFeatures(options:  NormalizedSchema): Promise<MicronautFeature[]> {
-    const response = await fetch(`${options.micronautLaunchUrl}/application-types/${options.projectType}/features`, getCommonHttpHeaders(NX_MICRONAUT_PKG, options.proxyUrl));
+    const response = await fetch(`${options.micronautLaunchUrl}/application-types/${options.projectType}/features`, getCommonHttpHeaders(NX_MICRONAUT_PKG, options.micronautLaunchUrl, options.proxyUrl));
 
     return (await response.json())?.features ?? [] ;
 

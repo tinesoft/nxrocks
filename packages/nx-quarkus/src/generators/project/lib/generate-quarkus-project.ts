@@ -12,7 +12,7 @@ export async function generateQuarkusProject(tree: Tree, options: NormalizedSche
 
     const pkgVersion = getPackageLatestNpmVersion(NX_QUARKUS_PKG);
     const userAgent = `@nxrocks_nx-quarkus/${pkgVersion}`;
-    const proxyAgent = getHttpProxyAgent(options.proxyUrl);
+    const proxyAgent = getHttpProxyAgent(downloadUrl, options.proxyUrl);
     const opts = {
         headers: {
             'User-Agent': userAgent
