@@ -3,23 +3,14 @@ import { Tree, logger, stripIndents, workspaceRoot } from '@nrwl/devkit';
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
 import {  buildMicronautDownloadUrl } from '../../../utils/micronaut-utils';
-import { extractFromZipStream, getHttpProxyAgent, getPackageLatestNpmVersion, NX_MICRONAUT_PKG } from '@nxrocks/common';
+import { extractFromZipStream, getCommonHttpHeaders, NX_MICRONAUT_PKG } from '@nxrocks/common';
 
 export async function generateMicronautProject(tree: Tree, options: NormalizedSchema): Promise<void> {
     const downloadUrl = buildMicronautDownloadUrl(options);
 
     logger.info(`⬇️ Downloading Micronaut project zip from : '${downloadUrl}'...`);
 
-    const pkgVersion = getPackageLatestNpmVersion(NX_MICRONAUT_PKG);
-    const userAgent = `@nxrocks_nx-micronaut/${pkgVersion}`;
-    const proxyAgent = getHttpProxyAgent(downloadUrl, options.proxyUrl);
-    const opts = {
-        headers: {
-            'User-Agent': userAgent
-        },
-        ...(proxyAgent ? {agent: proxyAgent} : {})
-    };
-    const response = await fetch(downloadUrl, opts);
+    const response = await fetch(downloadUrl, getCommonHttpHeaders(NX_MICRONAUT_PKG,downloadUrl, options.proxyUrl ));
 
     logger.info(`📦 Extracting Micronaut project zip to '${workspaceRoot}/${options.projectRoot}'...`);
 
