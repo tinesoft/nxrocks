@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node-version: [16.x]
+        node-version: [18]
     env:
       NX_BRANCH: ${{ github.event.number }}
       NX_RUN_GROUP: ${{ github.run_id }}
