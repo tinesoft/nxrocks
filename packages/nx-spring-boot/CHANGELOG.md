@@ -1,3 +1,29 @@
+# [7.0.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v6.3.0...nx-spring-boot/v7.0.0) (2023-04-10)
+
+
+### Bug Fixes
+
+* **common:** connections over Proxy not using correct `HTTP` protocol ([5cd3551](https://github.com/tinesoft/nxrocks/commit/5cd3551cf91acf5eca05b26ce4df1944011f86b8)), closes [#158](https://github.com/tinesoft/nxrocks/issues/158)
+* **nx-spring-boot:** add `x-dropdown` to improve UX of `link` generator ([b056117](https://github.com/tinesoft/nxrocks/commit/b056117bc2fc67fae3a17fdc886f36638b2f01b3))
+
+
+### Features
+
+* **common:** add `addMavenProperty` helper and improve `xpath` matching ([9f89c08](https://github.com/tinesoft/nxrocks/commit/9f89c081eefc9bd168e964bf80416c5e7ad3289a))
+* **common:** add `MavenDependency` model ([5ab8c1d](https://github.com/tinesoft/nxrocks/commit/5ab8c1d89d0cc31a997bc65d3cd7d9042604a3fc))
+* **nx-ktor:** add `nx-ktor` plugin ([cb74a79](https://github.com/tinesoft/nxrocks/commit/cb74a79d23a79b1eda79c2555d092d8151cf7e49))
+* **nx-spring-boot:** add dynamic prompt to fetch boot dependencies list ([6d9f3e4](https://github.com/tinesoft/nxrocks/commit/6d9f3e46f39cd8352f8220968f837e054e187625))
+* **nx-spring-boot:** improve logging when cannot generate project ([3cc8eb6](https://github.com/tinesoft/nxrocks/commit/3cc8eb6cf9339a830f542b1e8a2ff41491c0c29a))
+
+
+### BREAKING CHANGES
+
+* **nx-spring-boot:** Nx `v15.8.x` is now the minimum required version to run the plugin
+
+We now leverage Nx's new `NX_INTERACTIVE` environment variable to check whether we are running in interactive mode (normal cli) or not.
+When true, we automatically fetch `Spring Boot` dependencies and present them in an **autocomplete** prompt with **multi-select** support,
+so you can easily select which ones you want to include in your project.
+
 # [@nxrocks/nx-spring-boot-v6.3.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v6.2.1...nx-spring-boot/v6.3.0) (2023-02-28)
 
 ### Bug Fixes
