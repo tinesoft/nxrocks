@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/nx-melos",
   "description": "Nx plugin adding first class support for Melos in your Nx workspace",
-  "version": "0.0.0-development",
+  "version": "1.2.0",
   "private": false,
   "publishConfig": {
     "access": "public"
