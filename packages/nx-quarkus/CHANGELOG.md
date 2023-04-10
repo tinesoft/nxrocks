@@ -1,3 +1,29 @@
+# [5.0.0](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v4.3.0...nx-quarkus/v5.0.0) (2023-04-10)
+
+
+### Bug Fixes
+
+* **common:** connections over Proxy not using correct `HTTP` protocol ([5cd3551](https://github.com/tinesoft/nxrocks/commit/5cd3551cf91acf5eca05b26ce4df1944011f86b8)), closes [#158](https://github.com/tinesoft/nxrocks/issues/158)
+* **nx-quarkus:** add `x-dropdown` to improve UX of `link` generator ([a6cc550](https://github.com/tinesoft/nxrocks/commit/a6cc5508a0ca348042e2ea9704c62ad3178f7565))
+
+
+### Features
+
+* **common:** add `addMavenProperty` helper and improve `xpath` matching ([9f89c08](https://github.com/tinesoft/nxrocks/commit/9f89c081eefc9bd168e964bf80416c5e7ad3289a))
+* **common:** add `MavenDependency` model ([5ab8c1d](https://github.com/tinesoft/nxrocks/commit/5ab8c1d89d0cc31a997bc65d3cd7d9042604a3fc))
+* **nx-ktor:** add `nx-ktor` plugin ([cb74a79](https://github.com/tinesoft/nxrocks/commit/cb74a79d23a79b1eda79c2555d092d8151cf7e49))
+* **nx-quarkus:** add dynamic prompt to fetch quarkus extensions list ([e937649](https://github.com/tinesoft/nxrocks/commit/e937649289696fbdaf7bacd19d0f736ee53a1534))
+* **nx-quarkus:** improve logging when cannot generate project ([115c7de](https://github.com/tinesoft/nxrocks/commit/115c7de21ca3d2558989580c5de901f5e6ca914d))
+
+
+### BREAKING CHANGES
+
+* **nx-quarkus:** Nx `v15.8.x` is now the minimum required version to run the plugin
+
+We now leverage Nx's new `NX_INTERACTIVE` environment variable to check whether we are running in interactive mode (normal cli) or not.
+When true, we automatically fetch `Quarkus` extensions and present them in an **autocomplete** prompt with **multi-select** support,
+so you can easily select which ones you want to include in your project.
+
 # [@nxrocks/nx-quarkus-v4.3.0](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v4.2.1...nx-quarkus/v4.3.0) (2023-02-28)
 
 ### Bug Fixes
