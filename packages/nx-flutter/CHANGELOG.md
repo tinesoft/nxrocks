@@ -1,3 +1,26 @@
+# [6.0.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v5.3.0...nx-flutter/v6.0.0) (2023-04-10)
+
+
+### Bug Fixes
+
+* **nx-flutter:** avoid generating files when running with `--dry-run` ([d539208](https://github.com/tinesoft/nxrocks/commit/d53920881014171e4b772173cc1f5f937fe2888f))
+
+
+### Features
+
+* **common:** add `addMavenProperty` helper and improve `xpath` matching ([9f89c08](https://github.com/tinesoft/nxrocks/commit/9f89c081eefc9bd168e964bf80416c5e7ad3289a))
+* **common:** add `MavenDependency` model ([5ab8c1d](https://github.com/tinesoft/nxrocks/commit/5ab8c1d89d0cc31a997bc65d3cd7d9042604a3fc))
+* **nx-flutter:** add support for Flutter Version Manager (`fvm`) ([e9af459](https://github.com/tinesoft/nxrocks/commit/e9af4590c5e8d2029cb4c39c86a1095253623beb))
+* **nx-flutter:** leverage `NX_INTERACTIVE` for additional prompts ([ffb0591](https://github.com/tinesoft/nxrocks/commit/ffb0591cad36baef6afa68ccbcbe5418bdeb6086))
+* **nx-ktor:** add `nx-ktor` plugin ([cb74a79](https://github.com/tinesoft/nxrocks/commit/cb74a79d23a79b1eda79c2555d092d8151cf7e49))
+
+
+### BREAKING CHANGES
+
+* **nx-flutter:** Nx `v15.8.x` is now the minimum required version to run the plugin
+
+`skipAdditionalPrompts` option was removed (no longer necessary)
+
 # [@nxrocks/nx-flutter-v5.3.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v5.2.1...nx-flutter/v5.3.0) (2023-02-28)
 
 ### Bug Fixes
