@@ -277,7 +277,8 @@ Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This ta
 
 | Plugin Version | Nx Workspace version |
 | -------------- | -------------------- |
-| `>=v1.x.x`     | `>=v15.8.x`          |
+| `>=v2.x.x`     | `>=v16.x.x`
+| `>=v1.x.x`     | `>=v15.8.x`
 
 ## License
 
