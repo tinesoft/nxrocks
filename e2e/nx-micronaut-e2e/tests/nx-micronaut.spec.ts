@@ -5,13 +5,13 @@ import {
   runNxCommandAsync,
   tmpProjPath,
   uniq,
-} from '@nrwl/nx-plugin/testing';
+} from '@nx/plugin/testing';
 import { ensureNxProjectWithDeps, octal } from '@nxrocks/common/testing';
 
 import { lstatSync } from 'fs';
 
 describe('nx-micronaut e2e', () => {
-  const isWin = process.platform === "win32";
+  const isWin = process.platform === 'win32';
 
   // Setting up individual workspaces per
   // test can cause e2e runs to take a long time.
@@ -20,8 +20,11 @@ describe('nx-micronaut e2e', () => {
   // on a unique project in the workspace, such that they
   // are not dependant on one another.
   beforeAll(() => {
-    ensureNxProjectWithDeps('@nxrocks/nx-micronaut', 'dist/packages/nx-micronaut',
-    [{ name: '@nxrocks/common', path: 'dist/packages/common' }]);
+    ensureNxProjectWithDeps(
+      '@nxrocks/nx-micronaut',
+      'dist/packages/nx-micronaut',
+      [{ name: '@nxrocks/common', path: 'dist/packages/common' }]
+    );
   });
 
   afterAll(() => {
@@ -30,136 +33,158 @@ describe('nx-micronaut e2e', () => {
     runNxCommandAsync('reset');
   });
 
-  it('should create nx-micronaut with default options', async() => {
+  it('should create nx-micronaut with default options', async () => {
     const prjName = uniq('nx-micronaut');
-    await runNxCommandAsync(
-      `generate @nxrocks/nx-micronaut:new ${prjName}`
+    await runNxCommandAsync(`generate @nxrocks/nx-micronaut:new ${prjName}`);
+
+    const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+    expect(resultBuild.stdout).toContain(
+      `Executing command: ${isWin ? 'mvnw.bat' : './mvnw'} package`
     );
-
-    const resultBuild= await runNxCommandAsync(`build ${prjName}`);
-    expect(resultBuild.stdout).toContain(`Executing command: ${isWin ? 'mvnw.bat' : './mvnw'} package`)
-
-    expect(() =>
-      checkFilesExist(`apps/${prjName}/mvnw`,`apps/${prjName}/pom.xml`, `apps/${prjName}/README.md`)
-    ).not.toThrow();
-
-    // make sure the build wrapper file is executable (*nix only)
-    if(!isWin) {
-      const execPermission = '755';
-      expect(
-        lstatSync(
-          tmpProjPath(`apps/${prjName}/mvnw`)
-        ).mode & octal(execPermission)
-      ).toEqual(octal(execPermission));
-    }
-
-  }, 200000);
-
-  it.each(["graphql", "", " "])("should create nx-micronaut with given options (features='%s')", async(features: string) => {
-    const prjName = uniq('nx-micronaut');
-    const buildSystem = 'MAVEN';
-    const basePackage = 'com.tinesoft';
-
-    await runNxCommandAsync(
-      `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --basePackage=${basePackage} --features=${features}`
-    );
-
-    const resultBuild= await runNxCommandAsync(`build ${prjName}`);
-    expect(resultBuild.stdout).toContain(`Executing command: ${isWin ? 'mvnw.bat' : './mvnw'} package`)
 
     expect(() =>
       checkFilesExist(
         `apps/${prjName}/mvnw`,
-        `apps/${prjName}/pom.xml`, 
-        `apps/${prjName}/README.md`,
-        `apps/${prjName}/src/main/java/com/tinesoft/Application.java`)
+        `apps/${prjName}/pom.xml`,
+        `apps/${prjName}/README.md`
+      )
     ).not.toThrow();
 
-    const pomXml = readFile(`apps/${prjName}/pom.xml`);
-    expect(pomXml).toContain(`<groupId>${basePackage}</groupId>`);
-    
-    expect(pomXml).toContain(`<artifactId>${prjName}</artifactId>`);
-
     // make sure the build wrapper file is executable (*nix only)
-    if(!isWin) {
+    if (!isWin) {
       const execPermission = '755';
       expect(
-        lstatSync(
-          tmpProjPath(`apps/${prjName}/mvnw`)
-        ).mode & octal(execPermission)
+        lstatSync(tmpProjPath(`apps/${prjName}/mvnw`)).mode &
+          octal(execPermission)
       ).toEqual(octal(execPermission));
     }
-
   }, 200000);
 
-  it.each([["JDK_8", "1.8"], ["JDK_11", "11"], ["JDK_17", "17"]])("should handle java version '%s'", async(javaVersion, expected) => {
-    const prjName = uniq('nx-micronaut');
-    const buildSystem = 'MAVEN';
+  it.each(['graphql', '', ' '])(
+    "should create nx-micronaut with given options (features='%s')",
+    async (features: string) => {
+      const prjName = uniq('nx-micronaut');
+      const buildSystem = 'MAVEN';
+      const basePackage = 'com.tinesoft';
 
-    await runNxCommandAsync(
-      `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --javaVersion=${javaVersion}`
-    );
+      await runNxCommandAsync(
+        `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --basePackage=${basePackage} --features=${features}`
+      );
 
-    const pomXml = readFile(`apps/${prjName}/pom.xml`);
-    expect(pomXml).toContain(`<jdk.version>${expected}</jdk.version>`);
-  }, 150000);
+      const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+      expect(resultBuild.stdout).toContain(
+        `Executing command: ${isWin ? 'mvnw.bat' : './mvnw'} package`
+      );
+
+      expect(() =>
+        checkFilesExist(
+          `apps/${prjName}/mvnw`,
+          `apps/${prjName}/pom.xml`,
+          `apps/${prjName}/README.md`,
+          `apps/${prjName}/src/main/java/com/tinesoft/Application.java`
+        )
+      ).not.toThrow();
+
+      const pomXml = readFile(`apps/${prjName}/pom.xml`);
+      expect(pomXml).toContain(`<groupId>${basePackage}</groupId>`);
+
+      expect(pomXml).toContain(`<artifactId>${prjName}</artifactId>`);
+
+      // make sure the build wrapper file is executable (*nix only)
+      if (!isWin) {
+        const execPermission = '755';
+        expect(
+          lstatSync(tmpProjPath(`apps/${prjName}/mvnw`)).mode &
+            octal(execPermission)
+        ).toEqual(octal(execPermission));
+      }
+    },
+    200000
+  );
+
+  it.each([
+    ['JDK_8', '1.8'],
+    ['JDK_11', '11'],
+    ['JDK_17', '17'],
+  ])(
+    "should handle java version '%s'",
+    async (javaVersion, expected) => {
+      const prjName = uniq('nx-micronaut');
+      const buildSystem = 'MAVEN';
+
+      await runNxCommandAsync(
+        `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --javaVersion=${javaVersion}`
+      );
+
+      const pomXml = readFile(`apps/${prjName}/pom.xml`);
+      expect(pomXml).toContain(`<jdk.version>${expected}</jdk.version>`);
+    },
+    150000
+  );
 
   describe('--buildSystem=GRADLE', () => {
-    it('should create a gradle micronaut project', async() => {
+    it('should create a gradle micronaut project', async () => {
       const prjName = uniq('nx-micronaut');
 
       await runNxCommandAsync(
         `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem GRADLE`
       );
 
-      const resultBuild= await runNxCommandAsync(`build ${prjName}`);
-      expect(resultBuild.stdout).toContain(`Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`)
-  
+      const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+      expect(resultBuild.stdout).toContain(
+        `Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`
+      );
+
       expect(() =>
-      checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle`, `apps/${prjName}/README.md`)
+        checkFilesExist(
+          `apps/${prjName}/gradlew`,
+          `apps/${prjName}/build.gradle`,
+          `apps/${prjName}/README.md`
+        )
       ).not.toThrow();
 
       // make sure the build wrapper file is executable (*nix only)
-      if(!isWin) {
+      if (!isWin) {
         const execPermission = '755';
         expect(
-          lstatSync(
-            tmpProjPath(`apps/${prjName}/gradlew`)
-          ).mode & octal(execPermission)
+          lstatSync(tmpProjPath(`apps/${prjName}/gradlew`)).mode &
+            octal(execPermission)
         ).toEqual(octal(execPermission));
       }
-
     }, 200000);
   });
 
   describe('--buildSystem=GRADLE_KOTLIN', () => {
-    it('should create a gradle micronaut project with kotlin', async() => {
+    it('should create a gradle micronaut project with kotlin', async () => {
       const prjName = uniq('nx-micronaut');
 
       await runNxCommandAsync(
         `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem GRADLE_KOTLIN`
       );
 
-      const resultBuild= await runNxCommandAsync(`build ${prjName}`);
-      expect(resultBuild.stdout).toContain(`Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`)
-  
+      const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+      expect(resultBuild.stdout).toContain(
+        `Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`
+      );
+
       expect(() =>
-      checkFilesExist(`apps/${prjName}/gradlew`,`apps/${prjName}/build.gradle.kts`, `apps/${prjName}/README.md`)
+        checkFilesExist(
+          `apps/${prjName}/gradlew`,
+          `apps/${prjName}/build.gradle.kts`,
+          `apps/${prjName}/README.md`
+        )
       ).not.toThrow();
 
       // make sure the build wrapper file is executable (*nix only)
-      if(!isWin) {
+      if (!isWin) {
         const execPermission = '755';
         expect(
-          lstatSync(
-            tmpProjPath(`apps/${prjName}/gradlew`)
-          ).mode & octal(execPermission)
+          lstatSync(tmpProjPath(`apps/${prjName}/gradlew`)).mode &
+            octal(execPermission)
         ).toEqual(octal(execPermission));
       }
-
     }, 200000);
   });
-  
 
   describe('--directory', () => {
     it('should create src in the specified directory', async () => {
@@ -168,7 +193,11 @@ describe('nx-micronaut e2e', () => {
         `generate @nxrocks/nx-micronaut:new ${prjName} --directory subdir`
       );
       expect(() =>
-      checkFilesExist(`apps/subdir/${prjName}/mvnw`,`apps/subdir/${prjName}/pom.xml`, `apps/subdir/${prjName}/README.md`)
+        checkFilesExist(
+          `apps/subdir/${prjName}/mvnw`,
+          `apps/subdir/${prjName}/pom.xml`,
+          `apps/subdir/${prjName}/README.md`
+        )
       ).not.toThrow();
     }, 120000);
   });

@@ -1,29 +1,45 @@
-import { Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { Tree } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { addMavenPlugin } from '.';
 import { stripIndent } from '../utils';
-import { addSpotlessMavenPlugin, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_VERSION, removeMavenPlugin, addMavenProperty } from './maven-utils';
+import {
+  addSpotlessMavenPlugin,
+  SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
+  SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
+  SPOTLESS_MAVEN_PLUGIN_VERSION,
+  removeMavenPlugin,
+  addMavenProperty,
+} from './maven-utils';
 
-const getPomXmlFile = (hasBuildNode = true, hasPluginsNode = true, hasPropertiesNode = true) => {
-
-    const pluginsNode = hasPluginsNode ? stripIndent`
+const getPomXmlFile = (
+  hasBuildNode = true,
+  hasPluginsNode = true,
+  hasPropertiesNode = true
+) => {
+  const pluginsNode = hasPluginsNode
+    ? stripIndent`
     <plugins>
         <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
         </plugin>
-    </plugins>`: '';
-    const buildNode = hasBuildNode ? stripIndent`
+    </plugins>`
+    : '';
+  const buildNode = hasBuildNode
+    ? stripIndent`
     <build>
         ${pluginsNode}
-    </build>` : '';
+    </build>`
+    : '';
 
-    const propertiesNode = hasPropertiesNode ? stripIndent`
+  const propertiesNode = hasPropertiesNode
+    ? stripIndent`
     <properties>
         <java.version>11</java.version>
-    </properties>`: '';
+    </properties>`
+    : '';
 
-    return stripIndent`
+  return stripIndent`
     <?xml version="1.0" encoding="UTF-8"?>
     <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -57,76 +73,99 @@ const getPomXmlFile = (hasBuildNode = true, hasPluginsNode = true, hasProperties
 };
 
 describe('maven-utils', () => {
+  describe('addMavenProperty', () => {
+    let tree: Tree;
+    beforeEach(() => {
+      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    });
 
-    describe('addMavenProperty', () => {
+    it('should not add the property if already exists', () => {
+      tree.write(`./pom.xml`, getPomXmlFile());
+      const added = addMavenProperty(tree, '.', 'java.version', '11');
+      expect(added).toEqual(false);
+    });
 
-        let tree: Tree;
-        beforeEach(() => {
-            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-        });
-
-        it('should not add the property if already exists', () => {
-            tree.write(`./pom.xml`, getPomXmlFile());
-            const added = addMavenProperty(tree, '.', 'java.version', '11');
-            expect(added).toEqual(false);
-        });
-
-        it.each`
-            hasPropertiesNode
-            ${true}     
-            ${false}    
-        `('should add the property even when hasPropertiesNode: $hasPropertiesNode', ({hasPropertiesNode}) => {
-            tree.write(`./pom.xml`, getPomXmlFile(true, true, hasPropertiesNode));
-            const previousProperties = hasPropertiesNode ? stripIndent`
+    it.each`
+      hasPropertiesNode
+      ${true}
+      ${false}
+    `(
+      'should add the property even when hasPropertiesNode: $hasPropertiesNode',
+      ({ hasPropertiesNode }) => {
+        tree.write(`./pom.xml`, getPomXmlFile(true, true, hasPropertiesNode));
+        const previousProperties = hasPropertiesNode
+          ? stripIndent`
             <java.version>11</java.version>
-            ` : '';
-
-            const added = addMavenProperty(tree, '.', 'docker.buildArg.ARG_FILE', 'artifact.jar');
-            const pomXml = tree.read(`./pom.xml`, 'utf-8');
-            expect(added).toEqual(true);
-            expect(pomXml.replace(/\s+/g,'')).toContain(
             `
+          : '';
+
+        const added = addMavenProperty(
+          tree,
+          '.',
+          'docker.buildArg.ARG_FILE',
+          'artifact.jar'
+        );
+        const pomXml = tree.read(`./pom.xml`, 'utf-8');
+        expect(added).toEqual(true);
+        expect(pomXml.replace(/\s+/g, '')).toContain(
+          `
             <properties>
                 ${previousProperties}
                 <docker.buildArg.ARG_FILE>artifact.jar</docker.buildArg.ARG_FILE>
             </properties>
-            `.replace(/\s+/g,'')
-            );
-        });
+            `.replace(/\s+/g, '')
+        );
+      }
+    );
+  });
+
+  describe('addMavenPlugin', () => {
+    let tree: Tree;
+    beforeEach(() => {
+      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     });
 
-    describe('addMavenPlugin', () => {
+    it('should not add the plugin if already exists', () => {
+      tree.write(`./pom.xml`, getPomXmlFile());
+      const added = addMavenPlugin(
+        tree,
+        '.',
+        'org.springframework.boot',
+        'spring-boot-maven-plugin'
+      );
+      expect(added).toEqual(false);
+    });
 
-        let tree: Tree;
-        beforeEach(() => {
-            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-        });
-
-        it('should not add the plugin if already exists', () => {
-            tree.write(`./pom.xml`, getPomXmlFile());
-            const added = addMavenPlugin(tree, '.', 'org.springframework.boot', 'spring-boot-maven-plugin');
-            expect(added).toEqual(false);
-        });
-
-        it.each`
-            hasBuildNode | hasPluginsNode
-            ${true}     | ${true}
-            ${true}     | ${false}
-            ${false}    | ${true}
-            ${false}    | ${false}
-        `('should add the plugin even when hasBuildNode: $hasBuildNode and hasPluginsNode: $hasPluginsNode', ({hasBuildNode, hasPluginsNode}) => {
-            tree.write(`./pom.xml`, getPomXmlFile(hasBuildNode, hasPluginsNode));
-            const previousPlugins = hasBuildNode && hasPluginsNode ? stripIndent`
+    it.each`
+      hasBuildNode | hasPluginsNode
+      ${true}      | ${true}
+      ${true}      | ${false}
+      ${false}     | ${true}
+      ${false}     | ${false}
+    `(
+      'should add the plugin even when hasBuildNode: $hasBuildNode and hasPluginsNode: $hasPluginsNode',
+      ({ hasBuildNode, hasPluginsNode }) => {
+        tree.write(`./pom.xml`, getPomXmlFile(hasBuildNode, hasPluginsNode));
+        const previousPlugins =
+          hasBuildNode && hasPluginsNode
+            ? stripIndent`
             <plugin>
             	<groupId>org.springframework.boot</groupId>
             	<artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>` : '';
+            </plugin>`
+            : '';
 
-            const added = addMavenPlugin(tree, '.', SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_VERSION);
-            const pomXml = tree.read(`./pom.xml`, 'utf-8');
-            expect(added).toEqual(true);
-            expect(pomXml.replace(/\s+/g,'')).toContain(
-            `
+        const added = addMavenPlugin(
+          tree,
+          '.',
+          SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
+          SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
+          SPOTLESS_MAVEN_PLUGIN_VERSION
+        );
+        const pomXml = tree.read(`./pom.xml`, 'utf-8');
+        expect(added).toEqual(true);
+        expect(pomXml.replace(/\s+/g, '')).toContain(
+          `
             <build>
             	<plugins>
             		${previousPlugins}
@@ -137,32 +176,42 @@ describe('maven-utils', () => {
             		</plugin>
             	</plugins>
             </build>
-            `.replace(/\s+/g,'')
-            );
-        });
+            `.replace(/\s+/g, '')
+        );
+      }
+    );
+  });
+
+  describe('removeMavenPlugin', () => {
+    let tree: Tree;
+    beforeEach(() => {
+      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     });
 
-    describe('removeMavenPlugin', () => {
+    it('should not remove the plugin if does not exist', () => {
+      tree.write(`./pom.xml`, getPomXmlFile());
+      const removed = removeMavenPlugin(
+        tree,
+        '.',
+        'org.springframework.boot.fake',
+        'spring-boot-maven-plugin-fake'
+      );
+      expect(removed).toEqual(false);
+    });
 
-        let tree: Tree;
-        beforeEach(() => {
-            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-        });
+    it(`should remove the plugin node if found along with its ancestors 'plugins' and 'build' node if empty afterwards`, () => {
+      tree.write(`./pom.xml`, getPomXmlFile());
 
-        it('should not remove the plugin if does not exist', () => {
-            tree.write(`./pom.xml`, getPomXmlFile());
-            const removed = removeMavenPlugin(tree, '.', 'org.springframework.boot.fake', 'spring-boot-maven-plugin-fake');
-            expect(removed).toEqual(false);
-        });
-
-        it(`should remove the plugin node if found along with its ancestors 'plugins' and 'build' node if empty afterwards`, () => {
-            tree.write(`./pom.xml`, getPomXmlFile());
-
-            const removed = removeMavenPlugin(tree, '.','org.springframework.boot', 'spring-boot-maven-plugin');
-            const pomXml = tree.read(`./pom.xml`, 'utf-8');
-            expect(removed).toEqual(true);
-            expect(pomXml.replace(/\s+/g,'')).not.toContain(
-            `
+      const removed = removeMavenPlugin(
+        tree,
+        '.',
+        'org.springframework.boot',
+        'spring-boot-maven-plugin'
+      );
+      const pomXml = tree.read(`./pom.xml`, 'utf-8');
+      expect(removed).toEqual(true);
+      expect(pomXml.replace(/\s+/g, '')).not.toContain(
+        `
             <build>
             	<plugins>
             		<plugin>
@@ -171,42 +220,51 @@ describe('maven-utils', () => {
             		</plugin>
             	</plugins>
             </build>
-            `.replace(/\s+/g,'')
-            );
-        });
+            `.replace(/\s+/g, '')
+      );
+    });
+  });
+
+  describe('addSpotlessMavenPlugin', () => {
+    let tree: Tree;
+    beforeEach(() => {
+      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     });
 
-    describe('addSpotlessMavenPlugin', () => {
-        let tree: Tree;
-        beforeEach(() => {
-            tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
-        });
-
-        it.each`
-            language    | jdkVersion    | baseGitBranch | formatter                 | expected
-            ${'java'}   | ${'11'}       | ${'master'}   | ${'<googleJavaFormat/>'}   | ${true}
-            ${'java'}   | ${undefined}  | ${undefined}  | ${'<googleJavaFormat/>'}   | ${true}
-            ${'kotlin'} | ${'11'}       | ${'develop'}  | ${'<ktfmt/>'}              | ${true}
-            ${'kotlin'} | ${'8'}        | ${'develop'}  | ${'<ktlint/>'}             | ${true}
-            ${'kotlin'} | ${undefined}  | ${undefined}  | ${'<ktlint/>'}             | ${true}
-            ${'groovy'} | ${'11'}       | ${'master'}   | ${'<greclipse/>'}          | ${true}
-            ${'groovy'} | ${undefined}  | ${undefined}  | ${'<greclipse/>'}          | ${true}
-        `(`should return $expected when applying spotless gradle plugin to project with language: '$language', jdkVersion: '$jdkVersion', baseGitBranch: '$baseGitBranch'`,
-            ({ language, jdkVersion, baseGitBranch, formatter, expected }) => {
-                tree.write(`./pom.xml`, getPomXmlFile());
-                const added = addSpotlessMavenPlugin(tree, '.', language, jdkVersion, baseGitBranch);
-                const pomXml = tree.read(`./pom.xml`, 'utf-8');
-                expect(added).toBe(expected);
-                expect(pomXml).toContain(formatter);
-
-                if (baseGitBranch) {
-                    expect(pomXml).toContain(`<ratchetFrom>${baseGitBranch}</ratchetFrom>`);
-                } else {
-                    expect(pomXml).not.toContain(`<ratchetFrom>${baseGitBranch}</ratchetFrom>`);
-                }
-
-            }
+    it.each`
+      language    | jdkVersion   | baseGitBranch | formatter                | expected
+      ${'java'}   | ${'11'}      | ${'master'}   | ${'<googleJavaFormat/>'} | ${true}
+      ${'java'}   | ${undefined} | ${undefined}  | ${'<googleJavaFormat/>'} | ${true}
+      ${'kotlin'} | ${'11'}      | ${'develop'}  | ${'<ktfmt/>'}            | ${true}
+      ${'kotlin'} | ${'8'}       | ${'develop'}  | ${'<ktlint/>'}           | ${true}
+      ${'kotlin'} | ${undefined} | ${undefined}  | ${'<ktlint/>'}           | ${true}
+      ${'groovy'} | ${'11'}      | ${'master'}   | ${'<greclipse/>'}        | ${true}
+      ${'groovy'} | ${undefined} | ${undefined}  | ${'<greclipse/>'}        | ${true}
+    `(
+      `should return $expected when applying spotless gradle plugin to project with language: '$language', jdkVersion: '$jdkVersion', baseGitBranch: '$baseGitBranch'`,
+      ({ language, jdkVersion, baseGitBranch, formatter, expected }) => {
+        tree.write(`./pom.xml`, getPomXmlFile());
+        const added = addSpotlessMavenPlugin(
+          tree,
+          '.',
+          language,
+          jdkVersion,
+          baseGitBranch
         );
+        const pomXml = tree.read(`./pom.xml`, 'utf-8');
+        expect(added).toBe(expected);
+        expect(pomXml).toContain(formatter);
 
-    });
+        if (baseGitBranch) {
+          expect(pomXml).toContain(
+            `<ratchetFrom>${baseGitBranch}</ratchetFrom>`
+          );
+        } else {
+          expect(pomXml).not.toContain(
+            `<ratchetFrom>${baseGitBranch}</ratchetFrom>`
+          );
+        }
+      }
+    );
+  });
 });

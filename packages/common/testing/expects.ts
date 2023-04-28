@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import { ExecutorContext, logger } from '@nrwl/devkit';
+import { ExecutorContext, logger } from '@nx/devkit';
 
 import { join } from 'path';
 

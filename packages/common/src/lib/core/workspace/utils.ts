@@ -1,6 +1,11 @@
 import { join } from 'path';
 
-import { getWorkspaceLayout, ProjectConfiguration, Tree, workspaceRoot } from '@nrwl/devkit';
+import {
+  getWorkspaceLayout,
+  ProjectConfiguration,
+  Tree,
+  workspaceRoot,
+} from '@nx/devkit';
 import { readFileSync } from 'fs';
 
 export function getProjectRoot(project: ProjectConfiguration) {
@@ -22,7 +27,10 @@ export function getProjectFileContent(
   return readFileSync(filePath, 'utf8');
 }
 
-export function getProjectRootDir(tree:Tree, projectType: 'application' | 'library') {
+export function getProjectRootDir(
+  tree: Tree,
+  projectType: 'application' | 'library'
+) {
   const { appsDir, libsDir } = getWorkspaceLayout(tree);
   return projectType === 'application' ? appsDir : libsDir;
 }

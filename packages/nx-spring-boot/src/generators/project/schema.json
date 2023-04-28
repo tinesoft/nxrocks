@@ -3,7 +3,6 @@
   "id": "@nxrocks/nx-spring-boot:project",
   "description": "Spring Boot Project Generator.",
   "title": "Creates a Spring Boot project in the workspace",
-  "cli": "nx",
   "outputCapture": "pipe",
   "type": "object",
   "properties": {
@@ -22,7 +21,10 @@
       "description": "Type of project.",
       "default": "application",
       "type": "string",
-      "enum": ["application", "library"],
+      "enum": [
+        "application",
+        "library"
+      ],
       "x-prompt": {
         "message": "What kind of project are you generating?",
         "type": "list",
@@ -44,7 +46,11 @@
       "alias": "type",
       "default": "maven-project",
       "type": "string",
-      "enum": ["maven-project", "gradle-project", "gradle-project-kotlin"],
+      "enum": [
+        "maven-project",
+        "gradle-project",
+        "gradle-project-kotlin"
+      ],
       "x-prompt": {
         "message": "Which build system would you like to use?",
         "type": "list",
@@ -69,7 +75,10 @@
       "description": "Packaging of the project.",
       "type": "string",
       "default": "jar",
-      "enum": ["jar", "war"],
+      "enum": [
+        "jar",
+        "war"
+      ],
       "x-prompt": {
         "message": "Which packaging would you like to use?",
         "type": "list",
@@ -90,14 +99,19 @@
       "description": "Java version.",
       "oneOf": [
         {
-          "type":"string"
+          "type": "string"
         },
         {
-          "type":"number"
+          "type": "number"
         }
       ],
       "default": "17",
-      "enum": ["1.8", "11", "17", "19"],
+      "enum": [
+        "1.8",
+        "11",
+        "17",
+        "19"
+      ],
       "x-prompt": {
         "message": "Which version of Java would you like to use?",
         "type": "list",
@@ -126,7 +140,11 @@
       "description": "Language of the project.",
       "type": "string",
       "default": "java",
-      "enum": ["java", "kotlin", "groovy"],
+      "enum": [
+        "java",
+        "kotlin",
+        "groovy"
+      ],
       "x-prompt": {
         "message": "Which language would you like to use?",
         "type": "list",
@@ -189,7 +207,6 @@
       "default": "https://start.spring.io",
       "description": "The URL to the Spring Initializer instance to use to generate the project.",
       "x-priority": "internal"
-      
     },
     "proxyUrl": {
       "type": "string",
@@ -222,6 +239,7 @@
     }
   },
   "required": [
-   "projectType", "name"
+    "projectType",
+    "name"
   ]
 }

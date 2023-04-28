@@ -3,7 +3,6 @@
   "id": "@nxrocks/nx-flutter:project",
   "description": "Flutter Project generator.",
   "title": "Creates a Flutter project in the workspace",
-  "cli": "nx",
   "outputCapture": "pipe",
   "type": "object",
   "properties": {
@@ -39,7 +38,12 @@
       "x-prompt": {
         "message": "Which type of Flutter project would you like to create?",
         "type": "list",
-        "enum": ["app", "module", "package", "plugin"],
+        "enum": [
+          "app",
+          "module",
+          "package",
+          "plugin"
+        ],
         "items": [
           {
             "value": "app",

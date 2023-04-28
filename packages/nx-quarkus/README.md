@@ -1,4 +1,5 @@
 # nx-quarkus
+
 [![npm version](https://img.shields.io/npm/v/@nxrocks/nx-quarkus?style=flat-square)](https://www.npmjs.com/package/@nxrocks/nx-quarkus)
 [![github action - release](https://img.shields.io/github/actions/workflow/status/tinesoft/nxrocks/release.yml?label=release&style=flat-square)](https://github.com/tinesoft/nxrocks/actions?query=workflow%3ARelease)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg?style=flat-square)](https://github.com/semantic-release/semantic-release)
@@ -26,7 +27,7 @@ Here is a list of some of the coolest features of the plugin:
 - ✅ Integration with Nx's **dependency graph** (through `nx dep-graph` or `nx affected:dep-graph`): this allows you to **visualize** the dependencies of any Quarkus's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
 
   ![Nx Quarkus dependency graph](https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nx-quarkus-dep-graph.png)
-  *Example of running the `nx dep-graph` command on a workspace with 2 Quarkus projects inside*
+  _Example of running the `nx dep-graph` command on a workspace with 2 Quarkus projects inside_
 
 - ...
 
@@ -78,23 +79,23 @@ nx g @nxrocks/nx-quarkus:new <your-app-name> --optionName1 optionValue1 ... --op
 
 Here the list of available generation options :
 
-| Arguments | Description              |
-| --------- | ------------------------ |
-| `<name>`  | The name of your project.|
+| Arguments | Description               |
+| --------- | ------------------------- |
+| `<name>`  | The name of your project. |
 
-Option                 | Value | Description
----------------------- | ----- | ------------
-`projectType`          | `application` \| `library`  | Type of project to generate
-`buildSystem`          | `MAVEN` \| `GRADLE`  | Build system
-`groupId`              | `string` | GroupId of the project
-`artifactId`           | `string` | ArtifactId of the project
-`skipFormat`           | `boolean` | Do not add the ability to format code (using Spotless plugin)
-`extensions`           | `string` | List of extensions to use (comma-separated). Go to https://code.quarkus.io/api/extensions to get the ids needed here
-`quarkusInitializerUrl` | `https://code.quarkus.io`            | URL to the Quarkus Initializer instance to use
-`proxyUrl`             |          | The URL of the (corporate) proxy server to use to access Quarkus Initializer
-`skipeCodeSamples`     | `string` | Whether or not to include code samples from extensions (when available)
-`tags`                 | `string` | Tags to use for linting (comma-separated)
-`directory`            | `string` | Directory where the project is placed
+| Option                  | Value                      | Description                                                                                                          |
+| ----------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `projectType`           | `application` \| `library` | Type of project to generate                                                                                          |
+| `buildSystem`           | `MAVEN` \| `GRADLE`        | Build system                                                                                                         |
+| `groupId`               | `string`                   | GroupId of the project                                                                                               |
+| `artifactId`            | `string`                   | ArtifactId of the project                                                                                            |
+| `skipFormat`            | `boolean`                  | Do not add the ability to format code (using Spotless plugin)                                                        |
+| `extensions`            | `string`                   | List of extensions to use (comma-separated). Go to https://code.quarkus.io/api/extensions to get the ids needed here |
+| `quarkusInitializerUrl` | `https://code.quarkus.io`  | URL to the Quarkus Initializer instance to use                                                                       |
+| `proxyUrl`              |                            | The URL of the (corporate) proxy server to use to access Quarkus Initializer                                         |
+| `skipeCodeSamples`      | `string`                   | Whether or not to include code samples from extensions (when available)                                              |
+| `tags`                  | `string`                   | Tags to use for linting (comma-separated)                                                                            |
+| `directory`             | `string`                   | Directory where the project is placed                                                                                |
 
 > **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
 > Otherwise, you'll get a [ETIMEDOUT error](https://github.com/tinesoft/nxrocks/issues/125) when trying to access official Spring Initializer to generate the project.
@@ -102,7 +103,7 @@ Option                 | Value | Description
 
 ### Linking Projects (`link` generator)
 
-This generator is used to link a Quarkus project inside the workspace (the *source* project) with another project (the _*target* project), by adding the source project as an **implicit dependency** of the later.
+This generator is used to link a Quarkus project inside the workspace (the _source_ project) with another project (the \__target_ project), by adding the source project as an **implicit dependency** of the later.
 
 Simply run the `link` generator with the following command:
 
@@ -126,15 +127,14 @@ or even simpler:
 nx g @nxrocks/nx-quarkus:link  <your-quarkus-app>  <your-other-app>
 ```
 
-
 #### Generation Options
 
 Here the list of available generation options :
 
-| Arguments | Description              |
-| --------- | ------------------------ |
-| `<sourceProjectName>`  | The name of the source(Quarkus) project to link from. 1st argument of the `link` generator. Can also be provided as option `--sourceProjectName`|
-| `<targetProjectName>`  | The name of the target project to link to. 2nd argument of the `link` generator. Can also be provided as option `--targetProjectName`|
+| Arguments             | Description                                                                                                                                      |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `<sourceProjectName>` | The name of the source(Quarkus) project to link from. 1st argument of the `link` generator. Can also be provided as option `--sourceProjectName` |
+| `<targetProjectName>` | The name of the target project to link to. 2nd argument of the `link` generator. Can also be provided as option `--targetProjectName`            |
 
 ## Plugin Usage
 
@@ -142,30 +142,31 @@ Once your app is generated, you can now use buidlers to manage it.
 
 Here the list of available executors:
 
-| Executor         | Arguments                                  | Description                                |
-| --------------- | ------------------------------------------ | ------------------------------------------ |
-| `run` \| `dev` \| `serve`| `ignoreWrapper:boolean`, `args: string[]`  | Runs the project in dev mode using either `./mvnw\|mvn quarkus:dev` or `./gradlew\|gradle quarkusDev` |
-| `remote-dev`     | `ignoreWrapper:boolean`, `args: string[]`  | Runs the project in remote dev mode using either `./mvnw\|mvn quarkus:remote-dev` or `./gradlew\|gradle quarkusRemoteDev` |
-| `build`         | `ignoreWrapper:boolean`, `args: string[]`  | Builds a native or container friendly image either `./mvnw\|mvn build` or `./gradlew\|gradle build` |
-| `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
-| `clean`         | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
-| `format`        | `ignoreWrapper:boolean`, `args: string[]`  | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
-| `package`       | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle package` |
-| `install`       | `ignoreWrapper:boolean`, `args: string[]`  | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
-| `add-extension`  | `ignoreWrapper:boolean`, `args: string[]`  | Adds a new extension to the  project using either `./mvnw\|mvn quarkus:add-extension` or `./gradlew\|gradle quarkusAddExtension` |
-| `list-extensions`| `ignoreWrapper:boolean`, `args: string[]`  | Adds a new extension to the  project using either `./mvnw\|mvn quarkus:list-extensions` or `./gradlew\|gradle quarkusListExtensions` |
+| Executor                  | Arguments                                 | Description                                                                                                                                                      |
+| ------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run` \| `dev` \| `serve` | `ignoreWrapper:boolean`, `args: string[]` | Runs the project in dev mode using either `./mvnw\|mvn quarkus:dev` or `./gradlew\|gradle quarkusDev`                                                            |
+| `remote-dev`              | `ignoreWrapper:boolean`, `args: string[]` | Runs the project in remote dev mode using either `./mvnw\|mvn quarkus:remote-dev` or `./gradlew\|gradle quarkusRemoteDev`                                        |
+| `build`                   | `ignoreWrapper:boolean`, `args: string[]` | Builds a native or container friendly image either `./mvnw\|mvn build` or `./gradlew\|gradle build`                                                              |
+| `test`                    | `ignoreWrapper:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                    |
+| `clean`                   | `ignoreWrapper:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                 |
+| `format`                  | `ignoreWrapper:boolean`, `args: string[]` | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                                             |
+| `package`                 | `ignoreWrapper:boolean`, `args: string[]` | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle package`                                                                           |
+| `install`                 | `ignoreWrapper:boolean`, `args: string[]` | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
+| `add-extension`           | `ignoreWrapper:boolean`, `args: string[]` | Adds a new extension to the project using either `./mvnw\|mvn quarkus:add-extension` or `./gradlew\|gradle quarkusAddExtension`                                  |
+| `list-extensions`         | `ignoreWrapper:boolean`, `args: string[]` | Adds a new extension to the project using either `./mvnw\|mvn quarkus:list-extensions` or `./gradlew\|gradle quarkusListExtensions`                              |
 
 In order to execute the requested command, each executor will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
 If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.
 This can be useful in a CI environment for example, or in a restricted environment where the binary cannot be downloaded (due to proxy/firewall limitations).
 
-
 You can pass in additional arguments to the underlying Gradle or Maven, either temporarily (via `--args="..."`). For example:
+
 ```
 nx remote-dev your-quarkus-app --args="-Dquarkus.live-reload.url=http://my-remote-host:8080"
 ```
 
 Or, permanently by editing the related executor in the `workspace.json` file, as such:
+
 ```js
 {
   "version": 1,
@@ -185,7 +186,7 @@ Or, permanently by editing the related executor in the `workspace.json` file, as
       }
     }},
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nx/workspace"
   }
 }
 ```
@@ -200,7 +201,7 @@ nx serve your-quarkus-app
 nx dev your-quarkus-app
 ```
 
-### Install the project's artifacts to local Maven repository (in `~/.m2/repository`) -  (`install` Executor)
+### Install the project's artifacts to local Maven repository (in `~/.m2/repository`) - (`install` Executor)
 
 ```
 nx install your-quarkus-app
@@ -216,7 +217,7 @@ nx remote-dev your-quarkus-app --args="-Dquarkus.live-reload.url=http://my-remot
 nx remote-dev your-quarkus-app --args="-Dquarkus.live-reload.url=http://my-remote-host:8080"
 ```
 
-### Building the aplication -  (`build` Executor)
+### Building the aplication - (`build` Executor)
 
 ```
 nx build your-quarkus-app
@@ -224,19 +225,19 @@ nx build your-quarkus-app
 
 > **Note:** a task dependency to `install` executor of dependent (library) projects [is added by the plugin](https://github.com/tinesoft/nxrocks/commit/a18a9aaaeb92a779b98dfb82fdf72ac702c7ca34), so that Nx will automatically `install` dependent artifacts to your local Maven repository, prior to running this command. This is particulaly useful, when for example, you have a Spring Boot **application** that depends on another Spring boot **library** in the workspace. No more need to install the library yourself first!
 
-### Testing the project -  (`test` Executor)
+### Testing the project - (`test` Executor)
 
 ```
 nx test your-quarkus-app
 ```
 
-### Cleaning the project -  (`clean` Executor)
+### Cleaning the project - (`clean` Executor)
 
 ```
 nx clean your-quarkus-app
 ```
 
-### Formatting the project -  (`format` Executor)
+### Formatting the project - (`format` Executor)
 
 ```
 
@@ -247,15 +248,16 @@ nx run your-quarkus-app:format
 nx apply-format your-quarkus-app
 
 ```
-> Note: You *cannot** use the shorter `nx format your-boot-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
 
-### Packaging the project -  (`package` Executor)
+> Note: You \*cannot\*\* use the shorter `nx format your-boot-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
+
+### Packaging the project - (`package` Executor)
 
 ```
 nx package your-quarkus-app
 ```
 
-### Add Extension the project -  (`add-extension` Executor)
+### Add Extension the project - (`add-extension` Executor)
 
 ```
 // for a maven-based project
@@ -265,7 +267,7 @@ nx add-extension your-quarkus-app --args="-Dextensions=resteasy,hibernate-valida
 nx add-extension your-quarkus-app --args="--extensions=resteasy,hibernate-validator"
 ```
 
-### List Extensions in the  project -  (`list-extensions` Executor)
+### List Extensions in the project - (`list-extensions` Executor)
 
 ```
 nx list-extensions your-quarkus-app
@@ -275,13 +277,13 @@ nx list-extensions your-quarkus-app
 
 Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this plugin.
 
-| Plugin Version | Nx Workspace version
-| -------------- | --------------------
-| `>=v5.x.x`     | `>=v15.8.x`
-| `>=v4.x.x`     | `>=v15.x.x`
-| `>=v2.1.x`     | `>=v13.8.x`
-| `>=v2.x.x`     | `>=v12.6.x`
-| `>=v1.x.x`     | `>=v11.x.x`
+| Plugin Version | Nx Workspace version |
+| -------------- | -------------------- |
+| `>=v5.x.x`     | `>=v15.8.x`          |
+| `>=v4.x.x`     | `>=v15.x.x`          |
+| `>=v2.1.x`     | `>=v13.8.x`          |
+| `>=v2.x.x`     | `>=v12.6.x`          |
+| `>=v1.x.x`     | `>=v11.x.x`          |
 
 ## License
 

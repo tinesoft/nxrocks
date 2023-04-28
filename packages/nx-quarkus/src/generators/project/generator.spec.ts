@@ -1,6 +1,12 @@
-import { Tree, logger, readProjectConfiguration, readJson, workspaceRoot } from '@nrwl/devkit';
+import {
+  Tree,
+  logger,
+  readProjectConfiguration,
+  readJson,
+  workspaceRoot,
+} from '@nx/devkit';
 
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { projectGenerator } from './generator';
 import { ProjectGeneratorOptions } from './schema';
@@ -12,7 +18,13 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-import { BuilderCommandAliasType, hasMavenPlugin, NX_QUARKUS_PKG, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_GROUP_ID,  } from '@nxrocks/common';
+import {
+  BuilderCommandAliasType,
+  hasMavenPlugin,
+  NX_QUARKUS_PKG,
+  SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
+  SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
+} from '@nxrocks/common';
 import { mockZipStream } from '@nxrocks/common/testing';
 import { DEFAULT_QUARKUS_INITIALIZR_URL } from '../../utils/quarkus-utils';
 
@@ -76,13 +88,13 @@ describe('project generator', () => {
   const options: ProjectGeneratorOptions = {
     name: 'quarkusapp',
     projectType: 'application',
-    groupId:'com.tinesoft', 
-    artifactId:'demo',
+    groupId: 'com.tinesoft',
+    artifactId: 'demo',
     buildSystem: 'MAVEN',
-    quarkusInitializerUrl: DEFAULT_QUARKUS_INITIALIZR_URL
+    quarkusInitializerUrl: DEFAULT_QUARKUS_INITIALIZR_URL,
   };
 
-  const mockedFetch = (fetch as jest.MockedFunction<typeof fetch>);
+  const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
   const mockedResponse = new Response(Readable.from(['quarkus.zip']));
 
   beforeEach(() => {
@@ -103,95 +115,162 @@ describe('project generator', () => {
     ${'application'} | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
     ${'library'}     | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
     ${'library'}     | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
-  `(`should download a quarkus '$projectType' build with $buildSystem`, async ({ projectType, buildSystem, buildFileName, buildFileContent, wrapperName }) => {
+  `(
+    `should download a quarkus '$projectType' build with $buildSystem`,
+    async ({
+      projectType,
+      buildSystem,
+      buildFileName,
+      buildFileContent,
+      wrapperName,
+    }) => {
+      const rootDir = projectType === 'application' ? 'apps' : 'libs';
+      const downloadUrl = `${options.quarkusInitializerUrl}/d?b=${buildSystem}&g=${options.groupId}&a=${options.artifactId}`;
 
-    const rootDir = projectType === 'application' ? 'apps': 'libs';
-    const downloadUrl = `${options.quarkusInitializerUrl}/d?b=${buildSystem}&g=${options.groupId}&a=${options.artifactId}`;
+      const zipFiles = [
+        {
+          filePath: `${options.artifactId}/${buildFileName}`,
+          fileContent: buildFileContent,
+        },
+        `${options.artifactId}/${wrapperName}`,
+        `${options.artifactId}/README.md`,
+      ];
+      // mock the zip content returned by the real call to Quarkus Initializer
+      jest
+        .spyOn(mockedResponse.body, 'pipe')
+        .mockReturnValue(mockZipStream(zipFiles));
 
-    const zipFiles = [{ filePath: `${options.artifactId}/${buildFileName}`, fileContent: buildFileContent}, `${options.artifactId}/${wrapperName}`, `${options.artifactId}/README.md`, ];
-    // mock the zip content returned by the real call to Quarkus Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
+      await projectGenerator(tree, { ...options, projectType, buildSystem });
 
-    await projectGenerator(tree, { ...options, projectType, buildSystem});
+      expect(mockedFetch).toHaveBeenCalledWith(
+        downloadUrl,
+        expect.objectContaining({
+          headers: {
+            'User-Agent': expect.stringContaining('@nxrocks_nx-quarkus/'),
+          },
+        })
+      );
 
-    expect(mockedFetch).toHaveBeenCalledWith(
-      downloadUrl,
-      expect.objectContaining({
-        headers: {
-          'User-Agent': expect.stringContaining('@nxrocks_nx-quarkus/')
-        }
-      })
-    );
+      expect(logger.info).toHaveBeenNthCalledWith(
+        1,
+        `⬇️ Downloading Quarkus project zip from : ${downloadUrl}...`
+      );
 
-    expect(logger.info).toHaveBeenNthCalledWith(1, `⬇️ Downloading Quarkus project zip from : ${downloadUrl}...`);
-
-    expect(logger.info).toHaveBeenNthCalledWith(2, `📦 Extracting Quarkus project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`);
-  });
+      expect(logger.info).toHaveBeenNthCalledWith(
+        2,
+        `📦 Extracting Quarkus project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`
+      );
+    }
+  );
   it.each`
-    projectType     
+    projectType
     ${'application'}
-    ${'library'}    
-  `(`should update workspace.json for '$projectType'`, async ({ projectType }) => {
-    const zipFiles = [{ filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML}, `${options.artifactId}/mvnw`, `${options.artifactId}/README.md`, ];
-    // mock the zip content returned by the real call to Quarkus Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
+    ${'library'}
+  `(
+    `should update workspace.json for '$projectType'`,
+    async ({ projectType }) => {
+      const zipFiles = [
+        { filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML },
+        `${options.artifactId}/mvnw`,
+        `${options.artifactId}/README.md`,
+      ];
+      // mock the zip content returned by the real call to Quarkus Initializer
+      jest
+        .spyOn(mockedResponse.body, 'pipe')
+        .mockReturnValue(mockZipStream(zipFiles));
 
-    await projectGenerator(tree, {...options, projectType});
+      await projectGenerator(tree, { ...options, projectType });
 
-    const project = readProjectConfiguration(tree, options.name);
-    const projectDir = projectType === 'application' ? 'apps' : 'libs';
-    expect(project.root).toBe(`${projectDir}/${options.name}`);
+      const project = readProjectConfiguration(tree, options.name);
+      const projectDir = projectType === 'application' ? 'apps' : 'libs';
+      expect(project.root).toBe(`${projectDir}/${options.name}`);
 
-    const commands:BuilderCommandAliasType[] = ['dev', 'serve', 'remote-dev', 'test', 'clean', 'build', 'format', 'apply-format', 'check-format', 'package', 'add-extension', 'list-extensions'];
-    commands.forEach(cmd => {
-      expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
-      if(['build', 'install', 'test'].includes(cmd)) { 
-        expect(project.targets[cmd].outputs).toEqual([`{workspaceRoot}/${project.root}/target`]);
-      }
-    });
-  });
+      const commands: BuilderCommandAliasType[] = [
+        'dev',
+        'serve',
+        'remote-dev',
+        'test',
+        'clean',
+        'build',
+        'format',
+        'apply-format',
+        'check-format',
+        'package',
+        'add-extension',
+        'list-extensions',
+      ];
+      commands.forEach((cmd) => {
+        expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
+        if (['build', 'install', 'test'].includes(cmd)) {
+          expect(project.targets[cmd].outputs).toEqual([
+            `{workspaceRoot}/${project.root}/target`,
+          ]);
+        }
+      });
+    }
+  );
 
   it('should add plugin to nx.json', async () => {
-    const zipFiles = [{ filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML}, `${options.artifactId}/mvnw`, `${options.artifactId}/README.md`, ];
+    const zipFiles = [
+      { filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML },
+      `${options.artifactId}/mvnw`,
+      `${options.artifactId}/README.md`,
+    ];
     // mock the zip content returned by the real call to Quarkus Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
+    jest
+      .spyOn(mockedResponse.body, 'pipe')
+      .mockReturnValue(mockZipStream(zipFiles));
 
-    
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
     expect(nxJson.plugins).toEqual([NX_QUARKUS_PKG]);
   });
 
-  
   it.each`
-  skipFormat      | expectedAction
-  ${true}         | ${'not add'}
-  ${false}        | ${'add'}
-`(`should $expectedAction code formatting features if skipFormat=$skipFormat`, async ({ skipFormat }) => {
+    skipFormat | expectedAction
+    ${true}    | ${'not add'}
+    ${false}   | ${'add'}
+  `(
+    `should $expectedAction code formatting features if skipFormat=$skipFormat`,
+    async ({ skipFormat }) => {
+      const zipFiles = [
+        { filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML },
+        `${options.artifactId}/mvnw`,
+        `${options.artifactId}/README.md`,
+      ];
+      // mock the zip content returned by the real call to Quarkus Initializer
+      jest
+        .spyOn(mockedResponse.body, 'pipe')
+        .mockReturnValue(mockZipStream(zipFiles));
 
-    const zipFiles = [{ filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML}, `${options.artifactId}/mvnw`, `${options.artifactId}/README.md`, ];
-    // mock the zip content returned by the real call to Quarkus Initializer
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
+      await projectGenerator(tree, { ...options, skipFormat });
 
-    await projectGenerator(tree, { ...options, skipFormat });
+      const project = readProjectConfiguration(tree, options.name);
+      const formatCommands = ['format', 'apply-format', 'check-format'];
 
-    const project = readProjectConfiguration(tree, options.name);
-    const formatCommands = ['format', 'apply-format', 'check-format'];
-    
-    if(skipFormat) {
-      // expect project.targets not to have the format commands
-      formatCommands.forEach(cmd => {
-        expect(project.targets[cmd]).toBeUndefined();
-      });
+      if (skipFormat) {
+        // expect project.targets not to have the format commands
+        formatCommands.forEach((cmd) => {
+          expect(project.targets[cmd]).toBeUndefined();
+        });
+      } else {
+        // expect project.targets to have the format commands
+        formatCommands.forEach((cmd) => {
+          expect(project.targets[cmd].executor).toBe(
+            `${NX_QUARKUS_PKG}:${cmd}`
+          );
+        });
+      }
+      expect(
+        hasMavenPlugin(
+          tree,
+          `./${options.projectType === 'application' ? 'apps' : 'libs'}/${
+            options.name
+          }`,
+          SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
+          SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID
+        )
+      ).toEqual(!skipFormat);
     }
-    else {
-      // expect project.targets to have the format commands
-      formatCommands.forEach(cmd => {
-        expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
-      });
-    }
-    expect(hasMavenPlugin(tree, `./${options.projectType === 'application' ? 'apps':'libs'}/${options.name}`, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID)).toEqual(!skipFormat);
-  });
-
+  );
 });
-

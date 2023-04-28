@@ -3,7 +3,6 @@
   "id": "@nxrocks/nx-quarkus:project",
   "description": "Quarkus Project Generator.",
   "title": "Creates a Quarkus project in the workspace",
-  "cli": "nx",
   "outputCapture": "pipe",
   "type": "object",
   "properties": {
@@ -102,7 +101,7 @@
     "skipCodeSamples": {
       "description": "Skip genetating code samples.",
       "type": "boolean",
-      "default":false,
+      "default": false,
       "x-prompt": "Would you like to include code samples from extensions (when available)?"
     },
     "version": {
@@ -125,6 +124,7 @@
     }
   },
   "required": [
-    "projectType", "name"
+    "projectType",
+    "name"
   ]
 }

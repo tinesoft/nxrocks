@@ -1,27 +1,27 @@
-
-import { ensureDirSync } from "fs-extra";
+import { ensureDirSync } from 'fs-extra';
 import { execSync } from 'child_process';
 import { dirname, join } from 'path';
 import {
   cleanup,
   patchPackageJsonForPlugin,
   runPackageManagerInstall,
-  tmpProjPath
-} from '@nrwl/nx-plugin/testing';
-import { readJsonFile, workspaceRoot, writeJsonFile } from "@nrwl/devkit";
-import { getPackageManagerCommand } from "@nrwl/devkit";
-import { detectPackageManager } from "@nrwl/devkit";
-
+  tmpProjPath,
+} from '@nx/plugin/testing';
+import { readJsonFile, workspaceRoot, writeJsonFile } from '@nx/devkit';
+import { getPackageManagerCommand } from '@nx/devkit';
+import { detectPackageManager } from '@nx/devkit';
 
 function patchDependencyOfPlugin(
   pluginDistPath: string,
   dependencyPackageName: string,
-  dependencyDistPath: string, 
+  dependencyDistPath: string,
   root = workspaceRoot
 ) {
   const path = join(root, pluginDistPath, 'package.json');
   const json = readJsonFile(path);
-  json.dependencies[dependencyPackageName] = `file:${root}/${dependencyDistPath}`;
+  json.dependencies[
+    dependencyPackageName
+  ] = `file:${root}/${dependencyDistPath}`;
   writeJsonFile(path, json);
 }
 
@@ -36,7 +36,10 @@ function patchPackageJsonForLocalPlugin(
   writeJsonFile(path, json);
 }
 
-function runPackageManagerInstallLocally( root:string = workspaceRoot, silent = false) {
+function runPackageManagerInstallLocally(
+  root: string = workspaceRoot,
+  silent = false
+) {
   const pmc = getPackageManagerCommand(detectPackageManager(root));
   const install = execSync(pmc.install, {
     cwd: root,
@@ -54,7 +57,8 @@ function runNxNewCommand(args?: string, silent?: boolean) {
   return execSync(
     `node ${require.resolve(
       'nx'
-    )} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nrwl/workspace --npmScope=proj --preset=empty ${args || ''
+    )} new proj --nx-workspace-root=${localTmpDir} --no-interactive --skip-install --collection=@nx/workspace --npmScope=proj --preset=empty ${
+      args || ''
     }`,
     {
       cwd: localTmpDir,
@@ -63,7 +67,7 @@ function runNxNewCommand(args?: string, silent?: boolean) {
   );
 }
 
-export type NpmPackage= {name: string,path: string};
+export type NpmPackage = { name: string; path: string };
 
 /**
  * Ensures that a project (and the internal packages it depends on) has been setup in the e2e directory
@@ -80,7 +84,7 @@ export function ensureNxProjectWithDeps(
 
   patchPackageJsonForPlugin(npmPackageName, pluginDistPath);
 
-  dependencies?.forEach(depPkg => {
+  dependencies?.forEach((depPkg) => {
     patchPackageJsonForPlugin(depPkg.name, depPkg.path);
     patchDependencyOfPlugin(pluginDistPath, depPkg.name, depPkg.path);
   });
@@ -94,13 +98,12 @@ export function ensureNxProjectWithDeps(
 export function ensureLocalPluginsWithDeps(
   plugins: NpmPackage[],
   dependencies?: NpmPackage[],
-  root = workspaceRoot,
+  root = workspaceRoot
 ): void {
-
-  plugins.forEach(pkg=>{
+  plugins.forEach((pkg) => {
     patchPackageJsonForLocalPlugin(pkg.name, pkg.path, root);
 
-    dependencies?.forEach(depPkg => {
+    dependencies?.forEach((depPkg) => {
       //patchPackageJsonForLocalPlugin(depPkg.name, depPkg.path, root);
       patchDependencyOfPlugin(pkg.path, depPkg.name, depPkg.path, root);
     });

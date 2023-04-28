@@ -1,4 +1,3 @@
-
 # nx-micronaut
 
 [![npm version](https://img.shields.io/npm/v/@nxrocks/nx-micronaut?style=flat-square)](https://www.npmjs.com/package/@nxrocks/nx-micronaut)
@@ -37,7 +36,7 @@ If you have not already, [create an Nx workspace](https://nx.dev/getting-started
 npx create-nx-workspace@latest
 
 # yarn
-yarn create nx-workspace 
+yarn create nx-workspace
 ```
 
 ## Getting Started
@@ -76,33 +75,33 @@ nx g @nxrocks/nx-micronaut:new <your-app-name> --optionName1 optionValue1 ... --
 
 Here the list of available generation options :
 
-| Arguments | Description              |
-| --------- | ------------------------ |
-| `<name>`  | The name of your project.|
+| Arguments | Description               |
+| --------- | ------------------------- |
+| `<name>`  | The name of your project. |
 
-Option                 | Value | Description
----------------------- | ----- | ------------
-`projectType`          | `default` \| `cli` \| `function` \| `grpc` \| `messaging`  | Type of application to generate
-`buildSystem`          | `MAVEN` \| `GRADLE` \| `GRADLE_KOTLIN`  | Build system
-`basePackage`          | `string` | Base package of the project
-`javaVersion`          | `JDK_8` \| `JDK_11` \| `JDK_17`| Java version to use
-`language`             | `JAVA` \| `GROOVY` \| `KOTLIN`      | Language to use
-`testFramework`        | `JUNIT` \| `SPOCK` \| `KOTEST`      | Test Framework to use
-`skipFormat`           | `boolean` | Do not add the ability to format code (using Spotless plugin)
-`features`             | `string` | List of features to use (comma-separated). Go to https://micronaut.io/launch to get the ids needed here
-`micronautVersion`     | `current` \| `snapshot` \| `previous`  |Micronaut version to use
-`micronautLaunchUrl`   | `https://launch.micronaut.io`            | URL to the Micronaut Launch instance to use
-`proxyUrl`             |          | The URL of the (corporate) proxy server to use to access Micronaut Launch
-`tags`                 | `string` | Tags to use for linting (comma-separated)
-`directory`            | `string` | Directory where the project is placed
+| Option               | Value                                                     | Description                                                                                             |
+| -------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `projectType`        | `default` \| `cli` \| `function` \| `grpc` \| `messaging` | Type of application to generate                                                                         |
+| `buildSystem`        | `MAVEN` \| `GRADLE` \| `GRADLE_KOTLIN`                    | Build system                                                                                            |
+| `basePackage`        | `string`                                                  | Base package of the project                                                                             |
+| `javaVersion`        | `JDK_8` \| `JDK_11` \| `JDK_17`                           | Java version to use                                                                                     |
+| `language`           | `JAVA` \| `GROOVY` \| `KOTLIN`                            | Language to use                                                                                         |
+| `testFramework`      | `JUNIT` \| `SPOCK` \| `KOTEST`                            | Test Framework to use                                                                                   |
+| `skipFormat`         | `boolean`                                                 | Do not add the ability to format code (using Spotless plugin)                                           |
+| `features`           | `string`                                                  | List of features to use (comma-separated). Go to https://micronaut.io/launch to get the ids needed here |
+| `micronautVersion`   | `current` \| `snapshot` \| `previous`                     | Micronaut version to use                                                                                |
+| `micronautLaunchUrl` | `https://launch.micronaut.io`                             | URL to the Micronaut Launch instance to use                                                             |
+| `proxyUrl`           |                                                           | The URL of the (corporate) proxy server to use to access Micronaut Launch                               |
+| `tags`               | `string`                                                  | Tags to use for linting (comma-separated)                                                               |
+| `directory`          | `string`                                                  | Directory where the project is placed                                                                   |
 
- > **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
+> **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
 > Otherwise, you'll get a [ETIMEDOUT error](https://github.com/tinesoft/nxrocks/issues/125) when trying to access official Micronaut Launch to generate the project.
 > Even simpler, you can just define environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY` globally.
 
 ### Linking Projects (`link` generator)
 
-This generator is used to link a Micronaut project inside the workspace (the *source* project) with another project (the _*target* project), by adding the source project as an **implicit dependency** of the later.
+This generator is used to link a Micronaut project inside the workspace (the _source_ project) with another project (the \__target_ project), by adding the source project as an **implicit dependency** of the later.
 
 Simply run the `link` generator with the following command:
 
@@ -126,15 +125,14 @@ or even simpler:
 nx g @nxrocks/nx-micronaut:link  <your-micronaut-app>  <your-other-app>
 ```
 
-
 #### Generation Options
 
 Here the list of available generation options :
 
-| Arguments | Description              |
-| --------- | ------------------------ |
-| `<sourceProjectName>`  | The name of the source(Micronaut) project to link from. 1st argument of the `link` generator. Can also be provided as option `--sourceProjectName`|
-| `<targetProjectName>`  | The name of the target project to link to. 2nd argument of the `link` generator. Can also be provided as option `--targetProjectName`|
+| Arguments             | Description                                                                                                                                        |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<sourceProjectName>` | The name of the source(Micronaut) project to link from. 1st argument of the `link` generator. Can also be provided as option `--sourceProjectName` |
+| `<targetProjectName>` | The name of the target project to link to. 2nd argument of the `link` generator. Can also be provided as option `--targetProjectName`              |
 
 ## Plugin Usage
 
@@ -142,28 +140,29 @@ Once your app is generated, you can now use buidlers to manage it.
 
 Here the list of available executors:
 
-| Executor         | Arguments                                  | Description                                |
-| --------------- | ------------------------------------------ | ------------------------------------------ |
-| `run` \| `dev` \| `serve`| `ignoreWrapper:boolean`, `args: string[]`  | Runs the project in dev mode using either `./mvnw\|mvn micronaut:dev` or `./gradlew\|gradle micronautDev` |
-| `dockerfile`    | `ignoreWrapper:boolean`, `args: string[]`  | Generates a `Dockerfile` depending on the `packaging` and `micronaut.runtime properties` using either `./mvnw\|mvn micronaut:dockerfile` or `./gradlew\|gradle dockerfile` |
-| `build`         | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle build` |
-| `install`       | `ignoreWrapper:boolean`, `args: string[]`  | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
-| `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
-| `clean`         | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
-| `format`        | `ignoreWrapper:boolean`, `args: string[]`  | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
-| `aotConfigSample` | `ignoreWrapper:boolean`, `args: string[]`  | Generates a sample `aot.properties` using either `./mvnw\|mvn package` or `./gradlew\|gradle package` |
+| Executor                  | Arguments                                 | Description                                                                                                                                                                |
+| ------------------------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run` \| `dev` \| `serve` | `ignoreWrapper:boolean`, `args: string[]` | Runs the project in dev mode using either `./mvnw\|mvn micronaut:dev` or `./gradlew\|gradle micronautDev`                                                                  |
+| `dockerfile`              | `ignoreWrapper:boolean`, `args: string[]` | Generates a `Dockerfile` depending on the `packaging` and `micronaut.runtime properties` using either `./mvnw\|mvn micronaut:dockerfile` or `./gradlew\|gradle dockerfile` |
+| `build`                   | `ignoreWrapper:boolean`, `args: string[]` | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle build`                                                                                       |
+| `install`                 | `ignoreWrapper:boolean`, `args: string[]` | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal`           |
+| `test`                    | `ignoreWrapper:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                              |
+| `clean`                   | `ignoreWrapper:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                           |
+| `format`                  | `ignoreWrapper:boolean`, `args: string[]` | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                                                       |
+| `aotConfigSample`         | `ignoreWrapper:boolean`, `args: string[]` | Generates a sample `aot.properties` using either `./mvnw\|mvn package` or `./gradlew\|gradle package`                                                                      |
 
 In order to execute the requested command, each executor will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
 If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.
 This can be useful in a CI environment for example, or in a restricted environment where the binary cannot be downloaded (due to proxy/firewall limitations).
 
-
 You can pass in additional arguments to the underlying Gradle or Maven, either temporarily (via `--args="..."`). For example:
+
 ```
 nx run your-micronaut-app --args="-Dpackaging=docker-native"
 ```
 
 Or, permanently by editing the related executor in the `workspace.json` file, as such:
+
 ```js
 {
   "version": 1,
@@ -183,7 +182,7 @@ Or, permanently by editing the related executor in the `workspace.json` file, as
       }
     }},
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nx/workspace"
   }
 }
 ```
@@ -197,7 +196,7 @@ nx run your-micronaut-app:run
 nx serve your-micronaut-app
 ```
 
-### Building the aplication -  (`build` Executor)
+### Building the aplication - (`build` Executor)
 
 ```
 nx build your-micronaut-app
@@ -205,8 +204,7 @@ nx build your-micronaut-app
 
 > **Note:** a task dependency to `install` executor of dependent (library) projects [is added by the plugin](https://github.com/tinesoft/nxrocks/commit/10ab5b7e843d740cf1575ca967fba9356dfc6344), so that Nx will automatically `install` dependent artifacts to your local Maven repository, prior to running this command. This is particulaly useful, when for example, you have a Spring Boot **application** that depends on another Spring boot **library** in the workspace. No more need to install the library yourself first!
 
-
-### Install the project's artifacts to local Maven repository (in `~/.m2/repository`) -  (`install` Executor)
+### Install the project's artifacts to local Maven repository (in `~/.m2/repository`) - (`install` Executor)
 
 ```
 nx install your-quarkus-app
@@ -224,19 +222,19 @@ nx dockerfile your-micronaut-app"
 nx aot-sample-config your-micronaut-app"
 ```
 
-### Testing the project -  (`test` Executor)
+### Testing the project - (`test` Executor)
 
 ```
 nx test your-micronaut-app
 ```
 
-### Cleaning the project -  (`clean` Executor)
+### Cleaning the project - (`clean` Executor)
 
 ```
 nx clean your-micronaut-app
 ```
 
-### Formatting the code -  (`format` Executor)
+### Formatting the code - (`format` Executor)
 
 ```
 nx run your-micronaut-app:format
@@ -247,17 +245,17 @@ nx apply-format your-micronaut-app
 
 ```
 
-> Note: You *cannot** use the shorter `nx format your-boot-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
+> Note: You \*cannot\*\* use the shorter `nx format your-boot-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
 
 ## Compatibility with Nx
 
 Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this plugin.
 
-| Plugin Version | Nx Workspace version
-| -------------- | --------------------
-| `>=v3.x.x`     | `>=v15.8.x`
-| `>=v2.x.x`     | `>=v15.x.x`
-| `>=v1.x.x`     | `>=v13.8.x`
+| Plugin Version | Nx Workspace version |
+| -------------- | -------------------- |
+| `>=v3.x.x`     | `>=v15.8.x`          |
+| `>=v2.x.x`     | `>=v15.x.x`          |
+| `>=v1.x.x`     | `>=v13.8.x`          |
 
 ## License
 

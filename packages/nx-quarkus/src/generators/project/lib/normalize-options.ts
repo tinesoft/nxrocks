@@ -1,13 +1,9 @@
-import {
-  Tree,
-  names,
-} from '@nrwl/devkit';
+import { Tree, names } from '@nx/devkit';
 import { getProjectRootDir } from '@nxrocks/common';
 import { ProjectGeneratorOptions, NormalizedSchema } from '../schema';
 
-
-
-export function normalizeOptions(tree:Tree,
+export function normalizeOptions(
+  tree: Tree,
   options: ProjectGeneratorOptions
 ): NormalizedSchema {
   const projectRootDir = getProjectRootDir(tree, options.projectType);
@@ -20,7 +16,11 @@ export function normalizeOptions(tree:Tree,
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
-  const projectExtensions = options.extensions?.split(',').map((s) => s.trim()).filter(s=>!!s) || [];
+  const projectExtensions =
+    options.extensions
+      ?.split(',')
+      .map((s) => s.trim())
+      .filter((s) => !!s) || [];
   return {
     ...options,
     projectName,

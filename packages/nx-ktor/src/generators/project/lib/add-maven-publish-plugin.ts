@@ -1,20 +1,27 @@
-import {
-    logger,
-    Tree
-} from '@nrwl/devkit';
+import { logger, Tree } from '@nx/devkit';
 import { addGradlePlugin, stripIndent } from '@nxrocks/common';
 import { NormalizedSchema } from '../schema';
 
 export function addMavenPublishPlugin(tree: Tree, options: NormalizedSchema) {
-    if (options.buildSystem === 'GRADLE' || options.buildSystem === 'GRADLE_KTS') {
-        logger.debug(`Adding 'maven-publish' plugin...`);
+  if (
+    options.buildSystem === 'GRADLE' ||
+    options.buildSystem === 'GRADLE_KTS'
+  ) {
+    logger.debug(`Adding 'maven-publish' plugin...`);
 
+    addGradlePlugin(
+      tree,
+      options.projectRoot,
+      'kotlin',
+      'maven-publish',
+      undefined,
+      options.buildSystem === 'GRADLE_KTS'
+    );
 
-        addGradlePlugin(tree, options.projectRoot, 'kotlin', 'maven-publish', undefined, options.buildSystem === 'GRADLE_KTS');
-
-        const artifactSource = 'jar';
-        const publishing = options.buildSystem === 'GRADLE_KTS' ?
-        stripIndent`
+    const artifactSource = 'jar';
+    const publishing =
+      options.buildSystem === 'GRADLE_KTS'
+        ? stripIndent`
         publishing {
         	publications {
         		create<MavenPublication>("mavenJava") {
@@ -23,8 +30,7 @@ export function addMavenPublishPlugin(tree: Tree, options: NormalizedSchema) {
         	}
         }
         `
-        :
-        stripIndent`
+        : stripIndent`
         publishing {
         	publications {
         		mavenJava(MavenPublication) {
@@ -34,9 +40,9 @@ export function addMavenPublishPlugin(tree: Tree, options: NormalizedSchema) {
         }
         `;
 
-        const ext = options.buildSystem === 'GRADLE_KTS' ? '.kts' : '';
-        const buildGradlePath = `${options.projectRoot}/build.gradle${ext}`;
-        const content = tree.read(buildGradlePath, 'utf-8') + '\n' + publishing;
-        tree.write(buildGradlePath, content);
-    }
+    const ext = options.buildSystem === 'GRADLE_KTS' ? '.kts' : '';
+    const buildGradlePath = `${options.projectRoot}/build.gradle${ext}`;
+    const content = tree.read(buildGradlePath, 'utf-8') + '\n' + publishing;
+    tree.write(buildGradlePath, content);
+  }
 }

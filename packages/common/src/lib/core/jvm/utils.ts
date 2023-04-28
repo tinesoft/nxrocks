@@ -1,33 +1,46 @@
-import { logger, ProjectConfiguration } from '@nrwl/devkit';
+import { logger, ProjectConfiguration } from '@nx/devkit';
 import { execSync } from 'child_process';
-import { fileExists } from '@nrwl/workspace/src/utils/fileutils';
+import { fileExists } from '@nx/workspace/src/utils/fileutils';
 
+import { BuilderCommandAliasType, BuilderCore } from './builder-core.interface';
 import {
-  BuilderCommandAliasType,
-  BuilderCore,
-} from './builder-core.interface';
-import { getProjectFileContent, getProjectFilePath, getProjectRoot, PackageInfo } from '../workspace';
-import { findXmlContent, readXml, findXmlNodes, findNodeContent } from '../utils';
-
+  getProjectFileContent,
+  getProjectFilePath,
+  getProjectRoot,
+  PackageInfo,
+} from '../workspace';
+import {
+  findXmlContent,
+  readXml,
+  findXmlNodes,
+  findNodeContent,
+} from '../utils';
 
 export const LARGE_BUFFER = 1024 * 1000000;
 
 export function runBuilderCommand(
   commandAlias: BuilderCommandAliasType,
-  getBuilder : (cwd: string) => BuilderCore,
+  getBuilder: (cwd: string) => BuilderCore,
   params: string[],
-  options: { cwd?: string; ignoreWrapper?: boolean, useLegacyWrapper?: boolean } = { ignoreWrapper: false, useLegacyWrapper: false }
+  options: {
+    cwd?: string;
+    ignoreWrapper?: boolean;
+    useLegacyWrapper?: boolean;
+  } = { ignoreWrapper: false, useLegacyWrapper: false }
 ): { success: boolean } {
   // Take the parameters or set defaults
   const cwd = options.cwd || process.cwd();
   const buildSystem = getBuilder(cwd);
-  const executable = buildSystem.getExecutable(options.ignoreWrapper, options.useLegacyWrapper);
+  const executable = buildSystem.getExecutable(
+    options.ignoreWrapper,
+    options.useLegacyWrapper
+  );
   const command = buildSystem.getCommand(commandAlias);
   // Create the command to execute
   const execute = `${executable} ${command} ${(params || []).join(' ')}`;
   try {
     logger.info(`Executing command: ${execute}`);
-    execSync(execute, { cwd, stdio: [0, 1, 2],maxBuffer: LARGE_BUFFER});
+    execSync(execute, { cwd, stdio: [0, 1, 2], maxBuffer: LARGE_BUFFER });
     return { success: true };
   } catch (e) {
     logger.error(`Failed to execute command: ${execute}`);
@@ -35,7 +48,6 @@ export function runBuilderCommand(
     return { success: false };
   }
 }
-
 
 export function isMavenProject(project: ProjectConfiguration) {
   return fileExists(getProjectFilePath(project, 'pom.xml'));
@@ -53,8 +65,9 @@ export function isGradleProject(project: ProjectConfiguration) {
 }
 
 export function hasGradleProject(cwd: string) {
-  return fileExists(`${cwd}/build.gradle`) ||
-    fileExists(`${cwd}/build.gradle.kts`)
+  return (
+    fileExists(`${cwd}/build.gradle`) || fileExists(`${cwd}/build.gradle.kts`)
+  );
 }
 
 export function getGradleBuildFilesExtension(project: ProjectConfiguration) {
@@ -62,10 +75,13 @@ export function getGradleBuildFilesExtension(project: ProjectConfiguration) {
     return '.gradle.kts';
   }
 
-  return fileExists(getProjectFilePath(project, 'build.gradle')) ? '.gradle' : '';
+  return fileExists(getProjectFilePath(project, 'build.gradle'))
+    ? '.gradle'
+    : '';
 }
 
-export const getGradleDependencyIdRegEx = () => /\s*(api|implementation|testImplementation)\s*\(?['"](?<id>[^"']+)['"]\)?/g;
+export const getGradleDependencyIdRegEx = () =>
+  /\s*(api|implementation|testImplementation)\s*\(?['"](?<id>[^"']+)['"]\)?/g;
 
 export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
   if (isMavenProject(project)) {
@@ -77,11 +93,17 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
     const artifactId = findXmlContent(pomXmlNode, `/project/artifactId/text()`);
 
     const dependencies: PackageInfo[] = [];
-    const dependencyNodes = findXmlNodes(pomXmlNode, `/project/dependencies/dependency`);
+    const dependencyNodes = findXmlNodes(
+      pomXmlNode,
+      `/project/dependencies/dependency`
+    );
 
     dependencyNodes?.forEach((node) => {
       const depGroupId = findNodeContent(node, `/dependency/groupId/text()`);
-      const depArtifactId = findNodeContent(node, `/dependency/artifactId/text()`);
+      const depArtifactId = findNodeContent(
+        node,
+        `/dependency/artifactId/text()`
+      );
       dependencies.push({
         packageId: `${depGroupId}:${depArtifactId}`,
         packageFile: 'pom.xml',
@@ -116,7 +138,7 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
       }
     } while (match);
 
-    const dependencies: PackageInfo[] = dependencyIds.map(depId => {
+    const dependencies: PackageInfo[] = dependencyIds.map((depId) => {
       return { packageId: depId, packageFile: `build.gradle${ext}` };
     });
 
@@ -134,14 +156,18 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
   );
 }
 
-export function checkProjectBuildFileContains(project: ProjectConfiguration, opts: { fragments: string[], logicalOp?: 'and' | 'or' }): boolean {
-
-  const { fragments, logicalOp =  fragments?.length == 1 ? 'and' : 'or'} = opts;
+export function checkProjectBuildFileContains(
+  project: ProjectConfiguration,
+  opts: { fragments: string[]; logicalOp?: 'and' | 'or' }
+): boolean {
+  const { fragments, logicalOp = fragments?.length == 1 ? 'and' : 'or' } = opts;
   const findOccurencesInContent = (content: string): boolean => {
     return (fragments || []).reduce((acc, cur) => {
-      return (logicalOp == 'and') ? acc && content.includes(cur) : acc || content.includes(cur);
+      return logicalOp == 'and'
+        ? acc && content.includes(cur)
+        : acc || content.includes(cur);
     }, logicalOp == 'and');
-  }
+  };
 
   if (isMavenProject(project)) {
     const content = getProjectFileContent(project, 'pom.xml');
@@ -156,4 +182,3 @@ export function checkProjectBuildFileContains(project: ProjectConfiguration, opt
 
   return false;
 }
-

@@ -1,8 +1,17 @@
-import { Tree } from '@nrwl/devkit';
+import { Tree } from '@nx/devkit';
 import { prompt } from 'enquirer';
-import { AndroidLanguageType, IosLanguageType, NormalizedSchema, PlatformType } from '../schema';
+import {
+  AndroidLanguageType,
+  IosLanguageType,
+  NormalizedSchema,
+  PlatformType,
+} from '../schema';
 
-type PromptResultType = { platforms: PlatformType[], androidLanguage?: AndroidLanguageType, iosLanguage?: IosLanguageType};
+type PromptResultType = {
+  platforms: PlatformType[];
+  androidLanguage?: AndroidLanguageType;
+  iosLanguage?: IosLanguageType;
+};
 
 export async function promptAdditionalOptions(tree: Tree, options: NormalizedSchema) {
     if (process.env.NX_INTERACTIVE === 'true' && ['app', 'plugin'].includes(options.template)) {

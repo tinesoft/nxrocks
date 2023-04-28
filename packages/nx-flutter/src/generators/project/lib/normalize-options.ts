@@ -1,11 +1,8 @@
-import {
-  Tree,
-  names,
-  getWorkspaceLayout,
-} from '@nrwl/devkit';
+import { Tree, names, getWorkspaceLayout } from '@nx/devkit';
 import { ProjectGeneratorOptions, NormalizedSchema } from '../schema';
 
-export function normalizeOptions(tree: Tree,
+export function normalizeOptions(
+  tree: Tree,
   options: ProjectGeneratorOptions
 ): NormalizedSchema {
   const { appsDir, libsDir } = getWorkspaceLayout(tree);

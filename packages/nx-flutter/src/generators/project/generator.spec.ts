@@ -1,5 +1,5 @@
-import { Tree, logger, readProjectConfiguration, readJson } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { Tree, logger, readProjectConfiguration, readJson } from '@nx/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { projectGenerator } from './generator';
 import { ProjectGeneratorOptions } from './schema';
@@ -21,9 +21,7 @@ const appCommands = [
   { key: 'run', value: 'run' },
 ];
 
-const pluginOrModOnlyCommands = [
-  { key: 'build-aar', value: 'build aar' },
-];
+const pluginOrModOnlyCommands = [{ key: 'build-aar', value: 'build aar' }];
 
 const androidOnlyCommands = [
   { key: 'build-aar', value: 'build aar' },
@@ -38,14 +36,12 @@ const iOsOnlyCommands = [
   { key: 'build-ipa', value: 'build ipa' },
 ];
 
-
 describe('application generator', () => {
   let tree: Tree;
   const options: ProjectGeneratorOptions = {
     name: 'testapp',
     template: 'app',
   };
-
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
@@ -61,11 +57,9 @@ describe('application generator', () => {
 
   afterEach(() => {
     jest.resetAllMocks();
-  }
-  );
+  });
 
   it('should update workspace.json', async () => {
-
     await projectGenerator(tree, options);
     const project = readProjectConfiguration(tree, options.name);
     expect(project.root).toBe(`apps/${options.name}`);
@@ -78,25 +72,34 @@ describe('application generator', () => {
       { key: 'doctor', value: 'doctor' },
     ];
 
-    const commands = [...commonCommands, ...appCommands, ...pluginOrModOnlyCommands, ...androidOnlyCommands, ...iOsOnlyCommands];
-    commands.forEach(e => {
+    const commands = [
+      ...commonCommands,
+      ...appCommands,
+      ...pluginOrModOnlyCommands,
+      ...androidOnlyCommands,
+      ...iOsOnlyCommands,
+    ];
+    commands.forEach((e) => {
       expect(project.targets[e.key].executor).toBe('nx:run-commands');
       expect(project.targets[e.key].options.command).toBe(`flutter ${e.value}`);
-      if(e.key.startsWith('build-')) {
-        expect(project.targets[e.key].outputs).toEqual([`{workspaceRoot}/${project.root}/build`]);
+      if (e.key.startsWith('build-')) {
+        expect(project.targets[e.key].outputs).toEqual([
+          `{workspaceRoot}/${project.root}/build`,
+        ]);
       }
     });
   });
 
   it.each`
-  template    | rootDir
-  ${'app'}    | ${'apps'}
-  ${'plugin'} | ${'libs'}
-  ${'package'}| ${'libs'}
-  ${'module'} | ${'libs'}
-  `('should generate the flutter project of type "$template" in "$rootDir"', async ({ template, rootDir }) => {
-
-    await projectGenerator(tree, { ...options, template: template });
+    template     | rootDir
+    ${'app'}     | ${'apps'}
+    ${'plugin'}  | ${'libs'}
+    ${'package'} | ${'libs'}
+    ${'module'}  | ${'libs'}
+  `(
+    'should generate the flutter project of type "$template" in "$rootDir"',
+    async ({ template, rootDir }) => {
+      await projectGenerator(tree, { ...options, template: template });
 
     if(['app', 'plugin'].includes(template)){
       expect(logger.info).toHaveBeenNthCalledWith(1,`Generating Flutter project with following options : --project-name=${options.name} --android-language=kotlin --ios-language=swift --template=${template} --platforms="android,ios,web,linux,windows,macos" ...`);
@@ -159,50 +162,49 @@ describe('application generator', () => {
       ])
     );
 
-    expect(enquirer.prompt).toHaveBeenNthCalledWith(2,
-      expect.arrayContaining([
-        expect.objectContaining({
-          name: 'androidLanguage',
-          type: 'select',
-          initial: 1,
-          choices: expect.arrayContaining([
-            {
-              name: "java",
-              value: "Java"
-            },
-            {
-              name: "kotlin",
-              value: "Kotlin"
-            }
-          ]),
-          message: "Which Android language would you like to use?",
-        }),
-        expect.objectContaining({
-          name: 'iosLanguage',
-          type: 'select',
-          initial: 1,
-          choices: expect.arrayContaining([
-            {
-              name: "objc",
-              value: "Objective-C"
-            },
-            {
-              name: "swift",
-              value: "Swift"
-            }
-          ]),
-          message: "Which iOS language would you like to use?",
-        })
-      ])
-    );
-  });
-
+      expect(enquirer.prompt).toHaveBeenNthCalledWith(
+        2,
+        expect.arrayContaining([
+          expect.objectContaining({
+            name: 'androidLanguage',
+            type: 'select',
+            initial: 1,
+            choices: expect.arrayContaining([
+              {
+                name: 'java',
+                value: 'Java',
+              },
+              {
+                name: 'kotlin',
+                value: 'Kotlin',
+              },
+            ]),
+            message: 'Which Android language would you like to use?',
+          }),
+          expect.objectContaining({
+            name: 'iosLanguage',
+            type: 'select',
+            initial: 1,
+            choices: expect.arrayContaining([
+              {
+                name: 'objc',
+                value: 'Objective-C',
+              },
+              {
+                name: 'swift',
+                value: 'Swift',
+              },
+            ]),
+            message: 'Which iOS language would you like to use?',
+          }),
+        ])
+      );
+    }
+  );
 
   it('should add plugin to nx.json', async () => {
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
     expect(nxJson.plugins).toEqual([NX_FLUTTER_PKG]);
-
   });
-
 });

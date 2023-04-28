@@ -1,6 +1,12 @@
-import { Tree, logger, readProjectConfiguration, readJson, workspaceRoot } from '@nrwl/devkit';
+import {
+  Tree,
+  logger,
+  readProjectConfiguration,
+  readJson,
+  workspaceRoot,
+} from '@nx/devkit';
 
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { projectGenerator } from './generator';
 import { ProjectGeneratorOptions } from './schema';
@@ -12,7 +18,13 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-import { BuilderCommandAliasType, hasMavenPlugin, NX_KTOR_PKG, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID, SPOTLESS_MAVEN_PLUGIN_GROUP_ID,  } from '@nxrocks/common';
+import {
+  BuilderCommandAliasType,
+  hasMavenPlugin,
+  NX_KTOR_PKG,
+  SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
+  SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
+} from '@nxrocks/common';
 import { mockZipStream } from '@nxrocks/common/testing';
 import { DEFAULT_KTOR_INITIALIZR_URL } from '../../utils/ktor-utils';
 
@@ -188,15 +200,15 @@ describe('project generator', () => {
   const options: ProjectGeneratorOptions = {
     name: 'ktapp',
     projectType: 'application',
-    groupId:'com.tinesoft',
-    artifactId:'ktapp', 
+    groupId: 'com.tinesoft',
+    artifactId: 'ktapp',
     buildSystem: 'MAVEN',
     engine: 'NETTY',
     configurationLocation: 'CODE',
-    ktorInitializrUrl: DEFAULT_KTOR_INITIALIZR_URL
+    ktorInitializrUrl: DEFAULT_KTOR_INITIALIZR_URL,
   };
 
-  const mockedFetch = (fetch as jest.MockedFunction<typeof fetch>);
+  const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
   const mockedResponse = new Response(Readable.from(['ktor.zip']));
 
   beforeEach(() => {
@@ -212,105 +224,162 @@ describe('project generator', () => {
   });
 
   it.each`
-  projectType    | buildSystem | buildFileName     | buildFileContent | wrapperName
-    ${'default'} | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
-    ${'default'} | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
-    ${'cli'}     | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
-    ${'cli'}     | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
-    ${'function'} | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
-    ${'function'} | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
-    ${'grpc'}     | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
-    ${'grpc'}     | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
+    projectType    | buildSystem | buildFileName     | buildFileContent | wrapperName
+    ${'default'}   | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
+    ${'default'}   | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
+    ${'cli'}       | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
+    ${'cli'}       | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
+    ${'function'}  | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
+    ${'function'}  | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
+    ${'grpc'}      | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
+    ${'grpc'}      | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
     ${'messaging'} | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
     ${'messaging'} | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
-  `(`should download a ktor '$type' build with $buildSystem`, async ({ projectType, buildSystem, buildFileName, buildFileContent, wrapperName }) => {
+  `(
+    `should download a ktor '$type' build with $buildSystem`,
+    async ({
+      projectType,
+      buildSystem,
+      buildFileName,
+      buildFileContent,
+      wrapperName,
+    }) => {
+      const rootDir = 'apps';
+      const downloadUrl = `${options.ktorInitializrUrl}/project/generate`;
 
-    const rootDir = 'apps';
-    const downloadUrl = `${options.ktorInitializrUrl}/project/generate`;
+      const zipFiles = [
+        { filePath: `${buildFileName}`, fileContent: buildFileContent },
+        `${wrapperName}`,
+        `README.md`,
+      ];
+      // mock the zip content returned by the real call to Ktor Launch
+      jest
+        .spyOn(mockedResponse.body, 'pipe')
+        .mockReturnValue(mockZipStream(zipFiles));
 
-    const zipFiles = [{ filePath: `${buildFileName}`, fileContent: buildFileContent}, `${wrapperName}`, `README.md`, ];
-    // mock the zip content returned by the real call to Ktor Launch
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
+      await projectGenerator(tree, { ...options, projectType, buildSystem });
 
-    await projectGenerator(tree, { ...options, projectType, buildSystem});
+      expect(mockedFetch).toHaveBeenCalledWith(
+        downloadUrl,
+        expect.objectContaining({
+          headers: {
+            'Content-Type': 'application/json',
+            'User-Agent': expect.stringContaining('@nxrocks_nx-ktor/'),
+          },
+          method: 'POST',
+        })
+      );
 
-    expect(mockedFetch).toHaveBeenCalledWith(
-      downloadUrl,
-      expect.objectContaining({
-        headers: {
-          "Content-Type": "application/json", 
-          'User-Agent': expect.stringContaining('@nxrocks_nx-ktor/'),
-        },
-        method: "POST"
+      expect(logger.info).toHaveBeenNthCalledWith(
+        1,
+        `⬇️ Downloading Ktor project zip from : '${downloadUrl}'...`
+      );
 
-      })
-    );
-
-    expect(logger.info).toHaveBeenNthCalledWith(1, `⬇️ Downloading Ktor project zip from : '${downloadUrl}'...`);
-
-    expect(logger.info).toHaveBeenNthCalledWith(2, `📦 Extracting Ktor project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`);
-  });
+      expect(logger.info).toHaveBeenNthCalledWith(
+        2,
+        `📦 Extracting Ktor project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`
+      );
+    }
+  );
 
   it('should update workspace.json', async () => {
-    const zipFiles = [{ filePath: `pom.xml`, fileContent: POM_XML}, `mvnw`, `README.md`, ];
+    const zipFiles = [
+      { filePath: `pom.xml`, fileContent: POM_XML },
+      `mvnw`,
+      `README.md`,
+    ];
     // mock the zip content returned by the real call to Ktor Launch
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
+    jest
+      .spyOn(mockedResponse.body, 'pipe')
+      .mockReturnValue(mockZipStream(zipFiles));
 
     await projectGenerator(tree, options);
     const project = readProjectConfiguration(tree, options.name);
     expect(project.root).toBe(`apps/${options.name}`);
 
-    const commands:BuilderCommandAliasType[] = ['run', 'serve', 'test', 'clean','build', 'build-image', 'publish-image', 'publish-image-locally', 'run-docker'];
-    commands.forEach(cmd => {
+    const commands: BuilderCommandAliasType[] = [
+      'run',
+      'serve',
+      'test',
+      'clean',
+      'build',
+      'build-image',
+      'publish-image',
+      'publish-image-locally',
+      'run-docker',
+    ];
+    commands.forEach((cmd) => {
       expect(project.targets[cmd].executor).toBe(`${NX_KTOR_PKG}:${cmd}`);
-      if(['build', 'build-image', 'install', 'test'].includes(cmd)) { 
-        expect(project.targets[cmd].outputs).toEqual([`{workspaceRoot}/${project.root}/target`]);
+      if (['build', 'build-image', 'install', 'test'].includes(cmd)) {
+        expect(project.targets[cmd].outputs).toEqual([
+          `{workspaceRoot}/${project.root}/target`,
+        ]);
       }
-      if(['publish-image', 'publish-image-locally', 'run-docker'].includes(cmd)) { 
+      if (
+        ['publish-image', 'publish-image-locally', 'run-docker'].includes(cmd)
+      ) {
         expect(project.targets[cmd].dependsOn).toEqual([`build-image`]);
       }
     });
   });
 
   it('should add plugin to nx.json', async () => {
-    const zipFiles = [{ filePath: `pom.xml`, fileContent: POM_XML}, `mvnw`, `README.md`, ];
+    const zipFiles = [
+      { filePath: `pom.xml`, fileContent: POM_XML },
+      `mvnw`,
+      `README.md`,
+    ];
     // mock the zip content returned by the real call to Ktor Launch
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
+    jest
+      .spyOn(mockedResponse.body, 'pipe')
+      .mockReturnValue(mockZipStream(zipFiles));
 
-    
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
     expect(nxJson.plugins).toEqual([NX_KTOR_PKG]);
   });
 
   it.each`
-  skipFormat      | expectedAction
-  ${true}         | ${'not add'}
-  ${false}        | ${'add'}
-`(`should $expectedAction code formatting features if skipFormat=$skipFormat`, async ({ skipFormat }) => {
+    skipFormat | expectedAction
+    ${true}    | ${'not add'}
+    ${false}   | ${'add'}
+  `(
+    `should $expectedAction code formatting features if skipFormat=$skipFormat`,
+    async ({ skipFormat }) => {
+      const zipFiles = [
+        { filePath: `pom.xml`, fileContent: POM_XML },
+        `mvnw`,
+        `README.md`,
+      ];
+      // mock the zip content returned by the real call to Ktor Launch
+      jest
+        .spyOn(mockedResponse.body, 'pipe')
+        .mockReturnValue(mockZipStream(zipFiles));
 
-    const zipFiles = [{ filePath: `pom.xml`, fileContent: POM_XML}, `mvnw`, `README.md`, ];
-    // mock the zip content returned by the real call to Ktor Launch
-    jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream(zipFiles));
+      await projectGenerator(tree, { ...options, skipFormat });
 
-    await projectGenerator(tree, { ...options, skipFormat });
+      const project = readProjectConfiguration(tree, options.name);
+      const formatCommands = ['format', 'apply-format', 'check-format'];
 
-    const project = readProjectConfiguration(tree, options.name);
-    const formatCommands = ['format', 'apply-format', 'check-format'];
-    
-    if(skipFormat) {
-      // expect project.targets not to have the format commands
-      formatCommands.forEach(cmd => {
-        expect(project.targets[cmd]).toBeUndefined();
-      });
+      if (skipFormat) {
+        // expect project.targets not to have the format commands
+        formatCommands.forEach((cmd) => {
+          expect(project.targets[cmd]).toBeUndefined();
+        });
+      } else {
+        // expect project.targets to have the format commands
+        formatCommands.forEach((cmd) => {
+          expect(project.targets[cmd].executor).toBe(`${NX_KTOR_PKG}:${cmd}`);
+        });
+      }
+      expect(
+        hasMavenPlugin(
+          tree,
+          `./apps/${options.name}`,
+          SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
+          SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID
+        )
+      ).toEqual(!skipFormat);
     }
-    else {
-      // expect project.targets to have the format commands
-      formatCommands.forEach(cmd => {
-        expect(project.targets[cmd].executor).toBe(`${NX_KTOR_PKG}:${cmd}`);
-      });
-    }
-    expect(hasMavenPlugin(tree, `./apps/${options.name}`, SPOTLESS_MAVEN_PLUGIN_GROUP_ID, SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID)).toEqual(!skipFormat);
-  });
+  );
 });
-

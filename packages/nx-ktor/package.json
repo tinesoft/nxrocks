@@ -32,7 +32,7 @@
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
-    "@nrwl/workspace": ">=15.8.0",
-    "@nrwl/devkit": ">=15.8.0"
+    "@nx/devkit": "16.0.0",
+    "@nx/workspace": "16.0.0"
   }
 }

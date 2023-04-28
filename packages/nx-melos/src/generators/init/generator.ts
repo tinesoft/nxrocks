@@ -1,10 +1,13 @@
-import { Tree, formatFiles} from '@nrwl/devkit';
+import { Tree, formatFiles } from '@nx/devkit';
 import { addPluginToNxJson, NX_MELOS_PKG } from '@nxrocks/common';
-import { installMelosPackageGlobally, generateMelosConfigurationFile, addMelosScriptsToPackageJson } from './lib';
+import {
+  installMelosPackageGlobally,
+  generateMelosConfigurationFile,
+  addMelosScriptsToPackageJson,
+} from './lib';
 import { InitGeneratorOptions } from './schema';
 
-export async function initGenerator(tree:Tree, options: InitGeneratorOptions) {
-
+export async function initGenerator(tree: Tree, options: InitGeneratorOptions) {
   await installMelosPackageGlobally();
   await generateMelosConfigurationFile(tree);
   addMelosScriptsToPackageJson(tree, options);

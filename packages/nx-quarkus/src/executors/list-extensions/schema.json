@@ -3,7 +3,6 @@
   "$schema": "http://json-schema.org/schema",
   "title": "List Extensions executor",
   "description": "",
-  "cli": "nx",
   "outputCapture": "pipe",
   "type": "object",
   "properties": {

@@ -1,16 +1,36 @@
-import { Tree, addProjectConfiguration, } from '@nrwl/devkit';
+import { Tree, addProjectConfiguration } from '@nx/devkit';
 import { ProjectGeneratorOptions } from './schema';
-import { normalizeOptions, generateMicronautProject, addMavenPublishPlugin, addFormattingWithSpotless, promptMicronautFeatures } from './lib';
-import { addPluginToNxJson, BuilderCommandAliasType, NX_MICRONAUT_PKG,  } from '@nxrocks/common';
+import {
+  normalizeOptions,
+  generateMicronautProject,
+  addMavenPublishPlugin,
+  addFormattingWithSpotless,
+  promptMicronautFeatures,
+} from './lib';
+import {
+  addPluginToNxJson,
+  BuilderCommandAliasType,
+  NX_MICRONAUT_PKG,
+} from '@nxrocks/common';
 
-
-export async function projectGenerator(tree: Tree, options: ProjectGeneratorOptions) {
-  const normalizedOptions = normalizeOptions(tree,options);
+export async function projectGenerator(
+  tree: Tree,
+  options: ProjectGeneratorOptions
+) {
+  const normalizedOptions = normalizeOptions(tree, options);
 
   const targets = {};
-  const commands:BuilderCommandAliasType[] = ['run', 'serve', 'dockerfile', 'test', 'clean','build', 'aot-sample-config'];
+  const commands: BuilderCommandAliasType[] = [
+    'run',
+    'serve',
+    'dockerfile',
+    'test',
+    'clean',
+    'build',
+    'aot-sample-config',
+  ];
 
-  if(!options.skipFormat) {
+  if (!options.skipFormat) {
     commands.push('format', 'apply-format', 'check-format');
   }
 
@@ -18,10 +38,18 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
     targets[command] = {
       executor: `${NX_MICRONAUT_PKG}:${command}`,
       options: {
-        root: normalizedOptions.projectRoot
+        root: normalizedOptions.projectRoot,
       },
       ...(command === 'build' ? { dependsOn: ['^install'] } : {}),
-      ...( ['build', 'install', 'test'].includes(command) ? {outputs: [`{workspaceRoot}/${normalizedOptions.projectRoot}/${normalizedOptions.buildSystem === 'MAVEN' ? 'target' : 'build'}`]}: {})
+      ...(['build', 'install', 'test'].includes(command)
+        ? {
+            outputs: [
+              `{workspaceRoot}/${normalizedOptions.projectRoot}/${
+                normalizedOptions.buildSystem === 'MAVEN' ? 'target' : 'build'
+              }`,
+            ],
+          }
+        : {}),
     };
   }
   addProjectConfiguration(tree, normalizedOptions.projectName, {
@@ -33,12 +61,13 @@ export async function projectGenerator(tree: Tree, options: ProjectGeneratorOpti
   });
 
   await promptMicronautFeatures(normalizedOptions);
-  
+
   await generateMicronautProject(tree, normalizedOptions);
 
   addMavenPublishPlugin(tree, normalizedOptions);
 
-  if(!options.skipFormat) { //if skipFormat is true, then we don't want to add Spotless plugin
+  if (!options.skipFormat) {
+    //if skipFormat is true, then we don't want to add Spotless plugin
     addFormattingWithSpotless(tree, normalizedOptions);
   }
 

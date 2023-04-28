@@ -3,18 +3,17 @@ import {
   readJson,
   runNxCommandAsync,
   uniq,
-} from '@nrwl/nx-plugin/testing';
+} from '@nx/plugin/testing';
 import { ensureNxProjectWithDeps } from '@nxrocks/common/testing';
 
 jest.mock('inquirer'); // we mock 'inquirer' to bypass the interactive prompt
 import * as inquirer from 'inquirer';
 
 describe('nx-flutter e2e', () => {
-
   beforeAll(async () => {
-
-    ensureNxProjectWithDeps('@nxrocks/nx-flutter', 'dist/packages/nx-flutter',
-      [{ name: '@nxrocks/common', path: 'dist/packages/common' }]);
+    ensureNxProjectWithDeps('@nxrocks/nx-flutter', 'dist/packages/nx-flutter', [
+      { name: '@nxrocks/common', path: 'dist/packages/common' },
+    ]);
   }, 600000);
 
   afterAll(() => {
@@ -22,12 +21,12 @@ describe('nx-flutter e2e', () => {
     // some work which can help clean up e2e leftovers
     runNxCommandAsync('reset');
   });
-  
+
   beforeEach(() => {
     jest.spyOn(inquirer, 'prompt').mockResolvedValue({
       platforms: ['android', 'ios', 'web', 'linux', 'windows', 'macos'],
       androidLanguage: 'kotlin',
-      iosLanguage: 'swift'
+      iosLanguage: 'swift',
     });
   });
 
@@ -35,11 +34,13 @@ describe('nx-flutter e2e', () => {
     jest.resetAllMocks();
   });
 
-  it('should create nx-flutter project with default options', async() => {
+  it('should create nx-flutter project with default options', async () => {
     const appName = uniq('nx-flutter');
 
     const sep = process.platform === 'win32' ? '\\' : '/';
-    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --no-interactive`);
+    await runNxCommandAsync(
+      `generate @nxrocks/nx-flutter:create ${appName} --no-interactive`
+    );
 
     const executors = [
       { name: 'analyze', output: `Analyzing ${appName}` },
@@ -49,7 +50,10 @@ describe('nx-flutter e2e', () => {
 
       //build commands
       //{ name: 'build-aar', output: `Running Gradle task 'assembleAarDebug'...` }, // only for module or plugin projects
-      { name: 'build-apk', output: `Built build${sep}app${sep}outputs${sep}flutter-apk${sep}app-release.apk` },
+      {
+        name: 'build-apk',
+        output: `Built build${sep}app${sep}outputs${sep}flutter-apk${sep}app-release.apk`,
+      },
       //{ name: 'build-appbundle', output: `Built build/app/outputs/bundle/release/app-release.aab` },
       //{ name: 'build-bundle', output: `Done in` },
 
@@ -86,12 +90,10 @@ describe('nx-flutter e2e', () => {
     }
     console.log(`Total executors time: ${totalExecutorsTime}ms`);
 
-    expect(() =>
-      checkFilesExist(`apps/${appName}/pubspec.yaml`)
-    ).not.toThrow();
+    expect(() => checkFilesExist(`apps/${appName}/pubspec.yaml`)).not.toThrow();
   }, 400000);
 
-  it('should create nx-flutter project with given options', async() => {
+  it('should create nx-flutter project with given options', async () => {
     const appName = uniq('nx-flutter');
     const org = 'com.tinesoft';
     const description = 'My flutter application';
@@ -102,10 +104,11 @@ describe('nx-flutter e2e', () => {
     const pub = true;
     const offline = true;
 
-    await runNxCommandAsync(`generate @nxrocks/nx-flutter:create ${appName} --no-interactive --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} `);
+    await runNxCommandAsync(
+      `generate @nxrocks/nx-flutter:create ${appName} --no-interactive --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} `
+    );
 
     const executors = [
-
       { name: 'clean', output: `Deleting flutter_export_environment.sh...` },
       { name: 'format', output: `Formatted no files ` },
       { name: 'test', output: `All tests passed!` },
@@ -117,16 +120,20 @@ describe('nx-flutter e2e', () => {
     }
 
     expect(() =>
-      checkFilesExist(`apps/${appName}/pubspec.yaml`,
+      checkFilesExist(
+        `apps/${appName}/pubspec.yaml`,
         `apps/${appName}/android/build.gradle`,
         `apps/${appName}/ios/Runner.xcodeproj`,
-        `apps/${appName}/android/app/src/main/java/com/tinesoft/${appName.replace('-', '_')}/MainActivity.java`
+        `apps/${appName}/android/app/src/main/java/com/tinesoft/${appName.replace(
+          '-',
+          '_'
+        )}/MainActivity.java`
       )
     ).not.toThrow();
   }, 200000);
 
   describe('--directory', () => {
-    it('should create src in the specified directory', async() => {
+    it('should create src in the specified directory', async () => {
       const appName = uniq('nx-flutter');
 
       await runNxCommandAsync(
@@ -135,11 +142,11 @@ describe('nx-flutter e2e', () => {
       expect(() =>
         checkFilesExist(`apps/subdir/${appName}/pubspec.yaml`)
       ).not.toThrow();
-      }, 200000);
+    }, 200000);
   });
 
   describe('--tags', () => {
-    it('should add tags to nx.json', async() => {
+    it('should add tags to nx.json', async () => {
       const appName = uniq('nx-flutter');
 
       await runNxCommandAsync(
@@ -147,6 +154,6 @@ describe('nx-flutter e2e', () => {
       );
       const project = readJson(`apps/${appName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
-      }, 200000);
+    }, 200000);
   });
 });

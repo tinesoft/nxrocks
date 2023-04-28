@@ -1,5 +1,5 @@
 
-import { workspaceRoot } from '@nrwl/devkit';
+import { workspaceRoot } from '@nx/devkit';
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
