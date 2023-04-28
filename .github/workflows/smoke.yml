@@ -1,5 +1,3 @@
-
-
 name: Nightly Smoke Tests
 
 on:
@@ -35,36 +33,13 @@ jobs:
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:' # optional, change this to specify the cache path
           architecture: x64 # optional, x64 or arm64
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Install node, pnpm, and dependencies
+        uses: ./.github/actions/install-dependencies
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Use Pnpm
-        uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 7
-
-      - name: Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-        shell: bash
-
-      - name: Cache Yarn
-        uses: actions/cache@v3
-        env:
-          cache-name: yarn
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-
-
-      - name: Install packages
-        run: yarn install --frozen-lockfile
 
       - name: Run smoke tests
         env:
           NX_E2E_CI_CACHE_KEY: smoke-gha-${{ matrix.os }}-${{ matrix.node-version }}
           NX_RUN_GROUP: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}
-        run: yarn nx test smoke
+        run: pnpm nx test smoke

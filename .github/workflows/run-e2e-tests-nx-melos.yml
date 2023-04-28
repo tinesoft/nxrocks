@@ -2,11 +2,25 @@ name: Run e2e Tests for nx-melos
 
 on:
   push:
-    branches: [ develop ]
-    paths:    [ "nx.json", "package.json", "workspace.json", "packages/common/**", "packages/nx-melos/**" ]
+    branches: [develop]
+    paths:
+      [
+        'nx.json',
+        'package.json',
+        'workspace.json',
+        'packages/common/**',
+        'packages/nx-melos/**',
+      ]
   pull_request:
-    branches: [ develop ]
-    paths:    [ "nx.json", "package.json", "workspace.json", "packages/common/**", "packages/nx-melos/**" ]
+    branches: [develop]
+    paths:
+      [
+        'nx.json',
+        'package.json',
+        'workspace.json',
+        'packages/common/**',
+        'packages/nx-melos/**',
+      ]
 
 jobs:
   run_e2e:
@@ -35,32 +49,12 @@ jobs:
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:' # optional, change this to specify the cache path
           architecture: x64 # optional, x64 or arm64
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          
-      - name: Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-        shell: bash
-
-      - name: Cache Yarn
-        uses: actions/cache@v3
-        env:
-          cache-name: yarn
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-
-
-      - name: Install packages
-        run: yarn install --frozen-lockfile
+      - name: Install node, pnpm, and dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Run e2e tests
         env:
           NX_E2E_CI_CACHE_KEY: e2e-gha-${{ matrix.os }}-${{ matrix.node-version }}
           NX_RUN_GROUP: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}
         run: |
-          yarn nx e2e nx-melos-e2e
+          pnpm nx e2e nx-melos-e2e

@@ -19,18 +19,18 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-      - run: | # we need to fetch the develop branch or else `affected:test` (run by husky after @semantic-release/git) will not work
+      - run:
+          | # we need to fetch the develop branch or else `affected:test` (run by husky after @semantic-release/git) will not work
           git fetch --depth=1
           git checkout develop
           git checkout -
-      - name: Use Node.js 18
-        uses: actions/setup-node@v3.5.1
-        with:
-          node-version: 18
+
+      - name: Install node, pnpm, and dependencies
+        uses: ./.github/actions/install-dependencies
+
       - name: Build, Release on GitHub & Publish to NPM
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          yarn install --frozen-lockfile
-          yarn run release
+          pnpm run release
