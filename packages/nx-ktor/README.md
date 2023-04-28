@@ -1,4 +1,3 @@
-
 # nx-ktor
 
 [![npm version](https://img.shields.io/npm/v/@nxrocks/nx-ktor?style=flat-square)](https://www.npmjs.com/package/@nxrocks/nx-ktor)
@@ -37,7 +36,7 @@ If you have not already, [create an Nx workspace](https://nx.dev/getting-started
 npx create-nx-workspace@latest
 
 # yarn
-yarn create nx-workspace 
+yarn create nx-workspace
 ```
 
 ## Getting Started
@@ -76,35 +75,35 @@ nx g @nxrocks/nx-ktor:new <your-app-name> --optionName1 optionValue1 ... --optio
 
 Here the list of available generation options :
 
-| Arguments | Description              |
-| --------- | ------------------------ |
-| `<name>`  | The name of your project.|
+| Arguments | Description               |
+| --------- | ------------------------- |
+| `<name>`  | The name of your project. |
 
-Option                 | Value | Description
----------------------- | ----- | ------------
-`projectType`          | `application` \| `library` | Type of project to generate
-`buildSystem`          | `MAVEN` \| `GRADLE` \| `GRADLE_KTS`  | Build system
-`groupId`              | `string` | Group Id of the project
-`artifactId`           | `string` | Artifact Id of the project
-`kotlinVersion`        | `string`| Kotlin version to use
-`engine`               | `NETTY` \| `JETTY` \| `CIO` \| `TOMCAT`      | Engine to use to serve the application
-`configurationLocation`| `YAML` \| `HOCON` \| `CODE`      | Configuratin Location to use
-`skipFormat`           | `boolean` | Do not add the ability to format code (using Spotless plugin)
-`skipCodeSamples`      | `boolean` | Do not generate code samples
-`features`             | `string` | List of features to use (comma-separated). Go to [recipes](recipes/README.md) for more information
-`ktorVersion`          | `string` | Ktor version to use
-`ktorInitializrUrl`    | `https://start.ktor.io`            | URL to the Ktor Start instance to use
-`proxyUrl`             | `string` | The URL of the (corporate) proxy server to use to access Ktor Launch
-`tags`                 | `string` | Tags to use for linting (comma-separated)
-`directory`            | `string` | Directory where the project is placed
+| Option                  | Value                                   | Description                                                                                        |
+| ----------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `projectType`           | `application` \| `library`              | Type of project to generate                                                                        |
+| `buildSystem`           | `MAVEN` \| `GRADLE` \| `GRADLE_KTS`     | Build system                                                                                       |
+| `groupId`               | `string`                                | Group Id of the project                                                                            |
+| `artifactId`            | `string`                                | Artifact Id of the project                                                                         |
+| `kotlinVersion`         | `string`                                | Kotlin version to use                                                                              |
+| `engine`                | `NETTY` \| `JETTY` \| `CIO` \| `TOMCAT` | Engine to use to serve the application                                                             |
+| `configurationLocation` | `YAML` \| `HOCON` \| `CODE`             | Configuratin Location to use                                                                       |
+| `skipFormat`            | `boolean`                               | Do not add the ability to format code (using Spotless plugin)                                      |
+| `skipCodeSamples`       | `boolean`                               | Do not generate code samples                                                                       |
+| `features`              | `string`                                | List of features to use (comma-separated). Go to [recipes](recipes/README.md) for more information |
+| `ktorVersion`           | `string`                                | Ktor version to use                                                                                |
+| `ktorInitializrUrl`     | `https://start.ktor.io`                 | URL to the Ktor Start instance to use                                                              |
+| `proxyUrl`              | `string`                                | The URL of the (corporate) proxy server to use to access Ktor Launch                               |
+| `tags`                  | `string`                                | Tags to use for linting (comma-separated)                                                          |
+| `directory`             | `string`                                | Directory where the project is placed                                                              |
 
- > **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
+> **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
 > Otherwise, you'll get a [ETIMEDOUT error](https://github.com/tinesoft/nxrocks/issues/125) when trying to access official Ktor Launch to generate the project.
 > Even simpler, you can just define environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY` globally.
 
 ### Linking Projects (`link` generator)
 
-This generator is used to link a Ktor project inside the workspace (the *source* project) with another project (the _*target* project), by adding the source project as an **implicit dependency** of the later.
+This generator is used to link a Ktor project inside the workspace (the _source_ project) with another project (the \__target_ project), by adding the source project as an **implicit dependency** of the later.
 
 Simply run the `link` generator with the following command:
 
@@ -128,15 +127,14 @@ or even simpler:
 nx g @nxrocks/nx-ktor:link  <your-ktor-app>  <your-other-app>
 ```
 
-
 #### Generation Options
 
 Here the list of available generation options :
 
-| Arguments | Description              |
-| --------- | ------------------------ |
-| `<sourceProjectName>`  | The name of the source(Ktor) project to link from. 1st argument of the `link` generator. Can also be provided as option `--sourceProjectName`|
-| `<targetProjectName>`  | The name of the target project to link to. 2nd argument of the `link` generator. Can also be provided as option `--targetProjectName`|
+| Arguments             | Description                                                                                                                                   |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `<sourceProjectName>` | The name of the source(Ktor) project to link from. 1st argument of the `link` generator. Can also be provided as option `--sourceProjectName` |
+| `<targetProjectName>` | The name of the target project to link to. 2nd argument of the `link` generator. Can also be provided as option `--targetProjectName`         |
 
 ## Plugin Usage
 
@@ -144,34 +142,33 @@ Once your app is generated, you can now use buidlers to manage it.
 
 Here the list of available executors:
 
-| Executor         | Arguments                                  | Description                                |
-| --------------- | ------------------------------------------ | ------------------------------------------ |
-| `run` \| `serve`| `ignoreWrapper:boolean`, `args: string[]`  | Runs the project in dev mode using either `./mvnw\|mvn exec:java` or `./gradlew\|gradle runFatJar` |
-| `build`         | `ignoreWrapper:boolean`, `args: string[]`  | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle buildFatJar` |
-| `install`       | `ignoreWrapper:boolean`, `args: string[]`  | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
-| `test`          | `ignoreWrapper:boolean`, `args: string[]`  | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test` |
-| `clean`         | `ignoreWrapper:boolean`, `args: string[]`  | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean` |
-| `format`        | `ignoreWrapper:boolean`, `args: string[]`  | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle |
-| `build-image`   | `ignoreWrapper:boolean`, `args: string[]`  | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn docker:build` or `./gradlew\|gradle buildImage` |
-| `publish-image`<sup>*</sup> | `ignoreWrapper:boolean`, `args: string[]`  | Builds the project into a Docker image and publishes it to an external registry using either `./mvnw\|mvn docker:push` or `./gradlew\|gradle publishImage` |
-| `publish-image-locally`  | `ignoreWrapper:boolean`, `args: string[]`  | Builds the project into a Docker image and publishes it to local registry using either `./mvnw\|mvn docker:push` or `./gradlew\|gradle publishImageToLocalRegistry` |
-| `run-docker`   | `ignoreWrapper:boolean`, `args: string[]`  | Builds the project into a Docker image and runs it using either `./mvnw\|mvn docker:run` or `./gradlew\|gradle rundDocker` |
+| Executor                     | Arguments                                 | Description                                                                                                                                                         |
+| ---------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run` \| `serve`             | `ignoreWrapper:boolean`, `args: string[]` | Runs the project in dev mode using either `./mvnw\|mvn exec:java` or `./gradlew\|gradle runFatJar`                                                                  |
+| `build`                      | `ignoreWrapper:boolean`, `args: string[]` | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle buildFatJar`                                                                          |
+| `install`                    | `ignoreWrapper:boolean`, `args: string[]` | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal`    |
+| `test`                       | `ignoreWrapper:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                       |
+| `clean`                      | `ignoreWrapper:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                    |
+| `format`                     | `ignoreWrapper:boolean`, `args: string[]` | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                                                |
+| `build-image`                | `ignoreWrapper:boolean`, `args: string[]` | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn docker:build` or `./gradlew\|gradle buildImage`                    |
+| `publish-image`<sup>\*</sup> | `ignoreWrapper:boolean`, `args: string[]` | Builds the project into a Docker image and publishes it to an external registry using either `./mvnw\|mvn docker:push` or `./gradlew\|gradle publishImage`          |
+| `publish-image-locally`      | `ignoreWrapper:boolean`, `args: string[]` | Builds the project into a Docker image and publishes it to local registry using either `./mvnw\|mvn docker:push` or `./gradlew\|gradle publishImageToLocalRegistry` |
+| `run-docker`                 | `ignoreWrapper:boolean`, `args: string[]` | Builds the project into a Docker image and runs it using either `./mvnw\|mvn docker:run` or `./gradlew\|gradle rundDocker`                                          |
 
->
-> <sup>*</sup> Additonal configuration is needed to configure Docker external registry (for [Gradle-based](https://github.com/ktorio/ktor-build-plugins#dockerize-your-application) projects, for [Maven-based](https://dmp.fabric8.io/#docker:push) projects)
->
+> <sup>\*</sup> Additonal configuration is needed to configure Docker external registry (for [Gradle-based](https://github.com/ktorio/ktor-build-plugins#dockerize-your-application) projects, for [Maven-based](https://dmp.fabric8.io/#docker:push) projects)
 
 In order to execute the requested command, each executor will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
 If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.
 This can be useful in a CI environment for example, or in a restricted environment where the binary cannot be downloaded (due to proxy/firewall limitations).
 
-
 You can pass in additional arguments to the underlying Gradle or Maven, either temporarily (via `--args="..."`). For example:
+
 ```
 nx run your-ktor-app --args="-Dpackaging=docker-native"
 ```
 
 Or, permanently by editing the related executor in the `workspace.json` file, as such:
+
 ```js
 {
   "version": 1,
@@ -191,7 +188,7 @@ Or, permanently by editing the related executor in the `workspace.json` file, as
       }
     }},
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nx/workspace"
   }
 }
 ```
@@ -205,7 +202,7 @@ nx run your-ktor-app:run
 nx serve your-ktor-app
 ```
 
-### Building the aplication -  (`build` Executor)
+### Building the aplication - (`build` Executor)
 
 ```
 nx build your-ktor-app
@@ -213,8 +210,7 @@ nx build your-ktor-app
 
 > **Note:** a task dependency to `install` executor of dependent (library) projects is added by the plugin, so that Nx will automatically `install` dependent artifacts to your local Maven repository, prior to running this command. This is particulaly useful, when for example, you have a Spring Boot **application** that depends on another Spring ktor **library** in the workspace. No more need to install the library yourself first!
 
-
-### Install the project's artifacts to local Maven repository (in `~/.m2/repository`) -  (`install` Executor)
+### Install the project's artifacts to local Maven repository (in `~/.m2/repository`) - (`install` Executor)
 
 ```
 nx install your-ktor-app
@@ -226,15 +222,13 @@ nx install your-ktor-app
 nx build-image your-ktor-app"
 ```
 
-
 ### Publishing the Docker Image - (`publish-image` Executor)
 
 ```
 nx publish-image your-ktor-app"
 ```
 
-> **Note:** a task dependency to `build-image` executor is automatically added by the plugin, so that Nx will automatically run `build-image` prior to running this command. 
-
+> **Note:** a task dependency to `build-image` executor is automatically added by the plugin, so that Nx will automatically run `build-image` prior to running this command.
 
 ### Publishing the Docker Image locally - (`publish-image-locally` Executor)
 
@@ -242,8 +236,7 @@ nx publish-image your-ktor-app"
 nx publish-image-locally your-ktor-app"
 ```
 
-> **Note:** a task dependency to `build-image` executor is automatically added by the plugin, so that Nx will automatically run `build-image` prior to running this command. 
-
+> **Note:** a task dependency to `build-image` executor is automatically added by the plugin, so that Nx will automatically run `build-image` prior to running this command.
 
 ### Running the application from inside the Docker Image - (`run-docker` Executor)
 
@@ -251,21 +244,21 @@ nx publish-image-locally your-ktor-app"
 nx rund-docker your-ktor-app"
 ```
 
-> **Note:** a task dependency to `build-image` executor is automatically added by the plugin, so that Nx will automatically run `build-image` prior to running this command. 
+> **Note:** a task dependency to `build-image` executor is automatically added by the plugin, so that Nx will automatically run `build-image` prior to running this command.
 
-### Testing the project -  (`test` Executor)
+### Testing the project - (`test` Executor)
 
 ```
 nx test your-ktor-app
 ```
 
-### Cleaning the project -  (`clean` Executor)
+### Cleaning the project - (`clean` Executor)
 
 ```
 nx clean your-ktor-app
 ```
 
-### Formatting the code -  (`format` Executor)
+### Formatting the code - (`format` Executor)
 
 ```
 nx run your-ktor-app:format
@@ -276,15 +269,15 @@ nx apply-format your-ktor-app
 
 ```
 
-> Note: You *cannot** use the shorter `nx format your-ktor-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
+> Note: You \*cannot\*\* use the shorter `nx format your-ktor-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
 
 ## Compatibility with Nx
 
 Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this plugin.
 
-| Plugin Version | Nx Workspace version
-| -------------- | --------------------
-| `>=v1.x.x`     | `>=v15.8.x`
+| Plugin Version | Nx Workspace version |
+| -------------- | -------------------- |
+| `>=v1.x.x`     | `>=v15.8.x`          |
 
 ## License
 

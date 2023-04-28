@@ -1,16 +1,18 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "$id": "@nxrocks/nx-melos:init",
   "description": "Init Generator.",
   "title": "Generates the configuration to use Melos to manage Flutter/Dart projects in the workspace",
   "type": "object",
   "properties": {
-    "scriptNameSeparator":{
+    "scriptNameSeparator": {
       "description": "Separator to use to name melos scripts added in the root package.json file (for e.g 'melos-bootstrap' or 'melos:bootstrap').",
       "default": "-",
       "type": "string",
-      "enum": [":", "-"],
+      "enum": [
+        ":",
+        "-"
+      ],
       "x-prompt": {
         "message": "What separator would you like to use to generate the name of melos scripts added in the root package.json file? (for e.g 'melos-bootstrap' or 'melos:bootstrap')"
       }

@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "cli": "nx",
   "outputCapture": "pipe",
   "$id": "@nxrocks/nx-quarkus:link",
   "description": "Link Projects Generator.",
@@ -28,5 +27,8 @@
       "x-prompt": "What name of the target project to link to?"
     }
   },
-  "required": ["sourceProjectName", "targetProjectName"]
+  "required": [
+    "sourceProjectName",
+    "targetProjectName"
+  ]
 }

@@ -1,15 +1,21 @@
+import { ProjectGraph, ProjectGraphProcessorContext } from '@nx/devkit';
+
 import {
-    ProjectGraph,
-    ProjectGraphProcessorContext} from '@nrwl/devkit';
-
-
-import { getProjectGraph, NX_SPRING_BOOT_PKG, getJvmPackageInfo } from '@nxrocks/common';
+  getProjectGraph,
+  NX_SPRING_BOOT_PKG,
+  getJvmPackageInfo,
+} from '@nxrocks/common';
 import { isBootProject } from './utils/boot-utils';
 
 export function processProjectGraph(
-    graph: ProjectGraph,
-    context: ProjectGraphProcessorContext
+  graph: ProjectGraph,
+  context: ProjectGraphProcessorContext
 ): ProjectGraph {
-
-    return getProjectGraph(NX_SPRING_BOOT_PKG, isBootProject, getJvmPackageInfo, graph, context);
+  return getProjectGraph(
+    NX_SPRING_BOOT_PKG,
+    isBootProject,
+    getJvmPackageInfo,
+    graph,
+    context
+  );
 }

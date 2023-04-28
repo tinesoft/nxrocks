@@ -1,4 +1,4 @@
-import { Tree, readJson, writeJson } from '@nrwl/devkit';
+import { Tree, readJson, writeJson } from '@nx/devkit';
 
 export function addPluginToNxJson(pluginName: string, tree: Tree) {
   const nxJson = readJson(tree, 'nx.json');

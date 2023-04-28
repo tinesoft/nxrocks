@@ -1,5 +1,9 @@
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
-import { Tree, readProjectConfiguration, addProjectConfiguration } from '@nrwl/devkit';
+import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
+import {
+  Tree,
+  readProjectConfiguration,
+  addProjectConfiguration,
+} from '@nx/devkit';
 
 import generator from './generator';
 import { LinkGeneratorSchema } from './schema';
@@ -9,7 +13,10 @@ jest.mock('../../utils/boot-utils');
 
 describe('link generator', () => {
   let tree: Tree;
-  const options: LinkGeneratorSchema = { sourceProjectName: 'bootapp', targetProjectName: 'ngapp' };
+  const options: LinkGeneratorSchema = {
+    sourceProjectName: 'bootapp',
+    targetProjectName: 'ngapp',
+  };
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
@@ -31,11 +38,18 @@ describe('link generator', () => {
     // mock the function that checks if the project is a Spring-Boot project
     (isBootProject as jest.Mock).mockImplementation(() => true);
     await generator(tree, options);
-    const targetProject = readProjectConfiguration(tree, options.targetProjectName);
-    expect(targetProject.implicitDependencies).toEqual([options.sourceProjectName]);
+    const targetProject = readProjectConfiguration(
+      tree,
+      options.targetProjectName
+    );
+    expect(targetProject.implicitDependencies).toEqual([
+      options.sourceProjectName,
+    ]);
   });
 
   it('should fail if source project is not a Spring boot project', async () => {
-    await expect(generator(tree, options)).rejects.toThrow(`The source project (1st argument of this 'link' generator) must be a Spring-Boot project`) ;
-  })
+    await expect(generator(tree, options)).rejects.toThrow(
+      `The source project (1st argument of this 'link' generator) must be a Spring-Boot project`
+    );
+  });
 });

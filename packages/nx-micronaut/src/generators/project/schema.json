@@ -3,7 +3,6 @@
   "id": "@nxrocks/nx-micronaut:project",
   "description": "Micronaut Project Generator.",
   "title": "Creates a Micronaut application in the workspace",
-  "cli": "nx",
   "outputCapture": "pipe",
   "type": "object",
   "properties": {
@@ -37,7 +36,7 @@
           },
           {
             "value": "function",
-            "label": "Function Application for Serverless" 
+            "label": "Function Application for Serverless"
           },
           {
             "value": "grpc",
@@ -55,7 +54,11 @@
       "description": "Micronaut version.",
       "type": "string",
       "default": "current",
-      "enum": ["current", "snapshot", "previous"],
+      "enum": [
+        "current",
+        "snapshot",
+        "previous"
+      ],
       "x-prompt": {
         "message": "Which version of Micronaut would you like to use?",
         "type": "list",
@@ -105,7 +108,11 @@
       "description": "Java version.",
       "type": "string",
       "default": "JDK_8",
-      "enum": ["JDK_8", "JDK_11", "JDK_17"],
+      "enum": [
+        "JDK_8",
+        "JDK_11",
+        "JDK_17"
+      ],
       "x-prompt": {
         "message": "Which version of Java would you like to use?",
         "type": "list",
@@ -130,7 +137,11 @@
       "description": "Language of the project.",
       "type": "string",
       "default": "JAVA",
-      "enum": ["JAVA", "KOTLIN", "GROOVY"],
+      "enum": [
+        "JAVA",
+        "KOTLIN",
+        "GROOVY"
+      ],
       "x-prompt": {
         "message": "Which language would you like to use?",
         "type": "list",
@@ -162,7 +173,11 @@
       "description": "Test framework to use.",
       "type": "string",
       "default": "JUNIT",
-      "enum": ["JUNIT", "SPOCK", "KOTEST"],
+      "enum": [
+        "JUNIT",
+        "SPOCK",
+        "KOTEST"
+      ],
       "x-prompt": {
         "message": "Which test framework would you like to use?",
         "type": "list",
@@ -219,6 +234,7 @@
     }
   },
   "required": [
-    "projectType", "name"
+    "projectType",
+    "name"
   ]
 }

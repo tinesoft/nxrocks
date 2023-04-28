@@ -1,13 +1,8 @@
-import {
-  Tree,
-  names,
-  getWorkspaceLayout,
-} from '@nrwl/devkit';
+import { Tree, names, getWorkspaceLayout } from '@nx/devkit';
 import { ProjectGeneratorOptions, NormalizedSchema } from '../schema';
 
-
-
-export function normalizeOptions(tree:Tree,
+export function normalizeOptions(
+  tree: Tree,
   options: ProjectGeneratorOptions
 ): NormalizedSchema {
   const { appsDir } = getWorkspaceLayout(tree);
@@ -20,8 +15,13 @@ export function normalizeOptions(tree:Tree,
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
-  const projectFeatures = options.features?.split(',').map((s) => s.trim()).filter(s=>!!s) || [];
-  const fullPackage = options.basePackage + '.' + name.replace(/-_/g, '').toLowerCase();
+  const projectFeatures =
+    options.features
+      ?.split(',')
+      .map((s) => s.trim())
+      .filter((s) => !!s) || [];
+  const fullPackage =
+    options.basePackage + '.' + name.replace(/-_/g, '').toLowerCase();
   return {
     ...options,
     projectName,

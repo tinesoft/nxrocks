@@ -1,19 +1,28 @@
-import {
-    logger,
-    Tree
-} from '@nrwl/devkit';
+import { logger, Tree } from '@nx/devkit';
 import { addGradlePlugin, stripIndent } from '@nxrocks/common';
 import { NormalizedSchema } from '../schema';
 
 export function addMavenPublishPlugin(tree: Tree, options: NormalizedSchema) {
-    if (options.buildSystem === 'gradle-project' || options.buildSystem === 'gradle-project-kotlin') {
-        logger.debug(`Adding 'maven-publish' plugin...`);
+  if (
+    options.buildSystem === 'gradle-project' ||
+    options.buildSystem === 'gradle-project-kotlin'
+  ) {
+    logger.debug(`Adding 'maven-publish' plugin...`);
 
-        addGradlePlugin(tree, options.projectRoot, options.language, 'maven-publish', undefined, options.buildSystem === 'gradle-project-kotlin');
+    addGradlePlugin(
+      tree,
+      options.projectRoot,
+      options.language,
+      'maven-publish',
+      undefined,
+      options.buildSystem === 'gradle-project-kotlin'
+    );
 
-        const artifactSource = options.projectType === 'application' ? 'bootJar' : 'jar';
-        const publishing = options.buildSystem === 'gradle-project-kotlin' ?
-        stripIndent`
+    const artifactSource =
+      options.projectType === 'application' ? 'bootJar' : 'jar';
+    const publishing =
+      options.buildSystem === 'gradle-project-kotlin'
+        ? stripIndent`
         publishing {
         	publications {
         		create<MavenPublication>("mavenJava") {
@@ -22,8 +31,7 @@ export function addMavenPublishPlugin(tree: Tree, options: NormalizedSchema) {
         	}
         }
         `
-        :
-        stripIndent`
+        : stripIndent`
         publishing {
         	publications {
         		mavenJava(MavenPublication) {
@@ -32,9 +40,9 @@ export function addMavenPublishPlugin(tree: Tree, options: NormalizedSchema) {
         	}
         }
         `;
-        const ext = options.buildSystem === 'gradle-project-kotlin'? '.kts' : '';
-        const buildGradlePath = `${options.projectRoot}/build.gradle${ext}`;
-        const content = tree.read(buildGradlePath, 'utf-8') + '\n' + publishing;
-        tree.write(buildGradlePath, content);
-    }
+    const ext = options.buildSystem === 'gradle-project-kotlin' ? '.kts' : '';
+    const buildGradlePath = `${options.projectRoot}/build.gradle${ext}`;
+    const content = tree.read(buildGradlePath, 'utf-8') + '\n' + publishing;
+    tree.write(buildGradlePath, content);
+  }
 }

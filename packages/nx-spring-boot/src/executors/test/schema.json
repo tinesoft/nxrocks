@@ -3,7 +3,6 @@
   "$schema": "http://json-schema.org/schema",
   "title": "Test executor",
   "description": "",
-  "cli": "nx",
   "outputCapture": "pipe",
   "type": "object",
   "properties": {
