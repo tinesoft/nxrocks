@@ -28,7 +28,6 @@
     "dart"
   ],
   "dependencies": {
-    "inquirer": "^7.3.3",
     "js-yaml": "4.1.0"
   },
   "typings": "./src/index.d.ts",

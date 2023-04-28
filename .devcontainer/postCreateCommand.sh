@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Install pnpm
-npm install -g pnpm
+npm install -g @pnpm/exe@8.3.1
 
 
 # Make sure 'node' user can access the 'node_modules' folder that will be mounted as a volume
@@ -9,4 +9,4 @@ npm install -g pnpm
 #sudo chown node node_modules
 
 # Install dependencies
-yarn install
+pnpm install

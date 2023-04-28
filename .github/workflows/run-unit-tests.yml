@@ -2,10 +2,10 @@ name: Run Unit Tests
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request:
-    branches: [ develop ]
-    
+    branches: [develop]
+
 jobs:
   run_unit:
     name: Run Unit Tests
@@ -22,27 +22,11 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+
+      - name: Install node, pnpm, and dependencies
+        uses: ./.github/actions/install-dependencies
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-        shell: bash
-
-      - name: Cache Yarn
-        uses: actions/cache@v3
-        env:
-          cache-name: yarn
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ matrix.os }}-node-${{ matrix.node-version }}-${{ env.cache-name }}-
-
-      - run: yarn install --frozen-lockfile
-      - run: yarn run affected:test -- --base=origin/develop --parallel=6 --exclude=smoke
-          
-          
+      - name: Run unit tests
+        run: pnpm run affected:test --base=origin/develop --parallel=6 --exclude=smoke
