@@ -17,20 +17,15 @@ body:
         - "@nxrocks/nx-quarkus"
         - "@nxrocks/nx-micronaut"
         - "@nxrocks/nx-melos"
+        - "@nxrocks/nx-ktor"
+
     validations:
       required: true
-  - type: input
-    id: pluginVersion
+  - type: textarea
+    id: nxReport
     attributes:
-      label: Plugin Version
-      placeholder: for e.g. v1.0.0
-    validations:
-      required: true
-  - type: input
-    id: nxVersion
-    attributes:
-      label: Nx Version
-      description: "`nx --version`"
+      label: Nx Report
+      description: "`nx report`"
     validations:
       required: true
   - type: textarea
