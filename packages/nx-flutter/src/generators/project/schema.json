@@ -69,14 +69,6 @@
         "type": "string"
       },
       "minItems": 1,
-      "default": [
-        "android",
-        "ios",
-        "linux",
-        "windows",
-        "macos",
-        "web"
-      ],
       "x-priority": "important"
     },
     "useFvm": {

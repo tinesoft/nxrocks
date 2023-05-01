@@ -44,7 +44,6 @@ describe('application generator', () => {
   const options: ProjectGeneratorOptions = {
     name: 'testapp',
     template: 'app',
-    platforms: ['android', 'ios', 'web', 'linux', 'windows', 'macos'],
   };
 
 
@@ -52,9 +51,9 @@ describe('application generator', () => {
     tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
     jest.spyOn(enquirer,'prompt').mockResolvedValue(
       {
-        platforms: options.platforms,
         androidLanguage: 'kotlin',
-        iosLanguage: 'swift'
+        iosLanguage: 'swift',
+        platforms: ['android', 'ios', 'web', 'linux', 'windows', 'macos'],
       }
     );
     jest.spyOn(logger, 'info');
@@ -99,26 +98,35 @@ describe('application generator', () => {
 
     await projectGenerator(tree, { ...options, template: template });
 
-    expect(logger.info).toHaveBeenNthCalledWith(1,`Generating Flutter project with following options : --project-name=${options.name} --android-language=kotlin --ios-language=swift --template=${template} --platforms="android,ios,web,linux,windows,macos" ...`);
- 
-    expect(logger.info).toHaveBeenNthCalledWith(2, `Executing command: flutter create --project-name=${options.name} --android-language=kotlin --ios-language=swift --template=${template} --platforms="android,ios,web,linux,windows,macos"  ${rootDir}/${options.name}`);
- 
+    if(['app', 'plugin'].includes(template)){
+      expect(logger.info).toHaveBeenNthCalledWith(1,`Generating Flutter project with following options : --project-name=${options.name} --android-language=kotlin --ios-language=swift --template=${template} --platforms="android,ios,web,linux,windows,macos" ...`);
+      expect(logger.info).toHaveBeenNthCalledWith(2, `Executing command: flutter create --project-name=${options.name} --android-language=kotlin --ios-language=swift --template=${template} --platforms="android,ios,web,linux,windows,macos"  ${rootDir}/${options.name}`);
+    }
+    else {
+      expect(logger.info).toHaveBeenNthCalledWith(1,`Generating Flutter project with following options : --project-name=${options.name} --template=${template} ...`);
+      expect(logger.info).toHaveBeenNthCalledWith(2, `Executing command: flutter create --project-name=${options.name} --template=${template}  ${rootDir}/${options.name}`);
+    }
+
   });
 
   it.each`
-    template    | shouldPromptTempate
-    ${'app'}    | ${true}
-    ${'plugin'} | ${true}
-    ${'package'}| ${false}
-    ${'module'} | ${false}
-    `('should prompt user to select "platforms" when generating "$template": $shouldPromptTempate', async ({ template, shouldPromptTempate }) => {
+    template    
+    ${'app'}    
+    ${'plugin'} 
+    ${'package'}
+    ${'module'} 
+    `('should prompt user to select "platforms" when generating "$template": $shouldPromptTempate', async ({ template }) => {
 
     await projectGenerator(tree, { ...options, template });
+
+    if(!['app', 'plugin'].includes(template)){
+      expect(enquirer.prompt).not.toHaveBeenCalled();
+      return;
+    }
 
     expect(enquirer.prompt).toHaveBeenNthCalledWith(1,
       expect.arrayContaining([
         expect.objectContaining({
-          skip: !shouldPromptTempate,
           name: 'platforms',
           type: 'multiselect',
           choices: expect.arrayContaining([

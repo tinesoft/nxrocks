@@ -5,11 +5,10 @@ import { AndroidLanguageType, IosLanguageType, NormalizedSchema, PlatformType } 
 type PromptResultType = { platforms: PlatformType[], androidLanguage?: AndroidLanguageType, iosLanguage?: IosLanguageType};
 
 export async function promptAdditionalOptions(tree: Tree, options: NormalizedSchema) {
-    if (process.env.NX_INTERACTIVE === 'true') {
+    if (process.env.NX_INTERACTIVE === 'true' && ['app', 'plugin'].includes(options.template)) {
 
         await prompt([
           {
-            skip: ['app', 'plugin'].indexOf(options.template) === -1,
             name: 'platforms',
             type: 'multiselect',
             choices: [
