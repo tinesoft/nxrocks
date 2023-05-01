@@ -22,6 +22,7 @@ jobs:
       - run: | # we need to fetch the develop branch or else `affected:test` (run by husky after @semantic-release/git) will not work
           git fetch --depth=1
           git checkout develop
+          git checkout -
       - name: Use Node.js 18
         uses: actions/setup-node@v3.5.1
         with:
