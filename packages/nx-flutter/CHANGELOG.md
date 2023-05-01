@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v6.0.0...nx-flutter/v6.0.1) (2023-05-01)
+
+
+### Bug Fixes
+
+* **nx-flutter:** fix error when generating shareable `package` projects ([1214fa7](https://github.com/tinesoft/nxrocks/commit/1214fa7128d0808ba987153fdc6bc17f27b6ee53)), closes [#166](https://github.com/tinesoft/nxrocks/issues/166)
+
 # [6.0.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v5.3.0...nx-flutter/v6.0.0) (2023-04-10)
 
 
