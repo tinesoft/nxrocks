@@ -29,8 +29,8 @@
     "e2e": {
       "dependsOn": ["^build"]
     },
-    "release": {
-      "dependsOn": ["^release"]
+    "semantic-release": {
+      "dependsOn": ["^semantic-release"]
     },
     "test": {
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
