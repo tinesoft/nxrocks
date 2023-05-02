@@ -19,17 +19,17 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-      - run:
-          | # we need to fetch the develop branch or else `affected:test` (run by husky after @semantic-release/git) will not work
+      - name: Checkout the release branch
+        run: |
           git fetch --depth=1
-          git checkout develop
-          git checkout -
+          git checkout $GITHUB_REF_NAME
 
       - name: Install node, pnpm, and dependencies
         uses: ./.github/actions/install-dependencies
 
       - name: Build, Release on GitHub & Publish to NPM
         env:
+          HUSKY: '0' # By default do not run HUSKY install
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
