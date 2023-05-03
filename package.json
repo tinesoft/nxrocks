@@ -51,9 +51,6 @@
     "@nx/node": "16.0.2",
     "@nx/plugin": "16.0.2",
     "@nx/workspace": "16.0.2",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/exec": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
     "@swc-node/register": "^1.6.5",
     "@swc/cli": "0.1.62",
     "@swc/core": "^1.3.56",
@@ -79,7 +76,7 @@
     "nx": "16.0.2",
     "nx-cloud": "16.0.5",
     "prettier": "2.6.2",
-    "semantic-release": "^21.0.2",
+    "semantic-release-plugin-decorators": "https://github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%2Fdynamic_import",
     "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
     "tslib": "^2.3.0",
@@ -89,5 +86,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/tinesoft/nxrocks.git"
+  },
+  "pnpm": {
+    "overrides": {
+      "@theunderscorer/nx-semantic-release@2>semantic-release-plugin-decorators": "$semantic-release-plugin-decorators"
+    }
   }
 }
