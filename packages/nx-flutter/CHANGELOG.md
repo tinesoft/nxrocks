@@ -1,3 +1,15 @@
+# [7.0.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v6.0.1...nx-flutter/v7.0.0) (2023-05-03)
+
+
+### Features
+
+* update to Nx workspace `v16.0.0` ([ab11ea8](https://github.com/tinesoft/nxrocks/commit/ab11ea89becafa9555f43527c95167827089a6e6))
+
+
+### BREAKING CHANGES
+
+* Nx `v16.x.x` is now the minimum required version to use the plugin
+
 ## [6.0.1](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v6.0.0...nx-flutter/v6.0.1) (2023-05-01)
 
 
