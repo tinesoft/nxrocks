@@ -19,7 +19,7 @@
     "format:write": "nx format:write",
     "format:check": "nx format:check",
     "migrate": "nx migrate latest",
-    "dep-graph": "nx dep-graph",
+    "graph": "nx graph",
     "help": "nx help",
     "release": "DEBUG=true  nx run-many --target semantic-release --exclude=smoke --verbose",
     "workspace-generator": "nx workspace-generator",
