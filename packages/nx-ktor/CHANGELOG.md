@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v2.0.0...nx-ktor/v2.0.1) (2023-05-04)
+
+
+### Bug Fixes
+
+* **common:** bump version of `@nxrocks/common` for Nx 16 support ([980a86f](https://github.com/tinesoft/nxrocks/commit/980a86fe0ee16e7d0efb5578b3eef45a00ac9654)), closes [#169](https://github.com/tinesoft/nxrocks/issues/169)
+
 # [2.0.0](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v1.0.1...nx-ktor/v2.0.0) (2023-05-03)
 
 
