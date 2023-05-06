@@ -1,3 +1,10 @@
+## [2.4.2](https://github.com/tinesoft/nxrocks/compare/common/v2.4.1...common/v2.4.2) (2023-05-06)
+
+
+### Bug Fixes
+
+* loosen `peerDependencies` on `@nx/*` to support v16.0.0 AND higher ([fb2f8df](https://github.com/tinesoft/nxrocks/commit/fb2f8df907fe9a498cc310862f08571e6c87dd6b))
+
 ## [2.4.1](https://github.com/tinesoft/nxrocks/compare/common/v2.4.0...common/v2.4.1) (2023-05-04)
 
 
