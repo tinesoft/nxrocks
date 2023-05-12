@@ -59,10 +59,10 @@ export function addDependenciesForProject(
     const depProjectName = workspace.packages[depPkgInfo.packageId];
 
     if (depProjectName) {
-      builder.addExplicitDependency(
+      builder.addStaticDependency(
         rootProjectName,
-        join(rootProjectFolder, rootPkgInfo.packageFile),
-        depProjectName
+        depProjectName,
+        join(rootProjectFolder, rootPkgInfo.packageFile)
       );
     }
   });
@@ -85,7 +85,7 @@ export function getProjectGraph(
     pluginName,
     projectFilter,
     getPackageInfo,
-    context.workspace
+    context.projectsConfigurations
   );
   Object.entries(workspace.projects).forEach(([projectName, pkgInfo]) => {
     addDependenciesForProject(
