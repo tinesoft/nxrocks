@@ -1,3 +1,11 @@
+## [6.0.3](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v6.0.2...nx-quarkus/v6.0.3) (2023-05-12)
+
+
+### Bug Fixes
+
+* **common:** fix dependency graph generation failure on `windows` OS ([26ef7c4](https://github.com/tinesoft/nxrocks/commit/26ef7c476cd4bc158b4df818a84be428a25c6adc)), closes [#170](https://github.com/tinesoft/nxrocks/issues/170)
+* **common:** fix deprecated usage of dependency graph API ([badf089](https://github.com/tinesoft/nxrocks/commit/badf089040b31682df94c97818bf7e96201d42f9))
+
 ## [6.0.2](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v6.0.1...nx-quarkus/v6.0.2) (2023-05-06)
 
 
