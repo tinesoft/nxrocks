@@ -1,4 +1,5 @@
 import {
+  joinPathFragments,
   logger,
   ProjectConfiguration,
   ProjectGraph,
@@ -6,7 +7,6 @@ import {
   ProjectGraphProcessorContext,
   ProjectsConfigurations,
 } from '@nx/devkit';
-import { join } from 'path';
 import { PackageInfo, WorkspacePackageInfoConfiguration } from './models';
 
 export function getPackageInfosForNxProjects(
@@ -62,7 +62,7 @@ export function addDependenciesForProject(
       builder.addStaticDependency(
         rootProjectName,
         depProjectName,
-        join(rootProjectFolder, rootPkgInfo.packageFile)
+        joinPathFragments(rootProjectFolder, rootPkgInfo.packageFile)
       );
     }
   });
