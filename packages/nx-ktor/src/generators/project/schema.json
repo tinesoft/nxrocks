@@ -41,12 +41,12 @@
     "ktorVersion": {
       "description": "Ktor version.",
       "type": "string",
-      "default": "2.2.3"
+      "default": "2.3.0"
     },
     "buildSystem": {
       "description": "Build system to use.",
       "alias": "type",
-      "default": "MAVEN",
+      "default": "GRADLE_KTS",
       "type": "string",
       "x-prompt": {
         "message": "Which build system would you like to use?",
@@ -71,25 +71,20 @@
     "kotlinVersion": {
       "description": "Kotlin version.",
       "type": "string",
-      "default": "1.8.10"
+      "default": "1.8.21"
     },
     "engine": {
       "description": "Engine to use to serve the application.",
       "type": "string",
-      "default": "JAVA",
-      "enum": [
-        "NETTY",
-        "JETTY",
-        "CIO",
-        "TOMCAT"
-      ],
+      "default": "NETTY",
+      "enum": ["NETTY", "JETTY", "CIO", "TOMCAT"],
       "x-prompt": {
         "message": "Which engine(application server) would you like to use?",
         "type": "list",
         "items": [
           {
             "value": "NETTY",
-            "label": "Java"
+            "label": "Netty"
           },
           {
             "value": "JETTY",
@@ -125,11 +120,7 @@
       "description": "Configuratin Location.",
       "type": "string",
       "default": "CODE",
-      "enum": [
-        "YAML",
-        "HOCON",
-        "CODE"
-      ],
+      "enum": ["YAML", "HOCON", "CODE"],
       "x-prompt": {
         "message": "Where would you like to put the configuration in?",
         "type": "list",
@@ -191,7 +182,5 @@
       "alias": "d"
     }
   },
-  "required": [
-    "name"
-  ]
+  "required": ["name"]
 }
