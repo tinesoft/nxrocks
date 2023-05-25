@@ -5,6 +5,51 @@
       "implementation": "./src/executors/build/executor",
       "schema": "./src/executors/build/schema.json",
       "description": "build executor"
+    },
+    "build-image": {
+      "implementation": "./src/executors/build-image/executor",
+      "schema": "./src/executors/build-image/schema.json",
+      "description": "build-image executor"
+    },
+    "check-format": {
+      "implementation": "./src/executors/check-format/executor",
+      "schema": "./src/executors/check-format/schema.json",
+      "description": "check-format executor"
+    },
+    "clean": {
+      "implementation": "./src/executors/clean/executor",
+      "schema": "./src/executors/clean/schema.json",
+      "description": "clean executor"
+    },
+    "format": {
+      "implementation": "./src/executors/format/executor",
+      "schema": "./src/executors/format/schema.json",
+      "description": "format executor"
+    },
+    "install": {
+      "implementation": "./src/executors/install/executor",
+      "schema": "./src/executors/install/schema.json",
+      "description": "install executor"
+    },
+    "publish-image": {
+      "implementation": "./src/executors/publish-image/executor",
+      "schema": "./src/executors/publish-image/schema.json",
+      "description": "publish-image executor"
+    },
+    "run": {
+      "implementation": "./src/executors/run/executor",
+      "schema": "./src/executors/run/schema.json",
+      "description": "run executor"
+    },
+    "run-docker": {
+      "implementation": "./src/executors/run-docker/executor",
+      "schema": "./src/executors/run-docker/schema.json",
+      "description": "run-docker executor"
+    },
+    "test": {
+      "implementation": "./src/executors/test/executor",
+      "schema": "./src/executors/test/schema.json",
+      "description": "test executor"
     }
   }
 }
