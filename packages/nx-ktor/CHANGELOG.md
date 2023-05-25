@@ -1,3 +1,11 @@
+## [2.0.5](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v2.0.4...nx-ktor/v2.0.5) (2023-05-25)
+
+
+### Bug Fixes
+
+* **nx-ktor:** add missing executors in the `executors.json` file ([ef6aed5](https://github.com/tinesoft/nxrocks/commit/ef6aed5c1d221bc1ee59f7e07883da582cd8303f))
+* **nx-ktor:** remove `library` project type in `project` generator ([c5c47c7](https://github.com/tinesoft/nxrocks/commit/c5c47c7a2cfb34647fce43a49809e75e7cc243f5))
+
 ## [2.0.4](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v2.0.3...nx-ktor/v2.0.4) (2023-05-25)
 
 
