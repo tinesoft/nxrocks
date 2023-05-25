@@ -25,13 +25,11 @@ export async function projectGenerator(
   const targets = {};
   const commands: BuilderCommandAliasType[] = [
     'run',
-    'serve',
     'test',
     'clean',
     'build',
     'build-image',
     'publish-image',
-    'publish-image-locally',
     'run-docker',
   ];
 
