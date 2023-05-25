@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v2.0.3...nx-ktor/v2.0.4) (2023-05-25)
+
+
+### Bug Fixes
+
+* **nx-ktor:** update and align default versions with  `Ktor Starter` ([134c709](https://github.com/tinesoft/nxrocks/commit/134c709cf5e944c6a37fa464110ab1b21c8b3506))
+
 ## [2.0.3](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v2.0.2...nx-ktor/v2.0.3) (2023-05-12)
 
 
