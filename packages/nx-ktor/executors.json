@@ -36,10 +36,20 @@
       "schema": "./src/executors/publish-image/schema.json",
       "description": "publish-image executor"
     },
+    "publish-image-locally": {
+      "implementation": "./src/executors/publish-image-locally/executor",
+      "schema": "./src/executors/publish-image-locally/schema.json",
+      "description": "publish-image-locally executor"
+    },
     "run": {
       "implementation": "./src/executors/run/executor",
       "schema": "./src/executors/run/schema.json",
       "description": "run executor"
+    },
+    "serve": {
+      "implementation": "./src/executors/run/executor",
+      "schema": "./src/executors/serve/schema.json",
+      "description": "Executor to serve the project (alias to 'run' executor)"
     },
     "run-docker": {
       "implementation": "./src/executors/run-docker/executor",
