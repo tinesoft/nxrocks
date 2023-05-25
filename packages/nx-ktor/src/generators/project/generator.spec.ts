@@ -199,7 +199,6 @@ describe('project generator', () => {
   let tree: Tree;
   const options: ProjectGeneratorOptions = {
     name: 'ktapp',
-    projectType: 'application',
     groupId: 'com.tinesoft',
     artifactId: 'ktapp',
     buildSystem: 'MAVEN',
@@ -224,26 +223,12 @@ describe('project generator', () => {
   });
 
   it.each`
-    projectType    | buildSystem | buildFileName     | buildFileContent | wrapperName
-    ${'default'}   | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
-    ${'default'}   | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
-    ${'cli'}       | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
-    ${'cli'}       | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
-    ${'function'}  | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
-    ${'function'}  | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
-    ${'grpc'}      | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
-    ${'grpc'}      | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
-    ${'messaging'} | ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
-    ${'messaging'} | ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
+    buildSystem | buildFileName     | buildFileContent | wrapperName
+    ${'MAVEN'}  | ${'pom.xml'}      | ${POM_XML}       | ${'mvnw'}
+    ${'GRADLE'} | ${'build.gradle'} | ${BUILD_GRADLE}  | ${'gradlew'}
   `(
-    `should download a ktor '$type' build with $buildSystem`,
-    async ({
-      projectType,
-      buildSystem,
-      buildFileName,
-      buildFileContent,
-      wrapperName,
-    }) => {
+    `should download a ktor application build with $buildSystem`,
+    async ({ buildSystem, buildFileName, buildFileContent, wrapperName }) => {
       const rootDir = 'apps';
       const downloadUrl = `${options.ktorInitializrUrl}/project/generate`;
 
@@ -257,7 +242,7 @@ describe('project generator', () => {
         .spyOn(mockedResponse.body, 'pipe')
         .mockReturnValue(mockZipStream(zipFiles));
 
-      await projectGenerator(tree, { ...options, projectType, buildSystem });
+      await projectGenerator(tree, { ...options, buildSystem });
 
       expect(mockedFetch).toHaveBeenCalledWith(
         downloadUrl,

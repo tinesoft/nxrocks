@@ -17,27 +17,6 @@
       "pattern": "^[a-zA-Z].*$",
       "x-priority": "important"
     },
-    "projectType": {
-      "description": "Type of application.",
-      "default": "application",
-      "type": "string",
-      "alias": "type",
-      "x-prompt": {
-        "message": "What kind of application are you generating?",
-        "type": "list",
-        "items": [
-          {
-            "value": "application",
-            "label": "Application"
-          },
-          {
-            "value": "library",
-            "label": "library"
-          }
-        ]
-      },
-      "x-priority": "important"
-    },
     "ktorVersion": {
       "description": "Ktor version.",
       "type": "string",

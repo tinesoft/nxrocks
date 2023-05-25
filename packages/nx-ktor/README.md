@@ -20,7 +20,7 @@
 
 Here is a list of some of the coolest features of the plugin:
 
-- ✅ Generation of Ktor applications based on **Ktor Start** API
+- ✅ Generation of Ktor applications based on **Ktor Starter** API
 - ✅ Building, packaging, testing, etc your Ktor projects
 - ✅ Code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for Maven or Gradle
 - ✅ Support for corporate proxies (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
@@ -81,7 +81,6 @@ Here the list of available generation options :
 
 | Option                  | Value                                   | Description                                                                                        |
 | ----------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `projectType`           | `application` \| `library`              | Type of project to generate                                                                        |
 | `buildSystem`           | `MAVEN` \| `GRADLE` \| `GRADLE_KTS`     | Build system                                                                                       |
 | `groupId`               | `string`                                | Group Id of the project                                                                            |
 | `artifactId`            | `string`                                | Artifact Id of the project                                                                         |
@@ -277,8 +276,8 @@ Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This ta
 
 | Plugin Version | Nx Workspace version |
 | -------------- | -------------------- |
-| `>=v2.x.x`     | `>=v16.x.x`
-| `>=v1.x.x`     | `>=v15.8.x`
+| `>=v2.x.x`     | `>=v16.x.x`          |
+| `>=v1.x.x`     | `>=v15.8.x`          |
 
 ## License
 
