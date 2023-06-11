@@ -6,11 +6,19 @@
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "e2e/nx-spring-boot-e2e/jest.config.ts",
+        "passWithNoTests": true,
         "runInBand": true
       },
-      "dependsOn": ["nx-spring-boot:build"]
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      },
+      "dependsOn": ["^build"]
     }
   },
   "tags": [],

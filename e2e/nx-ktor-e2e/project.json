@@ -4,13 +4,22 @@
   "projectType": "application",
   "sourceRoot": "e2e/nx-ktor-e2e/src",
   "targets": {
+
     "e2e": {
       "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "e2e/nx-ktor-e2e/jest.config.ts",
+        "passWithNoTests": true,
         "runInBand": true
       },
-      "dependsOn": ["nx-ktor:build"]
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      },
+      "dependsOn": ["^build"]
     }
   },
   "tags": [],

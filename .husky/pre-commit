@@ -1,6 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-pnpm nx format
-git add -u
 pnpm nx affected:test --parallel=7 --exclude=smoke

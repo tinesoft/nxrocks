@@ -54,6 +54,12 @@
       "options": {
         "jestConfig": "packages/nx-melos/jest.config.ts",
         "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
       }
     },
     "semantic-release": {
