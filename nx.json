@@ -36,7 +36,6 @@
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
     }
   },
-  "defaultProject": "smoke",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [

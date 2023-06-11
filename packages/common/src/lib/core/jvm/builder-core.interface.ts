@@ -17,9 +17,9 @@ export interface BuilderCommandAliasMapper {
  * Base interface for build systems.
  */
 export interface BuilderCore {
-  getBuildSystemType();
+  getBuildSystemType(): BuildSystem;
 
-  getExecutable(ignoreWrapper: boolean, useLegacyWrapper: boolean);
+  getExecutable(ignoreWrapper: boolean, useLegacyWrapper: boolean): string;
 
   getCommand(alias: BuilderCommandAliasType): string;
 }

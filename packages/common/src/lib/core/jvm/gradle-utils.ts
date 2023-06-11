@@ -51,7 +51,7 @@ export function hasGradlePlugin(
 export function getGradlePlugin(
   content: string,
   pluginId: string
-): GradlePlugin {
+): GradlePlugin | undefined {
   const plugins = getGradlePlugins(content);
   return plugins.find((plugin) => plugin.id === pluginId);
 }
