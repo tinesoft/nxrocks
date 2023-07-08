@@ -2,11 +2,19 @@
   "migrations": [
     {
       "cli": "nx",
-      "version": "16.3.1-beta.0",
-      "description": "Replace @nx/node:webpack with @nx/node:webpack for all project targets",
-      "implementation": "./src/migrations/update-16-3-1/update-webpack-executor",
+      "version": "16.5.0-beta.2",
+      "description": "Add test-setup.ts to ignored files in production input",
+      "implementation": "./src/migrations/update-16-5-0/add-test-setup-to-inputs-ignore",
+      "package": "@nx/jest",
+      "name": "add-test-setup-to-inputs-ignore"
+    },
+    {
+      "cli": "nx",
+      "version": "16.4.0-beta.8",
+      "description": "Replace @nx/node:node with @nx/js:node for all project targets",
+      "implementation": "./src/migrations/update-16-4-0/replace-node-executor",
       "package": "@nx/node",
-      "name": "update-16-3-1-update-executor"
+      "name": "update-16-4-0-replace-node-executor"
     }
   ]
 }
