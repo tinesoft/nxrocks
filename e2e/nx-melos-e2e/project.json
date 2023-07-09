@@ -2,9 +2,8 @@
   "name": "nx-melos-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "e2e/nx-melos-e2e/src",
+  "sourceRoot": "e2e/nx-melos-e2e/tests",
   "targets": {
-
     "e2e": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
@@ -20,8 +19,15 @@
         }
       },
       "dependsOn": ["^build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["e2e/nx-melos-e2e/**/*.ts"]
+      }
     }
   },
-  "tags": [],
-  "implicitDependencies": ["nx-melos"]
+  "implicitDependencies": ["nx-melos"],
+  "tags": ["e2e"]
 }

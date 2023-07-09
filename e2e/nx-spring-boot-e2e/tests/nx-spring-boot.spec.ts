@@ -1,36 +1,46 @@
 import {
-  checkFilesExist,
-  readFile,
-  readJson,
-  runNxCommandAsync,
   uniq,
-  tmpProjPath,
 } from '@nx/plugin/testing';
+import { checkFilesExist, createTestProject, isWin, octal, readFile, readJson, runNxCommandAsync, tmpProjPath } from '@nxrocks/common/testing';
 import { names } from '@nx/devkit';
-import { ensureNxProjectWithDeps, octal } from '@nxrocks/common/testing';
 
-import { lstatSync } from 'fs';
+import { lstatSync, rmSync } from 'fs';
+import { execSync } from 'child_process';
 
 describe('nx-spring-boot e2e', () => {
-  const isWin = process.platform === 'win32';
+  let projectDirectory: string;
 
-  beforeAll(async () => {
-    ensureNxProjectWithDeps(
-      '@nxrocks/nx-spring-boot',
-      'dist/packages/nx-spring-boot',
-      [{ name: '@nxrocks/common', path: 'dist/packages/common' }]
-    );
-  }, 600000);
+  beforeAll(() => {
+    projectDirectory = createTestProject();
+
+    // The plugin has been built and published to a local registry in the jest globalSetup
+    // Install the plugin built with the latest source code into the test repo
+    execSync(`npm install @nxrocks/nx-spring-boot@e2e`, {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+      env: process.env,
+    });
+  });
 
   afterAll(() => {
-    // `nx reset` kills the daemon, and performs
-    // some work which can help clean up e2e leftovers
-    runNxCommandAsync('reset');
+    // Cleanup the test project
+    rmSync(projectDirectory, {
+      recursive: true,
+      force: true,
+    });
+  });
+
+  it('should be installed', () => {
+    // npm ls will fail if the package is not installed properly
+    execSync('npm ls @nxrocks/nx-spring-boot', {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+    });
   });
 
   it('should create nx-spring-boot with default options', async () => {
     const prjName = uniq('nx-spring-boot');
-    await runNxCommandAsync(`generate @nxrocks/nx-spring-boot:new ${prjName}`);
+    await runNxCommandAsync(`generate @nxrocks/nx-spring-boot:new ${prjName} --no-interactive`);
 
     const resultBuild = await runNxCommandAsync(`build ${prjName}`);
     expect(resultBuild.stdout).toContain(
@@ -73,7 +83,7 @@ describe('nx-spring-boot e2e', () => {
       const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --javaVersion=${javaVersion}`
+        `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --javaVersion=${javaVersion} --no-interactive`
       );
 
       const resultBuild = await runNxCommandAsync(`build ${prjName}`);
@@ -124,7 +134,7 @@ describe('nx-spring-boot e2e', () => {
         const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem gradle-project`
+          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem gradle-project --no-interactive`
         );
 
         const resultBuild = await runNxCommandAsync(`build ${prjName}`);
@@ -165,7 +175,7 @@ describe('nx-spring-boot e2e', () => {
         const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem gradle-project-kotlin`
+          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem gradle-project-kotlin --no-interactive`
         );
 
         const resultBuild = await runNxCommandAsync(`build ${prjName}`);
@@ -206,7 +216,7 @@ describe('nx-spring-boot e2e', () => {
         const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem gradle-project --language kotlin`
+          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem gradle-project --language kotlin --no-interactive`
         );
 
         const resultBuild = await runNxCommandAsync(`build ${prjName}`);
@@ -247,7 +257,7 @@ describe('nx-spring-boot e2e', () => {
         const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --directory subdir`
+          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --directory subdir  --no-interactive`
         );
         expect(() =>
           checkFilesExist(
@@ -273,7 +283,7 @@ describe('nx-spring-boot e2e', () => {
         const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --tags e2etag,e2ePackage`
+          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --tags e2etag,e2ePackage --no-interactive`
         );
         const project = readJson(`${prjDir}/${prjName}/project.json`);
         expect(project.tags).toEqual(['e2etag', 'e2ePackage']);

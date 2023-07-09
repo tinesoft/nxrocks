@@ -1,17 +1,36 @@
-import { checkFilesExist, runNxCommandAsync } from '@nx/plugin/testing';
-import { ensureNxProjectWithDeps } from '@nxrocks/common/testing';
+import { checkFilesExist, createTestProject, runNxCommandAsync } from '@nxrocks/common/testing';
+import { execSync } from 'child_process';
+import { rmSync } from 'fs-extra';
 
 describe('nx-melos e2e', () => {
-  beforeAll(async () => {
-    ensureNxProjectWithDeps('@nxrocks/nx-melos', 'dist/packages/nx-melos', [
-      { name: '@nxrocks/common', path: 'dist/packages/common' },
-    ]);
-  }, 600000);
+  let projectDirectory: string;
+
+  beforeAll(() => {
+    projectDirectory = createTestProject();
+
+    // The plugin has been built and published to a local registry in the jest globalSetup
+    // Install the plugin built with the latest source code into the test repo
+    execSync(`npm install @nxrocks/nx-melos@e2e`, {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+      env: process.env,
+    });
+  });
 
   afterAll(() => {
-    // `nx reset` kills the daemon, and performs
-    // some work which can help clean up e2e leftovers
-    runNxCommandAsync('reset');
+    // Cleanup the test project
+    rmSync(projectDirectory, {
+      recursive: true,
+      force: true,
+    });
+  });
+
+  it('should be installed', () => {
+    // npm ls will fail if the package is not installed properly
+    execSync('npm ls @nxrocks/nx-melos', {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+    });
   });
 
   beforeEach(() => {});
@@ -22,13 +41,13 @@ describe('nx-melos e2e', () => {
 
   it('should initialize melos in the workspace', async () => {
     await runNxCommandAsync(
-      `generate @nxrocks/nx-melos:init --scriptNameSeparator="-"`
+      `generate @nxrocks/nx-melos:init --scriptNameSeparator="-" --no-interactive`
     );
 
     const scripts = [
       {
         name: 'melos-bootstrap',
-        output: `NX   Successfully ran target melos-bootstrap for project proj`,
+        output: `NX   Successfully ran target melos-bootstrap for project @test-project/source`,
       },
     ];
 
