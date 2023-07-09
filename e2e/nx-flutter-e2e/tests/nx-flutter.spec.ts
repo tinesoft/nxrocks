@@ -1,29 +1,46 @@
 import {
-  checkFilesExist,
-  readJson,
-  runNxCommandAsync,
   uniq,
 } from '@nx/plugin/testing';
-import { ensureNxProjectWithDeps } from '@nxrocks/common/testing';
+import { checkFilesExist, createTestProject, readJson, runNxCommandAsync } from '@nxrocks/common/testing';
+import { execSync } from 'child_process';
+import { rmSync } from 'fs-extra';
 
-jest.mock('inquirer'); // we mock 'inquirer' to bypass the interactive prompt
-import * as inquirer from 'inquirer';
+//jest.mock('enquirer'); // we mock 'enquirer' to bypass the interactive prompt
+import * as enquirer from 'enquirer';
 
 describe('nx-flutter e2e', () => {
-  beforeAll(async () => {
-    ensureNxProjectWithDeps('@nxrocks/nx-flutter', 'dist/packages/nx-flutter', [
-      { name: '@nxrocks/common', path: 'dist/packages/common' },
-    ]);
-  }, 600000);
+  let projectDirectory: string;
+
+  beforeAll(() => {
+    projectDirectory = createTestProject();
+
+    // The plugin has been built and published to a local registry in the jest globalSetup
+    // Install the plugin built with the latest source code into the test repo
+    execSync(`npm install @nxrocks/nx-flutter@e2e`, {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+      env: process.env,
+    });
+  });
 
   afterAll(() => {
-    // `nx reset` kills the daemon, and performs
-    // some work which can help clean up e2e leftovers
-    runNxCommandAsync('reset');
+    // Cleanup the test project
+    rmSync(projectDirectory, {
+      recursive: true,
+      force: true,
+    });
+  });
+
+  it('should be installed', () => {
+    // npm ls will fail if the package is not installed properly
+    execSync('npm ls @nxrocks/nx-flutter', {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+    });
   });
 
   beforeEach(() => {
-    jest.spyOn(inquirer, 'prompt').mockResolvedValue({
+    jest.spyOn(enquirer, 'prompt').mockResolvedValue({
       platforms: ['android', 'ios', 'web', 'linux', 'windows', 'macos'],
       androidLanguage: 'kotlin',
       iosLanguage: 'swift',
@@ -105,7 +122,7 @@ describe('nx-flutter e2e', () => {
     const offline = true;
 
     await runNxCommandAsync(
-      `generate @nxrocks/nx-flutter:create ${appName} --no-interactive --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} `
+      `generate @nxrocks/nx-flutter:create ${appName} --org=${org} --description="${description}" --androidLanguage=${androidLanguage} --iosLanguage=${iosLanguage} --template=${template} --platforms="${platforms}" --pub=${pub} --offline=${offline} --no-interactive`
     );
 
     const executors = [
@@ -137,7 +154,7 @@ describe('nx-flutter e2e', () => {
       const appName = uniq('nx-flutter');
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-flutter:create ${appName} --no-interactive --directory subdir`
+        `generate @nxrocks/nx-flutter:create ${appName} --directory subdir --no-interactive`
       );
       expect(() =>
         checkFilesExist(`apps/subdir/${appName}/pubspec.yaml`)
@@ -150,7 +167,7 @@ describe('nx-flutter e2e', () => {
       const appName = uniq('nx-flutter');
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-flutter:create ${appName}  --no-interactive --tags e2etag,e2ePackage`
+        `generate @nxrocks/nx-flutter:create ${appName} --tags e2etag,e2ePackage --no-interactive`
       );
       const project = readJson(`apps/${appName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);

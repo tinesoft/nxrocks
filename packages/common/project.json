@@ -17,6 +17,10 @@
         "assets": ["packages/common/*.md"]
       }
     },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs common {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],

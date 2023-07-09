@@ -1,41 +1,48 @@
 import {
-  checkFilesExist,
-  readFile,
-  readJson,
-  runNxCommandAsync,
-  tmpProjPath,
   uniq,
 } from '@nx/plugin/testing';
-import { ensureNxProjectWithDeps, octal } from '@nxrocks/common/testing';
-
-import { lstatSync } from 'fs';
+import {
+  createTestProject, checkFilesExist, tmpProjPath, runNxCommandAsync, readFile,
+  readJson, octal, isWin
+} from '@nxrocks/common/testing';
+import { execSync } from 'child_process';
+import { lstatSync, rmSync } from 'fs';
 
 describe('nx-micronaut e2e', () => {
-  const isWin = process.platform === 'win32';
 
-  // Setting up individual workspaces per
-  // test can cause e2e runs to take a long time.
-  // For this reason, we recommend each suite only
-  // consumes 1 workspace. The tests should each operate
-  // on a unique project in the workspace, such that they
-  // are not dependant on one another.
+  let projectDirectory: string;
+
   beforeAll(() => {
-    ensureNxProjectWithDeps(
-      '@nxrocks/nx-micronaut',
-      'dist/packages/nx-micronaut',
-      [{ name: '@nxrocks/common', path: 'dist/packages/common' }]
-    );
+    projectDirectory = createTestProject();
+
+    // The plugin has been built and published to a local registry in the jest globalSetup
+    // Install the plugin built with the latest source code into the test repo
+    execSync(`npm install @nxrocks/nx-micronaut@e2e`, {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+      env: process.env,
+    });
   });
 
   afterAll(() => {
-    // `nx reset` kills the daemon, and performs
-    // some work which can help clean up e2e leftovers
-    runNxCommandAsync('reset');
+    // Cleanup the test project
+    rmSync(projectDirectory, {
+      recursive: true,
+      force: true,
+    });
+  });
+
+  it('should be installed', () => {
+    // npm ls will fail if the package is not installed properly
+    execSync('npm ls @nxrocks/nx-micronaut', {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+    });
   });
 
   it('should create nx-micronaut with default options', async () => {
     const prjName = uniq('nx-micronaut');
-    await runNxCommandAsync(`generate @nxrocks/nx-micronaut:new ${prjName}`);
+    runNxCommandAsync(`generate @nxrocks/nx-micronaut:new ${prjName} --no-interactive`);
 
     const resultBuild = await runNxCommandAsync(`build ${prjName}`);
     expect(resultBuild.stdout).toContain(
@@ -55,7 +62,7 @@ describe('nx-micronaut e2e', () => {
       const execPermission = '755';
       expect(
         lstatSync(tmpProjPath(`apps/${prjName}/mvnw`)).mode &
-          octal(execPermission)
+        octal(execPermission)
       ).toEqual(octal(execPermission));
     }
   }, 200000);
@@ -68,7 +75,7 @@ describe('nx-micronaut e2e', () => {
       const basePackage = 'com.tinesoft';
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --basePackage=${basePackage} --features=${features}`
+        `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --basePackage=${basePackage} --features=${features} --no-interactive`
       );
 
       const resultBuild = await runNxCommandAsync(`build ${prjName}`);
@@ -95,7 +102,7 @@ describe('nx-micronaut e2e', () => {
         const execPermission = '755';
         expect(
           lstatSync(tmpProjPath(`apps/${prjName}/mvnw`)).mode &
-            octal(execPermission)
+          octal(execPermission)
         ).toEqual(octal(execPermission));
       }
     },
@@ -113,7 +120,7 @@ describe('nx-micronaut e2e', () => {
       const buildSystem = 'MAVEN';
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --javaVersion=${javaVersion}`
+        `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --javaVersion=${javaVersion} --no-interactive`
       );
 
       const pomXml = readFile(`apps/${prjName}/pom.xml`);
@@ -127,7 +134,7 @@ describe('nx-micronaut e2e', () => {
       const prjName = uniq('nx-micronaut');
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem GRADLE`
+        `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem GRADLE --no-interactive`
       );
 
       const resultBuild = await runNxCommandAsync(`build ${prjName}`);
@@ -148,7 +155,7 @@ describe('nx-micronaut e2e', () => {
         const execPermission = '755';
         expect(
           lstatSync(tmpProjPath(`apps/${prjName}/gradlew`)).mode &
-            octal(execPermission)
+          octal(execPermission)
         ).toEqual(octal(execPermission));
       }
     }, 200000);
@@ -159,7 +166,7 @@ describe('nx-micronaut e2e', () => {
       const prjName = uniq('nx-micronaut');
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem GRADLE_KOTLIN`
+        `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem GRADLE_KOTLIN --no-interactive`
       );
 
       const resultBuild = await runNxCommandAsync(`build ${prjName}`);
@@ -180,7 +187,7 @@ describe('nx-micronaut e2e', () => {
         const execPermission = '755';
         expect(
           lstatSync(tmpProjPath(`apps/${prjName}/gradlew`)).mode &
-            octal(execPermission)
+          octal(execPermission)
         ).toEqual(octal(execPermission));
       }
     }, 200000);
@@ -190,7 +197,7 @@ describe('nx-micronaut e2e', () => {
     it('should create src in the specified directory', async () => {
       const prjName = uniq('nx-micronaut');
       await runNxCommandAsync(
-        `generate @nxrocks/nx-micronaut:new ${prjName} --directory subdir`
+        `generate @nxrocks/nx-micronaut:new ${prjName} --directory subdir --no-interactive`
       );
       expect(() =>
         checkFilesExist(
@@ -206,7 +213,7 @@ describe('nx-micronaut e2e', () => {
     it('should add tags to the project', async () => {
       const prjName = uniq('nx-micronaut');
       await runNxCommandAsync(
-        `generate @nxrocks/nx-micronaut:new ${prjName} --tags e2etag,e2ePackage`
+        `generate @nxrocks/nx-micronaut:new ${prjName} --tags e2etag,e2ePackage --no-interactive`
       );
       const project = readJson(`apps/${prjName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);

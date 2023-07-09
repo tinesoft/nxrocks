@@ -1,35 +1,51 @@
 import {
-  checkFilesExist,
-  readFile,
-  readJson,
-  runNxCommandAsync,
   uniq,
-  tmpProjPath,
 } from '@nx/plugin/testing';
-import { ensureNxProjectWithDeps, octal } from '@nxrocks/common/testing';
+import {
+  createTestProject, checkFilesExist, isWin, tmpProjPath, runNxCommandAsync, readFile,
+  readJson, octal
+} from '@nxrocks/common/testing';
+import { execSync } from 'child_process';
 
-import { lstatSync } from 'fs';
+import { lstatSync, rmSync } from 'fs';
 
 describe('nx-quarkus e2e', () => {
-  const isWin = process.platform === 'win32';
 
-  beforeAll(async () => {
-    ensureNxProjectWithDeps('@nxrocks/nx-quarkus', 'dist/packages/nx-quarkus', [
-      { name: '@nxrocks/common', path: 'dist/packages/common' },
-    ]);
-  }, 600000);
+  let projectDirectory: string;
+
+  beforeAll(() => {
+    projectDirectory = createTestProject();
+
+    // The plugin has been built and published to a local registry in the jest globalSetup
+    // Install the plugin built with the latest source code into the test repo
+    execSync(`npm install @nxrocks/nx-quarkus@e2e`, {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+      env: process.env,
+    });
+  });
 
   afterAll(() => {
-    // `nx reset` kills the daemon, and performs
-    // some work which can help clean up e2e leftovers
-    runNxCommandAsync('reset');
+    // Cleanup the test project
+    rmSync(projectDirectory, {
+      recursive: true,
+      force: true,
+    });
+  });
+
+  it('should be installed', () => {
+    // npm ls will fail if the package is not installed properly
+    execSync('npm ls @nxrocks/nx-quarkus', {
+      cwd: projectDirectory,
+      stdio: 'inherit',
+    });
   });
 
   it('should create nx-quarkus with default options', async () => {
     const prjName = uniq('nx-quarkus');
-    await runNxCommandAsync(`generate @nxrocks/nx-quarkus:new ${prjName}`);
+    await runNxCommandAsync(`generate @nxrocks/nx-quarkus:new ${prjName} --no-interactive`);
 
-    const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+    const resultBuild = await runNxCommandAsync(`build ${prjName} --no-interactive`);
     expect(resultBuild.stdout).toContain(
       `Executing command: ${isWin ? 'mvnw.cmd' : './mvnw'} package`
     );
@@ -68,7 +84,7 @@ describe('nx-quarkus e2e', () => {
       const extensions = 'resteasy';
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem=${buildSystem} --groupId=${groupId} --artifactId=${artifactId} --extensions=${extensions}`
+        `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem=${buildSystem} --groupId=${groupId} --artifactId=${artifactId} --extensions=${extensions} --no-interactive`
       );
 
       const resultBuild = await runNxCommandAsync(`build ${prjName}`);
@@ -114,7 +130,7 @@ describe('nx-quarkus e2e', () => {
         const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem GRADLE`
+          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem GRADLE --no-interactive`
         );
 
         const resultBuild = await runNxCommandAsync(`build ${prjName}`);
@@ -155,7 +171,7 @@ describe('nx-quarkus e2e', () => {
         const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem GRADLE_KOTLIN_DSL`
+          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem GRADLE_KOTLIN_DSL --no-interactive`
         );
 
         const resultBuild = await runNxCommandAsync(`build ${prjName}`);
@@ -196,7 +212,7 @@ describe('nx-quarkus e2e', () => {
         const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --directory subdir`
+          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --directory subdir --no-interactive`
         );
         expect(() =>
           checkFilesExist(
@@ -222,7 +238,7 @@ describe('nx-quarkus e2e', () => {
         const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --tags e2etag,e2ePackage`
+          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --tags e2etag,e2ePackage --no-interactive`
         );
         const project = readJson(`${prjDir}/${prjName}/project.json`);
         expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
