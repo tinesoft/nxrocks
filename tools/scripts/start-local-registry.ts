@@ -6,20 +6,25 @@ import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { execFileSync } from 'child_process';
 
 export default async () => {
+  if(process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP && process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP !== 'false') {
+    console.log("Envionment variable 'SKIP_LOCAL_REGISTRY_GLOBAL_SETUP' is set. Skipping global setup of Verdaccio's Local Registrty...");
+    return;
+  }
+
   // local registry target to run
   const localRegistryTarget = 'nxrocks:local-registry';
   // storage folder for the local registry
   const storage = './tmp/local-registry/storage';
-
   global.stopLocalRegistry = await startLocalRegistry({
     localRegistryTarget,
     storage,
     verbose: false,
   });
+  const publishAll = process.env.LOCAL_REGISTRY_PUBLISH_ALL && process.env.LOCAL_REGISTRY_PUBLISH_ALL !== 'false';
   const nx = require.resolve('nx');
   execFileSync(
     nx,
-    ['run-many', '--targets', 'publish', '--ver', '0.0.0-e2e', '--tag', 'e2e'],
+    [publishAll ? 'run-many' : 'affected', '--targets', 'publish', '--ver', '0.0.0-e2e', '--tag', 'e2e'],
     { env: process.env, stdio: 'inherit' }
   );
 };

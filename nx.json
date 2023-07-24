@@ -7,7 +7,7 @@
     "default": {
       "runner": "nx-cloud",
       "options": {
-        "accessToken": "YjU2ZDEwNGUtMmE2ZC00ODJmLTg1MjktY2E2YmRhZGRmZDE2fHJlYWQtd3JpdGU=",
+        "accessToken": "OTMwZTE2ZDgtODg2NS00Y2M1LTg0OTMtNGU3ZmI0NzY4YTUyfHJlYWQtd3JpdGU=",
         "cacheableOperations": [
           "build",
           "test",
@@ -57,7 +57,9 @@
       ]
     },
     "publish": {
-      "outputs": ["{options.outputPath}"]
+      "outputs": [
+        "{options.outputPath}"
+      ]
     }
   },
   "namedInputs": {
