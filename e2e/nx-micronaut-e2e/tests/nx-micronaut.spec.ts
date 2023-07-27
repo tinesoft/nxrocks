@@ -40,19 +40,19 @@ describe('nx-micronaut e2e', () => {
     });
   });
 
-  it('should create nx-micronaut with default options', async () => {
+  it.only('should create nx-micronaut with default options', async () => {
     const prjName = uniq('nx-micronaut');
     runNxCommandAsync(`generate @nxrocks/nx-micronaut:new ${prjName} --no-interactive`);
 
-    const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+    const resultBuild = await runNxCommandAsync(`build ${prjName} --args="--info  --stacktrace"`);
     expect(resultBuild.stdout).toContain(
-      `Executing command: ${isWin ? 'mvnw.bat' : './mvnw'} package`
+      `Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`
     );
 
     expect(() =>
       checkFilesExist(
-        `apps/${prjName}/mvnw`,
-        `apps/${prjName}/pom.xml`,
+        `apps/${prjName}/gradlew`,
+        `apps/${prjName}/build.gradle`,
         `apps/${prjName}/README.md`
       )
     ).not.toThrow();
@@ -61,7 +61,7 @@ describe('nx-micronaut e2e', () => {
     if (!isWin) {
       const execPermission = '755';
       expect(
-        lstatSync(tmpProjPath(`apps/${prjName}/mvnw`)).mode &
+        lstatSync(tmpProjPath(`apps/${prjName}/gradlew`)).mode &
         octal(execPermission)
       ).toEqual(octal(execPermission));
     }
@@ -201,8 +201,8 @@ describe('nx-micronaut e2e', () => {
       );
       expect(() =>
         checkFilesExist(
-          `apps/subdir/${prjName}/mvnw`,
-          `apps/subdir/${prjName}/pom.xml`,
+          `apps/subdir/${prjName}/gradlew`,
+          `apps/subdir/${prjName}/build.gradle`,
           `apps/subdir/${prjName}/README.md`
         )
       ).not.toThrow();

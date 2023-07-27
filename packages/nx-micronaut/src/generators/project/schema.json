@@ -82,7 +82,7 @@
     "buildSystem": {
       "description": "Build system to use.",
       "alias": "type",
-      "default": "MAVEN",
+      "default": "GRADLE",
       "type": "string",
       "x-prompt": {
         "message": "Which build system would you like to use?",
@@ -107,7 +107,7 @@
     "javaVersion": {
       "description": "Java version.",
       "type": "string",
-      "default": "JDK_8",
+      "default": "JDK_17",
       "enum": [
         "JDK_8",
         "JDK_11",
