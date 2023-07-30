@@ -1,7 +1,7 @@
 {
   "npmScope": "nxrocks",
   "affected": {
-    "defaultBase": "develop"
+    "defaultBase": "origin/develop"
   },
   "tasksRunnerOptions": {
     "default": {
