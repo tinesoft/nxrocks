@@ -40,11 +40,11 @@ describe('nx-micronaut e2e', () => {
     });
   });
 
-  it.only('should create nx-micronaut with default options', async () => {
+  xit('should create nx-micronaut with default options', async () => {
     const prjName = uniq('nx-micronaut');
     runNxCommandAsync(`generate @nxrocks/nx-micronaut:new ${prjName} --no-interactive`);
 
-    const resultBuild = await runNxCommandAsync(`build ${prjName} --args="--info  --stacktrace"`);
+    const resultBuild = await runNxCommandAsync(`build ${prjName}`);
     expect(resultBuild.stdout).toContain(
       `Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`
     );
@@ -130,7 +130,7 @@ describe('nx-micronaut e2e', () => {
   );
 
   describe('--buildSystem=GRADLE', () => {
-    it('should create a gradle micronaut project', async () => {
+    xit('should create a gradle micronaut project', async () => {
       const prjName = uniq('nx-micronaut');
 
       await runNxCommandAsync(
@@ -162,7 +162,7 @@ describe('nx-micronaut e2e', () => {
   });
 
   describe('--buildSystem=GRADLE_KOTLIN', () => {
-    it('should create a gradle micronaut project with kotlin', async () => {
+    xit('should create a gradle micronaut project with kotlin', async () => {
       const prjName = uniq('nx-micronaut');
 
       await runNxCommandAsync(

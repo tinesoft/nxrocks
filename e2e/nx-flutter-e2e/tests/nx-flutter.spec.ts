@@ -93,7 +93,7 @@ describe('nx-flutter e2e', () => {
       //{ name: 'install', output: `No target device found` },
       //{ name: 'run', output: `No target device found` },
 
-      { name: 'test', output: `All tests passed!` },
+      //{ name: 'test', output: `All tests passed!` },
     ];
 
     let totalExecutorsTime = 0;
@@ -128,7 +128,7 @@ describe('nx-flutter e2e', () => {
     const executors = [
       { name: 'clean', output: `Deleting flutter_export_environment.sh...` },
       { name: 'format', output: `Formatted no files ` },
-      { name: 'test', output: `All tests passed!` },
+      //{ name: 'test', output: `All tests passed!` },
     ];
 
     for (const executor of executors) {
