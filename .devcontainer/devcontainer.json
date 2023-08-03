@@ -25,7 +25,8 @@
 		}
 	},
 	"settings":{
-		"debug.javascript.usePreview": false
+		"debug.javascript.usePreview": false,
+		"dotfiles.repository": "https://github.com/tinesoft/dotfiles"
 	},
 	"mounts": [
 		"source=nxrocks-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
