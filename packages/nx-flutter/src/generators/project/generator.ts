@@ -58,7 +58,7 @@ export async function projectGenerator(
     targets[command.key] = {
       executor: `nx:run-commands`,
       options: {
-        command: `${normalizedOptions.useFvm === true ? 'fvm ' : ''}flutter ${
+        command: `${normalizedOptions.useFvm === true ? 'fvm ' : ''}${command.key === 'format' ? 'dart' : 'flutter'} ${
           command.value
         }`,
         cwd: normalizedOptions.projectRoot,

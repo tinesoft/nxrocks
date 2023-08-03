@@ -81,7 +81,7 @@ describe('application generator', () => {
     ];
     commands.forEach((e) => {
       expect(project.targets[e.key].executor).toBe('nx:run-commands');
-      expect(project.targets[e.key].options.command).toBe(`flutter ${e.value}`);
+      expect(project.targets[e.key].options.command).toBe(`${e.key === 'format' ? 'dart' : 'flutter'} ${e.value}`);
       if (e.key.startsWith('build-')) {
         expect(project.targets[e.key].outputs).toEqual([
           `{workspaceRoot}/${project.root}/build`,
