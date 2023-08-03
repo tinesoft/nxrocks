@@ -116,7 +116,7 @@ Here the list of available executors<sup>1</sup>:
 | `build-ipa`     | _see `flutter help build ipa`_  | Build an iOS archive bundle (Mac OS X host only) |
 | `clean`        | _see `flutter help clean`_      | Delete the `build/` and `dart_tool/` directories |
 | `drive`        | _see `flutter help drive`_      | Run integration tests for the project on an attached device or emulator |
-| `format`       | _see `flutter help format`_     | Format one or more Dart files |
+| `format`       | _see `dart help format`_        | Format one or more Dart files |
 | `gen-l10n`     | _see `flutter help gen-l10n`_   | Generate localizations for the current project |
 | `install`      | _see `flutter help install`_    | Install a Flutter app on an attached device |
 | `run`          | _see `flutter help run`_        | Run your Flutter app on an attached device |
