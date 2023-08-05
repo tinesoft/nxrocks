@@ -98,17 +98,18 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
       `/project/dependencies/dependency`
     );
 
-    dependencyNodes?.forEach((node) => {
-      const depGroupId = findNodeContent(node, `/dependency/groupId/text()`);
-      const depArtifactId = findNodeContent(
-        node,
-        `/dependency/artifactId/text()`
-      );
-      dependencies.push({
-        packageId: `${depGroupId}:${depArtifactId}`,
-        packageFile: 'pom.xml',
+    if (Array.isArray(dependencyNodes))
+      dependencyNodes?.forEach((node) => {
+        const depGroupId = findNodeContent(node, `/dependency/groupId/text()`);
+        const depArtifactId = findNodeContent(
+          node,
+          `/dependency/artifactId/text()`
+        );
+        dependencies.push({
+          packageId: `${depGroupId}:${depArtifactId}`,
+          packageFile: 'pom.xml',
+        });
       });
-    });
 
     return {
       packageId: `${groupId}:${artifactId}`,

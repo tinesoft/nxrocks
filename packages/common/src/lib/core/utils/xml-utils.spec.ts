@@ -103,7 +103,8 @@ describe('xml-utils', () => {
 
             const dependencyNodes = findXmlNodes(xml, `/project/dependencies/dependency`);
             const dependencies = [];
-            dependencyNodes?.forEach((node) => {
+            if (Array.isArray(dependencyNodes)) {
+                dependencyNodes?.forEach((node) => {
                 const depGroupId = findNodeContent(node, `/dependency/groupId/text()`);
                 const depArtifactId = findNodeContent(node, `/dependency/artifactId/text()`);
                 dependencies.push({
@@ -111,6 +112,8 @@ describe('xml-utils', () => {
                     packageFile: 'pom.xml',
                 });
             });
+            }
+          
             expect(dependencies).toEqual([
                 {
                     packageId: 'org.springframework.boot:spring-boot-starter',

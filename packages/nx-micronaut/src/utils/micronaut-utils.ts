@@ -115,5 +115,5 @@ export async function fetchMicronautFeatures(
     )
   );
 
-  return (await response.json())?.features ?? [];
+  return (await response.json() as {features: MicronautFeature[]})?.features ?? [];
 }

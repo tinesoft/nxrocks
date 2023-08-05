@@ -96,5 +96,5 @@ export async function fetchQuarkusExtensions(
     )
   );
 
-  return (await response.json()) ?? [];
+  return (await response.json() as QuarkusExtension[]) ?? [];
 }

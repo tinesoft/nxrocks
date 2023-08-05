@@ -30,7 +30,7 @@
     "native"
   ],
   "dependencies": {
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^3.3.2"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {

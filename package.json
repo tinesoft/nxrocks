@@ -4,10 +4,10 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
-    "build": "nx run-many --target build --parallel 7 --exclude smoke",
-    "test": "nx run-many --target test --parallel 7 --exclude smoke --runInBand",
+    "build": "nx run-many --target build --parallel 4 --exclude smoke",
+    "test": "nx run-many --target test --parallel 4 --exclude smoke",
     "e2e": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/run-all-e2e-tests.ts",
-    "lint": "nx workspace-lint && nx lint",
+    "lint": "nx run-many --target=lint --parallel 4 --exclude smoke",
     "many": "nx run-many",
     "affected:build": "nx affected:build --exclude=smoke",
     "affected:e2e": "nx affected:e2e --exclude=smoke",
@@ -23,23 +23,21 @@
     "graph": "nx graph",
     "help": "nx help",
     "release": "DEBUG=true  nx run-many --target semantic-release --exclude=smoke --verbose",
-    "workspace-generator": "nx workspace-generator",
     "prepare": "husky install",
     "smoke": "FORCE_SMOKE_TESTS=true yarn nx test smoke",
-    "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true yarn run smoke",
-    "postinstall": "ts-node -P ./tools/tsconfig.tools.json ./tools/patch/index.ts"
+    "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true yarn run smoke"
   },
   "private": true,
   "dependencies": {
-    "@swc/helpers": "0.5.1",
-    "enquirer": "^2.3.6",
+    "@swc/helpers": "~0.5.0",
+    "enquirer": "^2.4.1",
     "hpagent": "^1.2.0",
     "js-yaml": "^4.1.0",
-    "node-fetch": "^2.6.9",
-    "tslib": "^2.5.0",
-    "unzipper": "^0.10.11",
-    "xmlbuilder2": "^3.1.0",
-    "xpath": "^0.0.32"
+    "node-fetch": "^2.6.12",
+    "tslib": "^2.6.1",
+    "unzipper": "^0.10.14",
+    "xmlbuilder2": "^3.1.1",
+    "xpath": "^0.0.33"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
@@ -64,14 +62,13 @@
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "29.4.0",
     "@types/node": "18.7.1",
-    "@types/node-fetch": "^2.6.3",
     "@types/tmp": "^0.2.3",
     "@types/unzipper": "^0.10.5",
     "@types/xmldoc": "^1.1.6",
-    "@typescript-eslint/eslint-plugin": "4.3.0",
-    "@typescript-eslint/parser": "4.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
     "dotenv": "10.0.0",
-    "eslint": "7.10.0",
+    "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "fs-extra": "^10.1.0",
     "husky": "^8.0.3",
@@ -99,6 +96,9 @@
   "nx": {
     "includedScripts": []
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "pnpm": {
     "overrides": {
       "@theunderscorer/nx-semantic-release@2>semantic-release": "$semantic-release",

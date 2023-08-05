@@ -1,6 +1,6 @@
-import { create, builder, fragment } from 'xmlbuilder2';
+import { create, builder } from 'xmlbuilder2';
 import { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
-import { select, SelectedValue } from 'xpath';
+import { select, SelectedValue, SelectReturnType } from 'xpath';
 
 export function readXml(
   xmlContent: string,
@@ -27,7 +27,7 @@ export function findXmlNodes(
   xml: XMLBuilder,
   xpath: string,
   ignoreNamespace = true
-): SelectedValue[] | undefined {
+): SelectReturnType | undefined {
   let realXpath = xpath;
   if (ignoreNamespace) {
     const prefix = xpath.startsWith('//') ? '//' : '/';
@@ -87,7 +87,9 @@ export function hasXmlMatching(
   ignoreNamespace = true
 ): boolean {
   const result = findXmlNodes(xml, xpath, ignoreNamespace);
-  return result?.length > 0;
+  if(Array.isArray(result))
+    return result?.length > 0;
+  return !!result;
 }
 
 export function findXmlMatching(

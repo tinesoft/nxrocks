@@ -30,7 +30,6 @@
     "@nx/workspace": ">=16.0.0"
   },
   "devDependencies": {
-    "jest-mock": "*",
     "@jest/globals": "*"
   }
 }
