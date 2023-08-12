@@ -29,11 +29,13 @@
     "java"
   ],
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^2.6.12",
+    "@nxrocks/common": "*",
+    "enquirer": "^2.4.1",
+    "tslib": "^2.3.0"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
-    "@nx/devkit": ">=16.0.0",
-    "@nx/workspace": ">=16.0.0"
+    "@nx/devkit": ">=16.0.0"
   }
 }

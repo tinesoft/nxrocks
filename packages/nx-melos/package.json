@@ -29,7 +29,9 @@
     "flutter"
   ],
   "dependencies": {
-    "js-yaml": "4.1.0"
+    "@nxrocks/common": "*",
+    "nx": "16.6.0",
+    "tslib": "^2.3.0"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {

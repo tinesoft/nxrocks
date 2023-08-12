@@ -96,9 +96,6 @@
   "nx": {
     "includedScripts": []
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "pnpm": {
     "overrides": {
       "@theunderscorer/nx-semantic-release@2>semantic-release": "$semantic-release",

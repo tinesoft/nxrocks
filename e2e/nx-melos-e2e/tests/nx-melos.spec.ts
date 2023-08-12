@@ -33,8 +33,6 @@ describe('nx-melos e2e', () => {
     });
   });
 
-  beforeEach(() => {});
-
   afterEach(() => {
     jest.resetAllMocks();
   });

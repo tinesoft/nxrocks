@@ -12,8 +12,6 @@
         "tsConfig": "packages/nx-quarkus/tsconfig.lib.json",
         "packageJson": "packages/nx-quarkus/package.json",
         "main": "packages/nx-quarkus/src/index.ts",
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/nx-quarkus/*.md",
           {

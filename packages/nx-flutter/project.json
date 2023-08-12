@@ -12,8 +12,6 @@
         "main": "packages/nx-flutter/src/index.ts",
         "packageJson": "packages/nx-flutter/package.json",
         "tsConfig": "packages/nx-flutter/tsconfig.lib.json",
-        "updateBuildableProjectDepsInPackageJson": true,
-        "buildableProjectDepsInPackageJsonType": "dependencies",
         "assets": [
           "packages/nx-flutter/*.md",
           {

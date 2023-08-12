@@ -28,7 +28,10 @@
     "dart"
   ],
   "dependencies": {
-    "js-yaml": "4.1.0"
+    "js-yaml": "4.1.0",
+    "@nxrocks/common": "*",
+    "enquirer": "^2.4.1",
+    "tslib": "^2.3.0"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
