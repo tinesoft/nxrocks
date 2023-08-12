@@ -1,4 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-pnpm nx affected:test --parallel=7 --exclude=smoke
+pnpm nx affected:lint --fix --parallel=4 --exclude=smoke
+pnpm nx affected:test --parallel=4 --exclude=smoke
