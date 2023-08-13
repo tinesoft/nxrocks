@@ -10,7 +10,7 @@ overrides:
 
 dependencies:
   '@swc/helpers':
-    specifier: 0.5.1
+    specifier: ~0.5.0
     version: 0.5.1
   enquirer:
     specifier: ^2.4.1
