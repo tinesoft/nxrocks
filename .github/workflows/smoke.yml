@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
         node-version: [18]
     steps:
       - name: Checkout Repo
@@ -44,4 +44,4 @@ jobs:
         env:
           NX_E2E_CI_CACHE_KEY: smoke-gha-${{ matrix.os }}-${{ matrix.node-version }}
           NX_RUN_GROUP: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}
-        run: pnpm nx test smoke --verbose
+        run: pnpm nx test smoke
