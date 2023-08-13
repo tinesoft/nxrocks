@@ -124,6 +124,7 @@ describe('nxrocks smoke tests', () => {
       execSyncOptions(),
     );
 
+    execSync(`git add -A`, execSyncOptions());
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
     runNxCommand(`clean ${bootapp}`, runCommand, execSyncOptions());
