@@ -1,9 +1,7 @@
 import { JsonParseOptions, parseJson } from '@nx/devkit';
-import { execSync } from 'child_process';
+import { ExecSyncOptions, execSync } from 'child_process';
 import { rmSync, mkdirSync, statSync, readFileSync } from 'fs-extra';
 import { join, dirname, isAbsolute } from 'path';
-
-export * from './ensure-nx-project';
 
 
 export const isWin = process.platform === 'win32';
@@ -12,8 +10,7 @@ export const isWin = process.platform === 'win32';
  * Creates a test project with create-nx-workspace and installs the plugin
  * @returns The directory where the test project was created
  */
-export function createTestProject() {
-  const projectName = 'test-project';
+export function createTestProject(createCommand='npx --yes create-nx-workspace@latest', projectName='test-project') {
   const projectDirectory = join(process.cwd(), 'tmp', projectName);
 
   // Ensure projectDirectory is empty
@@ -26,7 +23,7 @@ export function createTestProject() {
   });
 
   execSync(
-    `npx --yes create-nx-workspace@latest ${projectName} --preset empty --no-nxCloud --no-interactive`,
+    `${createCommand} ${projectName} --preset empty --no-nxCloud --no-interactive`,
     {
       cwd: dirname(projectDirectory),
       stdio: 'inherit',
@@ -52,8 +49,7 @@ export function checkFilesExist(...expectedFiles: string[]) {
     }
   });
 }
-export function tmpProjPath(path = '') {
-  const projectName = 'test-project';
+export function tmpProjPath(path = '', projectName = 'test-project') {
   return join(process.cwd(), 'tmp', projectName, path);
 }
 
@@ -77,13 +73,18 @@ function exists(filePath: string): boolean {
   return directoryExists(filePath) || fileExists(filePath);
 }
 
-export async function runNxCommandAsync(command: string, opts: { cwd: string, env: NodeJS.ProcessEnv } = { cwd: tmpProjPath(), env: process.env }, pkgManagerExec = 'npx') {
+export function runNxCommand(command: string, pkgManagerExec = 'npx', opts: ExecSyncOptions = { cwd: tmpProjPath(), env: process.env, stdio: 'inherit' }) {
   return {
     stdout: execSync(`${pkgManagerExec} nx ${command}`, {
       cwd: opts.cwd,
       env: opts.env,
+      stdio: opts.stdio
     })?.toString()
   };
+}
+
+export async function runNxCommandAsync(command: string, pkgManagerExec = 'npx', opts: ExecSyncOptions = { cwd: tmpProjPath(), env: process.env, stdio: 'inherit' }) {
+  return runNxCommand(command, pkgManagerExec, opts);
 }
 
 export function readJson<T extends object = any>(path: string, options?: JsonParseOptions): T{

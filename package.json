@@ -22,8 +22,8 @@
     "help": "nx help",
     "release": "DEBUG=true  nx run-many --target semantic-release --exclude=smoke --verbose",
     "prepare": "husky install",
-    "smoke": "FORCE_SMOKE_TESTS=true yarn nx test smoke",
-    "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true yarn run smoke"
+    "smoke": "FORCE_SMOKE_TESTS=true nx test smoke",
+    "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true smoke"
   },
   "private": true,
   "dependencies": {
@@ -82,7 +82,6 @@
     "semantic-release-plugin-decorators": "https://github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%2Fdynamic_import",
     "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
-    "tslib": "^2.3.0",
     "tslint": "6.1.3",
     "typescript": "5.1.6",
     "verdaccio": "^5.0.4"
