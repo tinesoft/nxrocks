@@ -1,5 +1,4 @@
 import { logger } from '@nx/devkit';
-import { mocked } from 'jest-mock';
 
 import { publishImageLocallyExecutor } from './executor';
 import { PublishImageLocallyExecutorOptions } from './schema';

@@ -7,7 +7,7 @@
     "build": "nx run-many --target build --parallel 4 --exclude smoke",
     "test": "nx run-many --target test --parallel 4 --exclude smoke",
     "e2e": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/run-all-e2e-tests.ts",
-    "lint": "nx run-many --target=lint --parallel 4 --exclude smoke",
+    "lint": "nx run-many --target=lint --fix --parallel 4 --exclude smoke",
     "affected:build": "nx affected:build --exclude=smoke",
     "affected:e2e": "nx affected:e2e --exclude=smoke",
     "affected:test": "nx affected:test --exclude=smoke",
@@ -20,7 +20,7 @@
     "run-migrate": "nx migrate --run-migrations'",
     "graph": "nx graph",
     "help": "nx help",
-    "release": "DEBUG=true  nx run-many --target semantic-release --exclude=smoke --verbose",
+    "release": "DEBUG=true nx run-many --target semantic-release --exclude=smoke --verbose",
     "prepare": "husky install",
     "smoke": "FORCE_SMOKE_TESTS=true nx test smoke",
     "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true smoke"

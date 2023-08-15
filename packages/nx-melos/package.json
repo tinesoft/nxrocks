@@ -30,11 +30,11 @@
   ],
   "dependencies": {
     "@nxrocks/common": "*",
-    "nx": "16.6.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.6.1"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
+    "nx": ">=16.0.0",
     "@nx/devkit": ">=16.0.0",
     "@nx/workspace": ">=16.0.0"
   }

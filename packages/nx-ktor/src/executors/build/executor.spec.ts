@@ -1,5 +1,4 @@
 import { logger } from '@nx/devkit';
-import { mocked } from 'jest-mock';
 
 import { buildExecutor } from './executor';
 import { BuildExecutorOptions } from './schema';

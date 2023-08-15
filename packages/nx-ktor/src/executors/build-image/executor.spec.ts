@@ -1,5 +1,4 @@
 import { logger } from '@nx/devkit';
-import { mocked } from 'jest-mock';
 
 import { buildImageExecutor } from './executor';
 import { BuildImageExecutorOptions } from './schema';

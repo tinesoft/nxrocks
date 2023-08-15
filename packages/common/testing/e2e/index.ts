@@ -73,7 +73,7 @@ function exists(filePath: string): boolean {
   return directoryExists(filePath) || fileExists(filePath);
 }
 
-export function runNxCommand(command: string, pkgManagerExec = 'npx', opts: ExecSyncOptions = { cwd: tmpProjPath(), env: process.env, stdio: 'inherit' }) {
+export function runNxCommand(command: string, pkgManagerExec = 'npx', opts: ExecSyncOptions = { cwd: tmpProjPath(), env: process.env, stdio: 'pipe' }) {
   return {
     stdout: execSync(`${pkgManagerExec} nx ${command}`, {
       cwd: opts.cwd,
@@ -83,7 +83,7 @@ export function runNxCommand(command: string, pkgManagerExec = 'npx', opts: Exec
   };
 }
 
-export async function runNxCommandAsync(command: string, pkgManagerExec = 'npx', opts: ExecSyncOptions = { cwd: tmpProjPath(), env: process.env, stdio: 'inherit' }) {
+export async function runNxCommandAsync(command: string, pkgManagerExec = 'npx', opts: ExecSyncOptions = { cwd: tmpProjPath(), env: process.env, stdio: 'pipe' }) {
   return runNxCommand(command, pkgManagerExec, opts);
 }
 
