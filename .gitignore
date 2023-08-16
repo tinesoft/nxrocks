@@ -40,3 +40,6 @@ v8-compile-cache-0
 # System Files
 .DS_Store
 Thumbs.db
+
+# Nx files
+migrations.json
