@@ -1,5 +1,4 @@
 {
-  "npmScope": "nxrocks",
   "affected": {
     "defaultBase": "origin/develop"
   },

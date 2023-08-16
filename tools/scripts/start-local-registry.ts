@@ -20,11 +20,10 @@ export default async () => {
     storage,
     verbose: false,
   });
-  const publishAll = process.env.LOCAL_REGISTRY_PUBLISH_ALL && process.env.LOCAL_REGISTRY_PUBLISH_ALL !== 'false';
   const nx = require.resolve('nx');
   execFileSync(
     nx,
-    [publishAll ? 'run-many' : 'affected', '--targets', 'publish', '--ver', '0.0.0-e2e', '--tag', 'e2e'],
+    ['run-many', '--targets', 'publish', '--ver', '0.0.0-e2e', '--tag', 'e2e'],
     { env: process.env, stdio: 'inherit' }
   );
 };

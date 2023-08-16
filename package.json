@@ -23,7 +23,7 @@
     "release": "DEBUG=true nx run-many --target semantic-release --exclude=smoke --verbose",
     "prepare": "husky install",
     "smoke": "FORCE_SMOKE_TESTS=true nx test smoke",
-    "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true smoke"
+    "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true pnpm smoke"
   },
   "private": true,
   "dependencies": {

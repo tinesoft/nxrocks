@@ -5,8 +5,6 @@ import stopRegistry from './stop-local-registry';
 
 (async () => {
     
-    process.env.LOCAL_REGISTRY_PUBLISH_ALL = 'true';
-
     await startLocalRegistry();
     const nx = require.resolve('nx');
     execFileSync(
