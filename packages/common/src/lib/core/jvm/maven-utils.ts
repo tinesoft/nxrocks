@@ -1,4 +1,4 @@
-import { Tree } from '@nx/devkit';
+import { ProjectConfiguration, Tree } from '@nx/devkit';
 import {
   addXmlNode,
   findXmlMatching,
@@ -8,6 +8,8 @@ import {
   removeXmlNode,
   stripIndent,
 } from '../utils';
+import { isMavenProject } from './utils';
+import { getProjectFileContent } from '../workspace';
 
 export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.diffplug.spotless';
 export const SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID = 'spotless-maven-plugin';
@@ -317,4 +319,32 @@ export function addSpotlessMavenPlugin(
     SPOTLESS_MAVEN_PLUGIN_VERSION,
     spotlessConfig
   );
+}
+
+export function isMultiModuleMavenProject(project: ProjectConfiguration){
+
+  if (!isMavenProject(project))
+    return false;
+
+    
+  const pomXmlStr = getProjectFileContent(project, 'pom.xml');
+  const pomXml = readXml(pomXmlStr);
+
+  const modulesXPath = `/project/modules`;
+
+  return hasXmlMatching(pomXml, modulesXPath);
+}
+
+export function hasMavenModule(project: ProjectConfiguration, moduleName){
+
+  if (!isMultiModuleMavenProject(project))
+    return false;
+
+    
+  const pomXmlStr = getProjectFileContent(project, 'pom.xml');
+  const pomXml = readXml(pomXmlStr);
+
+  const moduleXPath = `/project/modules/module/text()[.="${moduleName}"]`;
+
+  return hasXmlMatching(pomXml, moduleXPath);
 }

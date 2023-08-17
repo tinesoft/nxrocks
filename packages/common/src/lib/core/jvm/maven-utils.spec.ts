@@ -1,4 +1,4 @@
-import { Tree } from '@nx/devkit';
+import { ProjectConfiguration, Tree, addProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { addMavenPlugin } from '.';
 import { stripIndent } from '../utils';
@@ -9,7 +9,12 @@ import {
   SPOTLESS_MAVEN_PLUGIN_VERSION,
   removeMavenPlugin,
   addMavenProperty,
+  isMultiModuleMavenProject,
+  hasMavenModule,
 } from './maven-utils';
+import * as fileUtils from '@nx/workspace/src/utils/fileutils';
+import * as fs from 'fs';
+
 
 const getPomXmlFile = (
   hasBuildNode = true,
@@ -71,6 +76,24 @@ const getPomXmlFile = (
         ${buildNode}
     </project>`;
 };
+
+const MULTI_MODULE_POM_XML = `
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.springframework</groupId>
+    <artifactId>gs-multi-module</artifactId>
+    <version>0.1.0</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>library</module>
+        <module>application</module>
+    </modules>
+
+</project>`
 
 describe('maven-utils', () => {
   describe('addMavenProperty', () => {
@@ -267,4 +290,63 @@ describe('maven-utils', () => {
       }
     );
   });
+
+  describe('isMultiModuleMavenProject', ()=>{
+    let tree: Tree;
+    const projectConfig: ProjectConfiguration = {
+      name: "mavenapp",
+      sourceRoot: "apps/mavenapp",
+      projectType: "application",
+      targets:{},
+      tags: [],
+      root: "apps/mvnapp"
+    };
+    beforeEach(async () => {
+      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      addProjectConfiguration(tree, "mavenapp", projectConfig)
+    });
+
+    it('should return true on a multi-module maven project', ()=>{
+      jest
+      .spyOn(fileUtils, 'fileExists')
+      .mockImplementation((p) =>
+        [
+          `${process.cwd()}/apps/mvnapp/pom.xml`,
+        ].includes(p.toString())
+      );
+      jest.spyOn(fs, 'readFileSync').mockReturnValue(MULTI_MODULE_POM_XML);
+      expect(isMultiModuleMavenProject(projectConfig)).toBe(true);
+    });
+
+    it('should return false on non multi-module maven project', ()=>{
+      jest
+      .spyOn(fileUtils, 'fileExists')
+      .mockImplementation((p) =>
+        [
+          `${process.cwd()}/apps/mvnapp/pom.xml`,
+        ].includes(p.toString())
+      );
+      jest.spyOn(fs, 'readFileSync').mockReturnValue(getPomXmlFile());
+      expect(isMultiModuleMavenProject(projectConfig)).toBe(false);
+    });
+
+
+    it('should return false if no pom.xml is found', ()=>{
+      jest.spyOn(fileUtils, 'fileExists').mockReturnValue(false);
+      expect(isMultiModuleMavenProject(projectConfig)).toBe(false);
+    });
+
+    it('should found the maven module if present', ()=>{
+      jest
+      .spyOn(fileUtils, 'fileExists')
+      .mockImplementation((p) =>
+        [
+          `${process.cwd()}/apps/mvnapp/pom.xml`,
+        ].includes(p.toString())
+      );
+      jest.spyOn(fs, 'readFileSync').mockReturnValue(MULTI_MODULE_POM_XML);
+      expect(hasMavenModule(projectConfig, 'library')).toBe(true);
+      expect(hasMavenModule(projectConfig, 'libraryx')).toBe(false);
+    });
+  })
 });

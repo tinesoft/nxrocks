@@ -1,4 +1,4 @@
-import { Tree } from '@nx/devkit';
+import { ProjectConfiguration, Tree, addProjectConfiguration } from '@nx/devkit';
 import {
   getGradlePlugins,
   hasGradlePlugin,
@@ -7,10 +7,14 @@ import {
   addSpotlessGradlePlugin,
   disableGradlePlugin,
   getGradlePlugin,
+  isMultiModuleGradleProject,
+  hasGradleModule,
 } from './gradle-utils';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { stripIndent } from '../utils';
 import { SPOTLESS_GRADLE_PLUGIN_ID } from '.';
+import * as fileUtils from '@nx/workspace/src/utils/fileutils';
+import * as fs from 'fs';
 
 const BUILD_GRADLE_FILE = `plugins {
 	id 'org.springframework.boot' version '2.6.2'
@@ -70,6 +74,27 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }`;
+
+const SETTINGS_FILE = `
+rootProject.name = 'demo'
+`;
+const SETTINGS_KTS_FILE = `
+rootProject.name = "demo"
+`;
+
+const MULTI_MODULE_SETTINGS_FILE = `
+rootProject.name = 'demo'
+
+include 'library1'
+include 'library2'
+`;
+
+const MULTI_MODULE_SETTINGS_KTS_FILE = `
+rootProject.name = "demo"
+
+include("library1")
+include("library2")
+`;
 
 describe('gradle-utils', () => {
   describe('getGradlePlugins', () => {
@@ -237,7 +262,7 @@ describe('gradle-utils', () => {
     });
   });
 
-  describe.only('disableGradlePlugin', () => {
+  describe('disableGradlePlugin', () => {
     let tree: Tree;
     beforeEach(() => {
       tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
@@ -348,4 +373,107 @@ describe('gradle-utils', () => {
       }
     );
   });
+
+  describe('isMultiModuleGradleProject', ()=>{
+    let tree: Tree;
+    const projectConfig: ProjectConfiguration = {
+      name: "gradleapp",
+      sourceRoot: "apps/gradleapp",
+      projectType: "application",
+      targets:{},
+      tags: [],
+      root: "apps/gradleapp"
+    };
+    beforeEach(async () => {
+      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      addProjectConfiguration(tree, "gradleapp", projectConfig)
+    });
+
+    it('should return true on a multi-module gradle project', ()=>{
+      const files = {
+        [`${process.cwd()}/apps/gradleapp/build.gradle`]: BUILD_GRADLE_FILE,
+        [`${process.cwd()}/apps/gradleapp/settings.gradle`]: MULTI_MODULE_SETTINGS_FILE
+      };
+      jest
+      .spyOn(fileUtils, 'fileExists')
+      .mockImplementation((p) =>Object.keys(files).includes(p.toString())
+      );
+      jest.spyOn(fs, 'readFileSync').mockImplementation((p: string)=> files[p]);
+      expect(isMultiModuleGradleProject(projectConfig)).toBe(true);
+    });
+
+    it('should return true on a multi-module gradle kotlin project', ()=>{
+      const files = {
+        [`${process.cwd()}/apps/gradleapp/build.gradle.kts`]: BUILD_GRADLE_KOTLIN_FILE,
+        [`${process.cwd()}/apps/gradleapp/settings.gradle.kts`]: MULTI_MODULE_SETTINGS_KTS_FILE
+      };
+      jest
+      .spyOn(fileUtils, 'fileExists')
+      .mockImplementation((p) =>Object.keys(files).includes(p.toString())
+      );
+      jest.spyOn(fs, 'readFileSync').mockImplementation((p: string)=> files[p]);
+      expect(isMultiModuleGradleProject(projectConfig)).toBe(true);
+    });
+
+    it('should return false on non multi-module gradle project', ()=>{
+      const files = {
+        [`${process.cwd()}/apps/gradleapp/build.gradle`]: BUILD_GRADLE_FILE,
+        [`${process.cwd()}/apps/gradleapp/settings.gradle`]: SETTINGS_FILE
+      };
+      jest
+      .spyOn(fileUtils, 'fileExists')
+      .mockImplementation((p) =>Object.keys(files).includes(p.toString())
+      );
+      jest.spyOn(fs, 'readFileSync').mockImplementation((p: string)=> files[p]);
+      expect(isMultiModuleGradleProject(projectConfig)).toBe(false);
+    });
+
+    it('should return false on non multi-module gradle kotlin project', ()=>{
+      const files = {
+        [`${process.cwd()}/apps/gradleapp/build.gradle.kts`]: BUILD_GRADLE_KOTLIN_FILE,
+        [`${process.cwd()}/apps/gradleapp/settings.gradle`]: SETTINGS_KTS_FILE
+      };
+      jest
+      .spyOn(fileUtils, 'fileExists')
+      .mockImplementation((p) =>Object.keys(files).includes(p.toString())
+      );
+      jest.spyOn(fs, 'readFileSync').mockImplementation((p: string)=> files[p]);
+      expect(isMultiModuleGradleProject(projectConfig)).toBe(false);
+    });
+
+
+    it('should return false if no build|settings.gradle[.kts] nor settings.gradle[.kts] is found', ()=>{
+      jest.spyOn(fileUtils, 'fileExists').mockReturnValue(false);
+      expect(isMultiModuleGradleProject(projectConfig)).toBe(false);
+    });
+
+    it('should found the gradle module if present', ()=>{
+      const files = {
+        [`${process.cwd()}/apps/gradleapp/build.gradle`]: BUILD_GRADLE_FILE,
+        [`${process.cwd()}/apps/gradleapp/settings.gradle`]: MULTI_MODULE_SETTINGS_FILE
+      };
+      jest
+      .spyOn(fileUtils, 'fileExists')
+      .mockImplementation((p) =>Object.keys(files).includes(p.toString())
+      );
+      jest.spyOn(fs, 'readFileSync').mockImplementation((p: string)=> files[p]);
+      expect(hasGradleModule(projectConfig, 'library1')).toBe(true);
+      expect(hasGradleModule(projectConfig, 'libraryx')).toBe(false);
+    });
+
+    it('should found the kotlin gradle module if present', ()=>{
+      const files = {
+        [`${process.cwd()}/apps/gradleapp/build.gradle.kts`]: BUILD_GRADLE_KOTLIN_FILE,
+        [`${process.cwd()}/apps/gradleapp/settings.gradle.kts`]: MULTI_MODULE_SETTINGS_KTS_FILE
+      };
+      jest
+      .spyOn(fileUtils, 'fileExists')
+      .mockImplementation((p) =>Object.keys(files).includes(p.toString())
+      );
+      jest.spyOn(fs, 'readFileSync').mockImplementation((p: string)=> files[p]);
+      expect(hasGradleModule(projectConfig, 'library1')).toBe(true);
+      expect(hasGradleModule(projectConfig, 'libraryx')).toBe(false);
+    });
+  })
 });
+
