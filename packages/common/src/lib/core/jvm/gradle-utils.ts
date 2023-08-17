@@ -1,6 +1,5 @@
-import { ProjectConfiguration, Tree } from '@nx/devkit';
-import { checkProjectFileContains, getGradleBuildFilesExtension, isGradleProject } from './utils';
-import { getProjectFileContent } from '../workspace';
+import { Tree } from '@nx/devkit';
+import { checkProjectFileContains, getGradleBuildFilesExtension, getGradleBuildFilesExtensionInTree, isGradleProject, isGradleProjectInTree } from './utils';
 
 export const GRADLE_PLUGINS_REGEX = /(?:plugins\s*\{\s*)([^}]+)(?:\s*\})/g;
 export const SPOTLESS_CONFIG_REGEX =
@@ -303,13 +302,13 @@ export function addSpotlessGradlePlugin(
   return added;
 }
 
-export function isMultiModuleGradleProject(project: ProjectConfiguration){
+export function isMultiModuleGradleProject(tree: Tree, rootFolder: string){
 
-  if (!isGradleProject(project))
+  if (!isGradleProjectInTree(tree, rootFolder))
     return false;
 
-  const ext = getGradleBuildFilesExtension(project);
-  const settings = getProjectFileContent(project, `settings${ext}`);
+  const ext = getGradleBuildFilesExtensionInTree(tree, rootFolder);
+  const settings = tree.read(`./${rootFolder}/settings${ext}`, 'utf-8');
 
 
   const opts = {
@@ -325,22 +324,22 @@ export function isMultiModuleGradleProject(project: ProjectConfiguration){
   return checkProjectFileContains(settings, opts) || checkProjectFileContains(settings, optsKts);
 }
 
-export function hasGradleModule(project: ProjectConfiguration, moduleName: string){
+export function hasGradleModule(tree: Tree, rootFolder:string, moduleName: string){
 
-  if (!isMultiModuleGradleProject(project))
+  if (!isMultiModuleGradleProject(tree, rootFolder))
     return false;
 
-  const ext = getGradleBuildFilesExtension(project);
-  const settings = getProjectFileContent(project, `settings${ext}`);
+  const ext = getGradleBuildFilesExtensionInTree(tree, rootFolder);
+  const settings = tree.read(`./${rootFolder}/settings${ext}`, 'utf-8');
 
 
   const opts = {
-    fragments: [new RegExp(`rootProject\\.name\\s*=\\s*'`), new RegExp(`include\\s+'${moduleName}'`)],
+    fragments: [new RegExp(`rootProject\\.name\\s*=\\s*'`), new RegExp(`include\\s+':?${moduleName}'`)],
     logicalOp: 'and' as 'and' | 'or'
   };
 
   const optsKts = {
-    fragments: [new RegExp(`rootProject\\.name\\s*=\\s*"`), new RegExp(`include\\("${moduleName}"\\)`)],
+    fragments: [new RegExp(`rootProject\\.name\\s*=\\s*"`), new RegExp(`include\\(":?${moduleName}"\\)`)],
     logicalOp: 'and' as 'and' | 'or'
   };
 
