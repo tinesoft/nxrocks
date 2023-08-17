@@ -345,3 +345,25 @@ export function hasGradleModule(tree: Tree, rootFolder:string, moduleName: strin
 
   return checkProjectFileContains(settings, opts) || checkProjectFileContains(settings, optsKts);
 }
+
+
+export function addGradleModule(
+  tree: Tree,
+  rootFolder: string,
+  moduleName: string,
+  withKotlinDSL: boolean
+) {
+
+  if(hasGradleModule(tree, rootFolder, moduleName))
+    return false;
+  const ext = withKotlinDSL ? '.gradle.kts' : '.gradle';
+  const settingsGradle = tree.read(`${rootFolder}/settings${ext}`, 'utf-8');
+  
+  let lastIncludeIdx = settingsGradle.lastIndexOf('include');
+  lastIncludeIdx = lastIncludeIdx > 0 ? lastIncludeIdx : settingsGradle.length;
+  const newModule = withKotlinDSL ? `\ninclude("${moduleName}")\n`: `\ninclude '${moduleName}'\n`;
+
+  const newSettingGradle  = settingsGradle.slice(0, lastIncludeIdx) + newModule + settingsGradle.slice(lastIncludeIdx);
+  tree.write(`${rootFolder}/settings${ext}`, newSettingGradle)
+  return true
+}
