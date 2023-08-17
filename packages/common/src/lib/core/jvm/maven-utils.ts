@@ -8,7 +8,7 @@ import {
   removeXmlNode,
   stripIndent,
 } from '../utils';
-import { isMavenProject } from './utils';
+import { isMavenProject, isMavenProjectInTree } from './utils';
 import { getProjectFileContent } from '../workspace';
 
 export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.diffplug.spotless';
@@ -321,13 +321,13 @@ export function addSpotlessMavenPlugin(
   );
 }
 
-export function isMultiModuleMavenProject(project: ProjectConfiguration){
+export function isMultiModuleMavenProject(tree: Tree, rootFolder: string){
 
-  if (!isMavenProject(project))
+  if (!isMavenProjectInTree(tree,rootFolder))
     return false;
 
     
-  const pomXmlStr = getProjectFileContent(project, 'pom.xml');
+  const pomXmlStr = tree.read(`./${rootFolder}/pom.xml`, 'utf-8');
   const pomXml = readXml(pomXmlStr);
 
   const modulesXPath = `/project/modules`;
@@ -335,13 +335,12 @@ export function isMultiModuleMavenProject(project: ProjectConfiguration){
   return hasXmlMatching(pomXml, modulesXPath);
 }
 
-export function hasMavenModule(project: ProjectConfiguration, moduleName){
+export function hasMavenModule(tree: Tree, rootFolder: string, moduleName){
 
-  if (!isMultiModuleMavenProject(project))
+  if (!isMultiModuleMavenProject(tree,rootFolder))
     return false;
-
     
-  const pomXmlStr = getProjectFileContent(project, 'pom.xml');
+  const pomXmlStr = tree.read(`./${rootFolder}/pom.xml`, 'utf-8');
   const pomXml = readXml(pomXmlStr);
 
   const moduleXPath = `/project/modules/module/text()[.="${moduleName}"]`;

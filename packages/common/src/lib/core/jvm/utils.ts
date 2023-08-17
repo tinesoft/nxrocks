@@ -87,6 +87,16 @@ export function getGradleBuildFilesExtension(project: ProjectConfiguration): '.g
     : undefined;
 }
 
+export function getGradleBuildFilesExtensionInTree(tree: Tree, rootFolder: string): '.gradle.kts' | '.gradle' | undefined {
+  if (tree.exists(`./${rootFolder}/build.gradle.kts`)) {
+    return '.gradle.kts';
+  }
+
+  return (tree.exists(`./${rootFolder}/build.gradle`)) 
+    ? '.gradle'
+    : undefined;
+}
+
 export const getGradleDependencyIdRegEx = () =>
   /\s*(api|implementation|testImplementation)\s*\(?['"](?<id>[^"']+)['"]\)?/g;
 
