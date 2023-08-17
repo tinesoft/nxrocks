@@ -1,4 +1,4 @@
-import { logger, ProjectConfiguration } from '@nx/devkit';
+import { logger, ProjectConfiguration, Tree } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { fileExists } from '@nx/workspace/src/utils/fileutils';
 
@@ -15,6 +15,7 @@ import {
   findXmlNodes,
   findNodeContent,
 } from '../utils';
+import { cursorTo } from 'readline';
 
 export const LARGE_BUFFER = 1024 * 1000000;
 
@@ -53,31 +54,37 @@ export function isMavenProject(project: ProjectConfiguration) {
   return fileExists(getProjectFilePath(project, 'pom.xml'));
 }
 
+export function isMavenProjectInTree(tree: Tree, rootFolder: string) {
+  return tree.exists(`./${rootFolder}/pom.xml`);
+}
+
 export function hasMavenProject(cwd: string) {
   return fileExists(`${cwd}/pom.xml`);
 }
 
 export function isGradleProject(project: ProjectConfiguration) {
-  return (
-    fileExists(getProjectFilePath(project, 'build.gradle')) ||
-    fileExists(getProjectFilePath(project, 'build.gradle.kts'))
-  );
+  return (fileExists(getProjectFilePath(project, 'build.gradle')) && fileExists(getProjectFilePath(project, 'settings.gradle'))) ||
+    (fileExists(getProjectFilePath(project, 'build.gradle.kts')) && fileExists(getProjectFilePath(project, 'settings.gradle.kts')));
+}
+
+export function isGradleProjectInTree(tree: Tree, rootFolder: string) {
+  return (tree.exists(`./${rootFolder}/build.gradle`) && tree.exists(`./${rootFolder}/settings.gradle`)) ||
+    (tree.exists(`./${rootFolder}/build.gradle.kts`) && tree.exists(`./${rootFolder}/settings.gradle.kts`));
 }
 
 export function hasGradleProject(cwd: string) {
-  return (
-    fileExists(`${cwd}/build.gradle`) || fileExists(`${cwd}/build.gradle.kts`)
-  );
+  return ((fileExists(`${cwd}/build.gradle`) && fileExists(`${cwd}/settings.gradle`)) ||
+    (fileExists(`${cwd}/build.gradle.kts`) && fileExists(`${cwd}/settings.gradle.kts`)));
 }
 
-export function getGradleBuildFilesExtension(project: ProjectConfiguration) {
+export function getGradleBuildFilesExtension(project: ProjectConfiguration): '.gradle.kts' | '.gradle' | undefined {
   if (fileExists(getProjectFilePath(project, 'build.gradle.kts'))) {
     return '.gradle.kts';
   }
 
   return fileExists(getProjectFilePath(project, 'build.gradle'))
     ? '.gradle'
-    : '';
+    : undefined;
 }
 
 export const getGradleDependencyIdRegEx = () =>
@@ -131,7 +138,7 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
 
     const gradleDependencyIdRegEx = getGradleDependencyIdRegEx();
     const dependencyIds: string[] = [];
-    let match;
+    let match: RegExpExecArray;
     do {
       match = gradleDependencyIdRegEx.exec(buildGradle);
       if (match?.groups?.id) {
@@ -140,12 +147,12 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
     } while (match);
 
     const dependencies: PackageInfo[] = dependencyIds.map((depId) => {
-      return { packageId: depId, packageFile: `build.gradle${ext}` };
+      return { packageId: depId, packageFile: `build${ext}` };
     });
 
     return {
       packageId: `${groupId}:${artifactId}`,
-      packageFile: `build.gradle${ext}`,
+      packageFile: `build${ext}`,
       dependencies,
     };
   }
@@ -161,25 +168,41 @@ export function checkProjectBuildFileContains(
   project: ProjectConfiguration,
   opts: { fragments: string[]; logicalOp?: 'and' | 'or' }
 ): boolean {
-  const { fragments, logicalOp = fragments?.length == 1 ? 'and' : 'or' } = opts;
-  const findOccurencesInContent = (content: string): boolean => {
-    return (fragments || []).reduce((acc, cur) => {
-      return logicalOp == 'and'
-        ? acc && content.includes(cur)
-        : acc || content.includes(cur);
-    }, logicalOp == 'and');
-  };
 
   if (isMavenProject(project)) {
     const content = getProjectFileContent(project, 'pom.xml');
-    return findOccurencesInContent(content);
+    return checkProjectFileContains(content, opts);
   }
 
   if (isGradleProject(project)) {
     const ext = getGradleBuildFilesExtension(project);
     const content = getProjectFileContent(project, `build${ext}`);
-    return findOccurencesInContent(content);
+    return checkProjectFileContains(content, opts);
   }
 
   return false;
+}
+
+export function checkProjectFileContains(
+  content: string,
+  opts: { fragments: (string | RegExp)[]; logicalOp?: 'and' | 'or' }): boolean {
+  const { fragments, logicalOp = fragments?.length === 1 ? 'and' : 'or' } = opts;
+  const findOccurencesInContent = (content: string): boolean => {
+    return (fragments || []).reduce<boolean>((acc, curr) => {
+      return logicalOp === 'and'
+        ? acc && match(content, curr)
+        : acc || match(content, curr);
+    }, logicalOp === 'and');
+  };
+
+  return findOccurencesInContent(content);
+}
+
+function match(content: string, value: string | RegExp) {
+  if( typeof value === 'string'){
+    return content.includes(value);
+  }
+  else{
+    return value.test(content)
+  }
 }
