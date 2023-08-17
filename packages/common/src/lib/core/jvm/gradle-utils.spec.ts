@@ -9,6 +9,7 @@ import {
   getGradlePlugin,
   isMultiModuleGradleProject,
   hasGradleModule,
+  addGradleModule,
 } from './gradle-utils';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { stripIndent } from '../utils';
@@ -427,6 +428,46 @@ describe('gradle-utils', () => {
       expect(hasGradleModule(tree, rootFolder, 'library1')).toBe(true);
       expect(hasGradleModule(tree, rootFolder, 'libraryx')).toBe(false);
     });
-  })
+  });
+
+  describe('addGradleModule', ()=>{
+    let tree: Tree;
+    const rootFolder = 'apps/gradleapp';
+    beforeEach(async () => {
+      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    });
+
+    it('should add gradle module when not already present', ()=>{
+      tree.write(`./${rootFolder}/build.gradle`, BUILD_GRADLE_FILE);
+      tree.write(`./${rootFolder}/settings.gradle`, MULTI_MODULE_SETTINGS_FILE);
+
+      expect(hasGradleModule(tree, rootFolder, 'libraryX')).toBe(false);
+      expect(addGradleModule(tree, rootFolder, 'libraryX', false)).toBe(true);
+      expect(hasGradleModule(tree, rootFolder, 'libraryX')).toBe(true);
+    });
+
+    it('should not add gradle module when already present', ()=>{
+      tree.write(`./${rootFolder}/build.gradle`, BUILD_GRADLE_FILE);
+      tree.write(`./${rootFolder}/settings.gradle`, MULTI_MODULE_SETTINGS_FILE);
+
+      expect(addGradleModule(tree, rootFolder, 'library1', false)).toBe(false);
+    });
+
+    it('should add kotlin gradle module when not already present', ()=>{
+      tree.write(`./${rootFolder}/build.gradle.kts`, BUILD_GRADLE_KOTLIN_FILE);
+      tree.write(`./${rootFolder}/settings.gradle.kts`, MULTI_MODULE_SETTINGS_KTS_FILE);
+
+      expect(hasGradleModule(tree, rootFolder, 'libraryX')).toBe(false);
+      expect(addGradleModule(tree, rootFolder, 'libraryX', true)).toBe(true);
+      expect(hasGradleModule(tree, rootFolder, 'libraryX')).toBe(true);
+    });
+
+    it('should not add kotlin gradle module when already present', ()=>{
+      tree.write(`./${rootFolder}/build.gradle.kts`, BUILD_GRADLE_KOTLIN_FILE);
+      tree.write(`./${rootFolder}/settings.gradle.kts`, MULTI_MODULE_SETTINGS_KTS_FILE);
+
+      expect(addGradleModule(tree, rootFolder, 'library1', true)).toBe(false);
+    });
+  });
 });
 

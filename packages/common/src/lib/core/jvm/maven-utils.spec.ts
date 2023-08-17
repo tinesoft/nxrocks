@@ -11,6 +11,7 @@ import {
   addMavenProperty,
   isMultiModuleMavenProject,
   hasMavenModule,
+  addMavenModule,
 } from './maven-utils';
 
 
@@ -316,5 +317,27 @@ describe('maven-utils', () => {
       expect(hasMavenModule(tree, rootFolder, 'library')).toBe(true);
       expect(hasMavenModule(tree, rootFolder, 'libraryx')).toBe(false);
     });
-  })
+  });
+
+  describe('addMavenModule', ()=>{
+    let tree: Tree;
+    const rootFolder = 'apps/mvnapp';
+    beforeEach(async () => {
+      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    });
+
+    it('should add maven module when not already present', ()=>{
+      tree.write(`./${rootFolder}/pom.xml`, MULTI_MODULE_POM_XML);
+
+      expect(hasMavenModule(tree, rootFolder, 'libraryX')).toBe(false);
+      expect(addMavenModule(tree, rootFolder, 'libraryX')).toBe(true);
+      expect(hasMavenModule(tree, rootFolder, 'libraryX')).toBe(true);
+    });
+
+    it('should not add maven module when already present', ()=>{
+      tree.write(`./${rootFolder}/pom.xml`, MULTI_MODULE_POM_XML);
+
+      expect(addMavenModule(tree, rootFolder, 'library')).toBe(false);
+    });
+  });
 });
