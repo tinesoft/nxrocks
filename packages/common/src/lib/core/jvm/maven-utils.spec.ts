@@ -9,9 +9,9 @@ import {
   SPOTLESS_MAVEN_PLUGIN_VERSION,
   removeMavenPlugin,
   addMavenProperty,
-  isMultiModuleMavenProject,
-  hasMavenModule,
   addMavenModule,
+  hasMavenModuleInTree,
+  hasMultiModuleMavenProjectInTree,
 } from './maven-utils';
 
 
@@ -299,23 +299,23 @@ describe('maven-utils', () => {
 
     it('should return true on a multi-module maven project', ()=>{
       tree.write(`./${rootFolder}/pom.xml`, MULTI_MODULE_POM_XML)
-      expect(isMultiModuleMavenProject(tree,rootFolder)).toBe(true);
+      expect(hasMultiModuleMavenProjectInTree(tree,rootFolder)).toBe(true);
     });
 
     it('should return false on non multi-module maven project', ()=>{
       tree.write(`./${rootFolder}/pom.xml`, getPomXmlFile())
-      expect(isMultiModuleMavenProject(tree, rootFolder)).toBe(false);
+      expect(hasMultiModuleMavenProjectInTree(tree, rootFolder)).toBe(false);
     });
 
 
     it('should return false if no pom.xml is found', ()=>{
-      expect(isMultiModuleMavenProject(tree, rootFolder)).toBe(false);
+      expect(hasMultiModuleMavenProjectInTree(tree, rootFolder)).toBe(false);
     });
 
     it('should found the maven module if present', ()=>{
       tree.write(`./${rootFolder}/pom.xml`, MULTI_MODULE_POM_XML)
-      expect(hasMavenModule(tree, rootFolder, 'library')).toBe(true);
-      expect(hasMavenModule(tree, rootFolder, 'libraryx')).toBe(false);
+      expect(hasMavenModuleInTree(tree, rootFolder, 'library')).toBe(true);
+      expect(hasMavenModuleInTree(tree, rootFolder, 'libraryx')).toBe(false);
     });
   });
 
@@ -329,9 +329,9 @@ describe('maven-utils', () => {
     it('should add maven module when not already present', ()=>{
       tree.write(`./${rootFolder}/pom.xml`, MULTI_MODULE_POM_XML);
 
-      expect(hasMavenModule(tree, rootFolder, 'libraryX')).toBe(false);
+      expect(hasMavenModuleInTree(tree, rootFolder, 'libraryX')).toBe(false);
       expect(addMavenModule(tree, rootFolder, 'libraryX')).toBe(true);
-      expect(hasMavenModule(tree, rootFolder, 'libraryX')).toBe(true);
+      expect(hasMavenModuleInTree(tree, rootFolder, 'libraryX')).toBe(true);
     });
 
     it('should not add maven module when already present', ()=>{

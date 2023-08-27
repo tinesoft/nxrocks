@@ -22,11 +22,12 @@ Here is a list of some of the coolest features of the plugin:
 
 - ✅ Generation of Spring Boot applications/libraries based on **Spring Initializr** API
 - ✅ Building, packaging, testing, etc your Spring Boot projects
-- ✅ Code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for Maven or Gradle
-- ✅ Support for corporate proxies (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
-- ✅ Integration with Nx's **dependency graph** (through `nx dep-graph` or `nx affected:dep-graph`): this allows you to **visualize** the dependencies of any Spring Boot's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
+- ✅ 🆕 Built-in support for creating [**multi-modules**](recipes/README.md#creating-mulit-modules-spring-boot-projects) Spring Boot projects with both `Maven` and `Gradle`
+- ✅ Built-in support for code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for `Maven` or `Gradle`
+- ✅ Built-in support for **corporate proxies** (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
+- ✅ Integration with Nx's **dependency graph** (through `nx graph` or `nx affected:graph`): this allows you to **visualize** the dependencies of any Spring Boot's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
   ![Nx Spring Boot dependency graph](https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nx-spring-boot-dep-graph.png)
-  _Example of running the `nx dep-graph` command on a workspace with 2 Spring Boot projects inside_
+  _Example of running the `nx graph` command on a workspace with 2 Spring Boot projects inside_
 
 - ...
 
@@ -82,24 +83,28 @@ Here the list of available generation options :
 | --------- | ------------------------- |
 | `<name>`  | The name of your project. |
 
-| Option                 | Value                               | Description                                                                                                          |
-| ---------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `projectType`          | `application` \| `library`          | Type of project to generate                                                                                          |
-| `buildSystem`          | `maven-project` \| `gradle-project` | Build system                                                                                                         |
-| `packaging`            | `jar` \| `war`                      | Packaging to use                                                                                                     |
-| `javaVersion`          | `8` \| `11` \| `15`                 | Java version to use                                                                                                  |
-| `language`             | `java` \| `groovy` \| `kotlin`      | Language to use                                                                                                      |
-| `groupId`              | `string`                            | GroupId of the project                                                                                               |
-| `artifactId`           | `string`                            | ArtifactId of the project                                                                                            |
-| `packageName`          | `string`                            | Main package name                                                                                                    |
-| `description`          | `string`                            | Description of the project                                                                                           |
-| `skipFormat`           | `boolean`                           | Do not add the ability to format code (using Spotless plugin)                                                        |
-| `dependencies`         | `string`                            | List of dependencies to use (comma-separated). Go to https://start.spring.io/dependencies to get the ids needed here |
-| `springInitializerUrl` | `https://start.spring.io`           | URL to the Spring Initializer instance to use                                                                        |
-| `proxyUrl`             |                                     | The URL of the (corporate) proxy server to use to access Spring Initializr                                           |
-| `bootVersion`          | `string`                            | Spring Boot version to use                                                                                           |
-| `tags`                 | `string`                            | Tags to use for linting (comma-separated)                                                                            |
-| `directory`            | `string`                            | Directory where the project is placed                                                                                |
+| Option                     | Value                               | Description                                                                                                          |
+| -------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `projectType`              | `application` \| `library`          | Type of project to generate                                                                                          |
+| `buildSystem`              | `maven-project` \| `gradle-project` | Build system                                                                                                         |
+| `packaging`                | `jar` \| `war`                      | Packaging to use                                                                                                     |
+| `javaVersion`              | `8` \| `11` \| `15`                 | Java version to use                                                                                                  |
+| `language`                 | `java` \| `groovy` \| `kotlin`      | Language to use                                                                                                      |
+| `groupId`                  | `string`                            | GroupId of the project                                                                                               |
+| `artifactId`               | `string`                            | ArtifactId of the project                                                                                            |
+| `packageName`              | `string`                            | Main package name                                                                                                    |
+| `description`              | `string`                            | Description of the project                                                                                           |
+| `skipFormat`               | `boolean`                           | Do not add the ability to format code (using Spotless plugin)                                                        |
+| `dependencies`             | `string`                            | List of dependencies to use (comma-separated). Go to [recipes](recipes/README.md#adding-spring-boot-dependencies) for more information               |
+| `transformIntoMultiModule` | `boolean`                           | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-mulit-modules-spring-boot-projects) for more information               |
+| `addToExistingParentModule`| `boolean`                           | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-mulit-modules-spring-boot-projects) for more information               |
+| `parentModuleName`         | `string`                            | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-mulit-modules-spring-boot-projects) for more information               |
+| `keepProjectLevelWrapper`  | `boolean`                           | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-mulit-modules-spring-boot-projects) for more information               |
+| `springInitializerUrl`     | `https://start.spring.io`           | URL to the Spring Initializer instance to use                                                                        |
+| `proxyUrl`                 |                                     | The URL of the (corporate) proxy server to use to access Spring Initializr                                           |
+| `bootVersion`              | `string`                            | Spring Boot version to use                                                                                           |
+| `tags`                     | `string`                            | Tags to use for linting (comma-separated)                                                                            |
+| `directory`                | `string`                            | Directory where the project is placed                                                                                |
 
 > **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
 > Otherwise, you'll get a [ETIMEDOUT error](https://github.com/tinesoft/nxrocks/issues/125) when trying to access official Spring Initializer to generate the project.
@@ -146,17 +151,17 @@ Once your app is generated, you can now use buidlers to manage it.
 
 Here the list of available executors:
 
-| Executor                      | Arguments                                 | Description                                                                                                                                                      |
-| ----------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `run` \| `serve`<sup>\*</sup> | `ignoreWrapper:boolean`, `args: string[]` | Runs the project using either `./mvnw\|mvn spring-boot:run` or `./gradlew\|gradle bootRun`                                                                       |
-| `test`                        | `ignoreWrapper:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                    |
-| `clean`                       | `ignoreWrapper:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                 |
-| `format`                      | `ignoreWrapper:boolean`, `args: string[]` | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                                             |
-| `check-format`                | `ignoreWrapper:boolean`, `args: string[]` | Check whether the project is well formatted using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                    |
-| `build`                       | `ignoreWrapper:boolean`, `args: string[]` | Packages the project into an executable Jar using either `./mvnw\|mvn package` or `./gradlew\|gradle build`                                                      |
-| `install`                     | `ignoreWrapper:boolean`, `args: string[]` | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
-| `build-info`<sup>\*</sup>     | `ignoreWrapper:boolean`,                  | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo`                                       |
-| `build-image`<sup>\*</sup>    | `ignoreWrapper:boolean`, `args: string[]` | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn spring-boot:build-image` or `./gradlew\|gradle bootBuildImage`  |
+| Executor                      | Arguments                                                                | Description                                                                                                                                                      |
+| ----------------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run` \| `serve`<sup>\*</sup> | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Runs the project using either `./mvnw\|mvn spring-boot:run` or `./gradlew\|gradle bootRun`                                                                       |
+| `test`                        | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                    |
+| `clean`                       | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                 |
+| `format`                      | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                                             |
+| `check-format`                | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Check whether the project is well formatted using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                    |
+| `build`                       | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Packages the project into an executable Jar using either `./mvnw\|mvn package` or `./gradlew\|gradle build`                                                      |
+| `install`                     | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
+| `build-info`<sup>\*</sup>     | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Generates a `build-info.properties` using either `./mvnw\|mvn spring-boot:build-info` or `./gradlew\|gradle bootBuildInfo`                                       |
+| `build-image`<sup>\*</sup>    | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn spring-boot:build-image` or `./gradlew\|gradle bootBuildImage`  |
 
 In order to execute the requested command, each executor will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
 If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.

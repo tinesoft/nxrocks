@@ -1,3 +1,4 @@
+import { __spreadArrays } from 'tslib';
 import { create, builder } from 'xmlbuilder2';
 import { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
 import { select, SelectedValue, SelectReturnType } from 'xpath';
@@ -79,6 +80,18 @@ export function findXmlContent(
     return node.textContent;
   }
   return node?.toString();
+}
+
+export function findXmlContents(
+  xml: XMLBuilder,
+  xpath: string,
+  ignoreNamespace = true
+): string[] {
+  const nodes = findXmlNodes(xml, xpath, ignoreNamespace);
+  if (Array.isArray(nodes)) {
+    return nodes.map(n=> n.textContent);
+  }
+  return [];
 }
 
 export function hasXmlMatching(

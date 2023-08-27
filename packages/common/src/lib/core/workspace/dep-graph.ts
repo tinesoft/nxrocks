@@ -55,7 +55,7 @@ export function addDependenciesForProject(
     );
   }
 
-  rootPkgInfo.dependencies.forEach((depPkgInfo) => {
+  rootPkgInfo.dependencies?.forEach((depPkgInfo) => {
     const depProjectName = workspace.packages[depPkgInfo.packageId];
 
     if (depProjectName) {
@@ -65,6 +65,14 @@ export function addDependenciesForProject(
         joinPathFragments(rootProjectFolder, rootPkgInfo.packageFile)
       );
     }
+  });
+
+  rootPkgInfo.modules?.forEach((childModuleName) => {
+    builder.addStaticDependency(
+      rootProjectName,
+      childModuleName,
+      joinPathFragments(rootProjectFolder, rootPkgInfo.packageFile)
+    );
   });
 }
 

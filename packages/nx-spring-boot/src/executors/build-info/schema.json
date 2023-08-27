@@ -14,6 +14,16 @@
       "description": "Whether or not to use the embedded wrapper (`mvnw`or `gradlew`) to perfom build operations",
       "type": "boolean",
       "default": false
+    },
+    "runFromParentModule": {
+      "description": "Whether or not to run the (child) module from the context of its parent",
+      "type": "boolean",
+      "default": false
+    },
+    "args": {
+      "description": "The argument to be passed to the underlying Spring Boot command",
+      "type": "array",
+      "default": []
     }
   },
   "required": []

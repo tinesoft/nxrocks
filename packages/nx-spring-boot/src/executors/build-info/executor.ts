@@ -11,6 +11,7 @@ export async function buildInfoExecutor(
   return runBootPluginCommand('build-info', [], {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

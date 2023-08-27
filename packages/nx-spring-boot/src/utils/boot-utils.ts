@@ -14,6 +14,8 @@ import {
   getCommonHttpHeaders,
   NX_SPRING_BOOT_PKG,
   MavenDependency,
+  hasMultiModuleMavenProject,
+  hasMultiModuleGradleProject,
 } from '@nxrocks/common';
 import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
 import { ProjectConfiguration } from '@nx/devkit';
@@ -33,7 +35,7 @@ export const DEFAULT_SPRING_INITIALIZR_URL = 'https://start.spring.io';
 export function runBootPluginCommand(
   commandAlias: BuilderCommandAliasType,
   params: string[],
-  options: { cwd?: string; ignoreWrapper?: boolean } = { ignoreWrapper: false }
+  options: { cwd: string; ignoreWrapper?: boolean, runFromParentModule?: boolean } = { cwd: process.cwd(), ignoreWrapper: false, runFromParentModule: false }
 ): { success: boolean } {
   return runBuilderCommand(commandAlias, getBuilder, params, options);
 }
@@ -63,6 +65,10 @@ export function buildBootDownloadUrl(options: NormalizedSchema) {
 }
 
 export function isBootProject(project: ProjectConfiguration): boolean {
+
+  if(hasMultiModuleMavenProject(project.root) || hasMultiModuleGradleProject(project.root))
+    return true;
+
   if (isMavenProject(project)) {
     return checkProjectBuildFileContains(project, {
       fragments: ['<artifactId>spring-boot-starter-parent</artifactId>'],
