@@ -6,3 +6,5 @@
  export { addMavenPublishPlugin } from './add-maven-publish-plugin';
  export { promptBootDependencies } from './prompt-boot-dependencies';
  export { normalizeOptions } from './normalize-options';
+ export { promptForMultiModuleSupport } from './prompt-multi-module-support';
+ export { generateProjectConfiguration} from './generate-project-configuration';

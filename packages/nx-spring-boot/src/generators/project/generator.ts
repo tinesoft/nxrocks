@@ -1,4 +1,4 @@
-import { Tree, addProjectConfiguration } from '@nx/devkit';
+import { Tree } from '@nx/devkit';
 import { ProjectGeneratorOptions } from './schema';
 import {
   normalizeOptions,
@@ -9,10 +9,11 @@ import {
   addMavenPublishPlugin,
   disableBootGradlePlugin,
   promptBootDependencies,
+  promptForMultiModuleSupport,
+  generateProjectConfiguration,
 } from './lib';
 import {
   addPluginToNxJson,
-  BuilderCommandAliasType,
   NX_SPRING_BOOT_PKG,
 } from '@nxrocks/common';
 
@@ -22,53 +23,11 @@ export async function projectGenerator(
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 
-  const targets = {};
-  const commands: BuilderCommandAliasType[] = [
-    'build',
-    'install',
-    'test',
-    'clean',
-  ];
-  const appOnlyCommands = ['run', 'serve', 'build-image', 'build-info'];
-
-  if (options.projectType === 'application') {
-    //only 'application' projects should have 'boot' related commands
-    commands.push(...appOnlyCommands);
-  }
-
-  if (!options.skipFormat) {
-    commands.push('format', 'apply-format', 'check-format');
-  }
-
-  for (const command of commands) {
-    targets[command] = {
-      executor: `${NX_SPRING_BOOT_PKG}:${command}`,
-      options: {
-        root: normalizedOptions.projectRoot,
-      },
-      ...(command === 'build' ? { dependsOn: ['^install'] } : {}),
-      ...(['build', 'build-image', 'install', 'test'].includes(command)
-        ? {
-            outputs: [
-              `{workspaceRoot}/${normalizedOptions.projectRoot}/${
-                normalizedOptions.buildSystem === 'maven-project'
-                  ? 'target'
-                  : 'build'
-              }`,
-            ],
-          }
-        : {}),
-    };
-  }
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    projectType: options.projectType,
-    targets: targets,
-    tags: normalizedOptions.parsedTags,
-  });
-
   await promptBootDependencies(normalizedOptions);
+
+  await promptForMultiModuleSupport(tree, normalizedOptions);
+
+  await generateProjectConfiguration(tree, normalizedOptions);
 
   await generateBootProject(tree, normalizedOptions);
 
@@ -76,10 +35,10 @@ export async function projectGenerator(
 
   if (normalizedOptions.projectType === 'library') {
     // 'library' projects should not be "spring-boot- executable"
-    if (normalizedOptions.buildSystem === 'gradle-project') {
-      disableBootGradlePlugin(tree, normalizedOptions);
-    } else if (normalizedOptions.buildSystem === 'maven-project') {
+    if (normalizedOptions.buildSystem === 'maven-project') {
       removeBootMavenPlugin(tree, normalizedOptions);
+    } else {
+      disableBootGradlePlugin(tree, normalizedOptions);
     }
   }
 

@@ -11,6 +11,7 @@ export async function cleanExecutor(
   return runBootPluginCommand('clean', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

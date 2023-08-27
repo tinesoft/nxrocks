@@ -1,26 +1,25 @@
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 import {
   getWorkspaceLayout,
-  ProjectConfiguration,
   Tree,
   workspaceRoot,
 } from '@nx/devkit';
 import { readFileSync } from 'fs';
 
-export function getProjectRoot(project: ProjectConfiguration) {
-  return join(workspaceRoot, project.root);
+export function getProjectRoot(project: {root: string}) {
+  return resolve(workspaceRoot, project.root);
 }
 
 export function getProjectFilePath(
-  project: ProjectConfiguration,
+  project: {root: string},
   relativeFile: string
 ) {
   return join(getProjectRoot(project), ...relativeFile.split(/[/\\]/));
 }
 
 export function getProjectFileContent(
-  project: ProjectConfiguration,
+  project: {root: string},
   relativeFile: string
 ) {
   const filePath = getProjectFilePath(project, relativeFile);

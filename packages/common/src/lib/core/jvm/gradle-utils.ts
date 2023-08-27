@@ -1,5 +1,8 @@
 import { Tree } from '@nx/devkit';
-import { checkProjectFileContains, getGradleBuildFilesExtension, getGradleBuildFilesExtensionInTree, isGradleProject, isGradleProjectInTree } from './utils';
+import { checkProjectFileContains, getGradleBuildFilesExtension, getGradleBuildFilesExtensionInTree, hasGradleProjectSettings, isGradleProjectSettingsInTree as hasGradleProjectSettingsInTree } from './utils';
+import { fileExists } from '@nx/workspace/src/utils/fileutils';
+import { resolve } from 'path';
+import { getProjectFileContent } from '../workspace';
 
 export const GRADLE_PLUGINS_REGEX = /(?:plugins\s*\{\s*)([^}]+)(?:\s*\})/g;
 export const SPOTLESS_CONFIG_REGEX =
@@ -302,15 +305,29 @@ export function addSpotlessGradlePlugin(
   return added;
 }
 
-export function isMultiModuleGradleProject(tree: Tree, rootFolder: string){
+export function hasMultiModuleGradleProjectInTree(tree: Tree, rootFolder: string){
 
-  if (!isGradleProjectInTree(tree, rootFolder))
+  if (!hasGradleProjectSettingsInTree(tree, rootFolder))
     return false;
 
-  const ext = getGradleBuildFilesExtensionInTree(tree, rootFolder);
-  const settings = tree.read(`./${rootFolder}/settings${ext}`, 'utf-8');
+  const extension = getGradleBuildFilesExtensionInTree(tree, rootFolder);
+  const settings = tree.read(`./${rootFolder}/settings${extension}`, 'utf-8');
 
+  return checkForMultiModuleProject(settings);
+}
 
+export function hasMultiModuleGradleProject(cwd: string){
+
+  if (!hasGradleProjectSettings(cwd))
+    return false;
+
+  const extension = getGradleBuildFilesExtension({root: cwd});
+  const settings = getProjectFileContent({root: cwd}, `settings${extension}`);
+
+  return checkForMultiModuleProject(settings);
+}
+
+function  checkForMultiModuleProject(settings: string){
   const opts = {
     fragments: [/rootProject\.name\s*=\s*'/, /include\s+'/],
     logicalOp: 'and' as 'and' | 'or'
@@ -324,15 +341,31 @@ export function isMultiModuleGradleProject(tree: Tree, rootFolder: string){
   return checkProjectFileContains(settings, opts) || checkProjectFileContains(settings, optsKts);
 }
 
-export function hasGradleModule(tree: Tree, rootFolder:string, moduleName: string){
+export function hasGradleModuleInTree(tree: Tree, rootFolder:string, moduleName: string){
 
-  if (!isMultiModuleGradleProject(tree, rootFolder))
+  if (!hasMultiModuleGradleProjectInTree(tree, rootFolder))
     return false;
 
   const ext = getGradleBuildFilesExtensionInTree(tree, rootFolder);
   const settings = tree.read(`./${rootFolder}/settings${ext}`, 'utf-8');
 
 
+  return checkForModule(settings, moduleName)
+}
+
+export function hasGradleModule(cwd:string, moduleName: string){
+
+  if (!hasMultiModuleGradleProject(cwd))
+    return false;
+
+  const extension = getGradleBuildFilesExtension({root: cwd});
+  const settings = getProjectFileContent({root: cwd}, `settings${extension}`);
+
+
+  return checkForModule(settings, moduleName)
+}
+
+function checkForModule(settings, moduleName){
   const opts = {
     fragments: [new RegExp(`rootProject\\.name\\s*=\\s*'`), new RegExp(`include\\s+':?${moduleName}'`)],
     logicalOp: 'and' as 'and' | 'or'
@@ -346,6 +379,22 @@ export function hasGradleModule(tree: Tree, rootFolder:string, moduleName: strin
   return checkProjectFileContains(settings, opts) || checkProjectFileContains(settings, optsKts);
 }
 
+export function getGradleModules(cwd:string): string[]{
+
+  if (!hasMultiModuleGradleProject(cwd))
+    return [];
+
+  const extension = getGradleBuildFilesExtension({root: cwd});
+  const settings = getProjectFileContent({root: cwd}, `settings${extension}`);
+
+  const modulesRegex = extension === '.gradle.kts' ? /include\(":?(\w+)"\)/g : /include\s+':?(\w+)'/g;
+  const modules = [];
+  let m;
+  while ( (m=modulesRegex.exec(settings))){
+    modules.push(m?.[1])
+  }
+  return modules;
+}
 
 export function addGradleModule(
   tree: Tree,
@@ -354,7 +403,7 @@ export function addGradleModule(
   withKotlinDSL: boolean
 ) {
 
-  if(hasGradleModule(tree, rootFolder, moduleName))
+  if(hasGradleModuleInTree(tree, rootFolder, moduleName))
     return false;
   const ext = withKotlinDSL ? '.gradle.kts' : '.gradle';
   const settingsGradle = tree.read(`${rootFolder}/settings${ext}`, 'utf-8');
@@ -366,4 +415,33 @@ export function addGradleModule(
   const newSettingGradle  = settingsGradle.slice(0, lastIncludeIdx) + newModule + settingsGradle.slice(lastIncludeIdx);
   tree.write(`${rootFolder}/settings${ext}`, newSettingGradle)
   return true
+}
+
+export function initGradleParentModule(tree: Tree, rootFolder: string, parentModuleName: string, childModuleName: string, withKotlinDSL:boolean, helpComment=''){
+
+  const settingsGradle = `
+${helpComment}
+rootProject.name = ${withKotlinDSL?  `"${parentModuleName}"` : `'${parentModuleName}'`}
+
+${withKotlinDSL?  `include("${childModuleName}")` : `include '${childModuleName}'`}
+`;
+
+  tree.write(`./${rootFolder}/settings.gradle${withKotlinDSL ? '.kts' : ''}`, settingsGradle);
+}
+
+export function getGradleWrapperFiles(){
+  return [
+    'gradlew',
+    'gradlew.cmd',
+    'gradle/wrapper/gradle-wrapper.jar',
+    'gradle/wrapper/gradle-wrapper.properties'
+  ];
+}
+
+export function hasGradleWrapperInTree(tree:Tree, rootFolder: string){
+   return getGradleWrapperFiles().every( file => tree.exists(`./${rootFolder}/${file}`))
+}
+
+export function hasGradleWrapper(rootFolder: string){
+  return getGradleWrapperFiles().every(file => fileExists(resolve(rootFolder, file)));
 }

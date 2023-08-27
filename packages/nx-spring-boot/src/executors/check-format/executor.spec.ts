@@ -7,6 +7,8 @@ import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE,
   NX_SPRING_BOOT_PKG,
+  getGradleWrapperFiles,
+  getMavenWrapperFiles,
 } from '@nxrocks/common';
 import {
   expectExecutorCommandRanWith,
@@ -37,16 +39,17 @@ describe('Format Check Executor', () => {
   });
 
   it.each`
-    ignoreWrapper | buildSystem | formatFile        | execute
+    ignoreWrapper | buildSystem | buildFile         | execute
     ${true}       | ${'maven'}  | ${'pom.xml'}      | ${'mvn spotless:check '}
     ${true}       | ${'gradle'} | ${'build.gradle'} | ${'gradle spotlessCheck '}
     ${false}      | ${'maven'}  | ${'pom.xml'}      | ${MAVEN_WRAPPER_EXECUTABLE + ' spotless:check '}
     ${false}      | ${'gradle'} | ${'build.gradle'} | ${GRADLE_WRAPPER_EXECUTABLE + ' spotlessCheck '}
   `(
     'should execute a $buildSystem format check and ignoring wrapper : $ignoreWrapper',
-    async ({ ignoreWrapper, formatFile, execute }) => {
+    async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
+      const files = [buildFile as string, ...(buildSystem === 'maven'? getMavenWrapperFiles() : getGradleWrapperFiles())];
       mocked(fsUtility.fileExists).mockImplementation(
-        (filePath: string) => filePath.indexOf(formatFile) !== -1
+        (filePath: string) => files.some( (f)=> filePath.endsWith(f))
       );
 
       await formatCheckExecutor({ ...options, ignoreWrapper }, mockContext);

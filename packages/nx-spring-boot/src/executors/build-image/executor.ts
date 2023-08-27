@@ -11,6 +11,7 @@ export async function buildImageExecutor(
   return runBootPluginCommand('build-image', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

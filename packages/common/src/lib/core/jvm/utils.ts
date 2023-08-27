@@ -1,4 +1,4 @@
-import { logger, ProjectConfiguration, Tree } from '@nx/devkit';
+import { logger, Tree } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { fileExists } from '@nx/workspace/src/utils/fileutils';
 
@@ -15,7 +15,8 @@ import {
   findXmlNodes,
   findNodeContent,
 } from '../utils';
-import { cursorTo } from 'readline';
+import { getMavenModules } from './maven-utils';
+import { getGradleModules } from './gradle-utils';
 
 export const LARGE_BUFFER = 1024 * 1000000;
 
@@ -24,19 +25,19 @@ export function runBuilderCommand(
   getBuilder: (cwd: string) => BuilderCore,
   params: string[],
   options: {
-    cwd?: string;
+    cwd: string;
     ignoreWrapper?: boolean;
     useLegacyWrapper?: boolean;
-  } = { ignoreWrapper: false, useLegacyWrapper: false }
+    runFromParentModule?: boolean;
+  } = { cwd: process.cwd(), ignoreWrapper: false, useLegacyWrapper: false, runFromParentModule: false }
 ): { success: boolean } {
   // Take the parameters or set defaults
-  const cwd = options.cwd || process.cwd();
-  const buildSystem = getBuilder(cwd);
+  const buildSystem = getBuilder(options.cwd);
   const executable = buildSystem.getExecutable(
     options.ignoreWrapper,
     options.useLegacyWrapper
   );
-  const command = buildSystem.getCommand(commandAlias);
+  const { cwd, command } = buildSystem.getCommand(commandAlias, options);
   // Create the command to execute
   const execute = `${executable} ${command} ${(params || []).join(' ')}`;
   try {
@@ -50,7 +51,7 @@ export function runBuilderCommand(
   }
 }
 
-export function isMavenProject(project: ProjectConfiguration) {
+export function isMavenProject(project: {root:string}) {
   return fileExists(getProjectFilePath(project, 'pom.xml'));
 }
 
@@ -62,37 +63,45 @@ export function hasMavenProject(cwd: string) {
   return fileExists(`${cwd}/pom.xml`);
 }
 
-export function isGradleProject(project: ProjectConfiguration) {
-  return (fileExists(getProjectFilePath(project, 'build.gradle')) && fileExists(getProjectFilePath(project, 'settings.gradle'))) ||
-    (fileExists(getProjectFilePath(project, 'build.gradle.kts')) && fileExists(getProjectFilePath(project, 'settings.gradle.kts')));
+export function isGradleProject(project: {root:string}) {
+  return fileExists(getProjectFilePath(project, 'build.gradle')) || fileExists(getProjectFilePath(project, 'settings.gradle')) ||
+    fileExists(getProjectFilePath(project, 'build.gradle.kts')) || fileExists(getProjectFilePath(project, 'settings.gradle.kts'));
 }
 
 export function isGradleProjectInTree(tree: Tree, rootFolder: string) {
-  return (tree.exists(`./${rootFolder}/build.gradle`) && tree.exists(`./${rootFolder}/settings.gradle`)) ||
-    (tree.exists(`./${rootFolder}/build.gradle.kts`) && tree.exists(`./${rootFolder}/settings.gradle.kts`));
+  return tree.exists(`./${rootFolder}/build.gradle`) || tree.exists(`./${rootFolder}/settings.gradle`) ||
+    tree.exists(`./${rootFolder}/build.gradle.kts`) || tree.exists(`./${rootFolder}/settings.gradle.kts`);
+}
+
+export function isGradleProjectSettingsInTree(tree: Tree, rootFolder: string) {
+  return tree.exists(`./${rootFolder}/settings.gradle`) || tree.exists(`./${rootFolder}/settings.gradle.kts`);
 }
 
 export function hasGradleProject(cwd: string) {
-  return ((fileExists(`${cwd}/build.gradle`) && fileExists(`${cwd}/settings.gradle`)) ||
-    (fileExists(`${cwd}/build.gradle.kts`) && fileExists(`${cwd}/settings.gradle.kts`)));
+  return (fileExists(`${cwd}/build.gradle`) || fileExists(`${cwd}/settings.gradle`)) ||
+    fileExists(`${cwd}/build.gradle.kts`) || fileExists(`${cwd}/settings.gradle.kts`);
 }
 
-export function getGradleBuildFilesExtension(project: ProjectConfiguration): '.gradle.kts' | '.gradle' | undefined {
-  if (fileExists(getProjectFilePath(project, 'build.gradle.kts'))) {
+export function hasGradleProjectSettings(cwd: string) {
+  return fileExists(`${cwd}/settings.gradle`) || fileExists(`${cwd}/settings.gradle.kts`);
+}
+
+export function getGradleBuildFilesExtension(project: {root:string}): '.gradle.kts' | '.gradle' | undefined {
+  if (fileExists(getProjectFilePath(project, 'build.gradle.kts')) || fileExists(getProjectFilePath(project, 'settings.gradle.kts'))) {
     return '.gradle.kts';
   }
 
-  return fileExists(getProjectFilePath(project, 'build.gradle'))
+  return fileExists(getProjectFilePath(project, 'build.gradle')) || fileExists(getProjectFilePath(project, 'settings.gradle'))
     ? '.gradle'
     : undefined;
 }
 
 export function getGradleBuildFilesExtensionInTree(tree: Tree, rootFolder: string): '.gradle.kts' | '.gradle' | undefined {
-  if (tree.exists(`./${rootFolder}/build.gradle.kts`)) {
+  if (tree.exists(`./${rootFolder}/build.gradle.kts`) || tree.exists(`./${rootFolder}/settings.gradle.kts`)) {
     return '.gradle.kts';
   }
 
-  return (tree.exists(`./${rootFolder}/build.gradle`)) 
+  return (tree.exists(`./${rootFolder}/build.gradle`) || tree.exists(`./${rootFolder}/settings.gradle`)) 
     ? '.gradle'
     : undefined;
 }
@@ -100,7 +109,7 @@ export function getGradleBuildFilesExtensionInTree(tree: Tree, rootFolder: strin
 export const getGradleDependencyIdRegEx = () =>
   /\s*(api|implementation|testImplementation)\s*\(?['"](?<id>[^"']+)['"]\)?/g;
 
-export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
+export function getJvmPackageInfo(project: {root:string}): PackageInfo {
   if (isMavenProject(project)) {
     // maven project
     const pomXmlStr = getProjectFileContent(project, 'pom.xml');
@@ -127,11 +136,11 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
           packageFile: 'pom.xml',
         });
       });
-
     return {
       packageId: `${groupId}:${artifactId}`,
       packageFile: 'pom.xml',
       dependencies,
+      modules: getMavenModules(project.root)
     };
   }
 
@@ -164,6 +173,7 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
       packageId: `${groupId}:${artifactId}`,
       packageFile: `build${ext}`,
       dependencies,
+      modules: getGradleModules(project.root)
     };
   }
 
@@ -175,7 +185,7 @@ export function getJvmPackageInfo(project: ProjectConfiguration): PackageInfo {
 }
 
 export function checkProjectBuildFileContains(
-  project: ProjectConfiguration,
+  project: {root:string},
   opts: { fragments: string[]; logicalOp?: 'and' | 'or' }
 ): boolean {
 

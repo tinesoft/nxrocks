@@ -21,7 +21,7 @@ export interface BuilderCore {
 
   getExecutable(ignoreWrapper: boolean, useLegacyWrapper: boolean): string;
 
-  getCommand(alias: BuilderCommandAliasType): string;
+  getCommand(alias: BuilderCommandAliasType, options: { cwd: string, ignoreWrapper?: boolean, runFromParentModule?: boolean}): {cwd: string, command: string};
 }
 
 export type BuilderCommandAliasType = keyof BuilderCommandAliasMapper & string; // enforce that the key is a string (default result of keyof would be string|number)

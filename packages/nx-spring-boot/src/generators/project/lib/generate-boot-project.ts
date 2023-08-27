@@ -6,6 +6,8 @@ import { buildBootDownloadUrl } from '../../../utils/boot-utils';
 import {
   extractFromZipStream,
   getCommonHttpHeaders,
+  getGradleWrapperFiles,
+  getMavenWrapperFiles,
   NX_SPRING_BOOT_PKG,
 } from '@nxrocks/common';
 
@@ -31,18 +33,31 @@ export async function generateBootProject(
   if (response.ok) {
     await extractFromZipStream(response.body, (entryPath, entryContent) => {
       const execPermission =
-        entryPath.endsWith('mvnw') || entryPath.endsWith('gradlew')
-          ? '755'
-          : undefined;
-      tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
-        mode: execPermission,
-      });
+        entryPath.endsWith('mvnw') || entryPath.endsWith('gradlew') ? '755' : undefined;
+
+      if (getMavenWrapperFiles().includes(entryPath) || getGradleWrapperFiles().includes(entryPath)) {
+        if (options.transformIntoMultiModule) {
+          tree.write(`${options.moduleRoot}/${entryPath}`, entryContent, {
+            mode: execPermission,
+          });
+        }
+        if (options.keepProjectLevelWrapper) {
+          tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
+            mode: execPermission,
+          });
+        }
+
+      }
+      else {
+        tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
+          mode: execPermission,
+        });
+      }
     });
   } else {
     throw new Error(stripIndents`
-        ❌ Error downloading Spring Boot project zip from '${
-          options.springInitializerUrl
-        }'
+        ❌ Error downloading Spring Boot project zip from '${options.springInitializerUrl
+      }'
         If the problem persists, please open an issue at https://github.com/tinesoft/nxrocks/issues, with the following information:
         ------------------------------------------------------
         Download URL: ${downloadUrl}

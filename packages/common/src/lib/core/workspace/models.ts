@@ -5,6 +5,7 @@ export interface PackageInfo {
   packageId: string;
   packageFile: string;
   dependencies?: PackageInfo[];
+  modules?: string[]
 }
 
 /**

@@ -1,6 +1,7 @@
 import { Tree } from '@nx/devkit';
 import {
   addXmlNode,
+  findXmlContents,
   findXmlMatching,
   hasXmlMatching,
   isXmlNodeEmpty,
@@ -8,7 +9,10 @@ import {
   removeXmlNode,
   stripIndent,
 } from '../utils';
-import { isMavenProjectInTree } from './utils';
+import { hasMavenProject, isMavenProjectInTree } from './utils';
+import { fileExists } from '@nx/workspace/src/utils/fileutils';
+import { resolve } from 'path';
+import { getProjectFileContent } from '../workspace';
 
 export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.diffplug.spotless';
 export const SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID = 'spotless-maven-plugin';
@@ -320,12 +324,11 @@ export function addSpotlessMavenPlugin(
   );
 }
 
-export function isMultiModuleMavenProject(tree: Tree, rootFolder: string){
+export function hasMultiModuleMavenProjectInTree(tree: Tree, rootFolder: string){
 
   if (!isMavenProjectInTree(tree,rootFolder))
     return false;
 
-    
   const pomXmlStr = tree.read(`./${rootFolder}/pom.xml`, 'utf-8');
   const pomXml = readXml(pomXmlStr);
 
@@ -334,12 +337,38 @@ export function isMultiModuleMavenProject(tree: Tree, rootFolder: string){
   return hasXmlMatching(pomXml, modulesXpath);
 }
 
-export function hasMavenModule(tree: Tree, rootFolder: string, moduleName){
+export function hasMultiModuleMavenProject(cwd: string){
 
-  if (!isMultiModuleMavenProject(tree,rootFolder))
+  if (!hasMavenProject(cwd))
+    return false;
+
+  const pomXmlStr = getProjectFileContent({root:cwd}, `pom.xml`);
+  const pomXml = readXml(pomXmlStr);
+
+  const modulesXpath = `/project/modules`;
+
+  return hasXmlMatching(pomXml, modulesXpath);
+}
+
+export function hasMavenModuleInTree(tree: Tree, rootFolder: string, moduleName: string){
+
+  if (!hasMultiModuleMavenProjectInTree(tree,rootFolder))
     return false;
     
   const pomXmlStr = tree.read(`./${rootFolder}/pom.xml`, 'utf-8');
+  const pomXml = readXml(pomXmlStr);
+
+  const modulesXpath = `/project/modules/module/text()[.="${moduleName}"]`;
+
+  return hasXmlMatching(pomXml, modulesXpath);
+}
+
+export function hasMavenModule(cwd: string, moduleName: string){
+
+  if (!hasMultiModuleMavenProject(cwd))
+    return false;
+    
+  const pomXmlStr = getProjectFileContent({root:cwd}, `pom.xml`);
   const pomXml = readXml(pomXmlStr);
 
   const modulesXpath = `/project/modules/module/text()[.="${moduleName}"]`;
@@ -353,8 +382,9 @@ export function addMavenModule(
   moduleName: string,
 ) {
 
-  if(hasMavenModule(tree, rootFolder, moduleName))
+  if(hasMavenModuleInTree(tree, rootFolder, moduleName))
     return false;
+
   const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
   const pomXml = readXml(pomXmlStr);
 
@@ -369,4 +399,58 @@ export function addMavenModule(
   );
 
   return true
+}
+
+export function initMavenParentModule(tree: Tree, rootFolder: string, groupId: string, parentModuleName: string, childModuleName:string, helpComment='', version = 'O.0.1-SNAPSHOT'){
+
+  const parentPomXml = `
+${helpComment}
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>${groupId}</groupId>
+    <artifactId>${parentModuleName}</artifactId>
+    <version>${version}</version>
+    <packaging>pom</packaging>
+
+    <modules>
+      <module>${childModuleName}</module>
+    </modules>
+
+</project>
+`;
+
+tree.write(`./${rootFolder}/pom.xml`, parentPomXml);
+}
+
+export function getMavenModules(cwd: string){
+
+  if (!hasMultiModuleMavenProject(cwd))
+    return [];
+    
+  const pomXmlStr = getProjectFileContent({root:cwd}, `pom.xml`);
+  const pomXml = readXml(pomXmlStr);
+
+  const modulesXpath = `/project/modules/module/text()`;
+
+  return findXmlContents(pomXml, modulesXpath);
+}
+
+export function getMavenWrapperFiles(){
+  return [
+    'mvnw',
+    'mvnw.cmd',
+    '.mvn/wrapper/maven-wrapper.jar',
+    '.mvn/wrapper/maven-wrapper.properties'
+  ];
+}
+
+export function hasMavenWrapperInTree(tree:Tree, rootFolder: string){
+  return getMavenWrapperFiles().every(file => tree.exists(`./${rootFolder}/${file}`))
+}
+
+export function hasMavenWrapper(rootFolder: string){
+  return getMavenWrapperFiles().every(file => fileExists(resolve(rootFolder, file)));
 }

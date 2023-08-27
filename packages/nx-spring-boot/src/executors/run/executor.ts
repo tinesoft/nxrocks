@@ -11,6 +11,7 @@ export async function runExecutor(
   return runBootPluginCommand('run', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

@@ -176,13 +176,15 @@
       "description": "Artifact Id of the project.",
       "type": "string",
       "default": "demo",
-      "x-prompt": "What artifactId would you like to use?"
+      "x-prompt": "What artifactId would you like to use?",
+      "x-priority": "important"
     },
     "packageName": {
       "description": "Name of the main package of the project.",
       "type": "string",
       "default": "com.example.demo",
-      "x-prompt": "What package name would you like to use?"
+      "x-prompt": "What package name would you like to use?",
+      "x-priority": "important"
     },
     "description": {
       "description": "Description of the project.",
@@ -201,6 +203,23 @@
       "description": "Dependencies to use in the project (comma-separated). Follow this guide https://t.ly/Xyao for more instructions on how to proceed.",
       "type": "string",
       "x-priority": "important"
+    },
+    "transformIntoMultiModule": {
+      "description": "Transform the project into a multi-module project. Follow this guide https://t.ly/yvsp1 for more information.",
+      "type": "boolean"
+    },
+    "addToExistingParentModule": {
+      "description": "Add the project into an existing parent module project. Follow this guide https://t.ly/yvsp1 for more information.",
+      "type": "boolean"
+    },
+    "parentModuleName": {
+      "description": "Name of the parent module to create or to add child project into.",
+      "type": "string"
+    },
+    "keepProjectLevelWrapper": {
+      "description": "Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Follow this guide https://t.ly/yvsp1 for more information.",
+      "type": "boolean",
+      "default": true
     },
     "springInitializerUrl": {
       "type": "string",

@@ -184,12 +184,12 @@ describe('project generator', () => {
       );
 
       expect(logger.info).toHaveBeenNthCalledWith(
-        1,
+        2,
         `⬇️ Downloading Spring Boot project zip from : ${downloadUrl}...`
       );
 
       expect(logger.info).toHaveBeenNthCalledWith(
-        2,
+        3,
         `📦 Extracting Spring Boot project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`
       );
 
