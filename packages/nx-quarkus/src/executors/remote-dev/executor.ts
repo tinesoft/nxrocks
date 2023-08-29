@@ -11,6 +11,7 @@ export async function remoteDevExecutor(
   return runQuarkusPluginCommand('remote-dev', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

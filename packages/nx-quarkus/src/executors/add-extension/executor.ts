@@ -11,6 +11,7 @@ export async function addExtensionExecutor(
   return runQuarkusPluginCommand('add-extension', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

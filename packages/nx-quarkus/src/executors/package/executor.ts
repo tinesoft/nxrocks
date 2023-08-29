@@ -11,6 +11,7 @@ export async function packageExecutor(
   return runQuarkusPluginCommand('package', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

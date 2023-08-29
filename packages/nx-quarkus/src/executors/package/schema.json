@@ -15,6 +15,11 @@
       "type": "boolean",
       "default": false
     },
+    "runFromParentModule": {
+      "description": "Whether or not to run the (child) module from the context of its parent",
+      "type": "boolean",
+      "default": false
+    },
     "args": {
       "description": "The argument to be passed to the underlying Maven or Gradle command",
       "type": "array",

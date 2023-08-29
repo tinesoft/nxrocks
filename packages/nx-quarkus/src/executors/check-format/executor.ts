@@ -11,6 +11,7 @@ export async function formatCheckExecutor(
   return runQuarkusPluginCommand('check-format', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

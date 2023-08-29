@@ -9,6 +9,8 @@ import {
   runBuilderCommand,
   getCommonHttpHeaders,
   NX_QUARKUS_PKG,
+  hasMultiModuleGradleProject,
+  hasMultiModuleMavenProject,
 } from '@nxrocks/common';
 
 import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
@@ -38,7 +40,7 @@ export interface QuarkusExtension {
 export function runQuarkusPluginCommand(
   commandAlias: BuilderCommandAliasType,
   params: string[],
-  options: { cwd?: string; ignoreWrapper?: boolean } = { ignoreWrapper: false }
+  options: { cwd: string; ignoreWrapper?: boolean, runFromParentModule?: boolean } = { cwd: process.cwd(), ignoreWrapper: false, runFromParentModule: false }
 ): { success: boolean } {
   return runBuilderCommand(commandAlias, getBuilder, params, options);
 }
@@ -64,6 +66,9 @@ export function buildQuarkusDownloadUrl(options: NormalizedSchema) {
 }
 
 export function isQuarkusProject(project: ProjectConfiguration): boolean {
+  if(hasMultiModuleMavenProject(project.root) || hasMultiModuleGradleProject(project.root))
+    return true;
+
   if (isMavenProject(project)) {
     return checkProjectBuildFileContains(project, {
       fragments: [
