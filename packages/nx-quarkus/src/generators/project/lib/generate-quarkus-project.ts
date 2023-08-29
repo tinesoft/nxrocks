@@ -6,6 +6,8 @@ import { buildQuarkusDownloadUrl } from '../../../utils/quarkus-utils';
 import {
   extractFromZipStream,
   getCommonHttpHeaders,
+  getGradleWrapperFiles,
+  getMavenWrapperFiles,
   NX_QUARKUS_PKG,
 } from '@nxrocks/common';
 
@@ -33,9 +35,24 @@ export async function generateQuarkusProject(
         filePath.endsWith('mvnw') || filePath.endsWith('gradlew')
           ? '755'
           : undefined;
-      tree.write(`${options.projectRoot}/${filePath}`, entryContent, {
-        mode: execPermission,
-      });
+        if (getMavenWrapperFiles().includes(filePath) || getGradleWrapperFiles().includes(filePath)) {
+          if (options.transformIntoMultiModule) {
+            tree.write(`${options.moduleRoot}/${filePath}`, entryContent, {
+              mode: execPermission,
+            });
+          }
+          if (options.keepProjectLevelWrapper) {
+            tree.write(`${options.projectRoot}/${filePath}`, entryContent, {
+              mode: execPermission,
+            });
+          }
+  
+        }
+        else {
+          tree.write(`${options.projectRoot}/${filePath}`, entryContent, {
+            mode: execPermission,
+          });
+        }
     });
   } else {
     throw new Error(stripIndents`

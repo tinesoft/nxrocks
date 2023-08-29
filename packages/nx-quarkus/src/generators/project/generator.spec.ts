@@ -152,12 +152,12 @@ describe('project generator', () => {
       );
 
       expect(logger.info).toHaveBeenNthCalledWith(
-        1,
+        2,
         `⬇️ Downloading Quarkus project zip from : ${downloadUrl}...`
       );
 
       expect(logger.info).toHaveBeenNthCalledWith(
-        2,
+        3,
         `📦 Extracting Quarkus project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`
       );
     }
@@ -186,19 +186,27 @@ describe('project generator', () => {
       expect(project.root).toBe(`${projectDir}/${options.name}`);
 
       const commands: BuilderCommandAliasType[] = [
-        'dev',
-        'serve',
-        'remote-dev',
         'test',
         'clean',
         'build',
         'format',
         'apply-format',
         'check-format',
+      ];
+
+      const appOnlyCommands = [ 
+        'dev',
+        'serve',
+        'remote-dev',
         'package',
         'add-extension',
         'list-extensions',
       ];
+
+      if (projectType === 'application') {
+        commands.push(...appOnlyCommands);
+      }
+
       commands.forEach((cmd) => {
         expect(project.targets[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
         if (['build', 'install', 'test'].includes(cmd)) {

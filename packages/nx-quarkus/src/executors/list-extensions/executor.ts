@@ -11,6 +11,7 @@ export async function listExtensionsExecutor(
   return runQuarkusPluginCommand('list-extensions', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

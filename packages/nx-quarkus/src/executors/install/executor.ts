@@ -11,6 +11,7 @@ export async function installExecutor(
   return runQuarkusPluginCommand('install', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

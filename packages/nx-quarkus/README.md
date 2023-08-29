@@ -22,12 +22,12 @@ Here is a list of some of the coolest features of the plugin:
 
 - ✅ Generation of Quarkus applications/libraries based on **Quarkus app generator** API
 - ✅ Building, packaging, testing, etc your Quarkus projects
-- ✅ Code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for Maven or Gradle
-- ✅ Support for corporate proxies (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
-- ✅ Integration with Nx's **dependency graph** (through `nx dep-graph` or `nx affected:dep-graph`): this allows you to **visualize** the dependencies of any Quarkus's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
-
-  ![Nx Quarkus dependency graph](https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nx-quarkus-dep-graph.png)
-  _Example of running the `nx dep-graph` command on a workspace with 2 Quarkus projects inside_
+- ✅ 🆕 Built-in support for creating [**multi-modules**](recipes/README.md#creating-mulit-modules-quarkus-projects) Quarkus projects with both `Maven` and `Gradle`
+- ✅ Built-in support for code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for `Maven` or `Gradle`
+- ✅ Built-in support for **corporate proxies** (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
+- ✅ Integration with Nx's **dependency graph** (through `nx graph` or `nx affected:graph`): this allows you to **visualize** the dependencies of any Quarkus's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
+  ![Nx Quarkus dependency graph](https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nx-quarkus-graph.png)
+  _Example of running the `nx graph` command on a workspace with 2 Quarkus projects inside_
 
 - ...
 
@@ -83,19 +83,23 @@ Here the list of available generation options :
 | --------- | ------------------------- |
 | `<name>`  | The name of your project. |
 
-| Option                  | Value                      | Description                                                                                                          |
-| ----------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `projectType`           | `application` \| `library` | Type of project to generate                                                                                          |
-| `buildSystem`           | `MAVEN` \| `GRADLE`        | Build system                                                                                                         |
-| `groupId`               | `string`                   | GroupId of the project                                                                                               |
-| `artifactId`            | `string`                   | ArtifactId of the project                                                                                            |
-| `skipFormat`            | `boolean`                  | Do not add the ability to format code (using Spotless plugin)                                                        |
-| `extensions`            | `string`                   | List of extensions to use (comma-separated). Go to https://code.quarkus.io/api/extensions to get the ids needed here |
-| `quarkusInitializerUrl` | `https://code.quarkus.io`  | URL to the Quarkus Initializer instance to use                                                                       |
-| `proxyUrl`              |                            | The URL of the (corporate) proxy server to use to access Quarkus Initializer                                         |
-| `skipeCodeSamples`      | `string`                   | Whether or not to include code samples from extensions (when available)                                              |
-| `tags`                  | `string`                   | Tags to use for linting (comma-separated)                                                                            |
-| `directory`             | `string`                   | Directory where the project is placed                                                                                |
+| Option                     | Value                      | Description                                                                                                          |
+| -------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `projectType`              | `application` \| `library` | Type of project to generate                                                                                          |
+| `buildSystem`              | `MAVEN` \| `GRADLE`        | Build system                                                                                                         |
+| `groupId`                  | `string`                   | GroupId of the project                                                                                               |
+| `artifactId`               | `string`                   | ArtifactId of the project                                                                                            |
+| `skipFormat`               | `boolean`                  | Do not add the ability to format code (using Spotless plugin)                                                        |
+| `extensions`               | `string`                   | List of extensions to use (comma-separated). Go to [recipes](recipes/README.md#adding-quarkus-dependencies) for more information |
+| `transformIntoMultiModule` | `boolean`                  | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-mulit-modules-quarkus-projects) for more information               |
+| `addToExistingParentModule`| `boolean`                  | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-mulit-modules-quarkus-projects) for more information               |
+| `parentModuleName`         | `string`                   | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-mulit-modules-quarkus-projects) for more information               |
+| `keepProjectLevelWrapper`  | `boolean`                  | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-mulit-modules-quarkus-projects) for more information               |
+| `quarkusInitializerUrl`    | `https://code.quarkus.io`  | URL to the Quarkus Initializer instance to use                                                                       |
+| `proxyUrl`                 |                            | The URL of the (corporate) proxy server to use to access Quarkus Initializer                                         |
+| `skipeCodeSamples`         | `string`                   | Whether or not to include code samples from extensions (when available)                                              |
+| `tags`                     | `string`                   | Tags to use for linting (comma-separated)                                                                            |
+| `directory`                | `string`                   | Directory where the project is placed                                                                                |
 
 > **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
 > Otherwise, you'll get a [ETIMEDOUT error](https://github.com/tinesoft/nxrocks/issues/125) when trying to access official Quarkus Initializer to generate the project.
@@ -142,18 +146,18 @@ Once your app is generated, you can now use buidlers to manage it.
 
 Here the list of available executors:
 
-| Executor                  | Arguments                                 | Description                                                                                                                                                      |
-| ------------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `run` \| `dev` \| `serve` | `ignoreWrapper:boolean`, `args: string[]` | Runs the project in dev mode using either `./mvnw\|mvn quarkus:dev` or `./gradlew\|gradle quarkusDev`                                                            |
-| `remote-dev`              | `ignoreWrapper:boolean`, `args: string[]` | Runs the project in remote dev mode using either `./mvnw\|mvn quarkus:remote-dev` or `./gradlew\|gradle quarkusRemoteDev`                                        |
-| `build`                   | `ignoreWrapper:boolean`, `args: string[]` | Builds a native or container friendly image either `./mvnw\|mvn build` or `./gradlew\|gradle build`                                                              |
-| `test`                    | `ignoreWrapper:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                    |
-| `clean`                   | `ignoreWrapper:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                 |
-| `format`                  | `ignoreWrapper:boolean`, `args: string[]` | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                                             |
-| `package`                 | `ignoreWrapper:boolean`, `args: string[]` | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle package`                                                                           |
-| `install`                 | `ignoreWrapper:boolean`, `args: string[]` | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
-| `add-extension`           | `ignoreWrapper:boolean`, `args: string[]` | Adds a new extension to the project using either `./mvnw\|mvn quarkus:add-extension` or `./gradlew\|gradle quarkusAddExtension`                                  |
-| `list-extensions`         | `ignoreWrapper:boolean`, `args: string[]` | Adds a new extension to the project using either `./mvnw\|mvn quarkus:list-extensions` or `./gradlew\|gradle quarkusListExtensions`                              |
+| Executor                  | Arguments                                                                | Description                                                                                                                                                      |
+| ------------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run` \| `dev` \| `serve` | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Runs the project in dev mode using either `./mvnw\|mvn quarkus:dev` or `./gradlew\|gradle quarkusDev`                                                            |
+| `remote-dev`              | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Runs the project in remote dev mode using either `./mvnw\|mvn quarkus:remote-dev` or `./gradlew\|gradle quarkusRemoteDev`                                        |
+| `build`                   | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Builds a native or container friendly image either `./mvnw\|mvn build` or `./gradlew\|gradle build`                                                              |
+| `test`                    | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                    |
+| `clean`                   | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                 |
+| `format`                  | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                                             |
+| `package`                 | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle package`                                                                           |
+| `install`                 | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal` |
+| `add-extension`           | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Adds a new extension to the project using either `./mvnw\|mvn quarkus:add-extension` or `./gradlew\|gradle quarkusAddExtension`                                  |
+| `list-extensions`         | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Adds a new extension to the project using either `./mvnw\|mvn quarkus:list-extensions` or `./gradlew\|gradle quarkusListExtensions`                              |
 
 In order to execute the requested command, each executor will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
 If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.

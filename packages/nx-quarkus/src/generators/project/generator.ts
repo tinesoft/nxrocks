@@ -1,4 +1,4 @@
-import { Tree, addProjectConfiguration } from '@nx/devkit';
+import { Tree } from '@nx/devkit';
 import { ProjectGeneratorOptions } from './schema';
 import {
   normalizeOptions,
@@ -6,10 +6,11 @@ import {
   addMavenPublishPlugin,
   addFormattingWithSpotless,
   promptQuarkusExtensions,
+  generateProjectConfiguration,
+  promptForMultiModuleSupport,
 } from './lib';
 import {
   addPluginToNxJson,
-  BuilderCommandAliasType,
   NX_QUARKUS_PKG,
 } from '@nxrocks/common';
 
@@ -19,52 +20,12 @@ export async function projectGenerator(
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 
-  const targets = {};
-  const commands: BuilderCommandAliasType[] = [
-    'dev',
-    'serve',
-    'remote-dev',
-    'test',
-    'clean',
-    'build',
-    'install',
-    'package',
-    'add-extension',
-    'list-extensions',
-  ];
-
-  if (!options.skipFormat) {
-    commands.push('format', 'apply-format', 'check-format');
-  }
-
-  for (const command of commands) {
-    targets[command] = {
-      executor: `${NX_QUARKUS_PKG}:${command}`,
-      options: {
-        root: normalizedOptions.projectRoot,
-      },
-      ...(command === 'build' ? { dependsOn: ['^install'] } : {}),
-      ...(['build', 'install', 'test'].includes(command)
-        ? {
-            outputs: [
-              `{workspaceRoot}/${normalizedOptions.projectRoot}/${
-                normalizedOptions.buildSystem === 'MAVEN' ? 'target' : 'build'
-              }`,
-            ],
-          }
-        : {}),
-    };
-  }
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    projectType: options.projectType,
-    targets: targets,
-    tags: normalizedOptions.parsedTags,
-  });
-
   await promptQuarkusExtensions(normalizedOptions);
 
+  await promptForMultiModuleSupport(tree, normalizedOptions);
+
+  await generateProjectConfiguration(tree, normalizedOptions);
+  
   await generateQuarkusProject(tree, normalizedOptions);
 
   addMavenPublishPlugin(tree, normalizedOptions);
