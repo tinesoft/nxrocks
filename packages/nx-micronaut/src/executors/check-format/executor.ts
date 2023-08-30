@@ -11,6 +11,7 @@ export async function formatCheckExecutor(
   return runMicronautPluginCommand('check-format', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

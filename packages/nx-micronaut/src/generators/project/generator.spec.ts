@@ -258,12 +258,12 @@ describe('project generator', () => {
       );
 
       expect(logger.info).toHaveBeenNthCalledWith(
-        1,
+        2,
         `⬇️ Downloading Micronaut project zip from : '${downloadUrl}'...`
       );
 
       expect(logger.info).toHaveBeenNthCalledWith(
-        2,
+        3,
         `📦 Extracting Micronaut project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`
       );
     }

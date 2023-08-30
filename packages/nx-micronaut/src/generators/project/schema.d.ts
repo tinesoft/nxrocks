@@ -15,6 +15,11 @@ export interface ProjectGeneratorOptions {
   testFramework?: 'JUNIT' | 'SPOCK' | 'KOTEST';
   features?: string;
   skipFormat?: boolean;
+
+  transformIntoMultiModule?: boolean;
+  addToExistingParentModule?: boolean;
+  parentModuleName?: string;
+  keepProjectLevelWrapper?: boolean
 }
 
 export interface NormalizedSchema extends ProjectGeneratorOptions {
@@ -24,4 +29,5 @@ export interface NormalizedSchema extends ProjectGeneratorOptions {
   projectFeatures: string[];
   parsedTags: string[];
   fullPackage: string;
+  moduleRoot?: string;
 }

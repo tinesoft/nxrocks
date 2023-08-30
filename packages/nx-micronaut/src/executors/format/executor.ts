@@ -11,6 +11,7 @@ export async function formatExecutor(
   return runMicronautPluginCommand('format', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

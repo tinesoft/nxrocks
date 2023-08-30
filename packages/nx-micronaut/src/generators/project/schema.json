@@ -210,6 +210,23 @@
       "type": "string",
       "x-priority": "important"
     },
+    "transformIntoMultiModule": {
+      "description": "Transform the project into a multi-module project. Follow this guide https://t.ly/ov0Y9 for more information.",
+      "type": "boolean"
+    },
+    "addToExistingParentModule": {
+      "description": "Add the project into an existing parent module project. Follow this guide https://t.ly/ov0Y9 for more information.",
+      "type": "boolean"
+    },
+    "parentModuleName": {
+      "description": "Name of the parent module to create or to add child project into.",
+      "type": "string"
+    },
+    "keepProjectLevelWrapper": {
+      "description": "Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Follow this guide https://t.ly/ov0Y9 for more information.",
+      "type": "boolean",
+      "default": true
+    },
     "micronautLaunchUrl": {
       "type": "string",
       "default": "https://launch.micronaut.io",

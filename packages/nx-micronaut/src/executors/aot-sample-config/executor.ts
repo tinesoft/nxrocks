@@ -11,6 +11,7 @@ export async function aotSampleConfigExecutor(
   return runMicronautPluginCommand('aot-sample-config', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

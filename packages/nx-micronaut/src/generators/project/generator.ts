@@ -6,10 +6,11 @@ import {
   addMavenPublishPlugin,
   addFormattingWithSpotless,
   promptMicronautFeatures,
+  generateProjectConfiguration,
+  promptForMultiModuleSupport,
 } from './lib';
 import {
   addPluginToNxJson,
-  BuilderCommandAliasType,
   NX_MICRONAUT_PKG,
 } from '@nxrocks/common';
 
@@ -19,49 +20,12 @@ export async function projectGenerator(
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
 
-  const targets = {};
-  const commands: BuilderCommandAliasType[] = [
-    'run',
-    'serve',
-    'dockerfile',
-    'test',
-    'clean',
-    'build',
-    'aot-sample-config',
-  ];
-
-  if (!options.skipFormat) {
-    commands.push('format', 'apply-format', 'check-format');
-  }
-
-  for (const command of commands) {
-    targets[command] = {
-      executor: `${NX_MICRONAUT_PKG}:${command}`,
-      options: {
-        root: normalizedOptions.projectRoot,
-      },
-      ...(command === 'build' ? { dependsOn: ['^install'] } : {}),
-      ...(['build', 'install', 'test'].includes(command)
-        ? {
-            outputs: [
-              `{workspaceRoot}/${normalizedOptions.projectRoot}/${
-                normalizedOptions.buildSystem === 'MAVEN' ? 'target' : 'build'
-              }`,
-            ],
-          }
-        : {}),
-    };
-  }
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    projectType: 'application',
-    targets: targets,
-    tags: normalizedOptions.parsedTags,
-  });
-
   await promptMicronautFeatures(normalizedOptions);
 
+  await promptForMultiModuleSupport(tree, normalizedOptions);
+
+  await generateProjectConfiguration(tree, normalizedOptions);
+  
   await generateMicronautProject(tree, normalizedOptions);
 
   addMavenPublishPlugin(tree, normalizedOptions);
