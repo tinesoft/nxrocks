@@ -11,6 +11,7 @@ export async function buildExecutor(
   return runMicronautPluginCommand('build', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

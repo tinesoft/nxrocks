@@ -7,6 +7,8 @@ import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE_LEGACY,
   NX_MICRONAUT_PKG,
+  getGradleWrapperFiles,
+  getMavenWrapperFiles,
 } from '@nxrocks/common';
 import {
   expectExecutorCommandRanWith,
@@ -37,16 +39,18 @@ describe('Run Executor', () => {
   });
 
   it.each`
-    ignoreWrapper | buildFile         | execute
-    ${true}       | ${'pom.xml'}      | ${'mvn mn:run '}
-    ${true}       | ${'build.gradle'} | ${'gradle run '}
-    ${false}      | ${'pom.xml'}      | ${MAVEN_WRAPPER_EXECUTABLE_LEGACY + ' mn:run '}
-    ${false}      | ${'build.gradle'} | ${GRADLE_WRAPPER_EXECUTABLE + ' run '}
+    ignoreWrapper | buildSystem | buildFile         | execute
+    ${true}       | ${'maven'}  | ${'pom.xml'}      | ${'mvn mn:run '}
+    ${true}       | ${'gradle'} | ${'build.gradle'} | ${'gradle run '}
+    ${false}      | ${'maven'}  | ${'pom.xml'}      | ${MAVEN_WRAPPER_EXECUTABLE_LEGACY + ' mn:run '}
+    ${false}      | ${'gradle'} | ${'build.gradle'} | ${GRADLE_WRAPPER_EXECUTABLE + ' run '}
   `(
     'should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper',
-    async ({ ignoreWrapper, buildFile, execute }) => {
+    async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
+
+      const files = [buildFile as string, ...(buildSystem === 'maven'? getMavenWrapperFiles() : getGradleWrapperFiles())];
       mocked(fsUtility.fileExists).mockImplementation(
-        (filePath: string) => filePath.indexOf(buildFile) !== -1
+        (filePath: string) => files.some( (f)=> filePath.endsWith(f))
       );
 
       await runExecutor({ ...options, ignoreWrapper }, mockContext);

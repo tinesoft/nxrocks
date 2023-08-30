@@ -22,9 +22,10 @@ Here is a list of some of the coolest features of the plugin:
 
 - ✅ Generation of Micronaut applications based on **Micronaut Launch** API
 - ✅ Building, packaging, testing, etc your Micronaut projects
-- ✅ Code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for Maven or Gradle
-- ✅ Support for corporate proxies (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
-- ✅ Integration with Nx's **dependency graph** (through `nx dep-graph` or `nx affected:dep-graph`): this allows you to **visualize** the dependencies of any Micronaut's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
+- ✅ 🆕 Built-in support for creating [**multi-modules**](recipes/README.md#creating-mulit-modules-micronaut-projects) Micronaut projects with both `Maven` and `Gradle`
+- ✅ Built-in support for code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for `Maven` or `Gradle`
+- ✅ Built-in support for **corporate proxies** (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
+- ✅ Integration with Nx's **dependency graph** (through `nx graph` or `nx affected:graph`): this allows you to **visualize** the dependencies of any Micronaut's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
 - ...
 
 ## Prerequisite
@@ -79,21 +80,25 @@ Here the list of available generation options :
 | --------- | ------------------------- |
 | `<name>`  | The name of your project. |
 
-| Option               | Value                                                     | Description                                                                                             |
-| -------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `projectType`        | `default` \| `cli` \| `function` \| `grpc` \| `messaging` | Type of application to generate                                                                         |
-| `buildSystem`        | `MAVEN` \| `GRADLE` \| `GRADLE_KOTLIN`                    | Build system                                                                                            |
-| `basePackage`        | `string`                                                  | Base package of the project                                                                             |
-| `javaVersion`        | `JDK_8` \| `JDK_11` \| `JDK_17`                           | Java version to use                                                                                     |
-| `language`           | `JAVA` \| `GROOVY` \| `KOTLIN`                            | Language to use                                                                                         |
-| `testFramework`      | `JUNIT` \| `SPOCK` \| `KOTEST`                            | Test Framework to use                                                                                   |
-| `skipFormat`         | `boolean`                                                 | Do not add the ability to format code (using Spotless plugin)                                           |
-| `features`           | `string`                                                  | List of features to use (comma-separated). Go to https://micronaut.io/launch to get the ids needed here |
-| `micronautVersion`   | `current` \| `snapshot` \| `previous`                     | Micronaut version to use                                                                                |
-| `micronautLaunchUrl` | `https://launch.micronaut.io`                             | URL to the Micronaut Launch instance to use                                                             |
-| `proxyUrl`           |                                                           | The URL of the (corporate) proxy server to use to access Micronaut Launch                               |
-| `tags`               | `string`                                                  | Tags to use for linting (comma-separated)                                                               |
-| `directory`          | `string`                                                  | Directory where the project is placed                                                                   |
+| Option                     | Value                                                     | Description                                                                                             |
+| -------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `projectType`              | `default` \| `cli` \| `function` \| `grpc` \| `messaging` | Type of application to generate                                                                         |
+| `buildSystem`              | `MAVEN` \| `GRADLE` \| `GRADLE_KOTLIN`                    | Build system                                                                                            |
+| `basePackage`              | `string`                                                  | Base package of the project                                                                             |
+| `javaVersion`              | `JDK_8` \| `JDK_11` \| `JDK_17`                           | Java version to use                                                                                     |
+| `language`                 | `JAVA` \| `GROOVY` \| `KOTLIN`                            | Language to use                                                                                         |
+| `testFramework`            | `JUNIT` \| `SPOCK` \| `KOTEST`                            | Test Framework to use                                                                                   |
+| `skipFormat`               | `boolean`                                                 | Do not add the ability to format code (using Spotless plugin)                                           |
+| `features`                 | `string`                                                  | List of features to use (comma-separated). Go to https://micronaut.io/launch to get the ids needed here |
+| `transformIntoMultiModule` | `boolean`                                                 | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-mulit-modules-micronaut-projects) for more information               |
+| `addToExistingParentModule`| `boolean`                                                 | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-mulit-modules-micronaut-projects) for more information               |
+| `parentModuleName`         | `string`                                                  | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-mulit-modules-micronaut-projects) for more information               |
+| `keepProjectLevelWrapper`  | `boolean`                                                 | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-mulit-modules-micronaut-projects) for more information               |
+| `micronautVersion`         | `current` \| `snapshot` \| `previous`                     | Micronaut version to use                                                                                |
+| `micronautLaunchUrl`       | `https://launch.micronaut.io`                             | URL to the Micronaut Launch instance to use                                                             |
+| `proxyUrl`                 |                                                           | The URL of the (corporate) proxy server to use to access Micronaut Launch                               |
+| `tags`                     | `string`                                                  | Tags to use for linting (comma-separated)                                                               |
+| `directory`                | `string`                                                  | Directory where the project is placed                                                                   |
 
 > **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
 > Otherwise, you'll get a [ETIMEDOUT error](https://github.com/tinesoft/nxrocks/issues/125) when trying to access official Micronaut Launch to generate the project.
@@ -140,16 +145,16 @@ Once your app is generated, you can now use buidlers to manage it.
 
 Here the list of available executors:
 
-| Executor                  | Arguments                                 | Description                                                                                                                                                                |
-| ------------------------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `run` \| `dev` \| `serve` | `ignoreWrapper:boolean`, `args: string[]` | Runs the project in dev mode using either `./mvnw\|mvn micronaut:dev` or `./gradlew\|gradle micronautDev`                                                                  |
-| `dockerfile`              | `ignoreWrapper:boolean`, `args: string[]` | Generates a `Dockerfile` depending on the `packaging` and `micronaut.runtime properties` using either `./mvnw\|mvn micronaut:dockerfile` or `./gradlew\|gradle dockerfile` |
-| `build`                   | `ignoreWrapper:boolean`, `args: string[]` | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle build`                                                                                       |
-| `install`                 | `ignoreWrapper:boolean`, `args: string[]` | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal`           |
-| `test`                    | `ignoreWrapper:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                              |
-| `clean`                   | `ignoreWrapper:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                           |
-| `format`                  | `ignoreWrapper:boolean`, `args: string[]` | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                                                       |
-| `aotConfigSample`         | `ignoreWrapper:boolean`, `args: string[]` | Generates a sample `aot.properties` using either `./mvnw\|mvn package` or `./gradlew\|gradle package`                                                                      |
+| Executor                  | Arguments                                                                | Description                                                                                                                                                                |
+| ------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run` \| `dev` \| `serve` | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Runs the project in dev mode using either `./mvnw\|mvn micronaut:dev` or `./gradlew\|gradle micronautDev`                                                                  |
+| `dockerfile`              | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Generates a `Dockerfile` depending on the `packaging` and `micronaut.runtime properties` using either `./mvnw\|mvn micronaut:dockerfile` or `./gradlew\|gradle dockerfile` |
+| `build`                   | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle build`                                                                                       |
+| `install`                 | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal`           |
+| `test`                    | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                              |
+| `clean`                   | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                           |
+| `format`                  | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                                                       |
+| `aotConfigSample`         | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Generates a sample `aot.properties` using either `./mvnw\|mvn package` or `./gradlew\|gradle package`                                                                      |
 
 In order to execute the requested command, each executor will use, by default, the embedded `./mvnw` or `./gradlew` executable, that was generated alongside the project.
 If you want to rely on a globally installed `mvn` or `gradle` executable instead, add the `--ignoreWrapper` option to bypass it.
@@ -207,7 +212,7 @@ nx build your-micronaut-app
 ### Install the project's artifacts to local Maven repository (in `~/.m2/repository`) - (`install` Executor)
 
 ```
-nx install your-quarkus-app
+nx install your-micronaut-app
 ```
 
 ### Generating the project dockerfile - (`dockerfile` Executor)
