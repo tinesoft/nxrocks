@@ -22,9 +22,10 @@ Here is a list of some of the coolest features of the plugin:
 
 - ✅ Generation of Ktor applications based on **Ktor Starter** API
 - ✅ Building, packaging, testing, etc your Ktor projects
-- ✅ Code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for Maven or Gradle
-- ✅ Support for corporate proxies (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
-- ✅ Integration with Nx's **dependency graph** (through `nx dep-graph` or `nx affected:dep-graph`): this allows you to **visualize** the dependencies of any Ktor's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
+- ✅ 🆕 Built-in support for creating [**multi-modules**](recipes/README.md#creating-mulit-modules-ktor-projects) Spring Boot projects with both `Maven` and `Gradle`
+- ✅ Built-in support for code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for `Maven` or `Gradle`
+- ✅ Built-in support for **corporate proxies** (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
+- ✅ Integration with Nx's **dependency graph** (through `nx graph` or `nx affected:graph`): this allows you to **visualize** the dependencies of any Ktor's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
 - ...
 
 ## Prerequisite
@@ -79,22 +80,26 @@ Here the list of available generation options :
 | --------- | ------------------------- |
 | `<name>`  | The name of your project. |
 
-| Option                  | Value                                   | Description                                                                                        |
-| ----------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `buildSystem`           | `MAVEN` \| `GRADLE` \| `GRADLE_KTS`     | Build system                                                                                       |
-| `groupId`               | `string`                                | Group Id of the project                                                                            |
-| `artifactId`            | `string`                                | Artifact Id of the project                                                                         |
-| `kotlinVersion`         | `string`                                | Kotlin version to use                                                                              |
-| `engine`                | `NETTY` \| `JETTY` \| `CIO` \| `TOMCAT` | Engine to use to serve the application                                                             |
-| `configurationLocation` | `YAML` \| `HOCON` \| `CODE`             | Configuratin Location to use                                                                       |
-| `skipFormat`            | `boolean`                               | Do not add the ability to format code (using Spotless plugin)                                      |
-| `skipCodeSamples`       | `boolean`                               | Do not generate code samples                                                                       |
-| `features`              | `string`                                | List of features to use (comma-separated). Go to [recipes](recipes/README.md) for more information |
-| `ktorVersion`           | `string`                                | Ktor version to use                                                                                |
-| `ktorInitializrUrl`     | `https://start.ktor.io`                 | URL to the Ktor Start instance to use                                                              |
-| `proxyUrl`              | `string`                                | The URL of the (corporate) proxy server to use to access Ktor Launch                               |
-| `tags`                  | `string`                                | Tags to use for linting (comma-separated)                                                          |
-| `directory`             | `string`                                | Directory where the project is placed                                                              |
+| Option                     | Value                                   | Description                                                                                        |
+| -------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `buildSystem`              | `MAVEN` \| `GRADLE` \| `GRADLE_KTS`     | Build system                                                                                       |
+| `groupId`                  | `string`                                | Group Id of the project                                                                            |
+| `artifactId`               | `string`                                | Artifact Id of the project                                                                         |
+| `kotlinVersion`            | `string`                                | Kotlin version to use                                                                              |
+| `engine`                   | `NETTY` \| `JETTY` \| `CIO` \| `TOMCAT` | Engine to use to serve the application                                                             |
+| `configurationLocation`    | `YAML` \| `HOCON` \| `CODE`             | Configuratin Location to use                                                                       |
+| `skipFormat`               | `boolean`                               | Do not add the ability to format code (using Spotless plugin)                                      |
+| `skipCodeSamples`          | `boolean`                               | Do not generate code samples                                                                       |
+| `features`                 | `string`                                | List of features to use (comma-separated). Go to [recipes](recipes/README.md) for more information |
+| `transformIntoMultiModule` | `boolean`                               | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-mulit-modules-ktor-projects) for more information               |
+| `addToExistingParentModule`| `boolean`                               | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-mulit-modules-ktor-projects) for more information               |
+| `parentModuleName`         | `string`                                | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-mulit-modules-ktor-projects) for more information               |
+| `keepProjectLevelWrapper`  | `boolean`                               | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-mulit-modules-ktor-projects) for more information               |
+| `ktorVersion`              | `string`                                | Ktor version to use                                                                                |
+| `ktorInitializrUrl`        | `https://start.ktor.io`                 | URL to the Ktor Start instance to use                                                              |
+| `proxyUrl`                 | `string`                                | The URL of the (corporate) proxy server to use to access Ktor Launch                               |
+| `tags`                     | `string`                                | Tags to use for linting (comma-separated)                                                          |
+| `directory`                | `string`                                | Directory where the project is placed                                                              |
 
 > **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
 > Otherwise, you'll get a [ETIMEDOUT error](https://github.com/tinesoft/nxrocks/issues/125) when trying to access official Ktor Launch to generate the project.
@@ -141,18 +146,18 @@ Once your app is generated, you can now use buidlers to manage it.
 
 Here the list of available executors:
 
-| Executor                     | Arguments                                 | Description                                                                                                                                                         |
-| ---------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `run` \| `serve`             | `ignoreWrapper:boolean`, `args: string[]` | Runs the project in dev mode using either `./mvnw\|mvn exec:java` or `./gradlew\|gradle runFatJar`                                                                  |
-| `build`                      | `ignoreWrapper:boolean`, `args: string[]` | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle buildFatJar`                                                                          |
-| `install`                    | `ignoreWrapper:boolean`, `args: string[]` | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal`    |
-| `test`                       | `ignoreWrapper:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                       |
-| `clean`                      | `ignoreWrapper:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                    |
-| `format`                     | `ignoreWrapper:boolean`, `args: string[]` | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                                                |
-| `build-image`                | `ignoreWrapper:boolean`, `args: string[]` | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn docker:build` or `./gradlew\|gradle buildImage`                    |
-| `publish-image`<sup>\*</sup> | `ignoreWrapper:boolean`, `args: string[]` | Builds the project into a Docker image and publishes it to an external registry using either `./mvnw\|mvn docker:push` or `./gradlew\|gradle publishImage`          |
-| `publish-image-locally`      | `ignoreWrapper:boolean`, `args: string[]` | Builds the project into a Docker image and publishes it to local registry using either `./mvnw\|mvn docker:push` or `./gradlew\|gradle publishImageToLocalRegistry` |
-| `run-docker`                 | `ignoreWrapper:boolean`, `args: string[]` | Builds the project into a Docker image and runs it using either `./mvnw\|mvn docker:run` or `./gradlew\|gradle rundDocker`                                          |
+| Executor                     | Arguments                                                                | Description                                                                                                                                                         |
+| ---------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run` \| `serve`             | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Runs the project in dev mode using either `./mvnw\|mvn exec:java` or `./gradlew\|gradle runFatJar`                                                                  |
+| `build`                      | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Packages the project using either `./mvnw\|mvn package` or `./gradlew\|gradle buildFatJar`                                                                          |
+| `install`                    | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Installs the project's artifacts to local Maven repository (in `~/.m2/repository`) using either `./mvnw\|mvn install` or `./gradlew\|gradle publishToMavenLocal`    |
+| `test`                       | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Tests the project using either `./mvnw\|mvn test` or `./gradlew\|gradle test`                                                                                       |
+| `clean`                      | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Cleans the project using either `./mvnw\|mvn clean` or `./gradlew\|gradle clean`                                                                                    |
+| `format`                     | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Format the project using [Spotless](https://github.com/diffplug/spotless) plugin for Maven or Gradle                                                                |
+| `build-image`                | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Generates an [OCI Image](https://github.com/opencontainers/image-spec) using either `./mvnw\|mvn docker:build` or `./gradlew\|gradle buildImage`                    |
+| `publish-image`<sup>\*</sup> | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Builds the project into a Docker image and publishes it to an external registry using either `./mvnw\|mvn docker:push` or `./gradlew\|gradle publishImage`          |
+| `publish-image-locally`      | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Builds the project into a Docker image and publishes it to local registry using either `./mvnw\|mvn docker:push` or `./gradlew\|gradle publishImageToLocalRegistry` |
+| `run-docker`                 | `ignoreWrapper:boolean`, `runFromParentModule:boolean`, `args: string[]` | Builds the project into a Docker image and runs it using either `./mvnw\|mvn docker:run` or `./gradlew\|gradle rundDocker`                                          |
 
 > <sup>\*</sup> Additonal configuration is needed to configure Docker external registry (for [Gradle-based](https://github.com/ktorio/ktor-build-plugins#dockerize-your-application) projects, for [Maven-based](https://dmp.fabric8.io/#docker:push) projects)
 

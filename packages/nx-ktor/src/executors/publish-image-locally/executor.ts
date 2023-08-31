@@ -11,6 +11,7 @@ export async function publishImageLocallyExecutor(
   return runKtorPluginCommand('publish-image-locally', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

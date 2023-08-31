@@ -11,6 +11,7 @@ export async function formatExecutor(
   return runKtorPluginCommand('format', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

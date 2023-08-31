@@ -16,6 +16,11 @@ export interface ProjectGeneratorOptions {
   features?: string;
   skipFormat?: boolean;
   skipCodeSamples?: boolean;
+
+  transformIntoMultiModule?: boolean;
+  addToExistingParentModule?: boolean;
+  parentModuleName?: string;
+  keepProjectLevelWrapper?: boolean
 }
 
 export interface NormalizedSchema extends ProjectGeneratorOptions {
@@ -23,5 +28,6 @@ export interface NormalizedSchema extends ProjectGeneratorOptions {
   projectRoot: string;
   projectDirectory: string;
   projectFeatures: string[];
-  parsedTags: string[];
+  parsedTags: string[];  
+  moduleRoot?: string;
 }

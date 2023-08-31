@@ -11,6 +11,7 @@ export async function cleanExecutor(
   return runKtorPluginCommand('clean', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

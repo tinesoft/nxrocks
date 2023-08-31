@@ -6,6 +6,8 @@ import { buildKtorDownloadUrl } from '../../../utils/ktor-utils';
 import {
   extractFromZipStream,
   getCommonHttpHeaders,
+  getGradleWrapperFiles,
+  getMavenWrapperFiles,
   NX_KTOR_PKG,
 } from '@nxrocks/common';
 
@@ -42,9 +44,24 @@ export async function generateKtorProject(
         entryPath.endsWith('mvnw') || entryPath.endsWith('gradlew')
           ? '755'
           : undefined;
-      tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
-        mode: execPermission,
-      });
+        if (getMavenWrapperFiles().includes(entryPath) || getGradleWrapperFiles().includes(entryPath)) {
+          if (options.transformIntoMultiModule) {
+            tree.write(`${options.moduleRoot}/${entryPath}`, entryContent, {
+              mode: execPermission,
+            });
+          }
+          if (options.keepProjectLevelWrapper) {
+            tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
+              mode: execPermission,
+            });
+          }
+  
+        }
+        else {
+          tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
+            mode: execPermission,
+          });
+        }
     });
   } else {
     throw new Error(stripIndents`

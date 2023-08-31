@@ -7,6 +7,8 @@ import {
   addFormattingWithSpotless,
   promptKtorFeatures,
   addDockerfile,
+  promptForMultiModuleSupport,
+  generateProjectConfiguration,
 } from './lib';
 import {
   addPluginToNxJson,
@@ -22,53 +24,9 @@ export async function projectGenerator(
 
   await promptKtorFeatures(normalizedOptions);
 
-  const targets = {};
-  const commands: BuilderCommandAliasType[] = [
-    'run',
-    'serve',
-    'test',
-    'clean',
-    'build',
-    'build-image',
-    'publish-image',
-    'publish-image-locally',
-    'run-docker',
-  ];
+  await promptForMultiModuleSupport(tree, normalizedOptions);
 
-  if (!options.skipFormat) {
-    commands.push('format', 'apply-format', 'check-format');
-  }
-
-  for (const command of commands) {
-    targets[command] = {
-      executor: `${NX_KTOR_PKG}:${command}`,
-      options: {
-        root: normalizedOptions.projectRoot,
-      },
-      ...(command === 'build' ? { dependsOn: ['^install'] } : {}),
-      ...(['publish-image', 'publish-image-locally', 'run-docker'].includes(
-        command
-      )
-        ? { dependsOn: ['build-image'] }
-        : {}),
-      ...(['build', 'build-image', 'install', 'test'].includes(command)
-        ? {
-            outputs: [
-              `{workspaceRoot}/${normalizedOptions.projectRoot}/${
-                normalizedOptions.buildSystem === 'MAVEN' ? 'target' : 'build'
-              }`,
-            ],
-          }
-        : {}),
-    };
-  }
-  addProjectConfiguration(tree, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    projectType: 'application',
-    targets: targets,
-    tags: normalizedOptions.parsedTags,
-  });
+  await generateProjectConfiguration(tree, normalizedOptions);
 
   await generateKtorProject(tree, normalizedOptions);
 

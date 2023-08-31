@@ -11,6 +11,7 @@ export async function testExecutor(
   return runKtorPluginCommand('test', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 
