@@ -7,6 +7,8 @@ import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE_LEGACY,
   NX_KTOR_PKG,
+  getGradleWrapperFiles,
+  getMavenWrapperFiles,
 } from '@nxrocks/common';
 import {
   expectExecutorCommandRanWith,
@@ -44,9 +46,11 @@ describe('Test Executor', () => {
     ${false}      | ${'gradle'} | ${'build.gradle'} | ${GRADLE_WRAPPER_EXECUTABLE + ' test '}
   `(
     'should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper',
-    async ({ ignoreWrapper, buildFile, execute }) => {
+    async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
+
+      const files = [buildFile as string, ...(buildSystem === 'maven'? getMavenWrapperFiles() : getGradleWrapperFiles())];
       mocked(fsUtility.fileExists).mockImplementation(
-        (filePath: string) => filePath.indexOf(buildFile) !== -1
+        (filePath: string) => files.some( (f)=> filePath.endsWith(f))
       );
 
       await testExecutor({ ...options, ignoreWrapper }, mockContext);

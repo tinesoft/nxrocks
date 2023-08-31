@@ -11,6 +11,7 @@ export async function runDockerExecutor(
   return runKtorPluginCommand('run-docker', options.args, {
     cwd: root,
     ignoreWrapper: options.ignoreWrapper,
+    runFromParentModule: options.runFromParentModule,
   });
 }
 

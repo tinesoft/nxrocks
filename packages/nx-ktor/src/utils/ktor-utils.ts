@@ -9,6 +9,8 @@ import {
   runBuilderCommand,
   getCommonHttpHeaders,
   NX_KTOR_PKG,
+  hasMultiModuleGradleProject,
+  hasMultiModuleMavenProject,
 } from '@nxrocks/common';
 
 import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
@@ -36,16 +38,15 @@ export function runKtorPluginCommand(
   commandAlias: BuilderCommandAliasType,
   params: string[],
   options: {
-    cwd?: string;
+    cwd: string;
     ignoreWrapper?: boolean;
     useLegacyWrapper?: boolean;
-  } = { ignoreWrapper: false, useLegacyWrapper: true }
+    runFromParentModule?: boolean;
+  } = { cwd: process.cwd(), ignoreWrapper: false, useLegacyWrapper: true, runFromParentModule: false }
 ): { success: boolean } {
   //force use legacy wrapper for all executors
   options = { ...options, useLegacyWrapper: true };
-  console.log(
-    `runKtorPluginCommand, ignoreWrapper: ${options.ignoreWrapper}, useLegacyWrapper: ${options.useLegacyWrapper}`
-  );
+
   return runBuilderCommand(commandAlias, getBuilder, params, options);
 }
 
@@ -71,6 +72,9 @@ export function buildKtorDownloadUrl(options: NormalizedSchema) {
 }
 
 export function isKtorProject(project: ProjectConfiguration): boolean {
+  if(hasMultiModuleMavenProject(project.root) || hasMultiModuleGradleProject(project.root))
+    return true;
+
   if (isMavenProject(project)) {
     return checkProjectBuildFileContains(project, {
       fragments: ['<version>${ktor_version}</version>'],

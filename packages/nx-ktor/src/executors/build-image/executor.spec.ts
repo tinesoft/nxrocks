@@ -6,6 +6,8 @@ import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE_LEGACY,
   NX_KTOR_PKG,
+  getGradleWrapperFiles,
+  getMavenWrapperFiles,
 } from '@nxrocks/common';
 import {
   expectExecutorCommandRanWith,
@@ -19,6 +21,7 @@ jest.mock('@nx/workspace/src/utils/fileutils');
 //then, we import
 import * as fsUtility from '@nx/workspace/src/utils/fileutils';
 import * as cp from 'child_process';
+import { mocked } from 'jest-mock';
 
 const mockContext = mockExecutorContext(NX_KTOR_PKG, 'build-image');
 const options: BuildImageExecutorOptions = {
@@ -43,9 +46,11 @@ describe('PublishImage Executor', () => {
     ${false}      | ${'gradle'} | ${'build.gradle'} | ${GRADLE_WRAPPER_EXECUTABLE + ' buildImage '}
   `(
     'should execute a $buildSystem build-image and ignoring wrapper : $ignoreWrapper',
-    async ({ ignoreWrapper, buildFile, execute }) => {
-      (fsUtility.fileExists as jest.Mock).mockImplementation(
-        (filePath: string) => filePath.indexOf(buildFile) !== -1
+    async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
+
+      const files = [buildFile as string, ...(buildSystem === 'maven'? getMavenWrapperFiles() : getGradleWrapperFiles())];
+      mocked(fsUtility.fileExists).mockImplementation(
+        (filePath: string) => files.some( (f)=> filePath.endsWith(f))
       );
 
       await buildImageExecutor({ ...options, ignoreWrapper }, mockContext);
