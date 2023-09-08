@@ -1,5 +1,5 @@
 import { Tree } from '@nx/devkit';
-import { checkProjectFileContains, getGradleBuildFilesExtension, getGradleBuildFilesExtensionInTree, hasGradleProjectSettings, isGradleProjectSettingsInTree as hasGradleProjectSettingsInTree } from './utils';
+import { checkProjectFileContains, getGradleBuildFilesExtension, getGradleBuildFilesExtensionInTree, hasGradleSettingsFile, isGradleProjectSettingsInTree as hasGradleProjectSettingsInTree } from './utils';
 import { fileExists } from '@nx/workspace/src/utils/fileutils';
 import { resolve } from 'path';
 import { getProjectFileContent } from '../workspace';
@@ -318,7 +318,7 @@ export function hasMultiModuleGradleProjectInTree(tree: Tree, rootFolder: string
 
 export function hasMultiModuleGradleProject(cwd: string){
 
-  if (!hasGradleProjectSettings(cwd))
+  if (!hasGradleSettingsFile(cwd))
     return false;
 
   const extension = getGradleBuildFilesExtension({root: cwd});

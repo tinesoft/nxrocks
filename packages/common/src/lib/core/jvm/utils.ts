@@ -82,8 +82,12 @@ export function hasGradleProject(cwd: string) {
     fileExists(`${cwd}/build.gradle.kts`) || fileExists(`${cwd}/settings.gradle.kts`);
 }
 
-export function hasGradleProjectSettings(cwd: string) {
+export function hasGradleSettingsFile(cwd: string) {
   return fileExists(`${cwd}/settings.gradle`) || fileExists(`${cwd}/settings.gradle.kts`);
+}
+
+export function hasGradleBuildFile(cwd: string) {
+  return fileExists(`${cwd}/build.gradle`) || fileExists(`${cwd}/build.gradle.kts`);
 }
 
 export function getGradleBuildFilesExtension(project: {root:string}): '.gradle.kts' | '.gradle' | undefined {
@@ -147,33 +151,42 @@ export function getJvmPackageInfo(project: {root:string}): PackageInfo {
   if (isGradleProject(project)) {
     // gradle project
     const ext = getGradleBuildFilesExtension(project);
-    const buildGradle = getProjectFileContent(project, `build${ext}`);
+
     const settingsGradle = getProjectFileContent(project, `settings${ext}`);
 
-    const groupId = buildGradle.match(/group\s*=\s*['"]([^"']+)['"]/)?.[1];
+    let groupId = 'not-available';
     const artifactId = settingsGradle.match(
       /rootProject\.name\s*=\s*['"]([^"']+)['"]/
     )?.[1];
 
     const gradleDependencyIdRegEx = getGradleDependencyIdRegEx();
     const dependencyIds: string[] = [];
-    let match: RegExpExecArray;
-    do {
-      match = gradleDependencyIdRegEx.exec(buildGradle);
-      if (match?.groups?.id) {
-        dependencyIds.push(match.groups.id);
-      }
-    } while (match);
+
+    if(hasGradleBuildFile(project.root)){
+      const buildGradle = getProjectFileContent(project, `build${ext}`);
+      
+      groupId = buildGradle.match(/group\s*=\s*['"]([^"']+)['"]/)?.[1];
+
+      let match: RegExpExecArray;
+      do {
+        match = gradleDependencyIdRegEx.exec(buildGradle);
+        if (match?.groups?.id) {
+          dependencyIds.push(match.groups.id);
+        }
+      } while (match);
+    }
 
     const dependencies: PackageInfo[] = dependencyIds.map((depId) => {
       return { packageId: depId, packageFile: `build${ext}` };
     });
 
+    const modules = getGradleModules(project.root);
+
     return {
       packageId: `${groupId}:${artifactId}`,
-      packageFile: `build${ext}`,
+      packageFile: hasGradleSettingsFile(project.root) ? `settings${ext}` : `build${ext}`,
       dependencies,
-      modules: getGradleModules(project.root)
+      modules
     };
   }
 
