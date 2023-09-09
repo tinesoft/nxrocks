@@ -57,4 +57,4 @@ jobs:
           NX_E2E_CI_CACHE_KEY: e2e-gha-${{ matrix.os }}-${{ matrix.node-version }}
           NX_RUN_GROUP: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}
         run: |
-          pnpm e2e
+          pnpm e2e --verbose
