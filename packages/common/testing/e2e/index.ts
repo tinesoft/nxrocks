@@ -1,6 +1,7 @@
-import { JsonParseOptions, parseJson } from '@nx/devkit';
+import { JsonParseOptions, joinPathFragments, parseJson, readJsonFile, workspaceRoot } from '@nx/devkit';
+import { getPackageLatestNpmVersion } from '../../src/';
 import { ExecSyncOptions, execSync } from 'child_process';
-import { rmSync, mkdirSync, statSync, readFileSync } from 'fs-extra';
+import { rmSync, mkdirSync, statSync, readFileSync, existsSync } from 'fs-extra';
 import { join, dirname, isAbsolute } from 'path';
 
 
@@ -10,7 +11,7 @@ export const isWin = process.platform === 'win32';
  * Creates a test project with create-nx-workspace and installs the plugin
  * @returns The directory where the test project was created
  */
-export function createTestProject(createCommand='npx --yes create-nx-workspace@latest', projectName='test-project') {
+export function createTestProject(createCommand='npx --yes create-nx-workspace', projectName='test-project', workspaceVersion: 'latest' | 'local' = 'local') {
   const projectDirectory = join(process.cwd(), 'tmp', projectName);
 
   // Ensure projectDirectory is empty
@@ -22,8 +23,9 @@ export function createTestProject(createCommand='npx --yes create-nx-workspace@l
     recursive: true,
   });
 
+  const nxVersion = workspaceVersion === 'local' ? readLocalNxWorkspaceVersion(): 'latest';
   execSync(
-    `${createCommand} ${projectName} --preset empty --no-nxCloud --no-interactive`,
+    `${createCommand.trim()}@${nxVersion} ${projectName} --preset empty --no-nxCloud --no-interactive`,
     {
       cwd: dirname(projectDirectory),
       stdio: 'inherit',
@@ -39,7 +41,6 @@ export function createTestProject(createCommand='npx --yes create-nx-workspace@l
 // Temporary utilities from @nx/plugin/testing package, like `runNxCommandAsync`, `readJson`, etc
 // Adapted to support the new 'test-project' folder, instead of the default 'nx-e2e' used internally by those methods
 // (until properly updated/published By Nx ?)
-
 
 export function checkFilesExist(...expectedFiles: string[]) {
   expectedFiles.forEach((f) => {
@@ -94,4 +95,30 @@ export function readJson<T extends object = any>(path: string, options?: JsonPar
 export function readFile(path: string): string {
   const filePath = isAbsolute(path) ? path : tmpProjPath(path);
   return readFileSync(filePath, 'utf-8');
+}
+
+export function getLatestNxWorkspaceVersion():string{
+  return getPackageLatestNpmVersion("nx");
+}
+
+export function readLocalNxWorkspaceVersion():string{
+  const pkgJsonPath = joinPathFragments(workspaceRoot, 'package.json');
+  if (!existsSync(pkgJsonPath)) {
+    throw new Error(
+      'Could not find root package.json to determine dependency versions.'
+    );
+  }
+  
+  return readJsonFile(pkgJsonPath).devDependencies["nx"];
+}
+
+/**
+ * Checks if local Nx version matches latest feature version of Nx
+ * @returns `true` if on same feature version, `false` otherwise
+ */
+export function isLocalNxMatchingLatestFeatureVersion(){
+  const localNxVersion = readLocalNxWorkspaceVersion().split('.');
+  const latestNxVersion = getLatestNxWorkspaceVersion().split('.');
+
+  return localNxVersion[0] === latestNxVersion[0] && localNxVersion[1] === latestNxVersion?.[1];
 }

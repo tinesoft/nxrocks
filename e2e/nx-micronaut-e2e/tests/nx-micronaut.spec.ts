@@ -13,11 +13,11 @@ describe('nx-micronaut e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
-    projectDirectory = createTestProject();
+    projectDirectory = createTestProject('pnpm dlx create-nx-workspace');
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`npm install @nxrocks/nx-micronaut@e2e`, {
+    execSync(`pnpm install @nxrocks/nx-micronaut@e2e`, {
       cwd: projectDirectory,
       stdio: 'inherit',
       env: process.env,

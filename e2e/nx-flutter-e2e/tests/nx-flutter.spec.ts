@@ -12,7 +12,7 @@ describe('nx-flutter e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
-    projectDirectory = createTestProject();
+    projectDirectory = createTestProject('pnpm dlx create-nx-workspace');
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
