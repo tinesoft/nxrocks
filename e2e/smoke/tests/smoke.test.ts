@@ -47,12 +47,12 @@ describe('nxrocks smoke tests', () => {
   ${'npm'}    | ${'npx --yes create-nx-workspace'}   | ${'npx'}       | ${'npm i'}     | ${'latest'}      | ${'latest'}  
   ${'yarn'}   | ${'yarn create nx-workspace'}        | ${'yarn'}      | ${'yarn add'}  | ${'latest'}      | ${'latest'}  
   ${'pnpm'}   | ${'pnpm dlx create-nx-workspace'}    | ${'pnpm exec'} | ${'pnpm add'}  | ${'latest'}      | ${'latest'}  
-  ${'npm'}    | ${'npx --yes create-nx-workspace'}   | ${'npx'}       | ${'npm i'}     | ${'latest'}      | ${'e2e'}  
-  ${'yarn'}   | ${'yarn create nx-workspace'}        | ${'yarn'}      | ${'yarn add'}  | ${'latest'}      | ${'e2e'}  
-  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace'}    | ${'pnpm exec'} | ${'pnpm add'}  | ${'latest'}      | ${'e2e'}  
-  ${'npm'}    | ${'npx --yes create-nx-workspace'}   | ${'npx'}       | ${'npm i'}     | ${'local'}       | ${'e2e'}     
-  ${'yarn'}   | ${'yarn create nx-workspace'}        | ${'yarn'}      | ${'yarn add'}  | ${'local'}       | ${'e2e'}     
-  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace'}    | ${'pnpm exec'} | ${'pnpm add'}  | ${'local'}       | ${'e2e'}     
+  ${'npm'}    | ${'npx --yes create-nx-workspace'}   | ${'npx'}       | ${'npm i'}     | ${'latest'}      | ${'0.0.0-e2e'}  
+  ${'yarn'}   | ${'yarn create nx-workspace'}        | ${'yarn'}      | ${'yarn add'}  | ${'latest'}      | ${'0.0.0-e2e'}  
+  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace'}    | ${'pnpm exec'} | ${'pnpm add'}  | ${'latest'}      | ${'0.0.0-e2e'}  
+  ${'npm'}    | ${'npx --yes create-nx-workspace'}   | ${'npx'}       | ${'npm i'}     | ${'local'}       | ${'0.0.0-e2e'}     
+  ${'yarn'}   | ${'yarn create nx-workspace'}        | ${'yarn'}      | ${'yarn add'}  | ${'local'}       | ${'0.0.0-e2e'}     
+  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace'}    | ${'pnpm exec'} | ${'pnpm add'}  | ${'local'}       | ${'0.0.0-e2e'}     
 `(`should sucessfully run using '$workspaceVersion' Nx workspace, $pluginVersion plugins version and $pkgManager package manager`, async ({createCommand, runCommand, addCommand, workspaceVersion, pluginVersion }) => {
 
     if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {

@@ -15,7 +15,7 @@ describe('nx-spring-boot e2e', () => {
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`pnpm install @nxrocks/nx-spring-boot@e2e`, {
+    execSync(`pnpm install @nxrocks/nx-spring-boot@0.0.0-e2e`, {
       cwd: projectDirectory,
       stdio: 'inherit',
       env: process.env,
