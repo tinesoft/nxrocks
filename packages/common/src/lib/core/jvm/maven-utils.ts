@@ -98,25 +98,24 @@ export function addMavenPlugin(
 
   const pluginNode =
     (configuration || executions) &&
-    (typeof configuration === 'object' || typeof executions === 'object')
+      (typeof configuration === 'object' || typeof executions === 'object')
       ? {
-          plugin: {
-            groupId: groupId,
-            artifactId: artifactId,
-            ...(version && { version: version }),
-            ...(configuration && { configuration: configuration }),
-            ...(executions && { executions: executions }),
-          },
-        }
+        plugin: {
+          groupId: groupId,
+          artifactId: artifactId,
+          ...(version && { version: version }),
+          ...(configuration && { configuration: configuration }),
+          ...(executions && { executions: executions }),
+        },
+      }
       : `<plugin>
             <groupId>${groupId}</groupId>
             <artifactId>${artifactId}</artifactId>
             ${version ? `<version>${version}</version>` : ''}
-            ${
-              configuration
-                ? `<configuration>${configuration}</configuration>`
-                : ''
-            }
+            ${configuration
+        ? `<configuration>${configuration}</configuration>`
+        : ''
+      }
             ${executions ? `<executions>${executions}</executions>` : ''}
         </plugin>`;
 
@@ -270,11 +269,10 @@ export function getMavenSpotlessConfig(
                     <!-- Clean up -->
                     <removeUnusedImports/>
 
-                    <!-- Apply ${
-                      jdkVersion && jdkVersion >= 11
-                        ? 'ktfmt formatter(similar to google-java-format, but for Kotlin)'
-                        : 'ktlint formatter'
-                    } -->
+                    <!-- Apply ${jdkVersion && jdkVersion >= 11
+            ? 'ktfmt formatter(similar to google-java-format, but for Kotlin)'
+            : 'ktlint formatter'
+          } -->
                     ${jdkVersion && jdkVersion >= 11 ? '<ktfmt/>' : '<ktlint/>'}
 
                 </kotlin>`,
@@ -324,9 +322,9 @@ export function addSpotlessMavenPlugin(
   );
 }
 
-export function hasMultiModuleMavenProjectInTree(tree: Tree, rootFolder: string){
+export function hasMultiModuleMavenProjectInTree(tree: Tree, rootFolder: string) {
 
-  if (!isMavenProjectInTree(tree,rootFolder))
+  if (!isMavenProjectInTree(tree, rootFolder))
     return false;
 
   const pomXmlStr = tree.read(`./${rootFolder}/pom.xml`, 'utf-8');
@@ -337,12 +335,12 @@ export function hasMultiModuleMavenProjectInTree(tree: Tree, rootFolder: string)
   return hasXmlMatching(pomXml, modulesXpath);
 }
 
-export function hasMultiModuleMavenProject(cwd: string){
+export function hasMultiModuleMavenProject(cwd: string) {
 
   if (!hasMavenProject(cwd))
     return false;
 
-  const pomXmlStr = getProjectFileContent({root:cwd}, `pom.xml`);
+  const pomXmlStr = getProjectFileContent({ root: cwd }, `pom.xml`);
   const pomXml = readXml(pomXmlStr);
 
   const modulesXpath = `/project/modules`;
@@ -350,11 +348,11 @@ export function hasMultiModuleMavenProject(cwd: string){
   return hasXmlMatching(pomXml, modulesXpath);
 }
 
-export function hasMavenModuleInTree(tree: Tree, rootFolder: string, moduleName: string){
+export function hasMavenModuleInTree(tree: Tree, rootFolder: string, moduleName: string) {
 
-  if (!hasMultiModuleMavenProjectInTree(tree,rootFolder))
+  if (!hasMultiModuleMavenProjectInTree(tree, rootFolder))
     return false;
-    
+
   const pomXmlStr = tree.read(`./${rootFolder}/pom.xml`, 'utf-8');
   const pomXml = readXml(pomXmlStr);
 
@@ -363,12 +361,12 @@ export function hasMavenModuleInTree(tree: Tree, rootFolder: string, moduleName:
   return hasXmlMatching(pomXml, modulesXpath);
 }
 
-export function hasMavenModule(cwd: string, moduleName: string){
+export function hasMavenModule(cwd: string, moduleName: string) {
 
   if (!hasMultiModuleMavenProject(cwd))
     return false;
-    
-  const pomXmlStr = getProjectFileContent({root:cwd}, `pom.xml`);
+
+  const pomXmlStr = getProjectFileContent({ root: cwd }, `pom.xml`);
   const pomXml = readXml(pomXmlStr);
 
   const modulesXpath = `/project/modules/module/text()[.="${moduleName}"]`;
@@ -382,13 +380,13 @@ export function addMavenModule(
   moduleName: string,
 ) {
 
-  if(hasMavenModuleInTree(tree, rootFolder, moduleName))
+  if (hasMavenModuleInTree(tree, rootFolder, moduleName))
     return false;
 
   const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
   const pomXml = readXml(pomXmlStr);
 
-  const modulesNode =  findXmlMatching(pomXml, `/project/modules`);;
+  const modulesNode = findXmlMatching(pomXml, `/project/modules`);;
 
   addXmlNode(modulesNode, {
     module: moduleName
@@ -401,7 +399,7 @@ export function addMavenModule(
   return true
 }
 
-export function initMavenParentModule(tree: Tree, rootFolder: string, groupId: string, parentModuleName: string, childModuleName:string, helpComment='', version = 'O.0.1-SNAPSHOT'){
+export function initMavenParentModule(tree: Tree, rootFolder: string, groupId: string, parentModuleName: string, childModuleName: string, helpComment = '', version = 'O.0.1-SNAPSHOT') {
 
   const parentPomXml = `
 ${helpComment}
@@ -422,15 +420,15 @@ ${helpComment}
 </project>
 `;
 
-tree.write(`./${rootFolder}/pom.xml`, parentPomXml);
+  tree.write(`./${rootFolder}/pom.xml`, parentPomXml);
 }
 
-export function getMavenModules(cwd: string){
+export function getMavenModules(cwd: string) {
 
   if (!hasMultiModuleMavenProject(cwd))
     return [];
-    
-  const pomXmlStr = getProjectFileContent({root:cwd}, `pom.xml`);
+
+  const pomXmlStr = getProjectFileContent({ root: cwd }, `pom.xml`);
   const pomXml = readXml(pomXmlStr);
 
   const modulesXpath = `/project/modules/module/text()`;
@@ -438,19 +436,38 @@ export function getMavenModules(cwd: string){
   return findXmlContents(pomXml, modulesXpath);
 }
 
-export function getMavenWrapperFiles(){
+export function getMavenWrapperFiles() {
   return [
     'mvnw',
+    'mvnw.bat',
     'mvnw.cmd',
-    '.mvn/wrapper/maven-wrapper.jar',
-    '.mvn/wrapper/maven-wrapper.properties'
+    '.mvn/wrapper/maven-wrapper.properties',
+    '.mvn/wrapper/MavenWrapperDownloader.class',
+    '.mvn/wrapper/MavenWrapperDownloader.java',
+    '.mvn/wrapper/maven-wrapper.jar'
   ];
 }
 
-export function hasMavenWrapperInTree(tree:Tree, rootFolder: string){
-  return getMavenWrapperFiles().every(file => tree.exists(`./${rootFolder}/${file}`))
+export function hasMavenWrapperInTree(tree: Tree, rootFolder: string) {
+  return hasMavenWrapperWithPredicate((file: string) => tree.exists(`./${rootFolder}/${file}`));
 }
 
-export function hasMavenWrapper(rootFolder: string){
-  return getMavenWrapperFiles().every(file => fileExists(resolve(rootFolder, file)));
+export function hasMavenWrapper(rootFolder: string) {
+  return hasMavenWrapperWithPredicate((file: string) => fileExists(resolve(rootFolder, file)));
+}
+
+function hasMavenWrapperWithPredicate(predicate: (file: string) => boolean) {
+  return [
+    'mvnw',
+    '.mvn/wrapper/maven-wrapper.properties'
+  ].every(file => predicate(file)) &&
+    [
+      'mvnw.bat',
+      'mvnw.cmd',
+    ].some(file => predicate(file)) &&
+    [
+      '.mvn/wrapper/MavenWrapperDownloader.class',
+      '.mvn/wrapper/MavenWrapperDownloader.java',
+      '.mvn/wrapper/maven-wrapper.jar'
+    ].some(file => predicate(file));
 }

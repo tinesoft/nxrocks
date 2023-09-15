@@ -429,19 +429,32 @@ ${withKotlinDSL?  `include("${childModuleName}")` : `include '${childModuleName}
   tree.write(`./${rootFolder}/settings.gradle${withKotlinDSL ? '.kts' : ''}`, settingsGradle);
 }
 
-export function getGradleWrapperFiles(){
+export function getGradleWrapperFiles() {
   return [
     'gradlew',
+    'gradlew.bat',
     'gradlew.cmd',
     'gradle/wrapper/gradle-wrapper.jar',
     'gradle/wrapper/gradle-wrapper.properties'
   ];
 }
 
-export function hasGradleWrapperInTree(tree:Tree, rootFolder: string){
-   return getGradleWrapperFiles().every( file => tree.exists(`./${rootFolder}/${file}`))
+export function hasGradleWrapperInTree(tree: Tree, rootFolder: string) {
+  return hasGradleWrapperWithPredicate((file: string) => tree.exists(`./${rootFolder}/${file}`));
 }
 
-export function hasGradleWrapper(rootFolder: string){
-  return getGradleWrapperFiles().every(file => fileExists(resolve(rootFolder, file)));
+export function hasGradleWrapper(rootFolder: string) {
+  return hasGradleWrapperWithPredicate((file: string) => fileExists(resolve(rootFolder, file)));
+}
+
+function hasGradleWrapperWithPredicate(predicate: (file: string) => boolean) {
+  return [
+    'gradlew',
+    'gradle/wrapper/gradle-wrapper.jar',
+    'gradle/wrapper/gradle-wrapper.properties'
+  ].every(file => predicate(file)) &&
+    [
+      'gradlew.bat',
+      'gradlew.cmd',
+    ].some(file => predicate(file)) ;;
 }
