@@ -1,4 +1,4 @@
-import { logger } from '@nx/devkit';
+import { joinPathFragments, logger } from '@nx/devkit';
 import { mocked } from 'jest-mock';
 
 import { formatExecutor } from './executor';
@@ -50,7 +50,7 @@ describe('FormatJar Executor', () => {
 
       const files = [buildFile as string, ...(buildSystem === 'maven'? getMavenWrapperFiles() : getGradleWrapperFiles())];
       mocked(fsUtility.fileExists).mockImplementation(
-        (filePath: string) => files.some( (f)=> filePath.endsWith(f))
+        (filePath: string) => files.some((f) => joinPathFragments(filePath).endsWith(f))
       );
 
       await formatExecutor({ ...options, ignoreWrapper }, mockContext);

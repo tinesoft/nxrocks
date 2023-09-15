@@ -1,4 +1,4 @@
-import { logger } from '@nx/devkit';
+import { joinPathFragments, logger } from '@nx/devkit';
 
 import { publishImageLocallyExecutor } from './executor';
 import { PublishImageLocallyExecutorOptions } from './schema';
@@ -50,7 +50,7 @@ describe('PublishImageLocally Executor', () => {
 
       const files = [buildFile as string, ...(buildSystem === 'maven'? getMavenWrapperFiles() : getGradleWrapperFiles())];
       mocked(fsUtility.fileExists).mockImplementation(
-        (filePath: string) => files.some( (f)=> filePath.endsWith(f))
+        (filePath: string) => files.some((f) => joinPathFragments(filePath).endsWith(f))
       );
 
       await publishImageLocallyExecutor(

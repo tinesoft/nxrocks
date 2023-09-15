@@ -1,4 +1,4 @@
-import { logger } from '@nx/devkit';
+import { joinPathFragments, logger } from '@nx/devkit';
 import { mocked } from 'jest-mock';
 
 import { formatCheckExecutor } from './executor';
@@ -48,9 +48,9 @@ describe('Format Check Executor', () => {
     'should execute a $buildSystem format check and ignoring wrapper : $ignoreWrapper',
     async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
 
-      const files = [buildFile as string, ...(buildSystem === 'maven'? getMavenWrapperFiles() : getGradleWrapperFiles())];
+      const files = [buildFile as string, ...(buildSystem === 'maven' ? getMavenWrapperFiles() : getGradleWrapperFiles())];
       mocked(fsUtility.fileExists).mockImplementation(
-        (filePath: string) => files.some( (f)=> filePath.endsWith(f))
+        (filePath: string) => files.some((f) => joinPathFragments(filePath).endsWith(f))
       );
 
       await formatCheckExecutor({ ...options, ignoreWrapper }, mockContext);
