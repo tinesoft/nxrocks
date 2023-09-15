@@ -1,4 +1,4 @@
-import { logger } from '@nx/devkit';
+import { joinPathFragments, logger } from '@nx/devkit';
 import { mocked } from 'jest-mock';
 
 import { testExecutor } from './executor';
@@ -49,7 +49,7 @@ describe('Test Executor', () => {
     async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
       const files = [buildFile as string, ...(buildSystem === 'maven'? getMavenWrapperFiles() : getGradleWrapperFiles())];
       mocked(fsUtility.fileExists).mockImplementation(
-        (filePath: string) => files.some( (f)=> filePath.endsWith(f))
+        (filePath: string) => files.some((f) => joinPathFragments(filePath).endsWith(f))
       );
 
       await testExecutor({ ...options, ignoreWrapper }, mockContext);
