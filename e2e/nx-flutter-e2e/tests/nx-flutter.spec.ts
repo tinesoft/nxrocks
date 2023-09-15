@@ -16,7 +16,7 @@ describe('nx-flutter e2e', () => {
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`npm install @nxrocks/nx-flutter@0.0.0-e2e`, {
+    execSync(`pnpm install @nxrocks/nx-flutter@0.0.0-e2e`, {
       cwd: projectDirectory,
       stdio: 'inherit',
       env: process.env,
