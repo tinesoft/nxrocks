@@ -25,7 +25,7 @@ export function createTestProject(createCommand='npx --yes create-nx-workspace',
 
   const nxVersion = workspaceVersion === 'local' ? readLocalNxWorkspaceVersion(): 'latest';
   execSync(
-    `${createCommand.trim()}@${nxVersion} ${projectName} --preset empty --no-nxCloud --no-interactive`,
+    `${createCommand.trim()}@${nxVersion} ${projectName} --preset apps --no-nxCloud --no-interactive`,
     {
       cwd: dirname(projectDirectory),
       stdio: 'inherit',
