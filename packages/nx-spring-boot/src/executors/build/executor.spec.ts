@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_SPRING_BOOT_PKG, 'build-jar');
 const options: BuildExecutorOptions = {
-  root: 'apps/bootapp',
+  root: 'bootapp',
 };
 
 describe('Build Executor', () => {

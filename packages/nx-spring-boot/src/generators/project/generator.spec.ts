@@ -4,6 +4,7 @@ import {
   readProjectConfiguration,
   readJson,
   workspaceRoot,
+  joinPathFragments,
 } from '@nx/devkit';
 
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
@@ -131,7 +132,7 @@ describe('project generator', () => {
   const mockedResponse = new Response(Readable.from(['starter.zip']));
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree = createTreeWithEmptyWorkspace();
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream([]));
@@ -159,7 +160,7 @@ describe('project generator', () => {
       buildFileContent,
       wrapperName,
     }) => {
-      const rootDir = projectType === 'application' ? 'apps' : 'libs';
+      const rootDir = '.';
       const downloadUrl = `${options.springInitializerUrl}/starter.zip?type=${buildSystem}&language=${options.language}&name=${options.name}`;
 
       const zipFiles = [
@@ -190,7 +191,7 @@ describe('project generator', () => {
 
       expect(logger.info).toHaveBeenNthCalledWith(
         3,
-        `📦 Extracting Spring Boot project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`
+        `📦 Extracting Spring Boot project zip to '${joinPathFragments(workspaceRoot, rootDir, options.name)}'...`
       );
 
       if (buildSystem === 'gradle-project') {
@@ -239,8 +240,7 @@ describe('project generator', () => {
       await projectGenerator(tree, { ...options, projectType });
 
       const project = readProjectConfiguration(tree, options.name);
-      const projectDir = projectType === 'application' ? 'apps' : 'libs';
-      expect(project.root).toBe(`${projectDir}/${options.name}`);
+      expect(project.root).toBe(`${options.name}`);
 
       const commands = [
         'build',
@@ -316,9 +316,7 @@ describe('project generator', () => {
       expect(
         hasMavenPlugin(
           tree,
-          `./${projectType === 'application' ? 'apps' : 'libs'}/${
-            options.name
-          }`,
+          `./${ options.name }`,
           'org.springframework.boot',
           'spring-boot-maven-plugin'
         )
@@ -352,9 +350,7 @@ describe('project generator', () => {
       await projectGenerator(tree, opts);
 
       const buildGradle = tree.read(
-        `./${projectType === 'application' ? 'apps' : 'libs'}/${
-          options.name
-        }/build.gradle`,
+        `./${options.name}/build.gradle`,
         'utf-8'
       );
 
@@ -419,9 +415,7 @@ describe('project generator', () => {
       expect(
         hasMavenPlugin(
           tree,
-          `./${options.projectType === 'application' ? 'apps' : 'libs'}/${
-            options.name
-          }`,
+          `./${options.name}`,
           SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
           SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID
         )

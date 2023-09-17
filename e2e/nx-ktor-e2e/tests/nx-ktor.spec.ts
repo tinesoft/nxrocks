@@ -12,7 +12,7 @@ describe('nx-ktor e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
-    projectDirectory = createTestProject('pnpm dlx create-nx-workspace');
+    projectDirectory = createTestProject('pnpm');
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
@@ -48,9 +48,9 @@ describe('nx-ktor e2e', () => {
     );
     expect(() =>
     checkFilesExist(
-      `apps/${prjName}/gradlew`,
-      `apps/${prjName}/build.gradle.kts`,
-      `apps/${prjName}/src/main/kotlin/example/com/Application.kt`
+      `${prjName}/gradlew`,
+      `${prjName}/build.gradle.kts`,
+      `${prjName}/src/main/kotlin/example/com/Application.kt`
     )
   ).not.toThrow();
 
@@ -58,7 +58,7 @@ describe('nx-ktor e2e', () => {
   if (!isWin) {
     const execPermission = '755';
     expect(
-      lstatSync(tmpProjPath(`apps/${prjName}/gradlew`)).mode &
+      lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
       octal(execPermission)
     ).toEqual(octal(execPermission));
   }
@@ -72,9 +72,9 @@ describe('nx-ktor e2e', () => {
       );
       expect(() =>
         checkFilesExist(
-          `apps/subdir/${prjName}/gradlew`,
-          `apps/subdir/${prjName}/build.gradle.kts`,
-          `apps/subdir/${prjName}/src/main/kotlin/example/com/Application.kt`
+          `subdir/${prjName}/gradlew`,
+          `subdir/${prjName}/build.gradle.kts`,
+          `subdir/${prjName}/src/main/kotlin/example/com/Application.kt`
         )
       ).not.toThrow();
     }, 120000);
@@ -86,7 +86,7 @@ describe('nx-ktor e2e', () => {
       await runNxCommandAsync(
         `generate @nxrocks/nx-ktor:new ${prjName} --tags e2etag,e2ePackage --no-interactive`
       );
-      const project = readJson(`apps/${prjName}/project.json`);
+      const project = readJson(`${prjName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 120000);
   });

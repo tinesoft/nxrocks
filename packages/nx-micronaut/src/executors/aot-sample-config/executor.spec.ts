@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_MICRONAUT_PKG, 'aot-sample-config');
 const options: AotSampleConfigExecutorOptions = {
-  root: 'apps/mnapp',
+  root: 'mnapp',
 };
 
 describe('Aot Sample Config Executor', () => {

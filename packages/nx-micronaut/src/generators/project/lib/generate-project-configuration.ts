@@ -1,4 +1,4 @@
-import { Tree, addProjectConfiguration, logger } from '@nx/devkit';
+import { Tree, addProjectConfiguration, joinPathFragments, logger } from '@nx/devkit';
 import { NormalizedSchema } from '../schema';
 import {
   BuilderCommandAliasType,
@@ -49,9 +49,7 @@ export async function generateProjectConfiguration(
         ...(['build', 'install', 'test'].includes(command)
           ? {
               outputs: [
-                `{workspaceRoot}/${rootFolder}/${
-                  options.buildSystem === 'MAVEN' ? 'target' : 'build'
-                }`,
+                joinPathFragments('{workspaceRoot}', rootFolder,  options.buildSystem === 'MAVEN' ? 'target' : 'build')
               ],
             }
           : {}),
@@ -73,7 +71,7 @@ export async function generateProjectConfiguration(
 
   addProjectConfiguration(tree, options.projectName, {
     root: options.projectRoot,
-    sourceRoot: `${options.projectRoot}/src`,
+    sourceRoot: joinPathFragments(options.projectRoot, 'src'),
     projectType: 'application',
     targets: getTargets(commands, options.projectRoot, !options.keepProjectLevelWrapper),
     tags: options.parsedTags,

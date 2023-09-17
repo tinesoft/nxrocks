@@ -1,4 +1,4 @@
-import { Tree, addProjectConfiguration } from '@nx/devkit';
+import { Tree } from '@nx/devkit';
 import { ProjectGeneratorOptions } from './schema';
 import {
   normalizeOptions,
@@ -12,7 +12,6 @@ import {
 } from './lib';
 import {
   addPluginToNxJson,
-  BuilderCommandAliasType,
   NX_KTOR_PKG,
 } from '@nxrocks/common';
 

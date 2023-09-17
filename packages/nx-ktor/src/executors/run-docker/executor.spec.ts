@@ -25,7 +25,7 @@ import { mocked } from 'jest-mock';
 
 const mockContext = mockExecutorContext(NX_KTOR_PKG, 'run-docker');
 const options: RunDockerExecutorOptions = {
-  root: 'apps/krapp',
+  root: 'krapp',
 };
 
 describe('RunDocker Executor', () => {

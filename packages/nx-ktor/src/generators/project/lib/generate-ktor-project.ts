@@ -1,4 +1,4 @@
-import { Tree, logger, stripIndents, workspaceRoot } from '@nx/devkit';
+import { Tree, joinPathFragments, logger, stripIndents, workspaceRoot } from '@nx/devkit';
 
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
@@ -35,7 +35,7 @@ export async function generateKtorProject(
   const response = await fetch(downloadUrl, downloadOptions);
 
   logger.info(
-    `📦 Extracting Ktor project zip to '${workspaceRoot}/${options.projectRoot}'...`
+    `📦 Extracting Ktor project zip to '${joinPathFragments(workspaceRoot, options.projectRoot)}'...`
   );
 
   if (response.ok) {
@@ -44,30 +44,29 @@ export async function generateKtorProject(
         entryPath.endsWith('mvnw') || entryPath.endsWith('gradlew')
           ? '755'
           : undefined;
-        if (getMavenWrapperFiles().includes(entryPath) || getGradleWrapperFiles().includes(entryPath)) {
-          if (options.transformIntoMultiModule) {
-            tree.write(`${options.moduleRoot}/${entryPath}`, entryContent, {
-              mode: execPermission,
-            });
-          }
-          if (options.keepProjectLevelWrapper) {
-            tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
-              mode: execPermission,
-            });
-          }
-  
+      if (getMavenWrapperFiles().includes(entryPath) || getGradleWrapperFiles().includes(entryPath)) {
+        if (options.transformIntoMultiModule) {
+          tree.write(`${options.moduleRoot}/${entryPath}`, entryContent, {
+            mode: execPermission,
+          });
         }
-        else {
+        if (options.keepProjectLevelWrapper) {
           tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
             mode: execPermission,
           });
         }
+
+      }
+      else {
+        tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
+          mode: execPermission,
+        });
+      }
     });
   } else {
     throw new Error(stripIndents`
-        ❌ Error downloading Ktor project zip from '${
-          options.ktorInitializrUrl
-        }'
+        ❌ Error downloading Ktor project zip from '${options.ktorInitializrUrl
+      }'
         If the problem persists, please open an issue at https://github.com/tinesoft/nxrocks/issues, with the following information:
         ------------------------------------------------------
         Download URL: ${downloadUrl}

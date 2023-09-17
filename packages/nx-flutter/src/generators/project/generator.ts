@@ -1,4 +1,4 @@
-import { Tree, addProjectConfiguration } from '@nx/devkit';
+import { Tree, addProjectConfiguration, joinPathFragments } from '@nx/devkit';
 import { addPluginToNxJson, NX_FLUTTER_PKG } from '@nxrocks/common';
 
 import {
@@ -20,7 +20,7 @@ export async function projectGenerator(
   const commands = [
     { key: 'analyze', value: 'analyze' },
     { key: 'clean', value: 'clean' },
-    { key: 'format', value: `format ${normalizedOptions.projectRoot}/*` },
+    { key: 'format', value: `format ${joinPathFragments(normalizedOptions.projectRoot, '*')}` },
     { key: 'test', value: 'test' },
     { key: 'test', value: 'test' },
     { key: 'doctor', value: 'doctor' },
@@ -65,14 +65,14 @@ export async function projectGenerator(
       },
       ...(command.key.startsWith('build-')
         ? {
-            outputs: [`{workspaceRoot}/${normalizedOptions.projectRoot}/build`],
+            outputs: [joinPathFragments('{workspaceRoot}', normalizedOptions.projectRoot, 'build')],
           }
         : {}),
     };
   }
   addProjectConfiguration(tree, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    sourceRoot: joinPathFragments(normalizedOptions.projectRoot, 'src'),
     projectType:
       normalizedOptions.template === 'app' ? 'application' : 'library',
     targets: targets,

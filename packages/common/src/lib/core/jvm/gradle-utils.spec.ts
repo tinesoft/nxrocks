@@ -190,7 +190,7 @@ describe('gradle-utils', () => {
   describe('addGradlePlugin', () => {
     let tree: Tree;
     beforeEach(() => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it('should add plugin to build.gradle file with no prexisting plugins section', () => {
@@ -264,7 +264,7 @@ describe('gradle-utils', () => {
   describe('disableGradlePlugin', () => {
     let tree: Tree;
     beforeEach(() => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it.each`
@@ -297,7 +297,7 @@ describe('gradle-utils', () => {
   describe('applySpotlessGradlePlugin', () => {
     let tree: Tree;
     beforeEach(() => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it.each`
@@ -341,7 +341,7 @@ describe('gradle-utils', () => {
   describe('addSpotlessGradlePlugin', () => {
     let tree: Tree;
     beforeEach(() => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it.each`
@@ -375,9 +375,9 @@ describe('gradle-utils', () => {
 
   describe('hasMultiModuleGradleProjectInTree', ()=>{
     let tree: Tree;
-    const rootFolder = 'apps/gradleapp';
+    const rootFolder = 'gradleapp';
     beforeEach(async () => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it('should return true on a multi-module gradle project', ()=>{
@@ -432,9 +432,9 @@ describe('gradle-utils', () => {
 
   describe('addGradleModule', ()=>{
     let tree: Tree;
-    const rootFolder = 'apps/gradleapp';
+    const rootFolder = 'gradleapp';
     beforeEach(async () => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it('should add gradle module when not already present', ()=>{

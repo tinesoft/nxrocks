@@ -4,6 +4,7 @@ import {
   readProjectConfiguration,
   readJson,
   workspaceRoot,
+  joinPathFragments,
 } from '@nx/devkit';
 
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
@@ -211,7 +212,7 @@ describe('project generator', () => {
   const mockedResponse = new Response(Readable.from(['ktor.zip']));
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree = createTreeWithEmptyWorkspace();
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream([]));
@@ -229,7 +230,7 @@ describe('project generator', () => {
   `(
     `should download a ktor application build with $buildSystem`,
     async ({ buildSystem, buildFileName, buildFileContent, wrapperName }) => {
-      const rootDir = 'apps';
+      const rootDir = '.';
       const downloadUrl = `${options.ktorInitializrUrl}/project/generate`;
 
       const zipFiles = [
@@ -262,7 +263,7 @@ describe('project generator', () => {
 
       expect(logger.info).toHaveBeenNthCalledWith(
         3,
-        `📦 Extracting Ktor project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`
+        `📦 Extracting Ktor project zip to '${joinPathFragments(workspaceRoot, rootDir, options.name)}'...`
       );
     }
   );
@@ -280,7 +281,7 @@ describe('project generator', () => {
 
     await projectGenerator(tree, options);
     const project = readProjectConfiguration(tree, options.name);
-    expect(project.root).toBe(`apps/${options.name}`);
+    expect(project.root).toBe(`${options.name}`);
 
     const commands: BuilderCommandAliasType[] = [
       'run',
@@ -360,7 +361,7 @@ describe('project generator', () => {
       expect(
         hasMavenPlugin(
           tree,
-          `./apps/${options.name}`,
+          `./${options.name}`,
           SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
           SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID
         )

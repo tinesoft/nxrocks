@@ -25,7 +25,7 @@ import { mocked } from 'jest-mock';
 
 const mockContext = mockExecutorContext(NX_KTOR_PKG, 'build-image');
 const options: BuildImageExecutorOptions = {
-  root: 'apps/krapp',
+  root: 'krapp',
 };
 
 describe('PublishImage Executor', () => {

@@ -19,16 +19,16 @@ describe('link generator', () => {
   };
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree = createTreeWithEmptyWorkspace();
     addProjectConfiguration(tree, options.sourceProjectName, {
       projectType: 'application',
-      sourceRoot: `apps/${options.sourceProjectName}/src`,
-      root: `apps/${options.sourceProjectName}`,
+      sourceRoot: `${options.sourceProjectName}/src`,
+      root: `${options.sourceProjectName}`,
     });
     addProjectConfiguration(tree, options.targetProjectName, {
       projectType: 'application',
-      sourceRoot: `apps/${options.targetProjectName}/src`,
-      root: `apps/${options.targetProjectName}`,
+      sourceRoot: `${options.targetProjectName}/src`,
+      root: `${options.targetProjectName}`,
     });
 
     jest.resetAllMocks();
