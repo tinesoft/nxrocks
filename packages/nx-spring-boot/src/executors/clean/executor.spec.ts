@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_SPRING_BOOT_PKG, 'clean');
 const options: CleanExecutorOptions = {
-  root: 'apps/bootapp',
+  root: 'bootapp',
 };
 
 describe('Clean Executor', () => {

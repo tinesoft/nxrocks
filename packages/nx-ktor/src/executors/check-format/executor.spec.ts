@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_KTOR_PKG, 'check-format');
 const options: FormatCheckExecutorOptions = {
-  root: 'apps/krapp',
+  root: 'krapp',
 };
 
 describe('Format Check Executor', () => {

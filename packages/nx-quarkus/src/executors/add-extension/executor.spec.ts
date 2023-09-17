@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_QUARKUS_PKG, 'add-extension');
 const options: AddExtensionExecutorOptions = {
-  root: 'apps/quarkusapp',
+  root: 'quarkusapp',
 };
 
 describe('Add Extension Executor', () => {

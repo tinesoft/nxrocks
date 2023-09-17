@@ -4,6 +4,7 @@ import {
   readProjectConfiguration,
   readJson,
   workspaceRoot,
+  joinPathFragments,
 } from '@nx/devkit';
 
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
@@ -201,7 +202,7 @@ describe('project generator', () => {
   const mockedResponse = new Response(Readable.from(['micronaut.zip']));
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree = createTreeWithEmptyWorkspace();
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream([]));
@@ -233,7 +234,7 @@ describe('project generator', () => {
       buildFileContent,
       wrapperName,
     }) => {
-      const rootDir = 'apps';
+      const rootDir = '.';
       const downloadUrl = `${options.micronautLaunchUrl}/create/${projectType}/${options.basePackage}.${options.name}?build=${buildSystem}`;
 
       const zipFiles = [
@@ -264,7 +265,7 @@ describe('project generator', () => {
 
       expect(logger.info).toHaveBeenNthCalledWith(
         3,
-        `📦 Extracting Micronaut project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`
+        `📦 Extracting Micronaut project zip to '${joinPathFragments(workspaceRoot, rootDir, options.name)}'...`
       );
     }
   );
@@ -282,7 +283,7 @@ describe('project generator', () => {
 
     await projectGenerator(tree, options);
     const project = readProjectConfiguration(tree, options.name);
-    expect(project.root).toBe(`apps/${options.name}`);
+    expect(project.root).toBe(`${options.name}`);
 
     const commands: BuilderCommandAliasType[] = [
       'run',
@@ -360,7 +361,7 @@ describe('project generator', () => {
       expect(
         hasMavenPlugin(
           tree,
-          `./apps/${options.name}`,
+          `./${options.name}`,
           SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
           SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID
         )

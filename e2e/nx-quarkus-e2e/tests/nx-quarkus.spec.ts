@@ -14,7 +14,7 @@ describe('nx-quarkus e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
-    projectDirectory = createTestProject('pnpm dlx create-nx-workspace');
+    projectDirectory = createTestProject('pnpm');
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
@@ -52,9 +52,9 @@ describe('nx-quarkus e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${prjName}/mvnw`,
-        `apps/${prjName}/pom.xml`,
-        `apps/${prjName}/README.md`
+        `${prjName}/mvnw`,
+        `${prjName}/pom.xml`,
+        `${prjName}/README.md`
       )
     ).not.toThrow();
 
@@ -62,7 +62,7 @@ describe('nx-quarkus e2e', () => {
     if (!isWin) {
       const execPermission = '755';
       expect(
-        lstatSync(tmpProjPath(`apps/${prjName}/mvnw`)).mode &
+        lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode &
           octal(execPermission)
       ).toEqual(octal(execPermission));
     }
@@ -94,14 +94,14 @@ describe('nx-quarkus e2e', () => {
 
       expect(() =>
         checkFilesExist(
-          `${prjDir}/${prjName}/mvnw`,
-          `${prjDir}/${prjName}/pom.xml`,
-          `${prjDir}/${prjName}/README.md`,
-          `${prjDir}/${prjName}/src/main/java/com/tinesoft/GreetingResource.java`
+          `${prjName}/mvnw`,
+          `${prjName}/pom.xml`,
+          `${prjName}/README.md`,
+          `${prjName}/src/main/java/com/tinesoft/GreetingResource.java`
         )
       ).not.toThrow();
 
-      const pomXml = readFile(`${prjDir}/${prjName}/pom.xml`);
+      const pomXml = readFile(`${prjName}/pom.xml`);
       expect(pomXml).toContain(`<groupId>${groupId}</groupId>`);
       expect(pomXml).toContain(`<artifactId>${artifactId}</artifactId>`);
       //expect(pomXml).toContain(`<version>${version}</version>`);
@@ -110,7 +110,7 @@ describe('nx-quarkus e2e', () => {
       if (!isWin) {
         const execPermission = '755';
         expect(
-          lstatSync(tmpProjPath(`${prjDir}/${prjName}/mvnw`)).mode &
+          lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode &
             octal(execPermission)
         ).toEqual(octal(execPermission));
       }
@@ -127,7 +127,6 @@ describe('nx-quarkus e2e', () => {
       `should create a gradle quarkus '$projectType'`,
       async ({ projectType }) => {
         const prjName = uniq('nx-quarkus');
-        const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
           `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem GRADLE --no-interactive`
@@ -140,9 +139,9 @@ describe('nx-quarkus e2e', () => {
 
         expect(() =>
           checkFilesExist(
-            `${prjDir}/${prjName}/gradlew`,
-            `${prjDir}/${prjName}/build.gradle`,
-            `${prjDir}/${prjName}/README.md`
+            `${prjName}/gradlew`,
+            `${prjName}/build.gradle`,
+            `${prjName}/README.md`
           )
         ).not.toThrow();
 
@@ -150,7 +149,7 @@ describe('nx-quarkus e2e', () => {
         if (!isWin) {
           const execPermission = '755';
           expect(
-            lstatSync(tmpProjPath(`${prjDir}/${prjName}/gradlew`)).mode &
+            lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
               octal(execPermission)
           ).toEqual(octal(execPermission));
         }
@@ -168,7 +167,6 @@ describe('nx-quarkus e2e', () => {
       `should create a gradle quarkus '$projectType' with kotlin`,
       async ({ projectType }) => {
         const prjName = uniq('nx-quarkus');
-        const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
           `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem GRADLE_KOTLIN_DSL --no-interactive`
@@ -181,9 +179,9 @@ describe('nx-quarkus e2e', () => {
 
         expect(() =>
           checkFilesExist(
-            `${prjDir}/${prjName}/gradlew`,
-            `${prjDir}/${prjName}/build.gradle.kts`,
-            `${prjDir}/${prjName}/README.md`
+            `${prjName}/gradlew`,
+            `${prjName}/build.gradle.kts`,
+            `${prjName}/README.md`
           )
         ).not.toThrow();
 
@@ -191,7 +189,7 @@ describe('nx-quarkus e2e', () => {
         if (!isWin) {
           const execPermission = '755';
           expect(
-            lstatSync(tmpProjPath(`${prjDir}/${prjName}/gradlew`)).mode &
+            lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
               octal(execPermission)
           ).toEqual(octal(execPermission));
         }
@@ -209,16 +207,15 @@ describe('nx-quarkus e2e', () => {
       `should create src in the specified directory when generating a '$projectType'`,
       async ({ projectType }) => {
         const prjName = uniq('nx-quarkus');
-        const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
           `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --directory subdir --no-interactive`
         );
         expect(() =>
           checkFilesExist(
-            `${prjDir}/subdir/${prjName}/mvnw`,
-            `${prjDir}/subdir/${prjName}/pom.xml`,
-            `${prjDir}/subdir/${prjName}/README.md`
+            `subdir/${prjName}/mvnw`,
+            `subdir/${prjName}/pom.xml`,
+            `subdir/${prjName}/README.md`
           )
         ).not.toThrow();
       },
@@ -235,12 +232,11 @@ describe('nx-quarkus e2e', () => {
       `should add tags to nx.json when generating a '$projectType'`,
       async ({ projectType }) => {
         const prjName = uniq('nx-quarkus');
-        const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
         await runNxCommandAsync(
           `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --tags e2etag,e2ePackage --no-interactive`
         );
-        const project = readJson(`${prjDir}/${prjName}/project.json`);
+        const project = readJson(`${prjName}/project.json`);
         expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
       },
       200000

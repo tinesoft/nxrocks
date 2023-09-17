@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_MICRONAUT_PKG, 'dockerfile');
 const options: DockerfileExecutorOptions = {
-  root: 'apps/mnapp',
+  root: 'mnapp',
 };
 
 describe('DockerfileJar Executor', () => {

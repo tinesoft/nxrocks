@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_QUARKUS_PKG, 'build');
 const options: BuildExecutorOptions = {
-  root: 'apps/quarkusapp',
+  root: 'quarkusapp',
 };
 
 describe('Build Executor', () => {

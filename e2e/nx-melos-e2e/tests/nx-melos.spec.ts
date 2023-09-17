@@ -6,7 +6,7 @@ describe('nx-melos e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
-    projectDirectory = createTestProject('pnpm dlx create-nx-workspace');
+    projectDirectory = createTestProject('pnpm');
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo

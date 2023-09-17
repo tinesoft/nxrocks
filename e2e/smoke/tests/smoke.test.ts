@@ -43,29 +43,26 @@ describe('nxrocks smoke tests', () => {
   });
 
   it.each`
-  pkgManager  | createCommand                        | runCommand     | addCommand     | workspaceVersion | pluginVersion
-  ${'npm'}    | ${'npx --yes create-nx-workspace'}   | ${'npx'}       | ${'npm i'}     | ${'latest'}      | ${'latest'}  
-  ${'yarn'}   | ${'yarn create nx-workspace'}        | ${'yarn'}      | ${'yarn add'}  | ${'latest'}      | ${'latest'}  
-  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace'}    | ${'pnpm exec'} | ${'pnpm add'}  | ${'latest'}      | ${'latest'}  
-  ${'npm'}    | ${'npx --yes create-nx-workspace'}   | ${'npx'}       | ${'npm i'}     | ${'latest'}      | ${'0.0.0-e2e'}  
-  ${'yarn'}   | ${'yarn create nx-workspace'}        | ${'yarn'}      | ${'yarn add'}  | ${'latest'}      | ${'0.0.0-e2e'}  
-  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace'}    | ${'pnpm exec'} | ${'pnpm add'}  | ${'latest'}      | ${'0.0.0-e2e'}  
-  ${'npm'}    | ${'npx --yes create-nx-workspace'}   | ${'npx'}       | ${'npm i'}     | ${'local'}       | ${'0.0.0-e2e'}     
-  ${'yarn'}   | ${'yarn create nx-workspace'}        | ${'yarn'}      | ${'yarn add'}  | ${'local'}       | ${'0.0.0-e2e'}     
-  ${'pnpm'}   | ${'pnpm dlx create-nx-workspace'}    | ${'pnpm exec'} | ${'pnpm add'}  | ${'local'}       | ${'0.0.0-e2e'}     
-`(`should sucessfully run using '$workspaceVersion' Nx workspace, $pluginVersion plugins version and $pkgManager package manager`, async ({createCommand, runCommand, addCommand, workspaceVersion, pluginVersion }) => {
+  pkgManager  | runCommand     | addCommand     | workspaceVersion | pluginVersion
+  ${'npm'}    | ${'npx'}       | ${'npm i'}     | ${'latest'}      | ${'0.0.0-e2e'}  
+  ${'yarn'}   | ${'yarn'}      | ${'yarn add'}  | ${'latest'}      | ${'0.0.0-e2e'}  
+  ${'pnpm'}   | ${'pnpm exec'} | ${'pnpm add'}  | ${'latest'}      | ${'0.0.0-e2e'}  
+  ${'npm'}    | ${'npx'}       | ${'npm i'}     | ${'local'}       | ${'0.0.0-e2e'}     
+  ${'yarn'}   | ${'yarn'}      | ${'yarn add'}  | ${'local'}       | ${'0.0.0-e2e'}     
+  ${'pnpm'}   | ${'pnpm exec'} | ${'pnpm add'}  | ${'local'}       | ${'0.0.0-e2e'}     
+`(`should sucessfully run using '$workspaceVersion' Nx workspace, $pluginVersion plugins version and $pkgManager package manager`, async ({pkgManager, runCommand, addCommand, workspaceVersion, pluginVersion }) => {
 
     if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
       console.log('Skipping smoke test because not running on CI and FORCE_SMOKE_TESTS is not set');
       return;
     }
 
-    if(workspaceVersion === 'latest' && pluginVersion === 'e2e' && isLocalNxMatchingLatestFeatureVersion()) {
+    if(workspaceVersion === 'latest' && isLocalNxMatchingLatestFeatureVersion()) {
       console.log('Skipping current test case because we are already using most recent version of Nx');
       return;
     }
 
-    projectDirectory = createTestProject(createCommand, 'nxrocks-smoke', workspaceVersion);
+    projectDirectory = createTestProject(pkgManager, 'nxrocks-smoke', workspaceVersion);
 
     execSync('git init', execSyncOptions()); 
 

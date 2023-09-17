@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_QUARKUS_PKG, 'check-format');
 const options: FormatCheckExecutorOptions = {
-  root: 'apps/quarkusapp',
+  root: 'quarkusapp',
 };
 
 describe('Format Check Executor', () => {

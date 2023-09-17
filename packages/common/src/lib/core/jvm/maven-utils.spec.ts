@@ -98,7 +98,7 @@ describe('maven-utils', () => {
   describe('addMavenProperty', () => {
     let tree: Tree;
     beforeEach(() => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it('should not add the property if already exists', () => {
@@ -144,7 +144,7 @@ describe('maven-utils', () => {
   describe('addMavenPlugin', () => {
     let tree: Tree;
     beforeEach(() => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it('should not add the plugin if already exists', () => {
@@ -207,7 +207,7 @@ describe('maven-utils', () => {
   describe('removeMavenPlugin', () => {
     let tree: Tree;
     beforeEach(() => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it('should not remove the plugin if does not exist', () => {
@@ -250,7 +250,7 @@ describe('maven-utils', () => {
   describe('addSpotlessMavenPlugin', () => {
     let tree: Tree;
     beforeEach(() => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it.each`
@@ -292,9 +292,9 @@ describe('maven-utils', () => {
 
   describe('isMultiModuleMavenProject', ()=>{
     let tree: Tree;
-    const rootFolder = 'apps/mvnapp';
+    const rootFolder = 'mvnapp';
     beforeEach(async () => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it('should return true on a multi-module maven project', ()=>{
@@ -321,9 +321,9 @@ describe('maven-utils', () => {
 
   describe('addMavenModule', ()=>{
     let tree: Tree;
-    const rootFolder = 'apps/mvnapp';
+    const rootFolder = 'mvnapp';
     beforeEach(async () => {
-      tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+      tree = createTreeWithEmptyWorkspace();
     });
 
     it('should add maven module when not already present', ()=>{

@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_MICRONAUT_PKG, 'check-format');
 const options: FormatCheckExecutorOptions = {
-  root: 'apps/mnapp',
+  root: 'mnapp',
 };
 
 describe('Format Check Executor', () => {

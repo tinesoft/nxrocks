@@ -1,4 +1,4 @@
-import { Tree, logger, stripIndents, workspaceRoot } from '@nx/devkit';
+import { Tree, joinPathFragments, logger, stripIndents, workspaceRoot } from '@nx/devkit';
 
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
@@ -27,7 +27,7 @@ export async function generateBootProject(
   );
 
   logger.info(
-    `📦 Extracting Spring Boot project zip to '${workspaceRoot}/${options.projectRoot}'...`
+    `📦 Extracting Spring Boot project zip to '${joinPathFragments(workspaceRoot, options.projectRoot)}'...`
   );
 
   if (response.ok) {

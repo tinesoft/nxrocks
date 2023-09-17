@@ -1,4 +1,4 @@
-import { Tree, logger, readProjectConfiguration, readJson } from '@nx/devkit';
+import { Tree, logger, readProjectConfiguration, readJson, joinPathFragments } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { projectGenerator } from './generator';
@@ -44,7 +44,7 @@ describe('application generator', () => {
   };
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree = createTreeWithEmptyWorkspace();
     jest.spyOn(enquirer,'prompt').mockResolvedValue(
       {
         androidLanguage: 'kotlin',
@@ -62,7 +62,7 @@ describe('application generator', () => {
   it('should update workspace.json', async () => {
     await projectGenerator(tree, options);
     const project = readProjectConfiguration(tree, options.name);
-    expect(project.root).toBe(`apps/${options.name}`);
+    expect(project.root).toBe(`${options.name}`);
 
     const commonCommands = [
       { key: 'analyze', value: 'analyze' },
@@ -84,7 +84,7 @@ describe('application generator', () => {
       expect(project.targets[e.key].options.command).toBe(`${e.key === 'format' ? 'dart' : 'flutter'} ${e.value}`);
       if (e.key.startsWith('build-')) {
         expect(project.targets[e.key].outputs).toEqual([
-          `{workspaceRoot}/${project.root}/build`,
+          joinPathFragments('{workspaceRoot}', project.root, 'build'),
         ]);
       }
     });
@@ -92,10 +92,10 @@ describe('application generator', () => {
 
   it.each`
     template     | rootDir
-    ${'app'}     | ${'apps'}
-    ${'plugin'}  | ${'libs'}
-    ${'package'} | ${'libs'}
-    ${'module'}  | ${'libs'}
+    ${'app'}     | ${'.'}
+    ${'plugin'}  | ${'.'}
+    ${'package'} | ${'.'}
+    ${'module'}  | ${'.'}
   `(
     'should generate the flutter project of type "$template" in "$rootDir"',
     async ({ template, rootDir }) => {

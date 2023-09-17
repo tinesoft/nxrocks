@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_MICRONAUT_PKG, 'build');
 const options: BuildExecutorOptions = {
-  root: 'apps/mnapp',
+  root: 'mnapp',
 };
 
 describe('Build Executor', () => {

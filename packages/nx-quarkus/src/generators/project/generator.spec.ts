@@ -4,6 +4,7 @@ import {
   readProjectConfiguration,
   readJson,
   workspaceRoot,
+  joinPathFragments,
 } from '@nx/devkit';
 
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
@@ -98,7 +99,7 @@ describe('project generator', () => {
   const mockedResponse = new Response(Readable.from(['quarkus.zip']));
 
   beforeEach(() => {
-    tree = createTreeWithEmptyWorkspace({ layout: 'apps-libs' });
+    tree = createTreeWithEmptyWorkspace();
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream([]));
@@ -124,7 +125,7 @@ describe('project generator', () => {
       buildFileContent,
       wrapperName,
     }) => {
-      const rootDir = projectType === 'application' ? 'apps' : 'libs';
+      const rootDir = '.';
       const downloadUrl = `${options.quarkusInitializerUrl}/d?b=${buildSystem}&g=${options.groupId}&a=${options.artifactId}`;
 
       const zipFiles = [
@@ -158,7 +159,7 @@ describe('project generator', () => {
 
       expect(logger.info).toHaveBeenNthCalledWith(
         3,
-        `📦 Extracting Quarkus project zip to '${workspaceRoot}/${rootDir}/${options.name}'...`
+        `📦 Extracting Quarkus project zip to '${joinPathFragments(workspaceRoot, rootDir, options.name)}'...`
       );
     }
   );
@@ -182,8 +183,7 @@ describe('project generator', () => {
       await projectGenerator(tree, { ...options, projectType });
 
       const project = readProjectConfiguration(tree, options.name);
-      const projectDir = projectType === 'application' ? 'apps' : 'libs';
-      expect(project.root).toBe(`${projectDir}/${options.name}`);
+      expect(project.root).toBe(`${options.name}`);
 
       const commands: BuilderCommandAliasType[] = [
         'test',
@@ -272,9 +272,7 @@ describe('project generator', () => {
       expect(
         hasMavenPlugin(
           tree,
-          `./${options.projectType === 'application' ? 'apps' : 'libs'}/${
-            options.name
-          }`,
+          `./${options.name}`,
           SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
           SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID
         )

@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_MICRONAUT_PKG, 'format');
 const options: FormatExecutorOptions = {
-  root: 'apps/mnapp',
+  root: 'mnapp',
 };
 
 describe('FormatJar Executor', () => {

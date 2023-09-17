@@ -11,7 +11,7 @@ export const isWin = process.platform === 'win32';
  * Creates a test project with create-nx-workspace and installs the plugin
  * @returns The directory where the test project was created
  */
-export function createTestProject(createCommand='npx --yes create-nx-workspace', projectName='test-project', workspaceVersion: 'latest' | 'local' = 'local') {
+export function createTestProject(pkgManager='npm', projectName='test-project', workspaceVersion: 'latest' | 'local' = 'local') {
   const projectDirectory = join(process.cwd(), 'tmp', projectName);
 
   // Ensure projectDirectory is empty
@@ -24,8 +24,20 @@ export function createTestProject(createCommand='npx --yes create-nx-workspace',
   });
 
   const nxVersion = workspaceVersion === 'local' ? readLocalNxWorkspaceVersion(): 'latest';
+  let createCommand;
+  switch (pkgManager) {
+    case "pnpm":
+      createCommand = 'pnpm dlx create-nx-workspace'
+      break;
+    case "npm":
+    case "yarn":
+      createCommand = 'npx --yes create-nx-workspace';
+      break;
+    default:
+      throw new Error(`Unsupported package manager: ${pkgManager}`);
+  }
   execSync(
-    `${createCommand.trim()}@${nxVersion} ${projectName} --preset apps --no-nxCloud --no-interactive`,
+    `${createCommand}@${nxVersion} ${projectName} --preset apps --no-nxCloud --no-interactive --pm ${pkgManager}`,
     {
       cwd: dirname(projectDirectory),
       stdio: 'inherit',

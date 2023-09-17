@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_QUARKUS_PKG, 'package');
 const options: PackageExecutorOptions = {
-  root: 'apps/quarkusapp',
+  root: 'quarkusapp',
 };
 
 describe('Package Executor', () => {

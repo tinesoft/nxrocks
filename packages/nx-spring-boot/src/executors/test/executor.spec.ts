@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_SPRING_BOOT_PKG, 'test');
 const options: TestExecutorOptions = {
-  root: 'apps/bootapp',
+  root: 'bootapp',
 };
 
 describe('Test Executor', () => {

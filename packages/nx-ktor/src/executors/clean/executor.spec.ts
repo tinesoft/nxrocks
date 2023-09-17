@@ -25,7 +25,7 @@ import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_KTOR_PKG, 'clean');
 const options: CleanExecutorOptions = {
-  root: 'apps/krapp',
+  root: 'krapp',
 };
 
 describe('Clean Executor', () => {

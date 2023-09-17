@@ -13,7 +13,7 @@ describe('nx-micronaut e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
-    projectDirectory = createTestProject('pnpm dlx create-nx-workspace');
+    projectDirectory = createTestProject('pnpm');
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
@@ -51,9 +51,9 @@ describe('nx-micronaut e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${prjName}/gradlew`,
-        `apps/${prjName}/build.gradle`,
-        `apps/${prjName}/README.md`
+        `${prjName}/gradlew`,
+        `${prjName}/build.gradle`,
+        `${prjName}/README.md`
       )
     ).not.toThrow();
 
@@ -61,7 +61,7 @@ describe('nx-micronaut e2e', () => {
     if (!isWin) {
       const execPermission = '755';
       expect(
-        lstatSync(tmpProjPath(`apps/${prjName}/gradlew`)).mode &
+        lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
         octal(execPermission)
       ).toEqual(octal(execPermission));
     }
@@ -85,14 +85,14 @@ describe('nx-micronaut e2e', () => {
 
       expect(() =>
         checkFilesExist(
-          `apps/${prjName}/mvnw`,
-          `apps/${prjName}/pom.xml`,
-          `apps/${prjName}/README.md`,
-          `apps/${prjName}/src/main/java/com/tinesoft/Application.java`
+          `${prjName}/mvnw`,
+          `${prjName}/pom.xml`,
+          `${prjName}/README.md`,
+          `${prjName}/src/main/java/com/tinesoft/Application.java`
         )
       ).not.toThrow();
 
-      const pomXml = readFile(`apps/${prjName}/pom.xml`);
+      const pomXml = readFile(`${prjName}/pom.xml`);
       expect(pomXml).toContain(`<groupId>${basePackage}</groupId>`);
 
       expect(pomXml).toContain(`<artifactId>${prjName}</artifactId>`);
@@ -101,7 +101,7 @@ describe('nx-micronaut e2e', () => {
       if (!isWin) {
         const execPermission = '755';
         expect(
-          lstatSync(tmpProjPath(`apps/${prjName}/mvnw`)).mode &
+          lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode &
           octal(execPermission)
         ).toEqual(octal(execPermission));
       }
@@ -123,7 +123,7 @@ describe('nx-micronaut e2e', () => {
         `generate @nxrocks/nx-micronaut:new ${prjName} --projectType default --buildSystem=${buildSystem} --javaVersion=${javaVersion} --no-interactive`
       );
 
-      const pomXml = readFile(`apps/${prjName}/pom.xml`);
+      const pomXml = readFile(`${prjName}/pom.xml`);
       expect(pomXml).toContain(`<jdk.version>${expected}</jdk.version>`);
     },
     150000
@@ -144,9 +144,9 @@ describe('nx-micronaut e2e', () => {
 
       expect(() =>
         checkFilesExist(
-          `apps/${prjName}/gradlew`,
-          `apps/${prjName}/build.gradle`,
-          `apps/${prjName}/README.md`
+          `${prjName}/gradlew`,
+          `${prjName}/build.gradle`,
+          `${prjName}/README.md`
         )
       ).not.toThrow();
 
@@ -154,7 +154,7 @@ describe('nx-micronaut e2e', () => {
       if (!isWin) {
         const execPermission = '755';
         expect(
-          lstatSync(tmpProjPath(`apps/${prjName}/gradlew`)).mode &
+          lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
           octal(execPermission)
         ).toEqual(octal(execPermission));
       }
@@ -176,9 +176,9 @@ describe('nx-micronaut e2e', () => {
 
       expect(() =>
         checkFilesExist(
-          `apps/${prjName}/gradlew`,
-          `apps/${prjName}/build.gradle.kts`,
-          `apps/${prjName}/README.md`
+          `${prjName}/gradlew`,
+          `${prjName}/build.gradle.kts`,
+          `${prjName}/README.md`
         )
       ).not.toThrow();
 
@@ -186,7 +186,7 @@ describe('nx-micronaut e2e', () => {
       if (!isWin) {
         const execPermission = '755';
         expect(
-          lstatSync(tmpProjPath(`apps/${prjName}/gradlew`)).mode &
+          lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
           octal(execPermission)
         ).toEqual(octal(execPermission));
       }
@@ -201,9 +201,9 @@ describe('nx-micronaut e2e', () => {
       );
       expect(() =>
         checkFilesExist(
-          `apps/subdir/${prjName}/gradlew`,
-          `apps/subdir/${prjName}/build.gradle`,
-          `apps/subdir/${prjName}/README.md`
+          `subdir/${prjName}/gradlew`,
+          `subdir/${prjName}/build.gradle`,
+          `subdir/${prjName}/README.md`
         )
       ).not.toThrow();
     }, 120000);
@@ -215,7 +215,7 @@ describe('nx-micronaut e2e', () => {
       await runNxCommandAsync(
         `generate @nxrocks/nx-micronaut:new ${prjName} --tags e2etag,e2ePackage --no-interactive`
       );
-      const project = readJson(`apps/${prjName}/project.json`);
+      const project = readJson(`${prjName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 120000);
   });

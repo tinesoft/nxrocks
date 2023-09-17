@@ -1,4 +1,4 @@
-import { Tree, logger, stripIndents, workspaceRoot } from '@nx/devkit';
+import { Tree, joinPathFragments, logger, stripIndents, workspaceRoot } from '@nx/devkit';
 
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
@@ -25,7 +25,7 @@ export async function generateQuarkusProject(
   );
 
   logger.info(
-    `📦 Extracting Quarkus project zip to '${workspaceRoot}/${options.projectRoot}'...`
+    `📦 Extracting Quarkus project zip to '${joinPathFragments(workspaceRoot, options.projectRoot)}'...`
   );
 
   if (response.ok) {
@@ -35,30 +35,29 @@ export async function generateQuarkusProject(
         filePath.endsWith('mvnw') || filePath.endsWith('gradlew')
           ? '755'
           : undefined;
-        if (getMavenWrapperFiles().includes(filePath) || getGradleWrapperFiles().includes(filePath)) {
-          if (options.transformIntoMultiModule) {
-            tree.write(`${options.moduleRoot}/${filePath}`, entryContent, {
-              mode: execPermission,
-            });
-          }
-          if (options.keepProjectLevelWrapper) {
-            tree.write(`${options.projectRoot}/${filePath}`, entryContent, {
-              mode: execPermission,
-            });
-          }
-  
+      if (getMavenWrapperFiles().includes(filePath) || getGradleWrapperFiles().includes(filePath)) {
+        if (options.transformIntoMultiModule) {
+          tree.write(`${options.moduleRoot}/${filePath}`, entryContent, {
+            mode: execPermission,
+          });
         }
-        else {
+        if (options.keepProjectLevelWrapper) {
           tree.write(`${options.projectRoot}/${filePath}`, entryContent, {
             mode: execPermission,
           });
         }
+
+      }
+      else {
+        tree.write(`${options.projectRoot}/${filePath}`, entryContent, {
+          mode: execPermission,
+        });
+      }
     });
   } else {
     throw new Error(stripIndents`
-        ❌ Error downloading Quarkus project zip from '${
-          options.quarkusInitializerUrl
-        }'
+        ❌ Error downloading Quarkus project zip from '${options.quarkusInitializerUrl
+      }'
         If the problem persists, please open an issue at https://github.com/tinesoft/nxrocks/issues, with the following information:
         ------------------------------------------------------
         Download URL: ${downloadUrl}

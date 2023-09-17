@@ -12,7 +12,7 @@ describe('nx-flutter e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
-    projectDirectory = createTestProject('pnpm dlx create-nx-workspace');
+    projectDirectory = createTestProject('pnpm');
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
@@ -107,7 +107,7 @@ describe('nx-flutter e2e', () => {
     }
     console.log(`Total executors time: ${totalExecutorsTime}ms`);
 
-    expect(() => checkFilesExist(`apps/${appName}/pubspec.yaml`)).not.toThrow();
+    expect(() => checkFilesExist(`${appName}/pubspec.yaml`)).not.toThrow();
   }, 400000);
 
   it('should create nx-flutter project with given options', async () => {
@@ -138,10 +138,10 @@ describe('nx-flutter e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `apps/${appName}/pubspec.yaml`,
-        `apps/${appName}/android/build.gradle`,
-        `apps/${appName}/ios/Runner.xcodeproj`,
-        `apps/${appName}/android/app/src/main/java/com/tinesoft/${appName.replace(
+        `${appName}/pubspec.yaml`,
+        `${appName}/android/build.gradle`,
+        `${appName}/ios/Runner.xcodeproj`,
+        `${appName}/android/app/src/main/java/com/tinesoft/${appName.replace(
           '-',
           '_'
         )}/MainActivity.java`
@@ -157,7 +157,7 @@ describe('nx-flutter e2e', () => {
         `generate @nxrocks/nx-flutter:create ${appName} --directory subdir --no-interactive`
       );
       expect(() =>
-        checkFilesExist(`apps/subdir/${appName}/pubspec.yaml`)
+        checkFilesExist(`subdir/${appName}/pubspec.yaml`)
       ).not.toThrow();
     }, 200000);
   });
@@ -169,7 +169,7 @@ describe('nx-flutter e2e', () => {
       await runNxCommandAsync(
         `generate @nxrocks/nx-flutter:create ${appName} --tags e2etag,e2ePackage --no-interactive`
       );
-      const project = readJson(`apps/${appName}/project.json`);
+      const project = readJson(`${appName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 200000);
   });
