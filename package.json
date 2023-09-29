@@ -23,11 +23,14 @@
     "release": "DEBUG=true nx run-many --target semantic-release --exclude=smoke --verbose",
     "prepare": "husky install",
     "smoke": "FORCE_SMOKE_TESTS=true nx test smoke",
-    "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true pnpm smoke"
+    "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true pnpm smoke",
+    "sync-preset-schemas": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/sync-preset-schemas.ts"
   },
   "private": true,
   "dependencies": {
+    "@clack/prompts": "^0.7.0",
     "@swc/helpers": "0.5.2",
+    "create-nx-workspace": "16.9.0",
     "enquirer": "^2.4.1",
     "hpagent": "^1.2.0",
     "js-yaml": "^4.1.0",
@@ -35,7 +38,8 @@
     "tslib": "^2.6.1",
     "unzipper": "^0.10.14",
     "xmlbuilder2": "^3.1.1",
-    "xpath": "^0.0.33"
+    "xpath": "^0.0.33",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.1",
@@ -63,6 +67,7 @@
     "@types/tmp": "^0.2.3",
     "@types/unzipper": "^0.10.5",
     "@types/xmldoc": "^1.1.6",
+    "@types/yargs": "^17.0.26",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "dotenv": "10.0.0",
@@ -100,4 +105,3 @@
     }
   }
 }
-

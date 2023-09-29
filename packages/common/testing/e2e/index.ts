@@ -1,4 +1,4 @@
-import { JsonParseOptions, joinPathFragments, parseJson, readJsonFile, workspaceRoot } from '@nx/devkit';
+import { JsonParseOptions, PackageManager, getPackageManagerCommand, joinPathFragments, parseJson, readJsonFile, workspaceRoot } from '@nx/devkit';
 import { getPackageLatestNpmVersion } from '../../src/';
 import { ExecSyncOptions, execSync } from 'child_process';
 import { rmSync, mkdirSync, statSync, readFileSync, existsSync } from 'fs-extra';
@@ -44,6 +44,33 @@ export function createTestProject(pkgManager='npm', projectName='test-project', 
       env: process.env,
     }
   );
+  console.log(`Created test project in "${projectDirectory}"`);
+
+  return projectDirectory;
+}
+
+/**
+ * Creates a test project with create-nx-workspace and installs the plugin
+ * @returns The directory where the test project was created
+ */
+export function createCLITestProject(createPkgName:string, extraArgs = '', createPkgVersion='0.0.0-e2e', pkgManager: PackageManager='npm', projectName = 'test-project') {
+  
+  const projectDirectory = join(process.cwd(), 'tmp', projectName);
+
+  // Ensure projectDirectory is empty
+  rmSync(projectDirectory, {
+    recursive: true,
+    force: true,
+  });
+  mkdirSync(dirname(projectDirectory), {
+    recursive: true,
+  });
+
+  execSync(`${getPackageManagerCommand(pkgManager).exec} --yes ${createPkgName}@${createPkgVersion} ${projectName} ${extraArgs}`, {
+    cwd: dirname(projectDirectory),
+    stdio: 'inherit',
+    env: process.env,
+  });
   console.log(`Created test project in "${projectDirectory}"`);
 
   return projectDirectory;
