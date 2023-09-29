@@ -80,7 +80,6 @@ describe('nx-spring-boot e2e', () => {
       const artifactId = 'api';
       const description = 'My sample app';
       //const version = '1.2.3'; https://github.com/nrwl/nx/issues/10786
-      const prjDir = projectType === 'application' ? 'apps' : 'libs';
 
       await runNxCommandAsync(
         `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --javaVersion=${javaVersion} --no-interactive`

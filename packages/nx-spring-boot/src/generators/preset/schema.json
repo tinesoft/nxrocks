@@ -1,20 +1,16 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "@nxrocks/nx-spring-boot:project",
-  "description": "Spring Boot Project Generator.",
-  "title": "Creates a Spring Boot project in the workspace",
-  "outputCapture": "pipe",
+  "$id": "@nxrocks/nx-spring-boot:preset",
+  "title": "Creates Spring Boot project in a new workspace",
   "type": "object",
+  "cli": "nx",
+  "outputCapture": "pipe",
   "properties": {
-    "name": {
+    "prjName": {
       "type": "string",
       "description": "Name of the project to generate.",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "What name would you like to use?",
-      "pattern": "^[a-zA-Z].*$",
+      "x-prompt": "What is the name of your project?",
+      "pattern": "^[a-zA-Z][^:]*$",
       "x-priority": "important"
     },
     "projectType": {
@@ -260,8 +256,9 @@
       "alias": "d"
     }
   },
+  "additionalProperties": true,
   "required": [
-    "projectType",
-    "name"
+    "prjName",
+    "projectType"
   ]
 }
