@@ -1,20 +1,16 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "@nxrocks/nx-quarkus:project",
-  "description": "Quarkus Project Generator.",
-  "title": "Creates a Quarkus project in the workspace",
-  "outputCapture": "pipe",
+  "$id": "@nxrocks/nx-quarkus:preset",
+  "title": "Creates Quarkus project in a new workspace",
   "type": "object",
+  "cli": "nx",
+  "outputCapture": "pipe",
   "properties": {
-    "name": {
+    "prjName": {
       "type": "string",
       "description": "Name of the project to generate.",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "What name would you like to use?",
-      "pattern": "^[a-zA-Z].*$",
+      "x-prompt": "What is the name of your project?",
+      "pattern": "^[a-zA-Z][^:]*$",
       "x-priority": "important"
     },
     "projectType": {
@@ -140,7 +136,7 @@
     }
   },
   "required": [
-    "projectType",
-    "name"
+    "prjName",
+    "projectType"
   ]
 }
