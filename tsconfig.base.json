@@ -10,45 +10,22 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nxrocks/common": [
-        "packages/common/src/index.ts"
-      ],
-      "@nxrocks/common/testing": [
-        "packages/common/testing/index.ts"
-      ],
-      "@nxrocks/nx-flutter": [
-        "packages/nx-flutter/src/index.ts"
-      ],
-      "@nxrocks/nx-ktor": [
-        "packages/nx-ktor/src/index.ts"
-      ],
-      "@nxrocks/nx-melos": [
-        "packages/nx-melos/src/index.ts"
-      ],
-      "@nxrocks/nx-micronaut": [
-        "packages/nx-micronaut/src/index.ts"
-      ],
-      "@nxrocks/nx-quarkus": [
-        "packages/nx-quarkus/src/index.ts"
-      ],
-      "@nxrocks/nx-spring-boot": [
-        "packages/nx-spring-boot/src/index.ts"
-      ]
+      "@nxrocks/common": ["packages/common/src/index.ts"],
+      "@nxrocks/common-cli": ["packages/common-cli/src/index.ts"],
+      "@nxrocks/common/testing": ["packages/common/testing/index.ts"],
+      "@nxrocks/nx-flutter": ["packages/nx-flutter/src/index.ts"],
+      "@nxrocks/nx-ktor": ["packages/nx-ktor/src/index.ts"],
+      "@nxrocks/nx-melos": ["packages/nx-melos/src/index.ts"],
+      "@nxrocks/nx-micronaut": ["packages/nx-micronaut/src/index.ts"],
+      "@nxrocks/nx-quarkus": ["packages/nx-quarkus/src/index.ts"],
+      "@nxrocks/nx-spring-boot": ["packages/nx-spring-boot/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

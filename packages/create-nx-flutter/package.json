@@ -23,10 +23,7 @@
     "access": "public"
   },
   "dependencies": {
-    "create-nx-workspace": "16.9.0",
-    "@clack/prompts": "^0.7.0",
-    "yargs": "^17.7.2",
-    "@nxrocks/common": "*",
+    "@nxrocks/common-cli": "*",
     "tslib": "^2.6.1"
   },
   "type": "commonjs",
