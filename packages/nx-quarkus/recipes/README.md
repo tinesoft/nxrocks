@@ -18,7 +18,7 @@ You will need to fetch and enter the extensions ids manually:
 2. In Nx Console UI, enter the extensions ids you want to use, separated by a comma
 ![Adding extensions in Nx Console](images/nx-console-add-extensions.png)
 
-## Creating mulit-modules Quarkus projects
+## Creating multi-modules Quarkus projects
 
 The support for creating multi-module Quarkus project with either `Maven` or `Gradle` was added to the plugin since `v6.1.0`.
 

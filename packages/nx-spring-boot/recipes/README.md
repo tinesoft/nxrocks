@@ -20,7 +20,7 @@ You will need to fetch and enter the dependencies ids manually:
 ![Adding dependencies in Nx Console](images/nx-console-add-dependencies.png)
 
 
-## Creating mulit-modules Spring Boot projects
+## Creating multi-modules Spring Boot projects
 
 The support for creating multi-module Spring Boot project with either `Maven` or `Gradle` was added to the plugin since `v8.1.0`.
 

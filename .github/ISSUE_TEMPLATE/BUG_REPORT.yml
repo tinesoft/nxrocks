@@ -18,6 +18,11 @@ body:
         - "@nxrocks/nx-micronaut"
         - "@nxrocks/nx-melos"
         - "@nxrocks/nx-ktor"
+        - "create-nx-spring-boot"
+        - "create-nx-flutter"
+        - "create-nx-quarkus"
+        - "create-nx-micronaut"
+        - "create-nx-ktor"
 
     validations:
       required: true

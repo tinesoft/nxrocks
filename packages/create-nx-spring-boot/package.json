@@ -1,5 +1,6 @@
 {
   "name": "create-nx-spring-boot",
+  "description": "CLI to create Nx workspaces with built-in support for Spring Boot",
   "version": "0.0.1",
   "license": "MIT",
   "author": "Tine Kondo ",

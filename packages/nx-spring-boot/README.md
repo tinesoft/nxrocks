@@ -11,9 +11,9 @@
 ## Contents
 
 - [Features](#features)
-- [Prerequisite](#prerequisite)
-- [Getting Started](#getting-started)
-- [Plugin Usage](#plugin-usage)
+- [Setup](#setup)
+- [Generators](#generators)
+- [Executors](#executors)
 - [Compatibility with Nx](#compatibility-with-nx)
 
 ## Features
@@ -22,7 +22,7 @@ Here is a list of some of the coolest features of the plugin:
 
 - ✅ Generation of Spring Boot applications/libraries based on **Spring Initializr** API
 - ✅ Building, packaging, testing, etc your Spring Boot projects
-- ✅ 🆕 Built-in support for creating [**multi-modules**](recipes/README.md#creating-mulit-modules-spring-boot-projects) Spring Boot projects with both `Maven` and `Gradle`
+- ✅ 🆕 Built-in support for creating [**multi-modules**](recipes/README.md#creating-multi-modules-spring-boot-projects) Spring Boot projects with both `Maven` and `Gradle`
 - ✅ Built-in support for code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for `Maven` or `Gradle`
 - ✅ Built-in support for **corporate proxies** (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
 - ✅ Integration with Nx's **dependency graph** (through `nx graph` or `nx affected:graph`): this allows you to **visualize** the dependencies of any Spring Boot's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
@@ -31,7 +31,34 @@ Here is a list of some of the coolest features of the plugin:
 
 - ...
 
-## Prerequisite
+## Setup
+
+<details open>
+<summary>📢 ℹ️ 🆕 <b>HEADS UP!</b> New <b>simplified</b> setup since <i>October 2023</i>, with our custom <b>CLI</b>!</summary>
+
+
+> You can now use our own `create-nx-spring-boot` **CLI** to easily create a Nx workspace, that comes with this plugin pre-installed!
+> 
+> Simply run:
+> 
+> ```
+> # npm
+> npx create-nx-spring-boot@latest
+> # or
+> # yarn
+> yarn create nx-spring-boot
+> ```
+> 
+> and you are good to goִֹֹ‧o‧o‧o! 🚀
+> 
+> More information here: [create-nx-spring-boot](../nx-spring-boot/README.md)
+
+</details>
+
+
+Otherwise, this is the traditional way of setting things up:
+
+### 1. Creating the Nx workspace
 
 If you have not already, [create an Nx workspace](https://nx.dev/getting-started/nx-setup) with the following:
 
@@ -43,11 +70,9 @@ npx create-nx-workspace@latest
 yarn create nx-workspace
 ```
 
-## Getting Started
+### 2. Installing the Plugin
 
 Then you need to install the plugin in order to generate Spring Boot applications later on.
-
-### Installing Plugin
 
 ```
 # npm
@@ -57,12 +82,19 @@ npm install @nxrocks/nx-spring-boot --save-dev
 yarn add @nxrocks/nx-spring-boot --dev
 ```
 
-### Generating Project (`new` generator)
+## Generators
 
-Simply run the `new` generator with the following command:
+This plugin is composed of 2 main **generators**:
+
+- `project` generator
+- `link` generator
+
+### Generating Projects (`project` generator)
+
+Simply run the `project` generator with the following command:
 
 ```
-nx g @nxrocks/nx-spring-boot:new <your-app-name>
+nx g @nxrocks/nx-spring-boot:project <your-app-name>
 ```
 
 > you can also use the following aliases to call the generator: `proj`, `new`, `gen`, `init`, `create`, or `generate`
@@ -72,7 +104,7 @@ You will be prompted for entering the most commonly customized generation option
 To skip the interactive prompt, or if you want to customize all non-prompted options, you can pass them along directly when running the command, as such:
 
 ```
-nx g @nxrocks/nx-spring-boot:new <your-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
+nx g @nxrocks/nx-spring-boot:project <your-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
 ```
 
 #### Generation Options
@@ -96,10 +128,10 @@ Here the list of available generation options :
 | `description`              | `string`                            | Description of the project                                                                                           |
 | `skipFormat`               | `boolean`                           | Do not add the ability to format code (using Spotless plugin)                                                        |
 | `dependencies`             | `string`                            | List of dependencies to use (comma-separated). Go to [recipes](recipes/README.md#adding-spring-boot-dependencies) for more information               |
-| `transformIntoMultiModule` | `boolean`                           | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-mulit-modules-spring-boot-projects) for more information               |
-| `addToExistingParentModule`| `boolean`                           | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-mulit-modules-spring-boot-projects) for more information               |
-| `parentModuleName`         | `string`                            | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-mulit-modules-spring-boot-projects) for more information               |
-| `keepProjectLevelWrapper`  | `boolean`                           | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-mulit-modules-spring-boot-projects) for more information               |
+| `transformIntoMultiModule` | `boolean`                           | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information               |
+| `addToExistingParentModule`| `boolean`                           | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information               |
+| `parentModuleName`         | `string`                            | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information               |
+| `keepProjectLevelWrapper`  | `boolean`                           | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information               |
 | `springInitializerUrl`     | `https://start.spring.io`           | URL to the Spring Initializer instance to use                                                                        |
 | `proxyUrl`                 |                                     | The URL of the (corporate) proxy server to use to access Spring Initializr                                           |
 | `bootVersion`              | `string`                            | Spring Boot version to use                                                                                           |
@@ -145,9 +177,9 @@ Here the list of available generation options :
 | `<sourceProjectName>` | The name of the source(Spring-Boot) project to link from. 1st argument of the `link` generator. Can also be provided as option `--sourceProjectName` |
 | `<targetProjectName>` | The name of the target project to link to. 2nd argument of the `link` generator. Can also be provided as option `--targetProjectName`                |
 
-## Plugin Usage
+## Executors
 
-Once your app is generated, you can now use buidlers to manage it.
+Once your app is generated, you can now use **executors** to manage it.
 
 Here the list of available executors:
 
