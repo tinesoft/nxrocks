@@ -1,3 +1,22 @@
+# [6.1.0](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v6.0.3...nx-quarkus/v6.1.0) (2023-10-08)
+
+
+### Bug Fixes
+
+* **common:** fix ProjectGraph for `Gradle` multi-module projects ([0ef0d17](https://github.com/tinesoft/nxrocks/commit/0ef0d1736fe100002ab2d547b830ab9de0e42a19))
+
+
+### Features
+
+* **common-cli:** add `common-cli` to share code among our `create-*` CLI packages ([bcb5fd2](https://github.com/tinesoft/nxrocks/commit/bcb5fd2a0cda945b708fb0e42195bde82cac47c7))
+* **common:** add utilities for multi-module `maven`/`gradle` projects ([f2e4939](https://github.com/tinesoft/nxrocks/commit/f2e49396bd5fec312c401040c5511567a092a18c))
+* **common:** add utilities to add `maven`/`gradle` modules ([2237201](https://github.com/tinesoft/nxrocks/commit/2237201646307ade853c180f5b25e9e2e56e5ad7))
+* **create-nx-quarkus:** add custom CLI to create Quarkus projects ([7c6dae3](https://github.com/tinesoft/nxrocks/commit/7c6dae368e8ea4b3d81e3a1ec9070e6eb16ff13b))
+* **create-nx-spring-boot:** add custom CLI to create Spring Boot projects ([32ca53c](https://github.com/tinesoft/nxrocks/commit/32ca53c61cc1c25027d72434e13b71ec1a100acb))
+* **nx-quarkus:** add support for creating multi-modules projects ([e8094f7](https://github.com/tinesoft/nxrocks/commit/e8094f7632ad2a19a943fcb0eeb3a8f63fc310ab))
+* **nx-spring-boot:** add support for creating multi-modules projects ([7c2de5a](https://github.com/tinesoft/nxrocks/commit/7c2de5a07f92fad481f3bda5ce61a71ba78c89c0))
+* update dependencies and fix lint issues ([cfac383](https://github.com/tinesoft/nxrocks/commit/cfac383c7d2aebd329a98f410df66b726b64d28a))
+
 ## [6.0.3](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v6.0.2...nx-quarkus/v6.0.3) (2023-05-12)
 
 
