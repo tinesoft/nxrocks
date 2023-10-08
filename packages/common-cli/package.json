@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/common-cli",
   "description": "Common library to share code among the `create-*` packages.",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -35,8 +35,6 @@
     "terminal-link": "^2.1.1"
   },
   "typings": "./src/index.d.ts",
-  "peerDependencies": {
-  },
-  "devDependencies": {
-  }
+  "peerDependencies": {},
+  "devDependencies": {}
 }
