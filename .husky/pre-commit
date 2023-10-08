@@ -3,3 +3,4 @@
 
 pnpm nx affected:lint --fix --parallel=4 --exclude=smoke
 pnpm nx affected:test --parallel=4 --exclude=smoke
+pnpm run sync-preset-schemas
