@@ -49,9 +49,9 @@ Here is a list of some of the coolest features of the plugin:
 > yarn create nx-spring-boot
 > ```
 > 
-> and you are good to goִֹֹ‧o‧o‧o! 🚀
+> and you are good to go‧o‧o‧o! 🚀
 > 
-> More information here: [create-nx-spring-boot](../nx-spring-boot/README.md)
+> More information here: [create-nx-spring-boot](../create-nx-spring-boot/README.md)
 
 </details>
 

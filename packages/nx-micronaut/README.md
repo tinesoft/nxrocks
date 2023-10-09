@@ -46,9 +46,9 @@ Here is a list of some of the coolest features of the plugin:
 > yarn create nx-micronaut
 > ```
 > 
-> and you are good to goִֹֹ‧o‧o‧o! 🚀
+> and you are good to go‧o‧o‧o! 🚀
 > 
-> More information here: [create-nx-micronaut](../nx-micronaut/README.md)
+> More information here: [create-nx-micronaut](../create-nx-micronaut/README.md)
 
 </details>
 

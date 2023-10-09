@@ -49,9 +49,9 @@ Here is a list of some of the coolest features of the plugin:
 > yarn create nx-quarkus
 > ```
 > 
-> and you are good to goִֹֹ‧o‧o‧o! 🚀
+> and you are good to go‧o‧o‧o! 🚀
 > 
-> More information here: [create-nx-quarkus](../nx-quarkus/README.md)
+> More information here: [create-nx-quarkus](../create-nx-quarkus/README.md)
 
 </details>
 

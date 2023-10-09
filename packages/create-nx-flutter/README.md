@@ -6,7 +6,7 @@
 
 > Our very own **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Flutter](https://flutter.dev)!
 
-<p align="center"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/master/images/create-nx-flutter.png" width="450"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/master/images/create-nx-flutter.png" width="680"></p>
 
 The goal of this CLI is to ease the process of creating a Nx workspace that can host and manage Flutter projects, thanks to our [@nxrocks/nx-flutter](https://github.com/tinesoft/nxrocks/blob/develop/packages/nx-flutter) plugin, that is automatically installed within it.
 
