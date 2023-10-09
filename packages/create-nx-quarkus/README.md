@@ -6,6 +6,8 @@
 
 > Our very own **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Quarkus](https://quarkus.io)!
 
+<p align="center"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/master/images/create-nx-quarkus.png" width="450"></p>
+
 The goal of this CLI is to ease the process of creating a Nx workspace that can host and manage Quarkus projects, thanks to our [@nxrocks/nx-quarkus](https://github.com/tinesoft/nxrocks/blob/develop/packages/nx-quarkus) plugin, that is automatically installed within it.
 
 ##  Prerequisites
