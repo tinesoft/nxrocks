@@ -20,12 +20,14 @@ import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
 import {
-  hasMavenPlugin,
   NX_SPRING_BOOT_PKG,
-  SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
-  SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
   stripIndent,
 } from '@nxrocks/common';
+import {
+  hasMavenPlugin,
+  SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
+  SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
+} from '@nxrocks/common-jvm';
 import { mockZipStream } from '@nxrocks/common/testing';
 import { DEFAULT_SPRING_INITIALIZR_URL } from '../../utils/boot-utils';
 

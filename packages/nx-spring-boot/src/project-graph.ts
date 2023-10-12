@@ -3,8 +3,8 @@ import { ProjectGraph, ProjectGraphProcessorContext } from '@nx/devkit';
 import {
   getProjectGraph,
   NX_SPRING_BOOT_PKG,
-  getJvmPackageInfo,
 } from '@nxrocks/common';
+import { getJvmPackageInfo } from '@nxrocks/common-jvm';
 import { isBootProject } from './utils/boot-utils';
 
 export function processProjectGraph(

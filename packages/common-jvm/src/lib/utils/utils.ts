@@ -2,13 +2,13 @@ import { logger, Tree } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { fileExists } from '@nx/workspace/src/utils/fileutils';
 
-import { BuilderCommandAliasType, BuilderCore } from './builder-core.interface';
+import { BuilderCommandAliasType, BuilderCore } from '../builders';
 import {
   getProjectFileContent,
   getProjectFilePath,
   getProjectRoot,
   PackageInfo,
-} from '../workspace';
+} from '@nxrocks/common';
 import {
   findXmlContent,
   readXml,
@@ -34,8 +34,8 @@ export function runBuilderCommand(
   // Take the parameters or set defaults
   const buildSystem = getBuilder(options.cwd);
   const executable = buildSystem.getExecutable(
-    options.ignoreWrapper,
-    options.useLegacyWrapper
+    options.ignoreWrapper??false,
+    options.useLegacyWrapper??false
   );
   const { cwd, command } = buildSystem.getCommand(commandAlias, options);
   // Create the command to execute
@@ -154,7 +154,7 @@ export function getJvmPackageInfo(project: {root:string}): PackageInfo {
 
     const settingsGradle = getProjectFileContent(project, `settings${ext}`);
 
-    let groupId = 'not-available';
+    let groupId;
     const artifactId = settingsGradle.match(
       /rootProject\.name\s*=\s*['"]([^"']+)['"]/
     )?.[1];
@@ -165,13 +165,13 @@ export function getJvmPackageInfo(project: {root:string}): PackageInfo {
     if(hasGradleBuildFile(project.root)){
       const buildGradle = getProjectFileContent(project, `build${ext}`);
       
-      groupId = buildGradle.match(/group\s*=\s*['"]([^"']+)['"]/)?.[1];
+      groupId = buildGradle.match(/group\s*=\s*['"]([^"']+)['"]/)?.[1] ?? 'not-available';
 
-      let match: RegExpExecArray;
+      let match: RegExpExecArray|null;
       do {
         match = gradleDependencyIdRegEx.exec(buildGradle);
-        if (match?.groups?.id) {
-          dependencyIds.push(match.groups.id);
+        if (match?.groups?.['id']) {
+          dependencyIds.push(match.groups['id']);
         }
       } while (match);
     }

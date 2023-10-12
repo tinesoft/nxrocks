@@ -3,12 +3,14 @@ import { joinPathFragments, logger } from '@nx/devkit';
 import { buildImageExecutor } from './executor';
 import { BuildImageExecutorOptions } from './schema';
 import {
+  NX_KTOR_PKG,
+} from '@nxrocks/common';
+import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE_LEGACY,
-  NX_KTOR_PKG,
   getGradleWrapperFiles,
   getMavenWrapperFiles,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 import {
   expectExecutorCommandRanWith,
   mockExecutorContext,

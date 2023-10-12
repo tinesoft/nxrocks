@@ -2,7 +2,7 @@ import { Tree } from '@nx/devkit';
 import {
   addSpotlessGradlePlugin,
   addSpotlessMavenPlugin,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 import { NormalizedSchema } from '../schema';
 
 export function addFormattingWithSpotless(

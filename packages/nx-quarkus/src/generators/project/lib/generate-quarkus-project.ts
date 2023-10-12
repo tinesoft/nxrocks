@@ -6,10 +6,12 @@ import { buildQuarkusDownloadUrl } from '../../../utils/quarkus-utils';
 import {
   extractFromZipStream,
   getCommonHttpHeaders,
-  getGradleWrapperFiles,
-  getMavenWrapperFiles,
   NX_QUARKUS_PKG,
 } from '@nxrocks/common';
+import {
+  getGradleWrapperFiles,
+  getMavenWrapperFiles,
+} from '@nxrocks/common-jvm';
 
 export async function generateQuarkusProject(
   tree: Tree,

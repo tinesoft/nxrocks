@@ -1,4 +1,4 @@
-import { IS_WINDOWS } from "../constants";
+export const IS_WINDOWS = process.platform === 'win32';
 
 export const MAVEN_EXECUTABLE = 'mvn';
 

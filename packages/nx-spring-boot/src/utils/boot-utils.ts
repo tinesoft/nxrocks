@@ -4,6 +4,10 @@ import {
   ProjectGeneratorOptions,
 } from '../generators/project/schema';
 import {
+  getCommonHttpHeaders,
+  NX_SPRING_BOOT_PKG,
+} from '@nxrocks/common';
+import {
   BuilderCommandAliasType,
   hasGradleProject,
   hasMavenProject,
@@ -11,12 +15,10 @@ import {
   isMavenProject,
   checkProjectBuildFileContains,
   isGradleProject,
-  getCommonHttpHeaders,
-  NX_SPRING_BOOT_PKG,
   MavenDependency,
   hasMultiModuleMavenProject,
   hasMultiModuleGradleProject,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
 import { ProjectConfiguration } from '@nx/devkit';
 import fetch from 'node-fetch';

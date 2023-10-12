@@ -1,11 +1,11 @@
-import { GRADLE_EXECUTABLE, GRADLE_WRAPPER_EXECUTABLE } from './constants';
+import { GRADLE_EXECUTABLE, GRADLE_WRAPPER_EXECUTABLE } from '../constants';
 import {
   BuilderCommandAliasMapper,
   BuilderCommandAliasType,
   BuilderCore,
   BuildSystem,
 } from './builder-core.interface';
-import { hasGradleModule, hasGradleWrapper } from './gradle-utils';
+import { hasGradleModule, hasGradleWrapper } from '../utils/gradle-utils';
 import { basename, resolve } from 'path';
 
 export class GradleBuilder implements BuilderCore {
@@ -28,7 +28,7 @@ export class GradleBuilder implements BuilderCore {
     }
     
     if (options.runFromParentModule) {
-      let pathToModule = [];
+      let pathToModule:string[] = [];
       const childModuleName = basename(options.cwd);
       do {
         const module = basename(options.cwd);

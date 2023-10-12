@@ -3,8 +3,10 @@ import { ProjectGraph, ProjectGraphProcessorContext } from '@nx/devkit';
 import {
   getProjectGraph,
   NX_KTOR_PKG,
-  getJvmPackageInfo,
 } from '@nxrocks/common';
+import {
+  getJvmPackageInfo,
+} from '@nxrocks/common-jvm';
 import { isKtorProject } from './utils/ktor-utils';
 
 export function processProjectGraph(

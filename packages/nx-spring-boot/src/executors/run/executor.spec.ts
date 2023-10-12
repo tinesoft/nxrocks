@@ -4,12 +4,14 @@ import { mocked } from 'jest-mock';
 import { runExecutor } from './executor';
 import { RunExecutorOptions } from './schema';
 import {
+  NX_SPRING_BOOT_PKG,
+} from '@nxrocks/common';
+import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE,
-  NX_SPRING_BOOT_PKG,
   getGradleWrapperFiles,
   getMavenWrapperFiles,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 import {
   expectExecutorCommandRanWith,
   mockExecutorContext,

@@ -1,7 +1,7 @@
 import { Tree } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { addMavenPlugin } from '.';
-import { stripIndent } from '../utils';
+import { stripIndent } from '@nxrocks/common';
 import {
   addSpotlessMavenPlugin,
   SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
@@ -129,7 +129,7 @@ describe('maven-utils', () => {
         );
         const pomXml = tree.read(`./pom.xml`, 'utf-8');
         expect(added).toEqual(true);
-        expect(pomXml.replace(/\s+/g, '')).toContain(
+        expect(pomXml?.replace(/\s+/g, '')).toContain(
           `
             <properties>
                 ${previousProperties}
@@ -184,9 +184,10 @@ describe('maven-utils', () => {
           SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
           SPOTLESS_MAVEN_PLUGIN_VERSION
         );
+        
         const pomXml = tree.read(`./pom.xml`, 'utf-8');
         expect(added).toEqual(true);
-        expect(pomXml.replace(/\s+/g, '')).toContain(
+        expect(pomXml?.replace(/\s+/g, '')).toContain(
           `
             <build>
             	<plugins>
@@ -230,9 +231,10 @@ describe('maven-utils', () => {
         'org.springframework.boot',
         'spring-boot-maven-plugin'
       );
+      
       const pomXml = tree.read(`./pom.xml`, 'utf-8');
       expect(removed).toEqual(true);
-      expect(pomXml.replace(/\s+/g, '')).not.toContain(
+      expect(pomXml?.replace(/\s+/g, '')).not.toContain(
         `
             <build>
             	<plugins>

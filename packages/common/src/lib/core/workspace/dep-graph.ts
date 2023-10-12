@@ -15,7 +15,7 @@ export function getPackageInfosForNxProjects(
   getPackageInfo: (project: ProjectConfiguration) => PackageInfo,
   workspace: ProjectsConfigurations
 ): WorkspacePackageInfoConfiguration {
-  const workspacePackageInfo = {
+  const workspacePackageInfo: WorkspacePackageInfoConfiguration = {
     projects: {},
     packages: {},
   };
@@ -29,7 +29,7 @@ export function getPackageInfosForNxProjects(
         workspacePackageInfo.projects[projectName] = pkgInfo;
         workspacePackageInfo.packages[pkgInfo.packageId] = projectName;
       } catch (e) {
-        if (process.env.NX_VERBOSE_LOGGING === 'true') {
+        if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
           logger.warn(
             `[${pluginName}]: Failed to get package info for project '${projectName}'`
           );
@@ -49,7 +49,7 @@ export function addDependenciesForProject(
   builder: ProjectGraphBuilder,
   workspace: WorkspacePackageInfoConfiguration
 ): void {
-  if (process.env.NX_VERBOSE_LOGGING === 'true') {
+  if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
     logger.debug(
       `[${pluginName}]: Adding dependencies for project '${rootProjectName}'...`
     );
@@ -84,7 +84,7 @@ export function getProjectGraph(
   context: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
-  if (process.env.NX_VERBOSE_LOGGING === 'true') {
+  if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
     logger.debug(
       `[${pluginName}]: Looking related projects inside the workspace...`
     );

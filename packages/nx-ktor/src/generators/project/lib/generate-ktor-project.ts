@@ -6,10 +6,12 @@ import { buildKtorDownloadUrl } from '../../../utils/ktor-utils';
 import {
   extractFromZipStream,
   getCommonHttpHeaders,
-  getGradleWrapperFiles,
-  getMavenWrapperFiles,
   NX_KTOR_PKG,
 } from '@nxrocks/common';
+import {
+  getGradleWrapperFiles,
+  getMavenWrapperFiles,
+} from '@nxrocks/common-jvm';
 
 export async function generateKtorProject(
   tree: Tree,
