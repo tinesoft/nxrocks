@@ -3,20 +3,28 @@ import {
   addXmlNode,
   findXmlContents,
   findXmlMatching,
+  hasMavenProject,
   hasXmlMatching,
+  isMavenProjectInTree,
   isXmlNodeEmpty,
   readXml,
   removeXmlNode,
-  stripIndent,
-} from '../utils';
-import { hasMavenProject, isMavenProjectInTree } from './utils';
+} from './index';
 import { fileExists } from '@nx/workspace/src/utils/fileutils';
 import { resolve } from 'path';
-import { getProjectFileContent } from '../workspace';
+import { stripIndent, getProjectFileContent } from '@nxrocks/common';
+import { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
 
 export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.diffplug.spotless';
 export const SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID = 'spotless-maven-plugin';
 export const SPOTLESS_MAVEN_PLUGIN_VERSION = '2.23.0';
+
+function readPomXml(tree: Tree, rootFolder:string): XMLBuilder | null{
+  const pomFile = `./${rootFolder}/pom.xml`;
+  const pomXmlStr = tree.read(pomFile, 'utf-8');
+
+  return pomXmlStr !== null ? readXml(pomXmlStr): null;
+}
 
 export function hasMavenPlugin(
   tree: Tree,
@@ -25,8 +33,11 @@ export function hasMavenPlugin(
   artifactId: string,
   version?: string
 ): boolean {
-  const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
-  const pomXml = readXml(pomXmlStr);
+
+  const pomXml = readPomXml(tree, rootFolder);
+
+  if(pomXml === null)
+    return false;
 
   let pluginXPath = `/project/build/plugins/plugin/groupId/text()[.="${groupId}"]/../../artifactId/text()[.="${artifactId}"]`;
   if (version) {
@@ -42,8 +53,10 @@ export function hasMavenProperty(
   property: string,
   value?: string
 ): boolean {
-  const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
-  const pomXml = readXml(pomXmlStr);
+  const pomXml = readPomXml(tree, rootFolder);
+
+  if(pomXml === null)
+    return false;
 
   const propertyXPath = value
     ? `/project/properties/${property}/text()[.="${value}"]`
@@ -58,11 +71,13 @@ export function addMavenPlugin(
   groupId: string,
   artifactId: string,
   version?: string,
-  configuration?: { [key: string]: any } | string,
-  executions?: { [key: string]: any } | string
+  configuration?: { [key: string]: unknown } | string,
+  executions?: { [key: string]: unknown } | string
 ): boolean {
-  const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
-  const pomXml = readXml(pomXmlStr);
+  const pomXml = readPomXml(tree, rootFolder);
+
+  if(pomXml === null)
+    return false;
 
   if (hasMavenPlugin(tree, rootFolder, groupId, artifactId, version)) {
     return false; // plugin already exists
@@ -90,6 +105,9 @@ export function addMavenPlugin(
   let pluginsNode = findXmlMatching(pomXml, '/project/build/plugins');
   if (!pluginsNode) {
     // make sure the <plugins> node exists
+    if(!buildNode)
+      return false;
+    
     addXmlNode(buildNode, {
       plugins: {},
     });
@@ -119,12 +137,15 @@ export function addMavenPlugin(
             ${executions ? `<executions>${executions}</executions>` : ''}
         </plugin>`;
 
-  addXmlNode(pluginsNode, pluginNode);
-  tree.write(
-    `${rootFolder}/pom.xml`,
-    pomXml.toString({ prettyPrint: true, indent: '\t' })
-  );
-  return true;
+  if(pluginsNode){
+    addXmlNode(pluginsNode, pluginNode);
+    tree.write(
+      `${rootFolder}/pom.xml`,
+      pomXml.toString({ prettyPrint: true, indent: '\t' })
+    );
+    return true;
+  }
+  return false;
 }
 
 export function removeMavenPlugin(
@@ -133,8 +154,10 @@ export function removeMavenPlugin(
   groupId: string,
   artifactId: string
 ): boolean {
-  const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
-  const pomXml = readXml(pomXmlStr);
+  const pomXml = readPomXml(tree, rootFolder);
+
+  if(pomXml === null)
+    return false;
 
   const pluginNode = findXmlMatching(
     pomXml,
@@ -171,8 +194,10 @@ export function addMavenProperty(
   property: string,
   value: string
 ): boolean {
-  const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
-  const pomXml = readXml(pomXmlStr);
+  const pomXml = readPomXml(tree, rootFolder);
+
+  if(pomXml === null)
+    return false;
 
   if (hasMavenProperty(tree, rootFolder, property, value)) {
     return false; // property already exists
@@ -193,12 +218,16 @@ export function addMavenProperty(
 
   const propertyNode = `<${property}>${value}</${property}>`;
 
-  addXmlNode(propertiesNode, propertyNode);
-  tree.write(
-    `${rootFolder}/pom.xml`,
-    pomXml.toString({ prettyPrint: true, indent: '\t' })
-  );
-  return true;
+  if(propertiesNode){
+    addXmlNode(propertiesNode, propertyNode);
+    tree.write(
+      `${rootFolder}/pom.xml`,
+      pomXml.toString({ prettyPrint: true, indent: '\t' })
+    );
+    return true;
+  }
+
+  return false;
 }
 
 function getMavenSpotlessBaseConfig(
@@ -327,8 +356,10 @@ export function hasMultiModuleMavenProjectInTree(tree: Tree, rootFolder: string)
   if (!isMavenProjectInTree(tree, rootFolder))
     return false;
 
-  const pomXmlStr = tree.read(`./${rootFolder}/pom.xml`, 'utf-8');
-  const pomXml = readXml(pomXmlStr);
+  const pomXml = readPomXml(tree, rootFolder);
+
+  if(pomXml === null)
+    return false;
 
   const modulesXpath = `/project/modules`;
 
@@ -353,8 +384,10 @@ export function hasMavenModuleInTree(tree: Tree, rootFolder: string, moduleName:
   if (!hasMultiModuleMavenProjectInTree(tree, rootFolder))
     return false;
 
-  const pomXmlStr = tree.read(`./${rootFolder}/pom.xml`, 'utf-8');
-  const pomXml = readXml(pomXmlStr);
+  const pomXml = readPomXml(tree, rootFolder);
+
+  if(pomXml === null)
+    return false;
 
   const modulesXpath = `/project/modules/module/text()[.="${moduleName}"]`;
 
@@ -383,20 +416,25 @@ export function addMavenModule(
   if (hasMavenModuleInTree(tree, rootFolder, moduleName))
     return false;
 
-  const pomXmlStr = tree.read(`${rootFolder}/pom.xml`, 'utf-8');
-  const pomXml = readXml(pomXmlStr);
+  const pomXml = readPomXml(tree, rootFolder);
+
+  if(pomXml === null)
+    return false;
 
   const modulesNode = findXmlMatching(pomXml, `/project/modules`);;
 
-  addXmlNode(modulesNode, {
-    module: moduleName
-  });
-  tree.write(
-    `${rootFolder}/pom.xml`,
-    pomXml.toString({ prettyPrint: true, indent: '\t' })
-  );
+  if(modulesNode){
+    addXmlNode(modulesNode, {
+      module: moduleName
+    });
+    tree.write(
+      `${rootFolder}/pom.xml`,
+      pomXml.toString({ prettyPrint: true, indent: '\t' })
+    );
+    return true;
+  }
 
-  return true
+  return false;
 }
 
 export function initMavenParentModule(tree: Tree, rootFolder: string, groupId: string, parentModuleName: string, childModuleName: string, helpComment = '', version = 'O.0.1-SNAPSHOT') {

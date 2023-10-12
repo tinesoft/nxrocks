@@ -1,4 +1,3 @@
-import { __spreadArrays } from 'tslib';
 import { create, builder } from 'xmlbuilder2';
 import { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
 import { select, SelectedValue, SelectReturnType } from 'xpath';
@@ -28,7 +27,7 @@ export function findXmlNodes(
   xml: XMLBuilder,
   xpath: string,
   ignoreNamespace = true
-): SelectReturnType | undefined {
+): SelectReturnType {
   let realXpath = xpath;
   if (ignoreNamespace) {
     const prefix = xpath.startsWith('//') ? '//' : '/';
@@ -55,14 +54,15 @@ export function findXmlNode(
   xpath: string,
   ignoreNamespace = true
 ): SelectedValue | undefined {
-  return findXmlNodes(xml, xpath, ignoreNamespace)?.[0];
+  const nodes = findXmlNodes(xml, xpath, ignoreNamespace);
+  return Array.isArray(nodes) ? nodes[0] : undefined;
 }
 
 export function findNodeContent(
   source: SelectedValue,
   xpath: string,
   ignoreNamespace = true
-): string | undefined {
+): string | null | undefined {
   return findXmlContent(
     asNewXMLBuilder(source as Node),
     xpath,
@@ -74,7 +74,7 @@ export function findXmlContent(
   xml: XMLBuilder,
   xpath: string,
   ignoreNamespace = true
-): string | undefined {
+): string | null | undefined {
   const node = findXmlNode(xml, xpath, ignoreNamespace);
   if (isNode(node)) {
     return node.textContent;
@@ -89,7 +89,7 @@ export function findXmlContents(
 ): string[] {
   const nodes = findXmlNodes(xml, xpath, ignoreNamespace);
   if (Array.isArray(nodes)) {
-    return nodes.map(n=> n.textContent);
+    return nodes.map(n=> n.textContent).filter(v => v !== null) as string[];
   }
   return [];
 }
@@ -119,14 +119,14 @@ export function findXmlMatching(
 }
 
 export function newXmlNode(
-  content: { [key: string]: any } | string
+  content: { [key: string]: unknown } | string
 ): XMLBuilder {
   return create(content);
 }
 
 export function addXmlNode(
   target: XMLBuilder,
-  node: { [key: string]: any } | string
+  node: { [key: string]: unknown } | string
 ): XMLBuilder {
   const child = newXmlNode(node);
   return target.import(child);
@@ -140,7 +140,7 @@ export function addXmlElement(
   target: XMLBuilder,
   ...elements: (
     | string
-    | { name: string; attributes?: { [key: string]: any } }
+    | { name: string; attributes?: { [key: string]: unknown } }
   )[]
 ) {
   let result = target;

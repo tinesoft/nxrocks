@@ -1,5 +1,9 @@
 import { NormalizedSchema } from '../generators/project/schema';
 import {
+  getCommonHttpHeaders,
+  NX_QUARKUS_PKG,
+} from '@nxrocks/common';
+import {
   isMavenProject,
   checkProjectBuildFileContains,
   isGradleProject,
@@ -7,11 +11,9 @@ import {
   hasGradleProject,
   hasMavenProject,
   runBuilderCommand,
-  getCommonHttpHeaders,
-  NX_QUARKUS_PKG,
   hasMultiModuleGradleProject,
   hasMultiModuleMavenProject,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 
 import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
 import { ProjectConfiguration } from '@nx/devkit';

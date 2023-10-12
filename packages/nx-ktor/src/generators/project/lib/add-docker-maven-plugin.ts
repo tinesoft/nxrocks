@@ -1,5 +1,5 @@
 import { logger, Tree } from '@nx/devkit';
-import { addMavenPlugin } from '@nxrocks/common';
+import { addMavenPlugin } from '@nxrocks/common-jvm';
 import { NormalizedSchema } from '../schema';
 
 export function addDockerMavenPlugin(tree: Tree, options: NormalizedSchema) {

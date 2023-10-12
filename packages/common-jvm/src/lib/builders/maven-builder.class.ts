@@ -1,4 +1,4 @@
-import { MAVEN_EXECUTABLE, MAVEN_WRAPPER_EXECUTABLE, MAVEN_WRAPPER_EXECUTABLE_LEGACY } from './constants';
+import { MAVEN_EXECUTABLE, MAVEN_WRAPPER_EXECUTABLE, MAVEN_WRAPPER_EXECUTABLE_LEGACY } from '../constants';
 import {
   BuilderCommandAliasMapper,
   BuilderCommandAliasType,
@@ -6,7 +6,7 @@ import {
   BuildSystem,
 } from './builder-core.interface';
 import { basename, resolve } from 'path';
-import { hasMavenModule, hasMavenWrapper } from './maven-utils';
+import { hasMavenModule, hasMavenWrapper } from '../utils/maven-utils';
 
 export class MavenBuilder implements BuilderCore {
   constructor(private commandAliases: BuilderCommandAliasMapper) {}
@@ -31,7 +31,7 @@ export class MavenBuilder implements BuilderCore {
     }
     
     if(options.runFromParentModule){
-      let pathToModule = [];
+      let pathToModule:string[] = [];
       const childModuleName = basename(options.cwd);
       do {
         const module = basename(options.cwd);

@@ -2,14 +2,15 @@ import { joinPathFragments, logger } from '@nx/devkit';
 import { mocked } from 'jest-mock';
 
 import { packageExecutor } from './executor';
-import { PackageExecutorOptions } from './schema';
+import {
+  NX_QUARKUS_PKG,
+} from '@nxrocks/common';
 import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE,
-  NX_QUARKUS_PKG,
   getGradleWrapperFiles,
   getMavenWrapperFiles,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 import {
   expectExecutorCommandRanWith,
   mockExecutorContext,
@@ -22,6 +23,7 @@ jest.mock('@nx/workspace/src/utils/fileutils');
 //then, we import
 import * as fsUtility from '@nx/workspace/src/utils/fileutils';
 import * as cp from 'child_process';
+import { PackageExecutorOptions } from './schema';
 
 const mockContext = mockExecutorContext(NX_QUARKUS_PKG, 'package');
 const options: PackageExecutorOptions = {

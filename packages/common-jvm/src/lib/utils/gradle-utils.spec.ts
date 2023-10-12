@@ -12,7 +12,7 @@ import {
   addGradleModule,
 } from './gradle-utils';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-import { stripIndent } from '../utils';
+import { stripIndent } from '@nxrocks/common';
 import { SPOTLESS_GRADLE_PLUGIN_ID } from '.';
 
 const BUILD_GRADLE_FILE = `plugins {
@@ -286,9 +286,9 @@ describe('gradle-utils', () => {
         const disabled = disableGradlePlugin(tree, '.', language, pluginId);
         expect(disabled).toBe(expected);
 
-        const newBuildGradle = tree.read(`./build${ext}`, 'utf-8');
+        const newBuildGradle = tree.read(`./build${ext}`, 'utf-8')!;
         if (expected) {
-          expect(getGradlePlugin(newBuildGradle, pluginId).applied).toBe(false);
+          expect(getGradlePlugin(newBuildGradle, pluginId)?.applied).toBe(false);
         }
       }
     );

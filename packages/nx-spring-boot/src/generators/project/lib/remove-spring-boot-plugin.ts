@@ -1,5 +1,5 @@
 import { logger, Tree } from '@nx/devkit';
-import { removeMavenPlugin } from '@nxrocks/common';
+import { removeMavenPlugin } from '@nxrocks/common-jvm';
 import { NormalizedSchema } from '../schema';
 
 export function removeBootMavenPlugin(tree: Tree, options: NormalizedSchema) {

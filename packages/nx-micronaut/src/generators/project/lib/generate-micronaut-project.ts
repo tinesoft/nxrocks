@@ -6,10 +6,12 @@ import { buildMicronautDownloadUrl } from '../../../utils/micronaut-utils';
 import {
   extractFromZipStream,
   getCommonHttpHeaders,
-  getGradleWrapperFiles,
-  getMavenWrapperFiles,
   NX_MICRONAUT_PKG,
 } from '@nxrocks/common';
+import {
+  getGradleWrapperFiles,
+  getMavenWrapperFiles,
+} from '@nxrocks/common-jvm';
 
 export async function generateMicronautProject(
   tree: Tree,

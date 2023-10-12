@@ -20,12 +20,14 @@ import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
 import {
+  NX_QUARKUS_PKG,
+} from '@nxrocks/common';
+import {
   BuilderCommandAliasType,
   hasMavenPlugin,
-  NX_QUARKUS_PKG,
   SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
   SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 import { mockZipStream } from '@nxrocks/common/testing';
 import { DEFAULT_QUARKUS_INITIALIZR_URL } from '../../utils/quarkus-utils';
 

@@ -1,0 +1,38 @@
+{
+  "name": "@nxrocks/common-jvm",
+  "description": "Common library to share code among the JVM-related plugins.",
+  "version": "0.0.1",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "src/index.js",
+  "license": "MIT",
+  "author": "Tine Kondo ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinesoft/nxrocks.git",
+    "directory": "packages/common-jvm"
+  },
+  "homepage": "https://github.com/tinesoft/nxrocks/blob/master/packages/common-jvm#readme",
+  "bugs": {
+    "url": "https://github.com/tinesoft/nxrocks/issues"
+  },
+  "keywords": [
+    "nx-spring-boot",
+    "nx-quarkus",
+    "nx-micronaut",
+    "nx-ktor"
+  ],
+  "dependencies": {
+    "@nx/workspace": "16.10.0",
+    "@nx/devkit": "16.10.0",
+    "tslib": "^2.6.1",
+    "@nxrocks/common": "*",
+    "xmlbuilder2": "^3.1.1",
+    "xpath": "^0.0.33"
+  },
+  "typings": "./src/index.d.ts",
+  "peerDependencies": {},
+  "devDependencies": {}
+}

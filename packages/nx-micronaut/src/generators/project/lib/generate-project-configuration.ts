@@ -1,10 +1,11 @@
 import { Tree, addProjectConfiguration, joinPathFragments, logger } from '@nx/devkit';
 import { NormalizedSchema } from '../schema';
 import {
-  BuilderCommandAliasType,
   NX_MICRONAUT_PKG,
-  NX_QUARKUS_PKG,
 } from '@nxrocks/common';
+import {
+  BuilderCommandAliasType,
+} from '@nxrocks/common-jvm';
 
 export async function generateProjectConfiguration(
   tree: Tree,

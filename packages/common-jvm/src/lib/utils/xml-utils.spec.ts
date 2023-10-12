@@ -1,5 +1,5 @@
 
-import { stripIndent } from '.';
+import { PackageInfo, stripIndent } from '@nxrocks/common';
 import { addXmlNode, findXmlMatching, findXmlNode, findXmlContent, findNodeContent, findXmlNodes, newXmlNode, readXml } from './xml-utils';
 
 const XML_FILE = `<?xml version="1.0" encoding="UTF-8"?>
@@ -102,7 +102,7 @@ describe('xml-utils', () => {
             const xml = readXml(XML_FILE);
 
             const dependencyNodes = findXmlNodes(xml, `/project/dependencies/dependency`);
-            const dependencies = [];
+            const dependencies: PackageInfo[] = [];
             if (Array.isArray(dependencyNodes)) {
                 dependencyNodes?.forEach((node) => {
                 const depGroupId = findNodeContent(node, `/dependency/groupId/text()`);
@@ -128,7 +128,8 @@ describe('xml-utils', () => {
 
         it('should find xml node content if namespace info are missing from "xpath" but "ignoreNamespace" is true', () => {
             const xml = readXml(XML_FILE);
-            const node = findXmlNode(xml, '/project');
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const node = findXmlNode(xml, '/project')!;
             const content = findNodeContent(node, `/project/groupId/text()`, true);
             expect(content).toBeDefined();
             expect(content).toEqual('com.example');
@@ -137,14 +138,16 @@ describe('xml-utils', () => {
 
         it('should not find node content if namespace info are missing from "xpath"  and "ignoreNamespace" is false', () => {
             const xml = readXml(XML_FILE);
-            const node = findXmlNode(xml, '/project');
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const node = findXmlNode(xml, '/project')!;
             const content = findNodeContent(node, `/project/groupId/text()`, false);
             expect(content).toBeUndefined();
         });
 
         it('should still find node content if namespace info are present in "xpath" and "ignoreNamespace" is false', () => {
             const xml = readXml(XML_FILE);
-            const node = findXmlNode(xml, '/project');
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const node = findXmlNode(xml, '/project')!;
             const content = findNodeContent(node, `/*[local-name() = 'project']/*[local-name() = 'groupId']/text()`, false);
             expect(content).toBeDefined();
             expect(content).toEqual('com.example');
@@ -155,7 +158,7 @@ describe('xml-utils', () => {
         it('should find the xml matching the given xpath', () => {
             const xml = readXml(XML_FILE);
             const subXml = findXmlMatching(xml, '/project/build');
-            expect(subXml.toString({ prettyPrint: true, indent: '    ' })).toEqual(
+            expect(subXml?.toString({ prettyPrint: true, indent: '    ' })).toEqual(
                 stripIndent`
                 <build xmlns="http://maven.apache.org/POM/4.0.0">
                     <plugins>
@@ -210,9 +213,10 @@ describe('xml-utils', () => {
     describe('addXmlNode', () => {
         it(`should append the given node in the target XML`, () => {
             const xml = readXml(XML_FILE);
-            const pluginsXml = findXmlMatching(xml, '/project/build/plugins');
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const pluginsXml = findXmlMatching(xml, '/project/build/plugins')!;
 
-            expect(pluginsXml.toString({prettyPrint: true, indent: '    '})).toEqual(
+            expect(pluginsXml?.toString({prettyPrint: true, indent: '    '})).toEqual(
                 stripIndent`
                 <plugins xmlns="http://maven.apache.org/POM/4.0.0">
                     <plugin>

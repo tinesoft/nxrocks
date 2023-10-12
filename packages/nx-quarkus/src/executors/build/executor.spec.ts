@@ -4,12 +4,14 @@ import { mocked } from 'jest-mock';
 import { buildExecutor } from './executor';
 import { BuildExecutorOptions } from './schema';
 import {
+  NX_QUARKUS_PKG,
+} from '@nxrocks/common';
+import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE,
-  NX_QUARKUS_PKG,
   getGradleWrapperFiles,
   getMavenWrapperFiles,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 import {
   expectExecutorCommandRanWith,
   mockExecutorContext,

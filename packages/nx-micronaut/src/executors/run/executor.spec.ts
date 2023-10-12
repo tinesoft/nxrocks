@@ -4,12 +4,14 @@ import { mocked } from 'jest-mock';
 import { runExecutor } from './executor';
 import { RunExecutorOptions } from './schema';
 import {
+  NX_MICRONAUT_PKG,
+} from '@nxrocks/common';
+import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE_LEGACY,
-  NX_MICRONAUT_PKG,
   getGradleWrapperFiles,
   getMavenWrapperFiles,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 import {
   expectExecutorCommandRanWith,
   mockExecutorContext,

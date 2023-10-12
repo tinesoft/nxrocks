@@ -6,10 +6,12 @@ import { buildBootDownloadUrl } from '../../../utils/boot-utils';
 import {
   extractFromZipStream,
   getCommonHttpHeaders,
-  getGradleWrapperFiles,
-  getMavenWrapperFiles,
   NX_SPRING_BOOT_PKG,
 } from '@nxrocks/common';
+import {
+  getGradleWrapperFiles,
+  getMavenWrapperFiles,
+} from '@nxrocks/common-jvm';
 
 export async function generateBootProject(
   tree: Tree,
