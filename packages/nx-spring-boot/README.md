@@ -51,7 +51,7 @@ Here is a list of some of the coolest features of the plugin:
 > 
 > and you are good to go‧o‧o‧o! 🚀
 > 
-> More information here: [create-nx-spring-boot](../create-nx-spring-boot/README.md)
+> More information here: [create-nx-spring-boot](../packages/create-nx-spring-boot/README.md)
 
 </details>
 

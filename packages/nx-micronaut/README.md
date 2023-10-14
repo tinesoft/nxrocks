@@ -48,7 +48,7 @@ Here is a list of some of the coolest features of the plugin:
 > 
 > and you are good to go‧o‧o‧o! 🚀
 > 
-> More information here: [create-nx-micronaut](../create-nx-micronaut/README.md)
+> More information here: [create-nx-micronaut](../packages/create-nx-micronaut/README.md)
 
 </details>
 
