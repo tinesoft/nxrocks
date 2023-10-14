@@ -1,4 +1,4 @@
-import { hasNxWrapper, isNxWrapperInstalled } from '@nxrocks/common';
+import { hasNxWrapper, isNxWrapperInstalled } from '@nxrocks/common-cli';
 import { createCLITestProject } from '@nxrocks/common/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
