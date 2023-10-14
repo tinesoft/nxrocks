@@ -35,3 +35,4 @@ export const MAVEN_QUARKUS_COMMAND_MAPPER: BuilderCommandAliasMapper = {
 }
 
 export const MAVEN_BUILDER = new MavenBuilder(MAVEN_QUARKUS_COMMAND_MAPPER);
+

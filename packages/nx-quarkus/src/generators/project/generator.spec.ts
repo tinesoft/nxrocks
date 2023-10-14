@@ -19,9 +19,7 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-import {
-  NX_QUARKUS_PKG,
-} from '@nxrocks/common';
+import { NX_QUARKUS_PKG } from '../../index';
 import {
   BuilderCommandAliasType,
   hasMavenPlugin,

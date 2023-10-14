@@ -1,10 +1,8 @@
 import { ProjectGraph, ProjectGraphProcessorContext } from '@nx/devkit';
 
+import { NX_KTOR_PKG } from '.';
 import {
   getProjectGraph,
-  NX_KTOR_PKG,
-} from '@nxrocks/common';
-import {
   getJvmPackageInfo,
 } from '@nxrocks/common-jvm';
 import { isKtorProject } from './utils/ktor-utils';

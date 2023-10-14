@@ -1,4 +1,4 @@
-import { Tree, addProjectConfiguration } from '@nx/devkit';
+import { Tree } from '@nx/devkit';
 import { ProjectGeneratorOptions } from './schema';
 import {
   normalizeOptions,
@@ -9,10 +9,10 @@ import {
   generateProjectConfiguration,
   promptForMultiModuleSupport,
 } from './lib';
+import { NX_MICRONAUT_PKG } from '../../index';
 import {
   addPluginToNxJson,
-  NX_MICRONAUT_PKG,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 
 export async function projectGenerator(
   tree: Tree,

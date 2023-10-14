@@ -19,11 +19,9 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-import {
-  NX_SPRING_BOOT_PKG,
-  stripIndent,
-} from '@nxrocks/common';
-import {
+import { NX_SPRING_BOOT_PKG } from '../../index';
+import {stripIndent,
+  
   hasMavenPlugin,
   SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
   SPOTLESS_MAVEN_PLUGIN_GROUP_ID,

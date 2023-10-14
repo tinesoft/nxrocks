@@ -1,9 +1,7 @@
 import { NormalizedSchema } from '../generators/project/schema';
+import { NX_KTOR_PKG } from '../index';
 import {
   getCommonHttpHeaders,
-  NX_KTOR_PKG,
-} from '@nxrocks/common';
-import {
   isMavenProject,
   checkProjectBuildFileContains,
   isGradleProject,

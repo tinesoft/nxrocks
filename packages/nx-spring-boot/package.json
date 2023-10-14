@@ -29,7 +29,7 @@
     "java"
   ],
   "dependencies": {
-    "@nxrocks/common": "*",
+    "@nxrocks/common-jvm": "*",
     "node-fetch": "^2.6.12",
     "enquirer": "^2.4.1",
     "tslib": "^2.6.1"

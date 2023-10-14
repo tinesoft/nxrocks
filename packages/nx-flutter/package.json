@@ -28,10 +28,12 @@
     "dart"
   ],
   "dependencies": {
-    "@nxrocks/common": "*",
     "enquirer": "^2.4.1",
     "js-yaml": "^4.1.0",
-    "tslib": "^2.6.1"
+    "tslib": "^2.6.1",
+    "@nx/workspace": "16.10.0",
+    "@nxrocks/common-jvm": "*",
+    "@nxrocks/common": "*"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {

@@ -29,8 +29,9 @@
     "flutter"
   ],
   "dependencies": {
-    "@nxrocks/common": "*",
-    "tslib": "^2.6.1"
+    "tslib": "^2.6.1",
+    "@nx/workspace": "16.10.0",
+    "@nxrocks/common": "*"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {

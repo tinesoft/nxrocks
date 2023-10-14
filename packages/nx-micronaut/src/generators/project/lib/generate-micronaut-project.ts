@@ -3,12 +3,10 @@ import { Tree, joinPathFragments, logger, stripIndents, workspaceRoot } from '@n
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
 import { buildMicronautDownloadUrl } from '../../../utils/micronaut-utils';
+import { NX_MICRONAUT_PKG } from '../../../index';
 import {
   extractFromZipStream,
   getCommonHttpHeaders,
-  NX_MICRONAUT_PKG,
-} from '@nxrocks/common';
-import {
   getGradleWrapperFiles,
   getMavenWrapperFiles,
 } from '@nxrocks/common-jvm';

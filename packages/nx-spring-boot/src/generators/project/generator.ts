@@ -12,10 +12,10 @@ import {
   promptForMultiModuleSupport,
   generateProjectConfiguration,
 } from './lib';
+import { NX_SPRING_BOOT_PKG } from '../../index';
 import {
   addPluginToNxJson,
-  NX_SPRING_BOOT_PKG,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 
 export async function projectGenerator(
   tree: Tree,

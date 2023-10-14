@@ -3,11 +3,9 @@ import {
   NormalizedSchema,
   ProjectGeneratorOptions,
 } from '../generators/project/schema';
+import { NX_SPRING_BOOT_PKG } from '../index';
 import {
   getCommonHttpHeaders,
-  NX_SPRING_BOOT_PKG,
-} from '@nxrocks/common';
-import {
   BuilderCommandAliasType,
   hasGradleProject,
   hasMavenProject,

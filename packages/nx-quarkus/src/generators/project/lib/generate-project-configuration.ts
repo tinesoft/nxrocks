@@ -1,8 +1,6 @@
 import { Tree, addProjectConfiguration, joinPathFragments, logger } from '@nx/devkit';
 import { NormalizedSchema } from '../schema';
-import {
-  NX_QUARKUS_PKG,
-} from '@nxrocks/common';
+import { NX_QUARKUS_PKG } from '../../../index';
 import {
   BuilderCommandAliasType,
 } from '@nxrocks/common-jvm';

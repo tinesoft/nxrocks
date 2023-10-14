@@ -9,10 +9,10 @@ import {
   generateProjectConfiguration,
   promptForMultiModuleSupport,
 } from './lib';
+import { NX_QUARKUS_PKG } from '../../index';
 import {
   addPluginToNxJson,
-  NX_QUARKUS_PKG,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 
 export async function projectGenerator(
   tree: Tree,

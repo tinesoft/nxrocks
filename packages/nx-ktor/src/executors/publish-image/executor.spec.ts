@@ -2,9 +2,7 @@ import { joinPathFragments, logger } from '@nx/devkit';
 
 import { publishImageExecutor } from './executor';
 import { PublishImageExecutorOptions } from './schema';
-import {
-  NX_KTOR_PKG,
-} from '@nxrocks/common';
+import { NX_KTOR_PKG } from '../../index';
 import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE_LEGACY,

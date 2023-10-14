@@ -1,6 +1,6 @@
 import { Tree, names } from '@nx/devkit';
 import { ProjectGeneratorOptions, NormalizedSchema } from '../schema';
-import { getProjectRootDir } from '@nxrocks/common';
+import { getProjectRootDir } from '@nxrocks/common-jvm';
 
 export function normalizeOptions(
   tree: Tree,

@@ -3,12 +3,10 @@ import { Tree, joinPathFragments, logger, stripIndents, workspaceRoot } from '@n
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
 import { buildQuarkusDownloadUrl } from '../../../utils/quarkus-utils';
+import { NX_QUARKUS_PKG } from '../../../index';
 import {
   extractFromZipStream,
   getCommonHttpHeaders,
-  NX_QUARKUS_PKG,
-} from '@nxrocks/common';
-import {
   getGradleWrapperFiles,
   getMavenWrapperFiles,
 } from '@nxrocks/common-jvm';

@@ -1,10 +1,7 @@
 import { NormalizedSchema } from '../generators/project/schema';
+import { NX_MICRONAUT_PKG } from '../index';
 import {
-  NX_MICRONAUT_PKG,
   getCommonHttpHeaders,
-
-} from '@nxrocks/common';
-import {
   isMavenProject,
   checkProjectBuildFileContains,
   isGradleProject,
