@@ -1,4 +1,4 @@
-export const IS_WINDOWS = process.platform === 'win32';
+import { IS_WINDOWS } from "@nxrocks/common";
 
 export const MAVEN_EXECUTABLE = 'mvn';
 

@@ -1,5 +1,5 @@
 import { logger, Tree } from '@nx/devkit';
-import { stripIndent } from '@nxrocks/common';
+import { stripIndent } from '@nxrocks/common-jvm';
 import { disableGradlePlugin } from '@nxrocks/common-jvm';
 import { NormalizedSchema } from '../schema';
 

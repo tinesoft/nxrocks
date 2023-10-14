@@ -1,5 +1,5 @@
 import { Tree, names } from '@nx/devkit';
-import { getProjectRootDir } from '@nxrocks/common';
+import { getProjectRootDir } from '@nxrocks/common-jvm';
 import { ProjectGeneratorOptions, NormalizedSchema } from '../schema';
 
 export function normalizeOptions(

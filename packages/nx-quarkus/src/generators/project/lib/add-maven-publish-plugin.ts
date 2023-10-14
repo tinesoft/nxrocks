@@ -1,6 +1,5 @@
 import { logger, Tree } from '@nx/devkit';
-import { stripIndent } from '@nxrocks/common';
-import { addGradlePlugin } from '@nxrocks/common-jvm';
+import {  stripIndent , addGradlePlugin } from '@nxrocks/common-jvm';
 import { NormalizedSchema } from '../schema';
 
 export function addMavenPublishPlugin(tree: Tree, options: NormalizedSchema) {

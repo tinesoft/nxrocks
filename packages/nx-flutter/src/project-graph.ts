@@ -1,8 +1,9 @@
 import { ProjectGraph, ProjectGraphProcessorContext } from '@nx/devkit';
 
 import { getPackageInfo } from './utils/deps-utils';
-import { getProjectGraph, NX_FLUTTER_PKG } from '@nxrocks/common';
+import { getProjectGraph} from '@nxrocks/common';
 import { isFlutterProject } from './utils/flutter-utils';
+import { NX_FLUTTER_PKG } from '.';
 
 export function processProjectGraph(
   graph: ProjectGraph,

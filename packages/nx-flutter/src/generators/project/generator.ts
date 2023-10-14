@@ -1,5 +1,5 @@
 import { Tree, addProjectConfiguration, joinPathFragments } from '@nx/devkit';
-import { addPluginToNxJson, NX_FLUTTER_PKG } from '@nxrocks/common';
+import { addPluginToNxJson } from '@nxrocks/common-jvm';
 
 import {
   normalizeOptions,
@@ -7,6 +7,7 @@ import {
   generateFlutterProject,
 } from './lib';
 import { ProjectGeneratorOptions } from './schema';
+import { NX_FLUTTER_PKG } from '../../index';
 
 export async function projectGenerator(
   tree: Tree,

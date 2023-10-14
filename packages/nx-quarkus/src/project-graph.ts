@@ -1,10 +1,8 @@
 import { ProjectGraph, ProjectGraphProcessorContext } from '@nx/devkit';
 
+import { NX_QUARKUS_PKG } from '.';
 import {
-  getProjectGraph,
-  NX_QUARKUS_PKG,
-} from '@nxrocks/common';
-import {
+  getProjectGraph,  
   getJvmPackageInfo,
 } from '@nxrocks/common-jvm';
 import { isQuarkusProject } from './utils/quarkus-utils';

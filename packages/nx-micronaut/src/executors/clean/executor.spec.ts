@@ -3,9 +3,7 @@ import { mocked } from 'jest-mock';
 
 import { cleanExecutor } from './executor';
 import { CleanExecutorOptions } from './schema';
-import {
-  NX_MICRONAUT_PKG,
-} from '@nxrocks/common';
+import { NX_MICRONAUT_PKG } from '../../index';
 import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE_LEGACY,

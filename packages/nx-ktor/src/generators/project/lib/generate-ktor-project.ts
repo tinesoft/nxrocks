@@ -3,12 +3,10 @@ import { Tree, joinPathFragments, logger, stripIndents, workspaceRoot } from '@n
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
 import { buildKtorDownloadUrl } from '../../../utils/ktor-utils';
+import { NX_KTOR_PKG } from '../../../index';
 import {
   extractFromZipStream,
-  getCommonHttpHeaders,
-  NX_KTOR_PKG,
-} from '@nxrocks/common';
-import {
+  getCommonHttpHeaders,  
   getGradleWrapperFiles,
   getMavenWrapperFiles,
 } from '@nxrocks/common-jvm';

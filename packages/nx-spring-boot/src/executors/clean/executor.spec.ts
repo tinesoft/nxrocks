@@ -3,9 +3,7 @@ import { mocked } from 'jest-mock';
 
 import { cleanExecutor } from './executor';
 import { CleanExecutorOptions } from './schema';
-import {
-  NX_SPRING_BOOT_PKG,
-} from '@nxrocks/common';
+import { NX_SPRING_BOOT_PKG } from '../../index';
 import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE,
