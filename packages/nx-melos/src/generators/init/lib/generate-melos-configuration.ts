@@ -1,5 +1,4 @@
-import { Tree, logger, generateFiles, getWorkspaceLayout } from '@nx/devkit';
-import { readPackageJson } from 'nx/src/project-graph/file-utils';
+import { Tree, logger, generateFiles, getWorkspaceLayout, workspaceRoot, readJsonFile} from '@nx/devkit';
 import { getDartSDKVersion } from '../../../utils/melos-utils';
 import { join } from 'path';
 
@@ -9,7 +8,7 @@ export async function generateMelosConfigurationFile(
   logger.info(`Generating Melos configuration file...`);
 
   const { appsDir, libsDir, npmScope } = getWorkspaceLayout(tree);
-  const pkgRepositoryUrl = readPackageJson()?.repository?.url;
+  const pkgRepositoryUrl = readJsonFile(`${workspaceRoot}/package.json`)?.repository?.url;
 
   const dartVersions = getDartSDKVersion()?.split('.');
 
