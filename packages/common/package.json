@@ -23,17 +23,13 @@
     "nx-spring-boot",
     "nx-quarkus",
     "nx-micronaut",
-    "nx-ktor"
+    "nx-ktor",
+    "nx-melos"
   ],
   "dependencies": {
     "hpagent": "^1.2.0",
-    "tslib": "^2.6.1",
-    "xmlbuilder2": "^3.1.1",
-    "xpath": "^0.0.33",
     "unzipper": "^0.10.14",
-    "fs-extra": "^10.1.0",
-    "@nx/devkit": ">=16.0.0",
-    "@nx/workspace": ">=16.0.0"
+    "fs-extra": "^10.1.0"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {},
