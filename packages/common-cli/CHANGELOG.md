@@ -1,3 +1,16 @@
+# [2.0.0](https://github.com/tinesoft/nxrocks/compare/common-cli/v1.0.0...common-cli/v2.0.0) (2023-10-22)
+
+
+### Features
+
+* **common-jvm:** move common JVM-related utils to a dedicated package ([1bf12fb](https://github.com/tinesoft/nxrocks/commit/1bf12fb38650261584e7face404f5477470dc40d))
+* update to Nx workspace `v17.x.x` ([c5b4ef3](https://github.com/tinesoft/nxrocks/commit/c5b4ef3db2bb8b5e5b2e09a09892a09c4c52b017)), closes [#195](https://github.com/tinesoft/nxrocks/issues/195)
+
+
+### BREAKING CHANGES
+
+* Nx `v17.x.x` is now the minimum required version to use the plugin
+
 # 1.0.0 (2023-10-08)
 
 
