@@ -35,7 +35,7 @@ export async function projectGenerator(
     addFormattingWithSpotless(tree, normalizedOptions);
   }
 
-  addPluginToNxJson(NX_QUARKUS_PKG, tree);
+  addPluginToNxJson(NX_QUARKUS_PKG, tree, 'install');
 }
 
 export default projectGenerator;
