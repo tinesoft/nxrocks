@@ -33,6 +33,11 @@
             "input": "./packages/nx-micronaut",
             "glob": "executors.json",
             "output": "."
+          },
+          {
+            "input": "./packages/nx-micronaut",
+            "glob": "migrations.json",
+            "output": "."
           }
         ]
       }
