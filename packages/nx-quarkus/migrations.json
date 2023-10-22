@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "add-install-to-cacheable-operations": {
+      "version": "7.0.0",
+      "description": "Add  target to Nx cacheable operations",
+      "implementation": "./src/migrations/add-install-to-cacheable-operations"
+    }
+  }
+}
