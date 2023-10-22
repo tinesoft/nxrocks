@@ -1,3 +1,22 @@
+# [2.0.0](https://github.com/tinesoft/nxrocks/compare/create-nx-flutter/v1.0.0...create-nx-flutter/v2.0.0) (2023-10-22)
+
+
+### Bug Fixes
+
+* **common:**  update dependencies used by the `common` module ([e78ae32](https://github.com/tinesoft/nxrocks/commit/e78ae32a157d7823aab64454ccd637a4f4a505dc))
+
+
+### Features
+
+* **common-jvm:** move common JVM-related utils to a dedicated package ([1bf12fb](https://github.com/tinesoft/nxrocks/commit/1bf12fb38650261584e7face404f5477470dc40d))
+* **common:** allow setting cacheable operations when add the plugin to `nx.json` ([9fb5177](https://github.com/tinesoft/nxrocks/commit/9fb51770c991912a6c8d9bc1b99af4f171f1df58))
+* update to Nx workspace `v17.x.x` ([c5b4ef3](https://github.com/tinesoft/nxrocks/commit/c5b4ef3db2bb8b5e5b2e09a09892a09c4c52b017)), closes [#195](https://github.com/tinesoft/nxrocks/issues/195)
+
+
+### BREAKING CHANGES
+
+* Nx `v17.x.x` is now the minimum required version to use the plugin
+
 # 1.0.0 (2023-10-08)
 
 
