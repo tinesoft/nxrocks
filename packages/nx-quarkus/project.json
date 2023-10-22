@@ -33,6 +33,11 @@
             "input": "./packages/nx-quarkus",
             "glob": "executors.json",
             "output": "."
+          },
+          {
+            "input": "./packages/nx-quarkus",
+            "glob": "migrations.json",
+            "output": "."
           }
         ]
       }
