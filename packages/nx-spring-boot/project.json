@@ -33,6 +33,11 @@
             "input": "./packages/nx-spring-boot",
             "glob": "executors.json",
             "output": "."
+          },
+          {
+            "input": "./packages/nx-spring-boot",
+            "glob": "migrations.json",
+            "output": "."
           }
         ]
       }

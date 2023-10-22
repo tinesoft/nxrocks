@@ -42,5 +42,5 @@ v8-compile-cache-0
 Thumbs.db
 
 # Nx files
-migrations.json
+/migrations.json
 .nx/cache
