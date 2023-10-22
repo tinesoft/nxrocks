@@ -29,6 +29,7 @@
     "java"
   ],
   "dependencies": {
+    "@nx/devkit": "17.0.1",
     "@nxrocks/common-jvm": "*",
     "node-fetch": "^2.6.12",
     "enquirer": "^2.4.1",
@@ -37,5 +38,8 @@
   "typings": "./src/index.d.ts",
   "peerDependencies": {
     "@nx/devkit": ">=17.0.0"
+  },
+  "nx-migrations": {
+    "migrations": "./migrations.json"
   }
 }
