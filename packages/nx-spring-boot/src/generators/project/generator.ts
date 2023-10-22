@@ -49,7 +49,7 @@ export async function projectGenerator(
     addFormattingWithSpotless(tree, normalizedOptions);
   }
 
-  addPluginToNxJson(NX_SPRING_BOOT_PKG, tree);
+  addPluginToNxJson(NX_SPRING_BOOT_PKG, tree, 'install');
 }
 
 export default projectGenerator;
