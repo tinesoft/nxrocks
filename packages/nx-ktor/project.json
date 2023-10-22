@@ -32,6 +32,11 @@
             "input": "./packages/nx-ktor",
             "glob": "executors.json",
             "output": "."
+          },
+          {
+            "input": "./packages/nx-ktor",
+            "glob": "migrations.json",
+            "output": "."
           }
         ]
       }
