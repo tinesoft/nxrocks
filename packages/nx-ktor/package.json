@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/nx-ktor",
   "description": "Nx plugin to generate, run, package, build (and more) Ktor projects inside your Nx workspace",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "private": false,
   "publishConfig": {
     "access": "public"
