@@ -36,6 +36,6 @@
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
-    "@nx/devkit": ">=16.0.0"
+    "@nx/devkit": ">=17.0.0"
   }
 }

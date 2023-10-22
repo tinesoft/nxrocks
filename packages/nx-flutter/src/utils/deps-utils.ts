@@ -1,6 +1,6 @@
 import { load } from 'js-yaml';
 
-import { fileExists } from '@nx/workspace/src/utils/fileutils';
+import { fileExists } from '@nx/workspace/src/utilities/fileutils';
 import {
   getProjectFileContent,
   getProjectFilePath,

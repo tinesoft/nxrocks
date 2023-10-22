@@ -1,6 +1,6 @@
 import { logger, Tree } from '@nx/devkit';
 import { execSync } from 'child_process';
-import { fileExists } from '@nx/workspace/src/utils/fileutils';
+import { fileExists } from '@nx/workspace/src/utilities/fileutils';
 
 import { BuilderCommandAliasType, BuilderCore } from '../builders';
 import {

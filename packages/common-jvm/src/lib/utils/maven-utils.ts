@@ -10,7 +10,7 @@ import {
   readXml,
   removeXmlNode,
 } from './index';
-import { fileExists } from '@nx/workspace/src/utils/fileutils';
+import { fileExists } from '@nx/workspace/src/utilities/fileutils';
 import { resolve } from 'path';
 import { stripIndent, getProjectFileContent } from '@nxrocks/common';
 import { XMLBuilder } from 'xmlbuilder2/lib/interfaces';

@@ -30,7 +30,7 @@
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "@swc/helpers": "0.5.2",
-    "create-nx-workspace": "16.10.0",
+    "create-nx-workspace": "17.0.1",
     "enquirer": "^2.4.1",
     "hpagent": "^1.2.0",
     "js-yaml": "^4.1.0",
@@ -46,13 +46,13 @@
     "@commitlint/cli": "^17.6.1",
     "@commitlint/config-angular": "^17.6.1",
     "@jest/globals": "^29.5.0",
-    "@nx/devkit": "16.10.0",
-    "@nx/eslint-plugin": "16.10.0",
-    "@nx/jest": "16.10.0",
-    "@nx/js": "16.10.0",
-    "@nx/node": "16.10.0",
-    "@nx/plugin": "16.10.0",
-    "@nx/workspace": "16.10.0",
+    "@nx/devkit": "17.0.1",
+    "@nx/eslint-plugin": "17.0.1",
+    "@nx/jest": "17.0.1",
+    "@nx/js": "17.0.1",
+    "@nx/node": "17.0.1",
+    "@nx/plugin": "17.0.1",
+    "@nx/workspace": "17.0.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
@@ -81,8 +81,7 @@
     "jest-environment-node": "^29.4.1",
     "jest-mock": "28.1.3",
     "jsonc-eslint-parser": "^2.2.0",
-    "nx": "16.10.0",
-    "nx-cloud": "16.4.0",
+    "nx": "17.0.1",
     "prettier": "2.6.2",
     "semantic-release": "^21.0.2",
     "semantic-release-plugin-decorators": "https://github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%2Fdynamic_import",
@@ -106,4 +105,3 @@
     }
   }
 }
-
