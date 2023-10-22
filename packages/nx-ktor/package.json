@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/nx-ktor",
   "description": "Nx plugin to generate, run, package, build (and more) Ktor projects inside your Nx workspace",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -28,13 +28,13 @@
     "kotlin"
   ],
   "dependencies": {
-    "@nxrocks/common": "*",
+    "@nxrocks/common-jvm": "*",
     "node-fetch": "^2.6.12",
     "enquirer": "^2.4.1",
     "tslib": "^2.6.1"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
-    "@nx/devkit": ">=16.0.0"
+    "@nx/devkit": ">=17.0.0"
   }
 }

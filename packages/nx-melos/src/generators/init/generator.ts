@@ -1,5 +1,6 @@
 import { Tree, formatFiles } from '@nx/devkit';
-import { addPluginToNxJson, NX_MELOS_PKG } from '@nxrocks/common';
+import { addPluginToNxJson } from '@nxrocks/common';
+import { NX_MELOS_PKG } from '../../index';
 import {
   installMelosPackageGlobally,
   generateMelosConfigurationFile,

@@ -4,68 +4,45 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "nx-cloud",
       "options": {
-        "accessToken": "OTMwZTE2ZDgtODg2NS00Y2M1LTg0OTMtNGU3ZmI0NzY4YTUyfHJlYWQtd3JpdGU=",
-        "cacheableOperations": [
-          "build",
-          "test",
-          "lint",
-          "e2e"
-        ],
-        "runtimeCacheInputs": [
-          "node -v",
-          "echo $RUNNER_OS"
-        ],
+        "runtimeCacheInputs": ["node -v", "echo $RUNNER_OS"],
         "canTrackAnalytics": false,
-        "showUsageWarnings": true,
-        "parallel": 1
+        "showUsageWarnings": true
       }
     }
   },
   "workspaceLayout": {
+    "projectNameAndRootFormat": "derived",
     "appsDir": "e2e",
     "libsDir": "packages"
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "cache": true
     },
     "e2e": {
-      "dependsOn": [
-        "^build"
-      ]
+      "dependsOn": ["^build"],
+      "cache": true
     },
     "semantic-release": {
-      "dependsOn": [
-        "^semantic-release"
-      ]
+      "dependsOn": ["^semantic-release"]
     },
     "test": {
-      "inputs": [
-        "default",
-        "^production",
-        "{workspaceRoot}/jest.preset.js"
-      ]
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "cache": true
     },
     "publish": {
-      "outputs": [
-        "{options.outputPath}"
-      ]
+      "outputs": ["{options.outputPath}"]
+    },
+    "lint": {
+      "cache": true
     }
   },
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [
       "{workspaceRoot}/workspace.json",
       "{workspaceRoot}/tsconfig.base.json",
@@ -79,5 +56,7 @@
       "!{projectRoot}/jest.config.[jt]s",
       "!{projectRoot}/src/test-setup.[jt]s"
     ]
-  }
+  },
+  "nxCloudAccessToken": "OTMwZTE2ZDgtODg2NS00Y2M1LTg0OTMtNGU3ZmI0NzY4YTUyfHJlYWQtd3JpdGU=",
+  "parallel": 1
 }

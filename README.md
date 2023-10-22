@@ -8,7 +8,7 @@
 
 <p align="center"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nxrocks.png" width="450"></p>
 
-## Projects
+## Our Plugins
 
 Status | Name     | Description
 ------ | -------- | ------------
@@ -19,9 +19,16 @@ Status | Name     | Description
   ✅   | [nx-melos](packages/nx-melos)  | [Nx](https://nx.dev) plugin adding first class support for [Melos](https://melos.invertase.dev/) in your Nx workspace
   ✅   | [nx-ktor](packages/nx-ktor)  | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Ktor](https://ktor.io) projects inside your Nx workspace
 
+## Our custom CLIs
 
+Status | Name     | Description
+------ | -------- | ------------
+  ✅   | [create-nx-spring-boot](packages/create-nx-spring-boot)  | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Spring Boot](https://spring.io/projects/spring-boot)
+  ✅   | [create-nx-flutter](packages/create-nx-flutter)  | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Flutter](https://flutter.dev)
+  ✅   | [create-nx-quarkus](packages/create-nx-quarkus)  | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Quarkus](https://quarkus.io)
+  ✅   | [create-nx-micronaut](packages/create-nx-micronaut)  | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Micronaut](https://micronaut.io)
+  ✅   | [create-nx-ktor](packages/create-nx-ktor)  | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Ktor](https://ktor.io)
 
 ## License
 
 Copyright (c) 2020-present Tine Kondo. Licensed under the MIT License (MIT)
-s

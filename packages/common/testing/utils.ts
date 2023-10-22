@@ -23,7 +23,6 @@ export function mockExecutorContext(
     cwd: 'root',
     projectName: 'proj',
     workspace: {
-      npmScope: 'nxrocks',
       version: workspaceVersion,
       projects: {
         proj: {

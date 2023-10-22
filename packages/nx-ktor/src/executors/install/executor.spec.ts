@@ -3,13 +3,13 @@ import { mocked } from 'jest-mock';
 
 import { installExecutor } from './executor';
 import { InstallExecutorOptions } from './schema';
+import { NX_KTOR_PKG } from '../../index';
 import {
   GRADLE_WRAPPER_EXECUTABLE,
   MAVEN_WRAPPER_EXECUTABLE_LEGACY,
-  NX_QUARKUS_PKG,
   getGradleWrapperFiles,
   getMavenWrapperFiles,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 import {
   expectExecutorCommandRanWith,
   mockExecutorContext,
@@ -17,13 +17,13 @@ import {
 
 //first, we mock
 jest.mock('child_process');
-jest.mock('@nx/workspace/src/utils/fileutils');
+jest.mock('@nx/workspace/src/utilities/fileutils');
 
 //then, we import
-import * as fsUtility from '@nx/workspace/src/utils/fileutils';
+import * as fsUtility from '@nx/workspace/src/utilities/fileutils';
 import * as cp from 'child_process';
 
-const mockContext = mockExecutorContext(NX_QUARKUS_PKG, 'install');
+const mockContext = mockExecutorContext(NX_KTOR_PKG, 'install');
 const options: InstallExecutorOptions = {
   root: 'bootapp',
 };

@@ -2,9 +2,6 @@
   "name": "nxrocks",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "targets": {
-    "test": {
-      "executor": "nx:noop"
-    },
     "local-registry": {
       "executor": "@nx/js:verdaccio",
       "options": {

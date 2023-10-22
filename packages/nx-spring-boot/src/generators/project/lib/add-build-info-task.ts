@@ -1,5 +1,5 @@
 import { logger, Tree } from '@nx/devkit';
-import { stripIndent } from '@nxrocks/common';
+import { stripIndent } from '@nxrocks/common-jvm';
 import { NormalizedSchema } from '../schema';
 
 export function addBuilInfoTask(tree: Tree, options: NormalizedSchema) {

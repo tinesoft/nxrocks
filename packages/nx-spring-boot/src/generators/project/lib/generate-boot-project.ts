@@ -3,13 +3,13 @@ import { Tree, joinPathFragments, logger, stripIndents, workspaceRoot } from '@n
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
 import { buildBootDownloadUrl } from '../../../utils/boot-utils';
+import { NX_SPRING_BOOT_PKG } from '../../../index';
 import {
   extractFromZipStream,
-  getCommonHttpHeaders,
+  getCommonHttpHeaders,  
   getGradleWrapperFiles,
   getMavenWrapperFiles,
-  NX_SPRING_BOOT_PKG,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 
 export async function generateBootProject(
   tree: Tree,

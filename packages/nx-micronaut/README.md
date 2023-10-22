@@ -11,9 +11,9 @@
 ## Contents
 
 - [Features](#features)
-- [Prerequisite](#prerequisite)
-- [Getting Started](#getting-started)
-- [Plugin Usage](#plugin-usage)
+- [Setup](#setup)
+- [Generators](#generators)
+- [Executors](#executors)
 - [Compatibility with Nx](#compatibility-with-nx)
 
 ## Features
@@ -22,13 +22,40 @@ Here is a list of some of the coolest features of the plugin:
 
 - ✅ Generation of Micronaut applications based on **Micronaut Launch** API
 - ✅ Building, packaging, testing, etc your Micronaut projects
-- ✅ 🆕 Built-in support for creating [**multi-modules**](recipes/README.md#creating-mulit-modules-micronaut-projects) Micronaut projects with both `Maven` and `Gradle`
+- ✅ 🆕 Built-in support for creating [**multi-modules**](recipes/README.md#creating-multi-modules-micronaut-projects) Micronaut projects with both `Maven` and `Gradle`
 - ✅ Built-in support for code formatting using the excellent [**Spotless**](https://github.com/diffplug/spotless) plugin for `Maven` or `Gradle`
 - ✅ Built-in support for **corporate proxies** (either via `--proxyUrl` or by defining environment variable `http_proxy`, `HTTP_PROXY`, `https_proxy` or `HTTPS_PROXY`)
 - ✅ Integration with Nx's **dependency graph** (through `nx graph` or `nx affected:graph`): this allows you to **visualize** the dependencies of any Micronaut's `Maven`/`Gradle` applications or libraries inside your workspace, just like Nx natively does it for JS/TS-based projects!
 - ...
 
-## Prerequisite
+## Setup
+
+<details open>
+<summary>📢 ℹ️ 🆕 <b>HEADS UP!</b> New <b>simplified</b> setup since <i>October 2023</i>, with our custom <b>CLI</b>!</summary>
+
+
+> You can now use our own `create-nx-micronaut` **CLI** to easily create a Nx workspace, that comes with this plugin pre-installed!
+> 
+> Simply run:
+> 
+> ```
+> # npm
+> npx create-nx-micronaut@latest
+> # or
+> # yarn
+> yarn create nx-micronaut
+> ```
+> 
+> and you are good to go‧o‧o‧o! 🚀
+> 
+> More information here: [create-nx-micronaut](../packages/create-nx-micronaut/README.md)
+
+</details>
+
+
+Otherwise, this is the traditional way of setting things up:
+
+### 1. Creating the Nx workspace
 
 If you have not already, [create an Nx workspace](https://nx.dev/getting-started/nx-setup) with the following:
 
@@ -40,11 +67,9 @@ npx create-nx-workspace@latest
 yarn create nx-workspace
 ```
 
-## Getting Started
+### 2. Installing the Plugin
 
 Then you need to install the plugin in order to generate Micronaut applications later on.
-
-### Installing Plugin
 
 ```
 # npm
@@ -53,13 +78,19 @@ npm install @nxrocks/nx-micronaut --save-dev
 # yarn
 yarn add @nxrocks/nx-micronaut --dev
 ```
+## Generators
 
-### Generating Project (`new` generator)
+This plugin is composed of 2 main **generators**:
 
-Simply run the `new` generator with the following command:
+- `project` generator
+- `link` generator
+
+### Generating Project (`project` generator)
+
+Simply run the `project` generator with the following command:
 
 ```
-nx g @nxrocks/nx-micronaut:new <your-app-name>
+nx g @nxrocks/nx-micronaut:project <your-app-name>
 ```
 
 > you can also use the following aliases to call the generator: `proj`, `new`, `gen`, `init`, `create`, or `generate`
@@ -69,7 +100,7 @@ You will be prompted for entering the most commonly customized generation option
 To skip the interactive prompt, or if you want to customize all non-prompted options, you can pass them along directly when running the command, as such:
 
 ```
-nx g @nxrocks/nx-micronaut:new <your-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
+nx g @nxrocks/nx-micronaut:project <your-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
 ```
 
 #### Generation Options
@@ -90,10 +121,10 @@ Here the list of available generation options :
 | `testFramework`            | `JUNIT` \| `SPOCK` \| `KOTEST`                            | Test Framework to use                                                                                   |
 | `skipFormat`               | `boolean`                                                 | Do not add the ability to format code (using Spotless plugin)                                           |
 | `features`                 | `string`                                                  | List of features to use (comma-separated). Go to https://micronaut.io/launch to get the ids needed here |
-| `transformIntoMultiModule` | `boolean`                                                 | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-mulit-modules-micronaut-projects) for more information               |
-| `addToExistingParentModule`| `boolean`                                                 | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-mulit-modules-micronaut-projects) for more information               |
-| `parentModuleName`         | `string`                                                  | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-mulit-modules-micronaut-projects) for more information               |
-| `keepProjectLevelWrapper`  | `boolean`                                                 | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-mulit-modules-micronaut-projects) for more information               |
+| `transformIntoMultiModule` | `boolean`                                                 | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information               |
+| `addToExistingParentModule`| `boolean`                                                 | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information               |
+| `parentModuleName`         | `string`                                                  | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information               |
+| `keepProjectLevelWrapper`  | `boolean`                                                 | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information               |
 | `micronautVersion`         | `current` \| `snapshot` \| `previous`                     | Micronaut version to use                                                                                |
 | `micronautLaunchUrl`       | `https://launch.micronaut.io`                             | URL to the Micronaut Launch instance to use                                                             |
 | `proxyUrl`                 |                                                           | The URL of the (corporate) proxy server to use to access Micronaut Launch                               |
@@ -139,9 +170,9 @@ Here the list of available generation options :
 | `<sourceProjectName>` | The name of the source(Micronaut) project to link from. 1st argument of the `link` generator. Can also be provided as option `--sourceProjectName` |
 | `<targetProjectName>` | The name of the target project to link to. 2nd argument of the `link` generator. Can also be provided as option `--targetProjectName`              |
 
-## Plugin Usage
+## Executors
 
-Once your app is generated, you can now use buidlers to manage it.
+Once your app is generated, you can now use **executors** to manage it.
 
 Here the list of available executors:
 
@@ -258,6 +289,7 @@ Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This ta
 
 | Plugin Version | Nx Workspace version |
 | -------------- | -------------------- |
+| `>=v5.x.x`     | `>=v17.x.x`          |
 | `>=v4.x.x`     | `>=v16.x.x`          |
 | `>=v3.x.x`     | `>=v15.8.x`          |
 | `>=v2.x.x`     | `>=v15.x.x`          |

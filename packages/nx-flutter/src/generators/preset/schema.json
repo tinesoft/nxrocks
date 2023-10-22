@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "@nxrocks/nx-flutter:preset",
+  "title": "Creates Flutter project in a new workspace",
+  "type": "object",
+  "cli": "nx",
+  "outputCapture": "pipe",
+  "properties": {
+    "prjName": {
+      "type": "string",
+      "description": "Name of the project to generate.",
+      "x-prompt": "What is the name of your project?",
+      "pattern": "^[a-zA-Z][^:]*$",
+      "x-priority": "important"
+    },
+    "org": {
+      "description": "name of the ",
+      "type": "string",
+      "default": "com.example",
+      "x-prompt": "What package name would you like to use?"
+    },
+    "description": {
+      "description": "Description of the project.",
+      "type": "string",
+      "x-prompt": "What is the project about?",
+      "x-priority": "internal"
+    },
+    "template": {
+      "description": "Type of project to create",
+      "type": "string",
+      "default": "app",
+      "alias": "t",
+      "x-prompt": {
+        "message": "Which type of Flutter project would you like to create?",
+        "type": "list",
+        "enum": [
+          "app",
+          "module",
+          "package",
+          "plugin"
+        ],
+        "items": [
+          {
+            "value": "app",
+            "label": "Flutter application"
+          },
+          {
+            "value": "module",
+            "label": "Flutter module"
+          },
+          {
+            "value": "package",
+            "label": "Shareable Flutter project containing modular Dart code"
+          },
+          {
+            "value": "plugin",
+            "label": "Shareable Flutter project containing an API in Dart code with a platform-specific implementation for Android, for iOS code, or for both"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "platforms": {
+      "description": "Platforms supported by the project.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "x-priority": "important"
+    },
+    "useFvm": {
+      "description": "Use Flutter Version Manager (fvm) to run commands.",
+      "type": "boolean",
+      "default": false,
+      "x-priority": "important",
+      "x-prompt": "Are you using Flutter Version Manager (fvm)?"
+    },
+    "androidLanguage": {
+      "description": "Android Language of the project.",
+      "type": "string",
+      "default": "kotlin",
+      "alias": "a",
+      "x-priority": "important"
+    },
+    "iosLanguage": {
+      "description": "iOS Language of the project",
+      "type": "string",
+      "default": "swift",
+      "alias": "i",
+      "x-priority": "important"
+    },
+    "sample": {
+      "type": "string",
+      "description": "ID of the code sample to use as the `main.dart` for an application.",
+      "alias": "s"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting)."
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed.",
+      "alias": "d"
+    },
+    "pub": {
+      "type": "boolean",
+      "description": "Whether or not to run 'flutter pub get' after the project has been created."
+    },
+    "offline": {
+      "type": "boolean",
+      "description": "Whether or not to run 'flutter pub get' in offline mode."
+    },
+    "overwrite": {
+      "type": "boolean",
+      "description": "Whether or not to overwrite existing files when performing operations."
+    }
+  },
+  "required": [
+    "prjName"
+  ]
+}

@@ -19,7 +19,7 @@ You will need to fetch and enter the features ids manually:
 3. In Nx Console UI, enter the features ids you want to use, separated by a comma
 ![Adding features in Nx Console](images/nx-console-add-features.png)
 
-## Creating mulit-modules Micronaut projects
+## Creating multi-modules Micronaut projects
 
 The support for creating multi-module Micronaut project with either `Maven` or `Gradle` was added to the plugin since `v6.1.0`.
 

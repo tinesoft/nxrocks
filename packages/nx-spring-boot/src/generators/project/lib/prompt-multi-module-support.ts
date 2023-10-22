@@ -2,7 +2,7 @@ import { logger, createProjectGraphAsync, ProjectGraph, Tree, readCachedProjectG
 import { prompt } from 'enquirer';
 
 import { NormalizedSchema } from "../schema";
-import { addGradleModule, addMavenModule, initGradleParentModule, initMavenParentModule, hasMultiModuleGradleProjectInTree, hasMultiModuleMavenProjectInTree } from "@nxrocks/common";
+import { addGradleModule, addMavenModule, initGradleParentModule, initMavenParentModule, hasMultiModuleGradleProjectInTree, hasMultiModuleMavenProjectInTree } from "@nxrocks/common-jvm";
 
 export async function promptForMultiModuleSupport(tree: Tree, options: NormalizedSchema) {
     if (

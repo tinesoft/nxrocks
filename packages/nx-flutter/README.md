@@ -11,9 +11,9 @@
 ## Contents
 
 - [Features](#features)
-- [Prerequisite](#prerequisite)
-- [Getting Started](#getting-started)
-- [Plugin Usage](#plugin-usage)
+- [Setup](#setup)
+- [Generators](#generators)
+- [Executors](#executors)
 - [Compatibility with Nx](#compatibility-with-nx)
 
 ## Features
@@ -29,7 +29,34 @@ Here is a list of some of the coolest features of the plugin:
 
 - ...
 
-## Prerequisite
+## Setup
+
+<details open>
+<summary>📢 ℹ️ 🆕 <b>HEADS UP!</b> New <b>simplified</b> setup since <i>October 2023</i>, with our custom <b>CLI</b>!</summary>
+
+
+> You can now use our own `create-nx-flutter` **CLI** to easily create a Nx workspace, that comes with this plugin pre-installed!
+> 
+> Simply run:
+> 
+> ```
+> # npm
+> npx create-nx-flutter@latest
+> # or
+> # yarn
+> yarn create nx-flutter
+> ```
+> 
+> and you are good to go‧o‧o‧o! 🚀
+> 
+> More information here: [create-nx-flutter](../packages/create-nx-flutter/README.md)
+
+</details>
+
+
+Otherwise, this is the traditional way of setting things up:
+
+### 1. Creating the Nx workspace
 
 This plugin relies on [`flutter's command-line`](https://flutter.dev/docs/reference/flutter-cli) to do its job. So, you must have [`flutter`](https://flutter.dev) installed on your system. If not, head to [flutter.dev/docs/get-started/install](https://flutter.dev/docs/get-started/install) and follow installation instructions for your OS.
 
@@ -43,11 +70,9 @@ npx create-nx-workspace@latest
 yarn create nx-workspace@latest
 ```
 
-## Getting Started
+### 2. Installing the Plugin
 
 Then you need to install the plugin in order to generate Flutter applications later on.
-
-### Installing Plugin
 
 ```
 # npm
@@ -57,21 +82,29 @@ npm install @nxrocks/nx-flutter --save-dev
 yarn add @nxrocks/nx-flutter --dev
 ```
 
-### Generating Project
+## Generators
 
+This plugin is composed of 1 main **generator**:
+
+- `project` generator
+
+### Generating Projects (`project` generator)
 
 Simply run the `project` generator with the following command:
 
 ```
-nx g @nxrocks/nx-flutter:create <app-folder>
+nx g @nxrocks/nx-flutter:project <app-folder>
 ```
+
+
+> you can also use the following aliases to call the generator: `prj`, `new`, `gen`, `init`, `create`, or `generate`
 
 You will be prompted for entering the most commonly customized generation options (like application's `package`, `description`, `template`,  etc).
 
 To skip the interactive prompt, or if you want to customize all non-prompted options, you can pass them along directly when running the command, as such:
 
 ```
-nx g @nxrocks/nx-flutter:create <app-folder> --optionName1 optionValue1 ... --optionNameN optionValueN
+nx g @nxrocks/nx-flutter:project <app-folder> --optionName1 optionValue1 ... --optionNameN optionValueN
 ```
 
 #### Generation Options
@@ -96,9 +129,9 @@ Option           | Value | Description
 `tags`           | `string` | Tags to use for linting (comma-separated)
 `directory`      | `string` | Directory where the project is placed
 
-## Plugin Usage
+## Executors
 
-Once your app is generated, you can now use **buidlers** to manage it.
+Once your app is generated, you can now use **executors** to manage it.
 
 Here the list of available executors<sup>1</sup>:
 
@@ -151,6 +184,7 @@ Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This ta
 
 | Plugin Version | Nx Workspace version
 | -------------- | --------------------
+| `>=v8.x.x`     | `>=v17.x.x`
 | `>=v7.x.x`     | `>=v16.x.x`
 | `>=v6.x.x`     | `>=v15.8.x`
 | `>=v5.x.x`     | `>=v15.x.x`

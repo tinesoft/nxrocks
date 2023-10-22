@@ -124,7 +124,6 @@
       "description": "Skip formatting files (using Spotless plugin).",
       "type": "boolean",
       "default": true,
-      "x-prompt": "Skip code formatting support(using Spotless plugin)?",
       "x-priority": "internal"
     },
     "skipCodeSamples": {

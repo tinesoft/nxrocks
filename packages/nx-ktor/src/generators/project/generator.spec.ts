@@ -19,17 +19,17 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
+import { NX_KTOR_PKG } from '../../index';
 import {
   BuilderCommandAliasType,
   hasMavenPlugin,
-  NX_KTOR_PKG,
   SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
   SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 import { mockZipStream } from '@nxrocks/common/testing';
 import { DEFAULT_KTOR_INITIALIZR_URL } from '../../utils/ktor-utils';
 
-const POM_XML = `<?xml version="1.0" encoding="UTF-8"?>
+export const POM_XML = `<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>

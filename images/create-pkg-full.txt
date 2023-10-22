@@ -1,0 +1,25 @@
+$ npx --yes create-nx-spring-boot
+
+┌  create-nx-spring-boot
+│
+◇  What is the name of your workspace (e.g. org name)?
+│  myorg
+│
+◇  Would you like to use Nx Wrapper? [ Nx Wrapper ]
+│  Yes
+│
+◇  Would you like to use Nx Cloud? [ Nx Cloud ]
+│  Yes
+│
+◇  Successfully created the workspace: myorg
+│
+◇  Next steps ─────────────────────────────────────────────────────────────────────────╮
+│                                                                                      │
+│  - Go to [ @nxrocks/nx-spring-boot ] to get started with Nx and Spring Boot plugin.  │
+│  - Run   [ ./nx g @nxrocks/nx-spring-boot:project ] to add more projects.            │
+│  - Go to [ Nx Wrapper ] to get started with Nx Wrapper.                              │
+│  - Go to [ Nx.dev ] to get started with Nx.                                          │
+│                                                                                      │
+├──────────────────────────────────────────────────────────────────────────────────────╯
+│
+└  Your workspace in /workspaces/nxrocks/myorg is all set 🎉. Let's goooooo! 🚀

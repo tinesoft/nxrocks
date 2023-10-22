@@ -3,13 +3,13 @@ import { Tree, joinPathFragments, logger, stripIndents, workspaceRoot } from '@n
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
 import { buildQuarkusDownloadUrl } from '../../../utils/quarkus-utils';
+import { NX_QUARKUS_PKG } from '../../../index';
 import {
   extractFromZipStream,
   getCommonHttpHeaders,
   getGradleWrapperFiles,
   getMavenWrapperFiles,
-  NX_QUARKUS_PKG,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 
 export async function generateQuarkusProject(
   tree: Tree,

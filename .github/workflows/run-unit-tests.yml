@@ -29,4 +29,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Run unit tests
-        run: pnpm run affected:test --base=origin/develop --parallel=6 --exclude=smoke --verbose
+        run: pnpm run affected:test --base=origin/develop --parallel=6 --exclude=smoke --verbose --codeCoverage

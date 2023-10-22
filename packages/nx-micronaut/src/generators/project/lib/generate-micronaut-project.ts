@@ -3,13 +3,13 @@ import { Tree, joinPathFragments, logger, stripIndents, workspaceRoot } from '@n
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
 import { buildMicronautDownloadUrl } from '../../../utils/micronaut-utils';
+import { NX_MICRONAUT_PKG } from '../../../index';
 import {
   extractFromZipStream,
   getCommonHttpHeaders,
   getGradleWrapperFiles,
   getMavenWrapperFiles,
-  NX_MICRONAUT_PKG,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
 
 export async function generateMicronautProject(
   tree: Tree,

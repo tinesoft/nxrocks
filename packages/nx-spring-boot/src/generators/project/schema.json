@@ -194,14 +194,12 @@
     "description": {
       "description": "Description of the project.",
       "type": "string",
-      "x-prompt": "What is the project about?",
       "x-priority": "internal"
     },
     "skipFormat": {
       "description": "Skip formatting files (using Spotless plugin).",
       "type": "boolean",
       "default": true,
-      "x-prompt": "Skip code formatting support(using Spotless plugin)?",
       "x-priority": "internal"
     },
     "dependencies": {

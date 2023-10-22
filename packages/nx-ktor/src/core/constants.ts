@@ -1,4 +1,4 @@
-import { BuilderCommandAliasMapper, GradleBuilder, MavenBuilder } from '@nxrocks/common';
+import { BuilderCommandAliasMapper, GradleBuilder, MavenBuilder } from '@nxrocks/common-jvm';
 
 export const GRADLE_KTOR_COMMAND_MAPPER : BuilderCommandAliasMapper = {
     'run': 'runFatJar',

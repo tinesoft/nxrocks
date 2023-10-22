@@ -79,8 +79,7 @@
     "skipFormat": {
       "description": "Skip formatting files (using Spotless plugin).",
       "type": "boolean",
-      "default": true,
-      "x-prompt": "Skip code formatting support(using Spotless plugin)?"
+      "default": true
     },
     "extensions": {
       "description": "Extensions to use in the project(comma-separated). Follow this guide https://t.ly/S6sk for more instructions on how to proceed.",

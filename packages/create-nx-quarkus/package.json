@@ -1,0 +1,36 @@
+{
+  "name": "create-nx-quarkus",
+  "description": "CLI to create Nx workspaces with built-in support for Quarkus",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "Tine Kondo ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinesoft/nxrocks.git",
+    "directory": "packages/common"
+  },
+  "homepage": "https://github.com/tinesoft/nxrocks/blob/master/packages/create-nx-quarkus#readme",
+  "bugs": {
+    "url": "https://github.com/tinesoft/nxrocks/issues"
+  },
+  "keywords": [
+    "nx-quarkus",
+    "quarkus",
+    "nx",
+    "cli"
+  ],
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@nxrocks/common-cli": "*",
+    "tslib": "^2.6.1"
+  },
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "typings": "./src/index.d.ts",
+  "bin": {
+    "create-nx-quarkus": "./bin/index.js"
+  }
+}

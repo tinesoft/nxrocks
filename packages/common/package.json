@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/common",
   "description": "Common library to share code among the `@nxrocks/*` plugins.",
-  "version": "2.4.3",
+  "version": "2.5.0",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -21,14 +21,18 @@
   "keywords": [
     "nx-flutter",
     "nx-spring-boot",
-    "nx-quarkus"
+    "nx-quarkus",
+    "nx-micronaut",
+    "nx-ktor",
+    "nx-melos"
   ],
-  "dependencies": {},
-  "typings": "./src/index.d.ts",
-  "peerDependencies": {
-    "@nx/devkit": ">=16.0.0",
-    "@nx/workspace": ">=16.0.0"
+  "dependencies": {
+    "hpagent": "^1.2.0",
+    "unzipper": "^0.10.14",
+    "fs-extra": "^10.1.0"
   },
+  "typings": "./src/index.d.ts",
+  "peerDependencies": {},
   "devDependencies": {
     "@jest/globals": "*"
   }

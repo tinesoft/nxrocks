@@ -1,4 +1,4 @@
-import { BuilderCommandAliasMapper, GradleBuilder, MavenBuilder } from '@nxrocks/common';
+import { BuilderCommandAliasMapper, GradleBuilder, MavenBuilder } from '@nxrocks/common-jvm';
 
 export const GRADLE_QUARKUS_COMMAND_MAPPER : BuilderCommandAliasMapper = {
     'dev': 'quarkusDev',
@@ -35,3 +35,4 @@ export const MAVEN_QUARKUS_COMMAND_MAPPER: BuilderCommandAliasMapper = {
 }
 
 export const MAVEN_BUILDER = new MavenBuilder(MAVEN_QUARKUS_COMMAND_MAPPER);
+

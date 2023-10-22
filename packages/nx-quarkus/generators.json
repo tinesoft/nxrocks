@@ -6,19 +6,18 @@
       "factory": "./src/generators/project/generator",
       "schema": "./src/generators/project/schema.json",
       "description": "Generator to generate an application or a library",
-      "aliases": [
-        "proj",
-        "new",
-        "gen",
-        "init",
-        "create",
-        "generate"
-      ]
+      "aliases": ["proj", "new", "gen", "init", "create", "generate"]
     },
     "link": {
       "factory": "./src/generators/link/generator",
       "schema": "./src/generators/link/schema.json",
       "description": "Generator to add an implicit dependency between a source (Quarkus) project in the workspace and another project"
+    },
+    "preset": {
+      "factory": "./src/generators/preset/generator",
+      "schema": "./src/generators/preset/schema.json",
+      "description": "preset generator",
+      "x-use-standalone-layout": true
     }
   }
 }

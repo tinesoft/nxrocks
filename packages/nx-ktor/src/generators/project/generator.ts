@@ -12,8 +12,8 @@ import {
 } from './lib';
 import {
   addPluginToNxJson,
-  NX_KTOR_PKG,
-} from '@nxrocks/common';
+} from '@nxrocks/common-jvm';
+import { NX_KTOR_PKG } from '../../index';
 
 export async function projectGenerator(
   tree: Tree,

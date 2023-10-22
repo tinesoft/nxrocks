@@ -1,0 +1,40 @@
+{
+  "name": "@nxrocks/common-cli",
+  "description": "Common library to share code among the `create-*` packages.",
+  "version": "1.0.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "src/index.js",
+  "license": "MIT",
+  "author": "Tine Kondo ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinesoft/nxrocks.git",
+    "directory": "packages/common-cli"
+  },
+  "homepage": "https://github.com/tinesoft/nxrocks/blob/master/packages/common-cli#readme",
+  "bugs": {
+    "url": "https://github.com/tinesoft/nxrocks/issues"
+  },
+  "keywords": [
+    "create-nx-flutter",
+    "create-nx-spring-boot",
+    "create-nx-quarkus",
+    "create-nx-micronaut",
+    "create-nx-ktor"
+  ],
+  "dependencies": {
+    "create-nx-workspace": "17.0.1",
+    "@clack/prompts": "^0.7.0",
+    "yargs": "^17.7.2",
+    "tslib": "^2.6.1",
+    "@nx/devkit": "17.0.1",
+    "fs-extra": "^10.1.0",
+    "terminal-link": "^2.1.1"
+  },
+  "typings": "./src/index.d.ts",
+  "peerDependencies": {},
+  "devDependencies": {}
+}

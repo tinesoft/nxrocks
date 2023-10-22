@@ -1,0 +1,14 @@
+$ npx create-nx-spring-boot
+
+┌  create-nx-spring-boot
+│
+◇  What is the name of your workspace (e.g. org name)?
+│  myorg
+│
+◇  Would you like to use Nx Wrapper? [ Nx Wrapper ]
+│  Yes
+│
+◇  Would you like to use Nx Cloud? [ Nx Cloud ]
+│  Yes
+│
+(#########⠂⠂⠂⠂⠂⠂⠂⠂⠂) ⠏ Installing dependencies

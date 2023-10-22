@@ -1,0 +1,52 @@
+{
+  "name": "create-nx-spring-boot",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/create-nx-spring-boot/bin",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/create-nx-spring-boot",
+        "main": "packages/create-nx-spring-boot/bin/index.ts",
+        "tsConfig": "packages/create-nx-spring-boot/tsconfig.lib.json",
+        "assets": ["packages/create-nx-spring-boot/*.md"],
+        "updateBuildableProjectDepsInPackageJson": false
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs create-nx-spring-boot {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/create-nx-spring-boot/**/*.ts",
+          "packages/create-nx-spring-boot/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/create-nx-spring-boot/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release"
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["nx-spring-boot"]
+}

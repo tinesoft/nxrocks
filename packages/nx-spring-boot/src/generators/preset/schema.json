@@ -1,0 +1,264 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "@nxrocks/nx-spring-boot:preset",
+  "title": "Creates Spring Boot project in a new workspace",
+  "type": "object",
+  "cli": "nx",
+  "outputCapture": "pipe",
+  "properties": {
+    "prjName": {
+      "type": "string",
+      "description": "Name of the project to generate.",
+      "x-prompt": "What is the name of your project?",
+      "pattern": "^[a-zA-Z][^:]*$",
+      "x-priority": "important"
+    },
+    "projectType": {
+      "description": "Type of project.",
+      "default": "application",
+      "type": "string",
+      "enum": [
+        "application",
+        "library"
+      ],
+      "x-prompt": {
+        "message": "What kind of project are you generating?",
+        "type": "list",
+        "items": [
+          {
+            "value": "application",
+            "label": "Application"
+          },
+          {
+            "value": "library",
+            "label": "Library"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "buildSystem": {
+      "description": "Build system to use.",
+      "alias": "type",
+      "default": "maven-project",
+      "type": "string",
+      "enum": [
+        "maven-project",
+        "gradle-project",
+        "gradle-project-kotlin"
+      ],
+      "x-prompt": {
+        "message": "Which build system would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "maven-project",
+            "label": "Maven"
+          },
+          {
+            "value": "gradle-project",
+            "label": "Gradle"
+          },
+          {
+            "value": "gradle-project-kotlin",
+            "label": "Gradle - Kotlin"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "packaging": {
+      "description": "Packaging of the project.",
+      "type": "string",
+      "default": "jar",
+      "enum": [
+        "jar",
+        "war"
+      ],
+      "x-prompt": {
+        "message": "Which packaging would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "jar",
+            "label": "Jar"
+          },
+          {
+            "value": "war",
+            "label": "War"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "javaVersion": {
+      "description": "Java version.",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "default": "17",
+      "enum": [
+        "1.8",
+        "11",
+        "17",
+        "19",
+        "21"
+      ],
+      "x-prompt": {
+        "message": "Which version of Java would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "21",
+            "label": "21"
+          },
+          {
+            "value": "19",
+            "label": "19"
+          },
+          {
+            "value": "17",
+            "label": "17"
+          },
+          {
+            "value": "11",
+            "label": "11"
+          },
+          {
+            "value": "1.8",
+            "label": "8"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "language": {
+      "description": "Language of the project.",
+      "type": "string",
+      "default": "java",
+      "enum": [
+        "java",
+        "kotlin",
+        "groovy"
+      ],
+      "x-prompt": {
+        "message": "Which language would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "java",
+            "label": "Java"
+          },
+          {
+            "value": "kotlin",
+            "label": "Kotlin"
+          },
+          {
+            "value": "groovy",
+            "label": "Groovy"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "groupId": {
+      "description": "Group Id of the project.",
+      "type": "string",
+      "default": "com.example",
+      "x-prompt": "What groupId would you like to use?",
+      "x-priority": "important"
+    },
+    "artifactId": {
+      "description": "Artifact Id of the project.",
+      "type": "string",
+      "default": "demo",
+      "x-prompt": "What artifactId would you like to use?",
+      "x-priority": "important"
+    },
+    "packageName": {
+      "description": "Name of the main package of the project.",
+      "type": "string",
+      "default": "com.example.demo",
+      "x-prompt": "What package name would you like to use?",
+      "x-priority": "important"
+    },
+    "description": {
+      "description": "Description of the project.",
+      "type": "string",
+      "x-priority": "internal"
+    },
+    "skipFormat": {
+      "description": "Skip formatting files (using Spotless plugin).",
+      "type": "boolean",
+      "default": true,
+      "x-priority": "internal"
+    },
+    "dependencies": {
+      "description": "Dependencies to use in the project (comma-separated). Follow this guide https://t.ly/Xyao for more instructions on how to proceed.",
+      "type": "string",
+      "x-priority": "important"
+    },
+    "transformIntoMultiModule": {
+      "description": "Transform the project into a multi-module project. Follow this guide https://t.ly/yvsp1 for more information.",
+      "type": "boolean"
+    },
+    "addToExistingParentModule": {
+      "description": "Add the project into an existing parent module project. Follow this guide https://t.ly/yvsp1 for more information.",
+      "type": "boolean"
+    },
+    "parentModuleName": {
+      "description": "Name of the parent module to create or to add child project into.",
+      "type": "string"
+    },
+    "keepProjectLevelWrapper": {
+      "description": "Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Follow this guide https://t.ly/yvsp1 for more information.",
+      "type": "boolean",
+      "default": true
+    },
+    "springInitializerUrl": {
+      "type": "string",
+      "default": "https://start.spring.io",
+      "description": "The URL to the Spring Initializer instance to use to generate the project.",
+      "x-priority": "internal"
+    },
+    "proxyUrl": {
+      "type": "string",
+      "description": "The URL of the (corporate) proxy server to use to access Spring Initializr.",
+      "x-priority": "internal"
+    },
+    "bootVersion": {
+      "type": "string",
+      "description": "Spring Boot version",
+      "x-priority": "internal",
+      "visible": false
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the project to generate.",
+      "alias": "v",
+      "x-priority": "internal",
+      "visible": false
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting).",
+      "alias": "t",
+      "x-priority": "internal"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed.",
+      "alias": "d"
+    }
+  },
+  "additionalProperties": true,
+  "required": [
+    "prjName",
+    "projectType"
+  ]
+}

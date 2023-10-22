@@ -3,7 +3,7 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { projectGenerator } from './generator';
 import { ProjectGeneratorOptions } from './schema';
-import { NX_FLUTTER_PKG } from '@nxrocks/common';
+import { NX_FLUTTER_PKG } from '../../index';
 
 jest.mock('child_process'); // we need to mock 'execSync' so that it doesn't really run 'flutter' (reserved to e2e testing) (see __mocks__/child_process.js)
 

@@ -1,0 +1,52 @@
+{
+  "name": "create-nx-micronaut",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/create-nx-micronaut/bin",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/create-nx-micronaut",
+        "main": "packages/create-nx-micronaut/bin/index.ts",
+        "tsConfig": "packages/create-nx-micronaut/tsconfig.lib.json",
+        "assets": ["packages/create-nx-micronaut/*.md"],
+        "updateBuildableProjectDepsInPackageJson": false
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs create-nx-micronaut {args.ver} {args.tag}",
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/create-nx-micronaut/**/*.ts",
+          "packages/create-nx-micronaut/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/create-nx-micronaut/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "semantic-release": {
+      "executor": "@theunderscorer/nx-semantic-release:semantic-release"
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["nx-micronaut"]
+}
