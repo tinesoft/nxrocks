@@ -1,6 +1,6 @@
 import { Tree } from '@nx/devkit';
 import { checkProjectFileContains, getGradleBuildFilesExtension, getGradleBuildFilesExtensionInTree, hasGradleSettingsFile, isGradleProjectSettingsInTree as hasGradleProjectSettingsInTree } from './utils';
-import { fileExists } from '@nx/workspace/src/utils/fileutils';
+import { fileExists } from '@nx/workspace/src/utilities/fileutils';
 import { resolve } from 'path';
 import { getProjectFileContent } from '@nxrocks/common';
 

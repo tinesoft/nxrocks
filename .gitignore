@@ -43,3 +43,4 @@ Thumbs.db
 
 # Nx files
 migrations.json
+.nx/cache

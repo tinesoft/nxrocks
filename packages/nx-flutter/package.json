@@ -31,12 +31,12 @@
     "enquirer": "^2.4.1",
     "js-yaml": "^4.1.0",
     "tslib": "^2.6.1",
-    "@nx/workspace": "16.10.0",
+    "@nx/workspace": "17.0.1",
     "@nxrocks/common-jvm": "*",
     "@nxrocks/common": "*"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
-    "@nx/devkit": ">=16.0.0"
+    "@nx/devkit": ">=17.0.0"
   }
 }

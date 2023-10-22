@@ -17,10 +17,10 @@ import {
 
 //first, we mock
 jest.mock('child_process');
-jest.mock('@nx/workspace/src/utils/fileutils');
+jest.mock('@nx/workspace/src/utilities/fileutils');
 
 //then, we import
-import * as fsUtility from '@nx/workspace/src/utils/fileutils';
+import * as fsUtility from '@nx/workspace/src/utilities/fileutils';
 import * as cp from 'child_process';
 
 const mockContext = mockExecutorContext(NX_SPRING_BOOT_PKG, 'install');
