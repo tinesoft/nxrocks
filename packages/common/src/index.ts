@@ -1,4 +1,4 @@
-export * from './lib/core/workspace';
-export * from './lib/core/constants';
-export * from './lib/core/utils';
+export * from './lib/workspace';
+export * from './lib/constants';
+export * from './lib/utils';
 
