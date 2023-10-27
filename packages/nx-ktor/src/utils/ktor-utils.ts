@@ -27,7 +27,7 @@ const getBuilder = (cwd: string) => {
 };
 
 export const DEFAULT_KTOR_INITIALIZR_URL =
-  'https://ktor-plugin.europe-north1-gke.intellij.net'; //'https://start.ktor.io';
+  'https://start-ktor-io.labs.jb.gg'; //'https://start.ktor.io';
 
 export interface KtorFeature {
   name: string;

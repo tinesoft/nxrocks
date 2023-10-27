@@ -161,7 +161,7 @@
     },
     "ktorInitializrUrl": {
       "type": "string",
-      "default": "https://ktor-plugin.europe-north1-gke.intellij.net",
+      "default": "https://start-ktor-io.labs.jb.gg",
       "description": "The URL to the Ktor Initializr instance to use to generate the project.",
       "x-priority": "internal"
     },
