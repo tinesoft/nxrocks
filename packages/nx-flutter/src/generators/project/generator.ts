@@ -1,5 +1,5 @@
 import { Tree, addProjectConfiguration, joinPathFragments } from '@nx/devkit';
-import { addPluginToNxJson } from '@nxrocks/common-jvm';
+import { addPluginToNxJson } from '@nxrocks/common';
 
 import {
   normalizeOptions,
