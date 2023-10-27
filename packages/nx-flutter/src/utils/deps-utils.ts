@@ -6,7 +6,7 @@ import {
   getProjectFilePath,
   getProjectRoot,
   PackageInfo,
-} from '@nxrocks/common-jvm';
+} from '@nxrocks/common';
 import {ProjectConfiguration } from '@nx/devkit';
 
 interface Pubspec {

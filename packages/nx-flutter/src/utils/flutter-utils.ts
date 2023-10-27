@@ -1,6 +1,6 @@
 import { ProjectConfiguration } from '@nx/devkit';
 import { fileExists } from '@nx/workspace/src/utilities/fileutils';
-import { getProjectFilePath } from '@nxrocks/common-jvm';
+import { getProjectFilePath } from '@nxrocks/common';
 import { execSync } from 'child_process';
 import { NormalizedSchema } from '../generators/project/schema';
 
