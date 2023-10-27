@@ -35,7 +35,5 @@
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {},
-  "devDependencies": {
-    "@jest/globals": "*"
-  }
+  "devDependencies": {}
 }
