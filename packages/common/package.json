@@ -29,7 +29,9 @@
   "dependencies": {
     "hpagent": "^1.2.0",
     "unzipper": "^0.10.14",
-    "fs-extra": "^10.1.0"
+    "fs-extra": "^10.1.0",
+    "@nx/devkit": ">=17.0.0",
+    "tslib": "^2.6.1"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {},
