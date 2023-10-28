@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/tinesoft/nxrocks/compare/common-cli/v2.0.0...common-cli/v2.0.1) (2023-10-28)
+
+
+### Bug Fixes
+
+* **common-cli:** loosen dependencies on `@nx/devkit` and `create-nx-workspace` ([18b1175](https://github.com/tinesoft/nxrocks/commit/18b1175a15f52839aa0700dfbb9fa9ae309f109e))
+
 # [2.0.0](https://github.com/tinesoft/nxrocks/compare/common-cli/v1.0.0...common-cli/v2.0.0) (2023-10-22)
 
 
