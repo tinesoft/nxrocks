@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/tinesoft/nxrocks/compare/common-jvm/v1.0.0...common-jvm/v1.0.1) (2023-10-28)
+
+
+### Bug Fixes
+
+* **common:** simplify the path to common utils ([c87be7f](https://github.com/tinesoft/nxrocks/commit/c87be7f883053cd31cd3015712b6929ddea4fdc7))
+
 # 1.0.0 (2023-10-22)
 
 
