@@ -1,3 +1,11 @@
+## [9.0.1](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v9.0.0...nx-spring-boot/v9.0.1) (2023-10-28)
+
+
+### Bug Fixes
+
+* **common:** simplify the path to common utils ([c87be7f](https://github.com/tinesoft/nxrocks/commit/c87be7f883053cd31cd3015712b6929ddea4fdc7))
+* remove explicit dependency on `@nx/devkit` (inherited from `common`) ([a1d44c9](https://github.com/tinesoft/nxrocks/commit/a1d44c9eed3cf73216aaf70c9f47c9eef0753215))
+
 # [9.0.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v8.1.0...nx-spring-boot/v9.0.0) (2023-10-22)
 
 
