@@ -1,3 +1,12 @@
+## [2.0.1](https://github.com/tinesoft/nxrocks/compare/create-nx-spring-boot/v2.0.0...create-nx-spring-boot/v2.0.1) (2023-10-28)
+
+
+### Bug Fixes
+
+* **common-cli:** loosen dependencies on `@nx/devkit` and `create-nx-workspace` ([18b1175](https://github.com/tinesoft/nxrocks/commit/18b1175a15f52839aa0700dfbb9fa9ae309f109e))
+* **common:** simplify the path to common utils ([c87be7f](https://github.com/tinesoft/nxrocks/commit/c87be7f883053cd31cd3015712b6929ddea4fdc7))
+* remove explicit dependency on `@nx/devkit` (inherited from `common`) ([a1d44c9](https://github.com/tinesoft/nxrocks/commit/a1d44c9eed3cf73216aaf70c9f47c9eef0753215))
+
 # [2.0.0](https://github.com/tinesoft/nxrocks/compare/create-nx-spring-boot/v1.0.0...create-nx-spring-boot/v2.0.0) (2023-10-22)
 
 
