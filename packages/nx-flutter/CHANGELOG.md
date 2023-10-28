@@ -1,3 +1,11 @@
+## [8.0.1](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v8.0.0...nx-flutter/v8.0.1) (2023-10-28)
+
+
+### Bug Fixes
+
+* **common:** simplify the path to common utils ([c87be7f](https://github.com/tinesoft/nxrocks/commit/c87be7f883053cd31cd3015712b6929ddea4fdc7))
+* **nx-flutter:** remove wrong dependency on `common-jvm` ([e146bef](https://github.com/tinesoft/nxrocks/commit/e146bef1018bd07a769c65acf052033ed02f16f3))
+
 # [8.0.0](https://github.com/tinesoft/nxrocks/compare/nx-flutter/v7.1.0...nx-flutter/v8.0.0) (2023-10-22)
 
 
