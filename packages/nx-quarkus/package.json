@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/nx-quarkus",
   "description": "Nx Plugin to generate, run, package, build (and more) Quarkus projects inside your Nx workspace",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "private": false,
   "publishConfig": {
     "access": "public"
