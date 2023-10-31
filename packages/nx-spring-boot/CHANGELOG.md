@@ -1,3 +1,10 @@
+## [9.0.2](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v9.0.1...nx-spring-boot/v9.0.2) (2023-10-31)
+
+
+### Bug Fixes
+
+* **common-jvm:** fix parent module not found when `runFromParentModule` flag is `true` ([840f8f6](https://github.com/tinesoft/nxrocks/commit/840f8f6dfa4c4d2a69c1f6d0e7b7ba472862050d))
+
 ## [9.0.1](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v9.0.0...nx-spring-boot/v9.0.1) (2023-10-28)
 
 
