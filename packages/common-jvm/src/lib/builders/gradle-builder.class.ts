@@ -5,7 +5,7 @@ import {
   BuilderCore,
   BuildSystem,
 } from './builder-core.interface';
-import { hasGradleModule, hasGradleWrapper } from '../utils/gradle-utils';
+import { hasGradleModule, hasGradleWrapper, hasGradleProject } from '../utils';
 import { basename, resolve } from 'path';
 
 export class GradleBuilder implements BuilderCore {
@@ -29,14 +29,14 @@ export class GradleBuilder implements BuilderCore {
     
     if (options.runFromParentModule) {
       let pathToModule:string[] = [];
-      const childModuleName = basename(options.cwd);
+      const childModuleName = basename(cwd);
       do {
-        const module = basename(options.cwd);
-        pathToModule = [...pathToModule, module];
+        const module = basename(cwd);
         cwd = resolve(cwd, '..');
+        pathToModule = [module, ...pathToModule];
       } while (!hasGradleModule(cwd, childModuleName));
 
-      additionalArgs = `:${pathToModule.join(':')}:`;
+      additionalArgs = `-p ${pathToModule.join('/')} `;
     }
 
     return { cwd, command: `${additionalArgs}${this.commandAliases[alias]}` };

@@ -32,11 +32,11 @@ export class MavenBuilder implements BuilderCore {
     
     if(options.runFromParentModule){
       let pathToModule:string[] = [];
-      const childModuleName = basename(options.cwd);
+      const childModuleName = basename(cwd);
       do {
-        const module = basename(options.cwd);
-        pathToModule = [...pathToModule, module];
+        const module = basename(cwd);
         cwd = resolve(cwd, '..');
+        pathToModule = [module, ...pathToModule];
       } while (!hasMavenModule(cwd, childModuleName));
 
       additionalArgs = `-f ${pathToModule.join('/')} `;
