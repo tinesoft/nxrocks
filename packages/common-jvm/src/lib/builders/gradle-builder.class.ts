@@ -29,12 +29,11 @@ export class GradleBuilder implements BuilderCore {
     
     if (options.runFromParentModule) {
       let pathToModule:string[] = [];
-      const childModuleName = basename(cwd);
       do {
         const module = basename(cwd);
         cwd = resolve(cwd, '..');
         pathToModule = [module, ...pathToModule];
-      } while (!hasGradleModule(cwd, childModuleName));
+      } while (!hasGradleModule(cwd, pathToModule.join(':')));
 
       additionalArgs = `-p ${pathToModule.join('/')} `;
     }
