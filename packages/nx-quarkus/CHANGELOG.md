@@ -1,3 +1,10 @@
+## [7.0.3](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v7.0.2...nx-quarkus/v7.0.3) (2023-11-16)
+
+
+### Bug Fixes
+
+* hide `preset` generators from `Nx Console` and improve generators decription ([c868384](https://github.com/tinesoft/nxrocks/commit/c868384a03963c8636f5fe161d619ba4f32324c9))
+
 ## [7.0.2](https://github.com/tinesoft/nxrocks/compare/nx-quarkus/v7.0.1...nx-quarkus/v7.0.2) (2023-10-31)
 
 
