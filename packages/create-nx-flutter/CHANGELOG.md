@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/tinesoft/nxrocks/compare/create-nx-flutter/v2.0.1...create-nx-flutter/v2.0.2) (2023-11-16)
+
+
+### Bug Fixes
+
+* hide `preset` generators from `Nx Console` and improve generators decription ([c868384](https://github.com/tinesoft/nxrocks/commit/c868384a03963c8636f5fe161d619ba4f32324c9))
+
 ## [2.0.1](https://github.com/tinesoft/nxrocks/compare/create-nx-flutter/v2.0.0...create-nx-flutter/v2.0.1) (2023-10-28)
 
 
