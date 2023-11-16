@@ -5,20 +5,21 @@
     "project": {
       "factory": "./src/generators/project/generator",
       "schema": "./src/generators/project/schema.json",
-      "description": "Generator to generate an application or a library",
+      "description": "Creates a `Spring Boot` project",
       "aliases": ["proj", "new", "gen", "init", "create", "generate"]
     },
     "link": {
       "factory": "./src/generators/link/generator",
       "schema": "./src/generators/link/schema.json",
-      "description": "Generator to add an implicit dependency between a source (Spring-Boot) project in the workspace and another project",
+      "description": "Adds an implicit nx dependency between a source (`Spring-Boot`) project and another one (for i.e `Angular`) in the workspace.",
       "aliases": ["link-project"]
     },
     "preset": {
       "factory": "./src/generators/preset/generator",
       "schema": "./src/generators/preset/schema.json",
-      "description": "preset generator",
-      "x-use-standalone-layout": true
+      "description": "Initializes a workspace with an nx-spring-boot inside of it. Use as: `create-nx-workspace --preset @nxrocks/nx-spring-boot`.",
+      "x-use-standalone-layout": true,
+      "hidden": true
     }
   }
 }

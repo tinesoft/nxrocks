@@ -5,14 +5,15 @@
     "project": {
       "factory": "./src/generators/project/generator",
       "schema": "./src/generators/project/schema.json",
-      "description": "Generator to generate the project",
+      "description": "Creates a `Flutter` project",
       "aliases": ["proj", "new", "gen", "init", "create", "generate"]
     },
     "preset": {
       "factory": "./src/generators/preset/generator",
       "schema": "./src/generators/preset/schema.json",
-      "description": "preset generator",
-      "x-use-standalone-layout": true
+      "description": "Initializes a workspace with an nx-flutter inside of it. Use as: `create-nx-workspace --preset @nxrocks/nx-flutter`.",
+      "x-use-standalone-layout": true,
+      "hidden": true
     }
   }
 }

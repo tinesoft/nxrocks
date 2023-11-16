@@ -5,7 +5,7 @@
     "project": {
       "factory": "./src/generators/project/generator",
       "schema": "./src/generators/project/schema.json",
-      "description": "Generator to generate an application or a library",
+      "description": "Creates a `Quarkus` project",
       "aliases": ["proj", "new", "gen", "init", "create", "generate"]
     },
     "link": {
@@ -16,8 +16,9 @@
     "preset": {
       "factory": "./src/generators/preset/generator",
       "schema": "./src/generators/preset/schema.json",
-      "description": "preset generator",
-      "x-use-standalone-layout": true
+      "description": "Initializes a workspace with an nx-quarkus inside of it. Use as: `create-nx-workspace --preset @nxrocks/nx-quarkus`.",
+      "x-use-standalone-layout": true,
+      "hidden": true
     }
   }
 }
