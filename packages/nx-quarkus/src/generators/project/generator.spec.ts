@@ -168,7 +168,7 @@ describe('project generator', () => {
     ${'application'}
     ${'library'}
   `(
-    `should update workspace.json for '$projectType'`,
+    `should update project.json for '$projectType'`,
     async ({ projectType }) => {
       const zipFiles = [
         { filePath: `${options.artifactId}/pom.xml`, fileContent: POM_XML },
@@ -213,6 +213,12 @@ describe('project generator', () => {
           expect(project.targets[cmd].outputs).toEqual([
             `{workspaceRoot}/${project.root}/target`,
           ]);
+        }
+
+        if (
+          ['build', 'install'].includes(cmd)
+        ) {
+          expect(project.targets[cmd].dependsOn).toEqual(['^install']);
         }
       });
     }

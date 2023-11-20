@@ -270,7 +270,7 @@ describe('project generator', () => {
     }
   );
 
-  it('should update workspace.json', async () => {
+  it('should update project.json', async () => {
     const zipFiles = [
       { filePath: `pom.xml`, fileContent: POM_XML },
       `mvnw`,
@@ -303,6 +303,12 @@ describe('project generator', () => {
         expect(project.targets[cmd].outputs).toEqual([
           `{workspaceRoot}/${project.root}/target`,
         ]);
+      }
+
+      if (
+        ['build', 'install'].includes(cmd)
+      ) {
+        expect(project.targets[cmd].dependsOn).toEqual(['^install']);
       }
     });
   });

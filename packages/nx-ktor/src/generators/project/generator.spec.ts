@@ -268,7 +268,7 @@ describe('project generator', () => {
     }
   );
 
-  it('should update workspace.json', async () => {
+  it('should update project.json', async () => {
     const zipFiles = [
       { filePath: `pom.xml`, fileContent: POM_XML },
       `mvnw`,
@@ -304,7 +304,13 @@ describe('project generator', () => {
       if (
         ['publish-image', 'publish-image-locally', 'run-docker'].includes(cmd)
       ) {
-        expect(project.targets[cmd].dependsOn).toEqual([`build-image`]);
+        expect(project.targets[cmd].dependsOn).toEqual(['build-image']);
+      }
+
+      if (
+        ['build', 'install'].includes(cmd)
+      ) {
+        expect(project.targets[cmd].dependsOn).toEqual(['^install']);
       }
     });
   });

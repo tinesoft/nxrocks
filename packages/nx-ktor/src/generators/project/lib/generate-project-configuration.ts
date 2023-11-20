@@ -46,7 +46,7 @@ export async function generateProjectConfiguration(
           root: rootFolder,
           ...(runFromParentModule? { runFromParentModule } : {}),
         },
-        ...(command === 'build' ? { dependsOn: ['^install'] } : {}),
+        ...(['build', 'install'].includes(command) ? { dependsOn: ['^install'] } : {}),
         ...(['publish-image', 'publish-image-locally', 'run-docker'].includes(
           command
         )
