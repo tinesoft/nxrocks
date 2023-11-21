@@ -1,4 +1,4 @@
-import { Tree, joinPathFragments, logger, stripIndents, workspaceRoot } from '@nx/devkit';
+import { Tree, joinPathFragments, logger, names, stripIndents, workspaceRoot } from '@nx/devkit';
 
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
@@ -48,7 +48,7 @@ export async function generateBootProject(
         }
 
       }
-      else {
+      else if(options.projectType !== 'library' || !getMainApplicationAndTestFiles(options).includes(entryPath)) {
         tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
           mode: execPermission,
         });
@@ -66,4 +66,13 @@ export async function generateBootProject(
         Response body: ${await response.text()}
         ------------------------------------------------------`);
   }
+}
+
+
+function getMainApplicationAndTestFiles(options: NormalizedSchema){
+
+  const basePath = options.packageName?.replaceAll('.', '/');
+  const ext = options.language === 'kotlin' ? '.kt' :  options.language === 'groovy' ? '.groovy': '.java'
+  return [`src/main/${options.language}/${basePath}/${names(options.name).className}Application${ext}`, `src/test/${options.language}/${basePath}/${names(options.name).className}ApplicationTests${ext}`];
+
 }

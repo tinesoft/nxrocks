@@ -60,7 +60,7 @@ describe('nx-spring-boot e2e', () => {
       const execPermission = '755';
       expect(
         lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode &
-          octal(execPermission)
+        octal(execPermission)
       ).toEqual(octal(execPermission));
     }
   }, 200000);
@@ -95,11 +95,24 @@ describe('nx-spring-boot e2e', () => {
           `${prjName}/mvnw`,
           `${prjName}/pom.xml`,
           `${prjName}/HELP.md`,
-          `${prjName}/src/main/java/com/tinesoft/api/${
-            names(prjName).className
-          }Application.java`
         )
       ).not.toThrow();
+
+      if (projectType === 'application') {
+        expect(() =>
+          checkFilesExist(
+            `${prjName}/src/main/java/com/tinesoft/api/${names(prjName).className
+            }Application.java`
+          )
+        ).not.toThrow();
+      }
+      else {
+        expect(() =>
+          checkFilesExist(
+            `${prjName}/src/main/java/com/tinesoft/api/.gitkeep`
+          )
+        ).not.toThrow();
+      }
 
       const pomXml = readFile(`${prjName}/pom.xml`);
       expect(pomXml).toContain(`<groupId>${groupId}</groupId>`);
@@ -114,7 +127,7 @@ describe('nx-spring-boot e2e', () => {
         const execPermission = '755';
         expect(
           lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode &
-            octal(execPermission)
+          octal(execPermission)
         ).toEqual(octal(execPermission));
       }
     },
@@ -153,7 +166,7 @@ describe('nx-spring-boot e2e', () => {
           const execPermission = '755';
           expect(
             lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
-              octal(execPermission)
+            octal(execPermission)
           ).toEqual(octal(execPermission));
         }
       },
@@ -193,7 +206,7 @@ describe('nx-spring-boot e2e', () => {
           const execPermission = '755';
           expect(
             lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
-              octal(execPermission)
+            octal(execPermission)
           ).toEqual(octal(execPermission));
         }
       },
@@ -233,7 +246,7 @@ describe('nx-spring-boot e2e', () => {
           const execPermission = '755';
           expect(
             lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
-              octal(execPermission)
+            octal(execPermission)
           ).toEqual(octal(execPermission));
         }
       },
