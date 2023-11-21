@@ -1,0 +1,44 @@
+package <%= packageName %>.service;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties("service")
+<% if(language === 'java') {%>public class ServiceProperties {
+
+	/**
+	 * A message for the service.
+	 */
+	private String message;
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+}
+<%} else if(language === 'groovy') {%>class ServiceProperties {
+
+	/**
+	 * A message for the service.
+	 */
+	private String message
+
+	String getMessage() {
+		return message
+	}
+
+	void setMessage(String message) {
+		this.message = message
+	}
+}
+<%} else if(language === 'kotlin') {%>class ServiceProperties {
+
+	/**
+	 * A message for the service.
+	 */
+	var message: String? = null
+		private set
+}
+<%  } %>

@@ -102,14 +102,27 @@ describe('nx-spring-boot e2e', () => {
         expect(() =>
           checkFilesExist(
             `${prjName}/src/main/java/com/tinesoft/api/${names(prjName).className
-            }Application.java`
+            }Application.java`,
+            `${prjName}/src/test/java/com/tinesoft/api/${names(prjName).className
+            }ApplicationTests.java`
           )
         ).not.toThrow();
       }
       else {
         expect(() =>
+        checkFilesExist(
+          `${prjName}/src/main/java/com/tinesoft/api/${names(prjName).className
+          }Application.java`,
+          `${prjName}/src/test/java/com/tinesoft/api/${names(prjName).className
+          }ApplicationTests.java`
+        )
+      ).toThrow();
+      
+        expect(() =>
           checkFilesExist(
-            `${prjName}/src/main/java/com/tinesoft/api/.gitkeep`
+            `${prjName}/src/main/java/com/tinesoft/api/service/MyService.java`,
+            `${prjName}/src/main/java/com/tinesoft/api/service/ServiceProperties.java`,
+            `${prjName}/src/test/java/com/tinesoft/api/service/MyServiceTest.java`,
           )
         ).not.toThrow();
       }

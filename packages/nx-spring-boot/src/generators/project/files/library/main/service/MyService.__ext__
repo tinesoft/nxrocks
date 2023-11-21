@@ -1,0 +1,40 @@
+package <%= packageName %>.service;
+
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.stereotype.Service;
+
+@Service
+<% if(language === 'java') {%>@EnableConfigurationProperties(ServiceProperties.class)
+	public class MyService {
+
+	private final ServiceProperties serviceProperties;
+
+	public MyService(ServiceProperties serviceProperties) {
+		this.serviceProperties = serviceProperties;
+	}
+
+	public String message() {
+		return this.serviceProperties.getMessage();
+	}
+}
+<%} else if(language === 'groovy') {%>@EnableConfigurationProperties(ServiceProperties)
+	class MyService {
+	
+		final ServiceProperties serviceProperties
+	
+		MyService(ServiceProperties serviceProperties) {
+			this.serviceProperties = serviceProperties
+		}
+	
+		String message() {
+			return this.serviceProperties.message
+		}
+	}
+<%} else if(language === 'kotlin') {%>@EnableConfigurationProperties(ServiceProperties::class)
+	class MyService(private val serviceProperties: ServiceProperties) {
+	
+		fun message(): String {
+			return this.serviceProperties.message
+		}
+	}
+<%  } %>

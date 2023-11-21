@@ -11,6 +11,7 @@ import {
   promptBootDependencies,
   promptForMultiModuleSupport,
   generateProjectConfiguration,
+  createLibraryFiles,
 } from './lib';
 import { NX_SPRING_BOOT_PKG } from '../../index';
 import {
@@ -43,6 +44,8 @@ export async function projectGenerator(
   }
 
   addMavenPublishPlugin(tree, normalizedOptions);
+
+  createLibraryFiles(tree, normalizedOptions);
 
   if (!options.skipFormat) {
     //if skipFormat is true, then we don't want to add Spotless plugin

@@ -6,7 +6,7 @@ import { buildBootDownloadUrl } from '../../../utils/boot-utils';
 import { NX_SPRING_BOOT_PKG } from '../../../index';
 import {
   extractFromZipStream,
-  getCommonHttpHeaders,  
+  getCommonHttpHeaders,
   getGradleWrapperFiles,
   getMavenWrapperFiles,
 } from '@nxrocks/common-jvm';
@@ -48,7 +48,7 @@ export async function generateBootProject(
         }
 
       }
-      else if(options.projectType !== 'library' || !getMainApplicationAndTestFiles(options).includes(entryPath)) {
+      else if (options.projectType !== 'library' || !getBootApplicationOnlyFiles(options).includes(entryPath)) {
         tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
           mode: execPermission,
         });
@@ -69,10 +69,13 @@ export async function generateBootProject(
 }
 
 
-function getMainApplicationAndTestFiles(options: NormalizedSchema){
+function getBootApplicationOnlyFiles(options: NormalizedSchema) {
 
   const basePath = options.packageName?.replaceAll('.', '/');
-  const ext = options.language === 'kotlin' ? '.kt' :  options.language === 'groovy' ? '.groovy': '.java'
-  return [`src/main/${options.language}/${basePath}/${names(options.name).className}Application${ext}`, `src/test/${options.language}/${basePath}/${names(options.name).className}ApplicationTests${ext}`];
+  const ext = options.language === 'kotlin' ? '.kt' : options.language === 'groovy' ? '.groovy' : '.java';
+  return [
+    `src/main/resources/application.properties`,
+    `src/main/${options.language}/${basePath}/${names(options.name).className}Application${ext}`,
+    `src/test/${options.language}/${basePath}/${names(options.name).className}ApplicationTests${ext}`];
 
 }

@@ -8,3 +8,4 @@
  export { normalizeOptions } from './normalize-options';
  export { promptForMultiModuleSupport } from './prompt-multi-module-support';
  export { generateProjectConfiguration} from './generate-project-configuration';
+ export { createLibraryFiles } from './create-library-files';
