@@ -17,7 +17,8 @@ export function disableBootGradlePlugin(tree: Tree, options: NormalizedSchema) {
       tree,
       options.projectRoot,
       options.language,
-      'org.springframework.boot'
+      'org.springframework.boot',
+      options.buildSystem === 'gradle-project-kotlin'
     );
     if (disabled) {
       const dependencyManagement =
