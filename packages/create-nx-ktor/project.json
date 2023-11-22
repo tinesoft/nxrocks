@@ -11,8 +11,7 @@
         "outputPath": "dist/packages/create-nx-ktor",
         "main": "packages/create-nx-ktor/bin/index.ts",
         "tsConfig": "packages/create-nx-ktor/tsconfig.lib.json",
-        "assets": ["packages/create-nx-ktor/*.md"],
-        "updateBuildableProjectDepsInPackageJson": false
+        "assets": ["packages/create-nx-ktor/*.md"]
       }
     },
     "publish": {
@@ -33,14 +32,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/create-nx-ktor/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "packages/create-nx-ktor/jest.config.ts"
       }
     },
     "semantic-release": {

@@ -11,8 +11,7 @@
         "outputPath": "dist/packages/create-nx-quarkus",
         "main": "packages/create-nx-quarkus/bin/index.ts",
         "tsConfig": "packages/create-nx-quarkus/tsconfig.lib.json",
-        "assets": ["packages/create-nx-quarkus/*.md"],
-        "updateBuildableProjectDepsInPackageJson": false
+        "assets": ["packages/create-nx-quarkus/*.md"]
       }
     },
     "publish": {
@@ -33,14 +32,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "packages/create-nx-quarkus/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "packages/create-nx-quarkus/jest.config.ts"
       }
     },
     "semantic-release": {

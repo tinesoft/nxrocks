@@ -30,8 +30,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/packages/common"],
       "options": {
-        "jestConfig": "packages/common/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "packages/common/jest.config.ts"
       }
     },
     "semantic-release": {
