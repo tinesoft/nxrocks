@@ -81,12 +81,14 @@ export function disableGradlePlugin(
           GRADLE_PLUGIN_REGEX,
           (pluginMatch: string, _: string, id: string) => {
             if (id === pluginId) {
-              return `${pluginMatch.trimEnd()} apply false\n\t`;
+              const lastQuoteIdx = pluginMatch.lastIndexOf( withKotlinDSL ? '"': "'");
+              const disabledPlugin = `${pluginMatch.substring(0, lastQuoteIdx+1)} apply false${pluginMatch.substring(lastQuoteIdx+1)}`;
+              return disabledPlugin;
             }
             return pluginMatch;
           }
         );
-        return `plugins {\n${newContent}\n}`;
+        return `plugins {\n\t${newContent}}`;
       }
     );
     tree.write(`${rootFolder}/build${ext}`, newBuildGradle);
