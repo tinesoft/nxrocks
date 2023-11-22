@@ -15,8 +15,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/e2e/smoke"],
       "options": {
-        "jestConfig": "e2e/smoke/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "e2e/smoke/jest.config.ts"
       },
       "dependsOn": ["^build"]
     }

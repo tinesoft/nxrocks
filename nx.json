@@ -23,22 +23,27 @@
       "inputs": ["production", "^production"],
       "cache": true
     },
-    "e2e": {
-      "dependsOn": ["^build"],
-      "cache": true
-    },
     "semantic-release": {
       "dependsOn": ["^semantic-release"]
-    },
-    "test": {
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-      "cache": true
     },
     "publish": {
       "outputs": ["{options.outputPath}"]
     },
     "lint": {
       "cache": true
+    },
+    "@nx/jest:jest": {
+      "cache": true,
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "options": {
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
     }
   },
   "namedInputs": {
