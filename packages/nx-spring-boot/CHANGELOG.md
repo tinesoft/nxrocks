@@ -1,3 +1,19 @@
+# [9.1.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v9.0.3...nx-spring-boot/v9.1.0) (2023-11-22)
+
+
+### Bug Fixes
+
+* **common-jvm:** improve utility method to disable a Gradle plugin ([8e1e5b9](https://github.com/tinesoft/nxrocks/commit/8e1e5b9fc9b9e07fd0c8f9d2cbfc31a809416873))
+* **nx-spring-boot:** do not generate Application/ApplicationTests files when generating a `library` ([17fbb4a](https://github.com/tinesoft/nxrocks/commit/17fbb4a9b9094b2a7c544babec806e48b410c222))
+* **nx-spring-boot:** fix Boot plugin not disabled for `library` project when using Gradle Kotlin ([fb0b1de](https://github.com/tinesoft/nxrocks/commit/fb0b1de4c1ed700ac40bbb0fe9c90597d45e3af5))
+* **nx-spring-boot:** remove `bootBuildImage` gradle task when generating a `library` project ([03a2bd7](https://github.com/tinesoft/nxrocks/commit/03a2bd7f3b8cffd65f4ae0a2ffbe91976e43865f))
+
+
+### Features
+
+* make `install` target depend on the one from the dependency ([b2878dc](https://github.com/tinesoft/nxrocks/commit/b2878dca47f660c8faa9e1caf0733550abda17cb))
+* **nx-spring-boot:** improve `project` generator by generating sample `library` files ([358f9ad](https://github.com/tinesoft/nxrocks/commit/358f9ad404e1d28b0d9c875bd02f4e0782c405f0))
+
 ## [9.0.3](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v9.0.2...nx-spring-boot/v9.0.3) (2023-11-16)
 
 
