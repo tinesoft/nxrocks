@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/tinesoft/nxrocks/compare/common-jvm/v1.0.2...common-jvm/v1.0.3) (2023-11-22)
+
+
+### Bug Fixes
+
+* **common-jvm:** improve utility method to disable a Gradle plugin ([8e1e5b9](https://github.com/tinesoft/nxrocks/commit/8e1e5b9fc9b9e07fd0c8f9d2cbfc31a809416873))
+
 ## [1.0.2](https://github.com/tinesoft/nxrocks/compare/common-jvm/v1.0.1...common-jvm/v1.0.2) (2023-10-31)
 
 
