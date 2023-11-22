@@ -1,3 +1,15 @@
+# [3.1.0](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v3.0.3...nx-ktor/v3.1.0) (2023-11-22)
+
+
+### Bug Fixes
+
+* **common-jvm:** improve utility method to disable a Gradle plugin ([8e1e5b9](https://github.com/tinesoft/nxrocks/commit/8e1e5b9fc9b9e07fd0c8f9d2cbfc31a809416873))
+
+
+### Features
+
+* make `install` target depend on the one from the dependency ([b2878dc](https://github.com/tinesoft/nxrocks/commit/b2878dca47f660c8faa9e1caf0733550abda17cb))
+
 ## [3.0.3](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v3.0.2...nx-ktor/v3.0.3) (2023-11-16)
 
 
