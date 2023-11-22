@@ -12,6 +12,7 @@ import {
   promptForMultiModuleSupport,
   generateProjectConfiguration,
   createLibraryFiles,
+  removeBootBuildImageGradleTask,
 } from './lib';
 import { NX_SPRING_BOOT_PKG } from '../../index';
 import {
@@ -40,12 +41,14 @@ export async function projectGenerator(
       removeBootMavenPlugin(tree, normalizedOptions);
     } else {
       disableBootGradlePlugin(tree, normalizedOptions);
+
+      createLibraryFiles(tree, normalizedOptions);
+
+      removeBootBuildImageGradleTask(tree, normalizedOptions)
     }
   }
 
-  addMavenPublishPlugin(tree, normalizedOptions);
-
-  createLibraryFiles(tree, normalizedOptions);
+  addMavenPublishPlugin(tree, normalizedOptions);  
 
   if (!options.skipFormat) {
     //if skipFormat is true, then we don't want to add Spotless plugin

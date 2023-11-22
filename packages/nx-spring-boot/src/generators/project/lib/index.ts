@@ -9,3 +9,4 @@
  export { promptForMultiModuleSupport } from './prompt-multi-module-support';
  export { generateProjectConfiguration} from './generate-project-configuration';
  export { createLibraryFiles } from './create-library-files';
+ export { removeBootBuildImageGradleTask } from './remove-boot-build-image-gradle-task';

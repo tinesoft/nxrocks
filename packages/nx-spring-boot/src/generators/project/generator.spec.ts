@@ -20,8 +20,9 @@ import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
 import { NX_SPRING_BOOT_PKG } from '../../index';
-import {stripIndent,
-  
+import {
+  stripIndent,
+
   hasMavenPlugin,
   SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
   SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
@@ -194,28 +195,37 @@ describe('project generator', () => {
         `📦 Extracting Spring Boot project zip to '${joinPathFragments(workspaceRoot, rootDir, options.name)}'...`
       );
 
-      if (buildSystem === 'gradle-project') {
-        if (projectType === 'library') {
+      if (projectType === 'library') {
+        if (buildSystem === 'maven-project') {
+          expect(logger.debug).toHaveBeenNthCalledWith(
+            1,
+            `Removing 'spring-boot' maven plugin on a library project...`
+          );
+        }
+        else {
           expect(logger.debug).toHaveBeenNthCalledWith(
             1,
             `Disabling 'spring-boot' gradle plugin on a library project...`
           );
-        } else {
+
+          expect(logger.debug).toHaveBeenNthCalledWith(
+            2,
+            `Removing 'bootBuildImage' gradle task on a library project...`
+          );
+        }
+
+      } else {
+        if (buildSystem === 'gradle-project' || buildSystem === 'gradle-project-kotlin') {
           expect(logger.debug).toHaveBeenNthCalledWith(
             1,
             `Adding 'buildInfo' task to the ${buildFile} file...`
           );
-        }
-        expect(logger.debug).toHaveBeenNthCalledWith(
-          2,
-          `Adding 'maven-publish' plugin...`
-        );
-      }
 
-      if (buildSystem === 'maven-project' && projectType === 'library') {
-        expect(logger.debug).toHaveBeenCalledWith(
-          `Removing 'spring-boot' maven plugin on a library project...`
-        );
+          expect(logger.debug).toHaveBeenNthCalledWith(
+            2,
+            `Adding 'maven-publish' plugin...`
+          );
+        }
       }
     }
   );
@@ -322,7 +332,7 @@ describe('project generator', () => {
       expect(
         hasMavenPlugin(
           tree,
-          `./${ options.name }`,
+          `./${options.name}`,
           'org.springframework.boot',
           'spring-boot-maven-plugin'
         )
