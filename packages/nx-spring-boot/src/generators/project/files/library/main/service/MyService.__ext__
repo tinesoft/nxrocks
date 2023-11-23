@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 <%} else if(language === 'kotlin') {%>@EnableConfigurationProperties(ServiceProperties::class)
 	class MyService(private val serviceProperties: ServiceProperties) {
 	
-		fun message(): String {
+		fun message(): String? {
 			return this.serviceProperties.message
 		}
 	}
