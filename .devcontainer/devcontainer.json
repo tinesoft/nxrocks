@@ -24,10 +24,7 @@
 			"userGid": "automatic"
 		}
 	},
-	"settings":{
-		"debug.javascript.usePreview": false,
-		"dotfiles.repository": "https://github.com/tinesoft/dotfiles"
-	},
+
 	"mounts": [
 		"source=nxrocks-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
 	],
@@ -44,7 +41,11 @@
 				"dbaeumer.vscode-eslint",
 				"firsttris.vscode-jest-runner",
 				"anweber.reveal-button"
-			]
+			],
+			"settings":{
+				"debug.javascript.autoAttachFilter": "onlyWithFlag",
+				"dotfiles.repository": "https://github.com/tinesoft/dotfiles"
+			}
 		}
 	}
 }
