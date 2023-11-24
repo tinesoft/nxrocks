@@ -1,6 +1,6 @@
-package <%= packageName %>.service;
+package <%= packageName %>.service<%= lineEnding %>
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties<%= lineEnding %>
 
 @ConfigurationProperties("service")
 <% if(language === 'java') {%>public class ServiceProperties {
@@ -39,6 +39,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 	 * A message for the service.
 	 */
 	var message: String? = null
-		private set
 }
-<%  } %>
+<% } %>

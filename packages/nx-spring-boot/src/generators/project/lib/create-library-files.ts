@@ -11,6 +11,7 @@ export function createLibraryFiles(tree: Tree, options: NormalizedSchema) {
             language: options.language,
             packageName: options.packageName,
             ext: options.language === 'kotlin' ? 'kt' : options.language === 'groovy' ? 'groovy' : 'java',
+            lineEnding: options.language === 'java' ? ';': '',
             dot: '.',
             tpl: ''
         };

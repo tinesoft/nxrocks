@@ -1,11 +1,11 @@
-package <%= packageName %>.service;
+package <%= packageName %>.service<%= lineEnding %>
 
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.context.properties.EnableConfigurationProperties<%= lineEnding %>
+import org.springframework.stereotype.Service<%= lineEnding %>
 
 @Service
 <% if(language === 'java') {%>@EnableConfigurationProperties(ServiceProperties.class)
-	public class MyService {
+public class MyService {
 
 	private final ServiceProperties serviceProperties;
 
@@ -18,23 +18,23 @@ import org.springframework.stereotype.Service;
 	}
 }
 <%} else if(language === 'groovy') {%>@EnableConfigurationProperties(ServiceProperties)
-	class MyService {
+class MyService {
 	
-		final ServiceProperties serviceProperties
-	
-		MyService(ServiceProperties serviceProperties) {
-			this.serviceProperties = serviceProperties
-		}
-	
-		String message() {
-			return this.serviceProperties.message
-		}
+	final ServiceProperties serviceProperties
+
+	MyService(ServiceProperties serviceProperties) {
+		this.serviceProperties = serviceProperties
 	}
+
+	String message() {
+		return this.serviceProperties.getMessage()
+	}
+}
 <%} else if(language === 'kotlin') {%>@EnableConfigurationProperties(ServiceProperties::class)
-	class MyService(private val serviceProperties: ServiceProperties) {
+class MyService(private val serviceProperties: ServiceProperties) {
 	
-		fun message(): String? {
-			return this.serviceProperties.message
-		}
+	fun message(): String? {
+		return serviceProperties.message
 	}
-<%  } %>
+}
+<% } %>

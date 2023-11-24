@@ -1,12 +1,12 @@
-package <%= packageName %>.service;
+package <%= packageName %>.service<%= lineEnding %>
 
-import static org.assertj.core.api.Assertions.assertThat;
+import <% if(language !== 'kotlin') {%>static <% } %>org.assertj.core.api.Assertions.assertThat<%= lineEnding %>
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test<%= lineEnding %>
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired<%= lineEnding %>
+import org.springframework.boot.autoconfigure.SpringBootApplication<%= lineEnding %>
+import org.springframework.boot.test.context.SpringBootTest<%= lineEnding %>
 
 <% if(language === 'java') {%>@SpringBootTest("service.message=Hello")
 public class MyServiceTest {
@@ -22,7 +22,6 @@ public class MyServiceTest {
 	@SpringBootApplication
 	static class TestConfiguration {
 	}
-
 }
 <%} else if(language === 'groovy') {%>@SpringBootTest(properties = ["service.message=Hello"])
 class MyServiceTest {
@@ -47,12 +46,10 @@ class MyServiceTest {
 
 	@Test
 	fun contextLoads() {
-		expect {
-			that(myService.message()).isNotNull()
-		}
+		assertThat(myService.message()).isNotNull()
 	}
 
 	@SpringBootApplication
-	class TestConfiguration
+	internal class TestConfiguration
 }
-<%  } %>
+<% } %>
