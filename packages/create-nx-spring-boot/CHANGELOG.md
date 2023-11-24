@@ -3,7 +3,7 @@
 
 ### Bug Fixes
 
-* **nx-spring-boot:** fix sample files not generated for `Gradle` `library` projects ([6d2effd](https://github.com/tinesoft/nxrocks/commit/6d2effdb81d5a4c1e77491ff86d35d41811cb83b))
+* **nx-spring-boot:** fix sample files not generated for `Maven` `library` projects ([6d2effd](https://github.com/tinesoft/nxrocks/commit/6d2effdb81d5a4c1e77491ff86d35d41811cb83b))
 * **nx-spring-boot:** fix typing in `MyService.kt` when generating a `library` project ([340b666](https://github.com/tinesoft/nxrocks/commit/340b6667aeaa741d33c956dd01df2ea27f6ca7df))
 
 # [2.1.0](https://github.com/tinesoft/nxrocks/compare/create-nx-spring-boot/v2.0.3...create-nx-spring-boot/v2.1.0) (2023-11-22)
