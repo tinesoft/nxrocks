@@ -42,10 +42,10 @@ export async function projectGenerator(
     } else {
       disableBootGradlePlugin(tree, normalizedOptions);
 
-      createLibraryFiles(tree, normalizedOptions);
-
       removeBootBuildImageGradleTask(tree, normalizedOptions)
     }
+
+    createLibraryFiles(tree, normalizedOptions);
   }
 
   addMavenPublishPlugin(tree, normalizedOptions);  

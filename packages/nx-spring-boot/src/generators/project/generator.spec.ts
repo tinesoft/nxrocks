@@ -201,6 +201,10 @@ describe('project generator', () => {
             1,
             `Removing 'spring-boot' maven plugin on a library project...`
           );
+          expect(logger.debug).toHaveBeenNthCalledWith(
+            2,
+            `Generating sample files for library project...`
+          );
         }
         else {
           expect(logger.debug).toHaveBeenNthCalledWith(
@@ -211,6 +215,10 @@ describe('project generator', () => {
           expect(logger.debug).toHaveBeenNthCalledWith(
             2,
             `Removing 'bootBuildImage' gradle task on a library project...`
+          );
+          expect(logger.debug).toHaveBeenNthCalledWith(
+            3,
+            `Generating sample files for library project...`
           );
         }
 
