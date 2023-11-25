@@ -1,3 +1,11 @@
+## [2.1.2](https://github.com/tinesoft/nxrocks/compare/create-nx-spring-boot/v2.1.1...create-nx-spring-boot/v2.1.2) (2023-11-25)
+
+
+### Bug Fixes
+
+* **common-jvm:** fix bug when checking if an  xml node is empty ([9f956a0](https://github.com/tinesoft/nxrocks/commit/9f956a04b7234319ee7be3e02c1c5f871050de5b))
+* **nx-spring-boot:** fix template files for `library` projects ([aa2ea8c](https://github.com/tinesoft/nxrocks/commit/aa2ea8cec900f8afd38dd6934319a8cf248b10c7))
+
 ## [2.1.1](https://github.com/tinesoft/nxrocks/compare/create-nx-spring-boot/v2.1.0...create-nx-spring-boot/v2.1.1) (2023-11-24)
 
 
