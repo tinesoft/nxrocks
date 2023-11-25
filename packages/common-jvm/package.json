@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/common-jvm",
   "description": "Common library to share code among the JVM-related plugins.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": false,
   "publishConfig": {
     "access": "public"
