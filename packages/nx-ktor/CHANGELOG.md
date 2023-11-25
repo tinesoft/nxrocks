@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v3.1.0...nx-ktor/v3.1.1) (2023-11-25)
+
+
+### Bug Fixes
+
+* **common-jvm:** fix bug when checking if an  xml node is empty ([9f956a0](https://github.com/tinesoft/nxrocks/commit/9f956a04b7234319ee7be3e02c1c5f871050de5b))
+
 # [3.1.0](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v3.0.3...nx-ktor/v3.1.0) (2023-11-22)
 
 
