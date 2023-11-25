@@ -1,7 +1,7 @@
 {
   "name": "create-nx-quarkus",
   "description": "CLI to create Nx workspaces with built-in support for Quarkus",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "license": "MIT",
   "author": "Tine Kondo ",
   "repository": {

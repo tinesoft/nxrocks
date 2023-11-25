@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/tinesoft/nxrocks/compare/create-nx-quarkus/v2.1.0...create-nx-quarkus/v2.1.1) (2023-11-25)
+
+
+### Bug Fixes
+
+* **common-jvm:** fix bug when checking if an  xml node is empty ([9f956a0](https://github.com/tinesoft/nxrocks/commit/9f956a04b7234319ee7be3e02c1c5f871050de5b))
+
 # [2.1.0](https://github.com/tinesoft/nxrocks/compare/create-nx-quarkus/v2.0.3...create-nx-quarkus/v2.1.0) (2023-11-22)
 
 
