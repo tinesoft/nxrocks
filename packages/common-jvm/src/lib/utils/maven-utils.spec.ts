@@ -247,6 +247,95 @@ describe('maven-utils', () => {
             `.replace(/\s+/g, '')
       );
     });
+
+    it("should remove the plugin node if found along with its ancestors 'plugins' and 'build' node if empty afterwards", () => {
+      tree.write(`./pom.xml`, `<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.2.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>demo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>demo</name>
+	<description>Demo project for Spring Boot</description>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.groovy</groupId>
+			<artifactId>groovy</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.gmavenplus</groupId>
+				<artifactId>gmavenplus-plugin</artifactId>
+				<version>1.13.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>addSources</goal>
+							<goal>addTestSources</goal>
+							<goal>generateStubs</goal>
+							<goal>compile</goal>
+							<goal>generateTestStubs</goal>
+							<goal>compileTests</goal>
+							<goal>removeStubs</goal>
+							<goal>removeTestStubs</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>`);
+
+      const removed = removeMavenPlugin(
+        tree,
+        '.',
+        'org.springframework.boot',
+        'spring-boot-maven-plugin'
+      );
+      
+      const pomXml = tree.read(`./pom.xml`, 'utf-8');
+      expect(removed).toEqual(true);
+      expect(pomXml?.replace(/\s+/g, '')).not.toContain(
+        `
+            <build>
+            	<plugins>
+            		<plugin>
+            			<groupId>org.springframework.boot</groupId>
+            			<artifactId>spring-boot-maven-plugin</artifactId>
+            		</plugin>
+            	</plugins>
+            </build>
+            `.replace(/\s+/g, '')
+      );
+    });
   });
 
   describe('addSpotlessMavenPlugin', () => {

@@ -156,7 +156,7 @@ export function addXmlElement(
 
 export function isXmlNodeEmpty(xml: XMLBuilder): boolean {
   try {
-    return !!xml.first();
+    return !xml.first();
   } catch (error) {
     return true;
   }
