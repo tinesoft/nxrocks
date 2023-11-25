@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/nx-micronaut",
   "description": "Nx Plugin to generate, run, package, build (and more) Micronaut projects inside your Nx workspace",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "private": false,
   "publishConfig": {
     "access": "public"
