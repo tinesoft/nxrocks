@@ -9,4 +9,4 @@ npm install -g @pnpm/exe@8.3.1
 #sudo chown node node_modules
 
 # Install dependencies
-pnpm install
+pnpm install --frozen-lockfile
