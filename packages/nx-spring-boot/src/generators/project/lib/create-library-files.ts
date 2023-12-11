@@ -9,6 +9,7 @@ export function createLibraryFiles(tree: Tree, options: NormalizedSchema) {
           );
         const substitutions = {
             language: options.language,
+            projectName: options.projectName,
             packageName: options.packageName,
             ext: options.language === 'kotlin' ? 'kt' : options.language === 'groovy' ? 'groovy' : 'java',
             lineEnding: options.language === 'java' ? ';': '',
@@ -19,11 +20,9 @@ export function createLibraryFiles(tree: Tree, options: NormalizedSchema) {
         const basePath = options.packageName?.replaceAll('.', '/');
         const mainPath = `${options.projectRoot}/src/main/${options.language}/${basePath}`;
         const testPath = `${options.projectRoot}/src/test/${options.language}/${basePath}`;
-        const mainResourcesPath = `${options.projectRoot}/src/main/resources`;
 
 
         generateFiles(tree, joinPathFragments(__dirname, '../files/library/main'), mainPath, substitutions);
         generateFiles(tree, joinPathFragments(__dirname, '../files/library/test'), testPath, substitutions)
-        generateFiles(tree, joinPathFragments(__dirname, '../files/library/main-resources'), mainResourcesPath, substitutions)
     }
 }

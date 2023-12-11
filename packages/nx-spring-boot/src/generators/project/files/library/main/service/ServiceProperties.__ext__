@@ -2,7 +2,7 @@ package <%= packageName %>.service<%= lineEnding %>
 
 import org.springframework.boot.context.properties.ConfigurationProperties<%= lineEnding %>
 
-@ConfigurationProperties("service")
+@ConfigurationProperties("<%= projectName %>.service")
 <% if(language === 'java') {%>public class ServiceProperties {
 
 	/**
