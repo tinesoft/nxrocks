@@ -1,8 +1,11 @@
+import type { ProjectNameAndRootFormat } from '@nx/devkit/src/generators/project-name-and-root-utils';
+
 export interface ProjectGeneratorOptions {
   name: string;
   projectType: 'default' | 'cli' | 'function' | 'grpc' | 'messaging';
   tags?: string;
   directory?: string;
+  projectNameAndRootFormat?: ProjectNameAndRootFormat;
 
   micronautLaunchUrl?: string;
   proxyUrl?: string;
@@ -25,7 +28,6 @@ export interface ProjectGeneratorOptions {
 export interface NormalizedSchema extends ProjectGeneratorOptions {
   projectName: string;
   projectRoot: string;
-  projectDirectory: string;
   projectFeatures: string[];
   parsedTags: string[];
   fullPackage: string;

@@ -14,7 +14,13 @@
         "index": 0
       },
       "x-prompt": "What name would you like to use?",
-      "pattern": "^[a-zA-Z].*$",
+      "pattern": "^[a-zA-Z][^:]*$",
+      "x-priority": "important"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed.",
+      "alias": "d",
       "x-priority": "important"
     },
     "projectType": {
@@ -133,10 +139,10 @@
       "alias": "t",
       "x-priority": "internal"
     },
-    "directory": {
+    "projectNameAndRootFormat": {
+      "description": "Whether to generate the project name and root directory as provided (`as-provided`) or generate them composing their values and taking the configured layout into account (`derived`).",
       "type": "string",
-      "description": "A directory where the project is placed.",
-      "alias": "d"
+      "enum": ["as-provided", "derived"]
     }
   },
   "required": [

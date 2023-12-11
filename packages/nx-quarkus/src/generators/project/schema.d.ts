@@ -1,8 +1,11 @@
+import type { ProjectNameAndRootFormat } from '@nx/devkit/src/generators/project-name-and-root-utils';
+
 export interface ProjectGeneratorOptions {
   name: string;
   projectType: 'application' | 'library';
   tags?: string;
   directory?: string;
+  projectNameAndRootFormat?: ProjectNameAndRootFormat;
 
   quarkusInitializerUrl?: string;
   proxyUrl?: string;
@@ -24,7 +27,6 @@ export interface ProjectGeneratorOptions {
 export interface NormalizedSchema extends ProjectGeneratorOptions {
   projectName: string;
   projectRoot: string;
-  projectDirectory: string;
   projectExtensions: string[];
   parsedTags: string[];
   moduleRoot?: string;

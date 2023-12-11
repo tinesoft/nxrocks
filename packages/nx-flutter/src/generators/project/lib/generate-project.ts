@@ -24,7 +24,7 @@ export async function generateFlutterProject(
   }
 
   if (process.env.NX_DRY_RUN === 'true') {
-    logger.info(
+    logger.warn(
       'Skipping Flutter project generation because of --dry-run flag'
     );
     return;
