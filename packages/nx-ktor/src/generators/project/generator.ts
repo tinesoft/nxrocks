@@ -19,7 +19,7 @@ export async function projectGenerator(
   tree: Tree,
   options: ProjectGeneratorOptions
 ) {
-  const normalizedOptions = normalizeOptions(tree, options);
+  const normalizedOptions = await normalizeOptions(tree, options);
 
   await promptKtorFeatures(normalizedOptions);
 

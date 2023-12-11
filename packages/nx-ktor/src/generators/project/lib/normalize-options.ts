@@ -1,18 +1,24 @@
-import { Tree, names } from '@nx/devkit';
+import { Tree } from '@nx/devkit';
 import { ProjectGeneratorOptions, NormalizedSchema } from '../schema';
-import { getProjectRootDir } from '@nxrocks/common-jvm';
+import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 
-export function normalizeOptions(
+export async function normalizeOptions(
   tree: Tree,
   options: ProjectGeneratorOptions
-): NormalizedSchema {
-  const projectRootDir = getProjectRootDir(tree, 'application');
-  const name = names(options.name).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(/\//g, '-');
-  const projectRoot = `${projectRootDir}/${projectDirectory}`;
+): Promise<NormalizedSchema> {
+  const {
+    projectName,
+    projectRoot,
+    projectNameAndRootFormat,
+  } = await determineProjectNameAndRootOptions(tree, {
+    name: options.name,
+    projectType: 'application',
+    directory: options.directory,
+    projectNameAndRootFormat: options.projectNameAndRootFormat,
+    //rootProject: options.rootProject,
+    callingGenerator: '@nxrocks/nx-ktor:project',
+  });
+  options.projectNameAndRootFormat = projectNameAndRootFormat;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -25,7 +31,6 @@ export function normalizeOptions(
     ...options,
     projectName,
     projectRoot,
-    projectDirectory,
     projectFeatures,
     parsedTags,
   };

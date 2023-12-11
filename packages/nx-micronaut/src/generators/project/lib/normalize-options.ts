@@ -1,17 +1,24 @@
-import { Tree, names, getWorkspaceLayout } from '@nx/devkit';
+import { Tree } from '@nx/devkit';
 import { ProjectGeneratorOptions, NormalizedSchema } from '../schema';
+import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 
-export function normalizeOptions(
+export async function normalizeOptions(
   tree: Tree,
   options: ProjectGeneratorOptions
-): NormalizedSchema {
-  const { appsDir } = getWorkspaceLayout(tree);
-  const name = names(options.name).fileName;
-  const projectDirectory = options.directory
-    ? `${names(options.directory).fileName}/${name}`
-    : name;
-  const projectName = projectDirectory.replace(/\//g, '-');
-  const projectRoot = `${appsDir}/${projectDirectory}`;
+): Promise<NormalizedSchema> {
+  const {
+    projectName,
+    projectRoot,
+    projectNameAndRootFormat,
+  } = await determineProjectNameAndRootOptions(tree, {
+    name: options.name,
+    projectType: 'application',
+    directory: options.directory,
+    projectNameAndRootFormat: options.projectNameAndRootFormat,
+    //rootProject: options.rootProject,
+    callingGenerator: '@nxrocks/nx-micronaut:project',
+  });
+  options.projectNameAndRootFormat = projectNameAndRootFormat;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -21,12 +28,11 @@ export function normalizeOptions(
       .map((s) => s.trim())
       .filter((s) => !!s) || [];
   const fullPackage =
-    options.basePackage + '.' + name.replace(/-_/g, '').toLowerCase();
+    options.basePackage + '.' + projectName.replace(/-_/g, '').toLowerCase();
   return {
     ...options,
     projectName,
     projectRoot,
-    projectDirectory,
     projectFeatures,
     parsedTags,
     fullPackage,

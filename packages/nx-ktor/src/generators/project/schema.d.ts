@@ -1,7 +1,10 @@
+import type { ProjectNameAndRootFormat } from '@nx/devkit/src/generators/project-name-and-root-utils';
+
 export interface ProjectGeneratorOptions {
   name: string;
   tags?: string;
   directory?: string;
+  projectNameAndRootFormat?: ProjectNameAndRootFormat;
 
   ktorInitializrUrl?: string;
   proxyUrl?: string;
@@ -26,7 +29,6 @@ export interface ProjectGeneratorOptions {
 export interface NormalizedSchema extends ProjectGeneratorOptions {
   projectName: string;
   projectRoot: string;
-  projectDirectory: string;
   projectFeatures: string[];
   parsedTags: string[];  
   moduleRoot?: string;

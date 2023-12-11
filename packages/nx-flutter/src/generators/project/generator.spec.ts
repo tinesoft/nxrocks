@@ -91,23 +91,23 @@ describe('application generator', () => {
   });
 
   it.each`
-    template     | rootDir
-    ${'app'}     | ${'.'}
-    ${'plugin'}  | ${'.'}
-    ${'package'} | ${'.'}
-    ${'module'}  | ${'.'}
+    template     
+    ${'app'}     
+    ${'plugin'}  
+    ${'package'} 
+    ${'module'}  
   `(
-    'should generate the flutter project of type "$template" in "$rootDir"',
-    async ({ template, rootDir }) => {
+    'should generate the flutter project of type "$template" ',
+    async ({ template }) => {
       await projectGenerator(tree, { ...options, template: template });
 
     if(['app', 'plugin'].includes(template)){
       expect(logger.info).toHaveBeenNthCalledWith(1,`Generating Flutter project with following options : --project-name=${options.name} --android-language=kotlin --ios-language=swift --template=${template} --platforms="android,ios,web,linux,windows,macos" ...`);
-      expect(logger.info).toHaveBeenNthCalledWith(2, `Executing command: flutter create --project-name=${options.name} --android-language=kotlin --ios-language=swift --template=${template} --platforms="android,ios,web,linux,windows,macos"  ${rootDir}/${options.name}`);
+      expect(logger.info).toHaveBeenNthCalledWith(2, `Executing command: flutter create --project-name=${options.name} --android-language=kotlin --ios-language=swift --template=${template} --platforms="android,ios,web,linux,windows,macos"  ${options.name}`);
     }
     else {
       expect(logger.info).toHaveBeenNthCalledWith(1,`Generating Flutter project with following options : --project-name=${options.name} --template=${template} ...`);
-      expect(logger.info).toHaveBeenNthCalledWith(2, `Executing command: flutter create --project-name=${options.name} --template=${template}  ${rootDir}/${options.name}`);
+      expect(logger.info).toHaveBeenNthCalledWith(2, `Executing command: flutter create --project-name=${options.name} --template=${template}  ${options.name}`);
     }
 
   });

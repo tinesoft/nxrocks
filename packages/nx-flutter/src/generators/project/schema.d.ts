@@ -1,3 +1,4 @@
+import type { ProjectNameAndRootFormat } from '@nx/devkit/src/generators/project-name-and-root-utils';
 
 export type AndroidLanguageType = 'java' | 'kotlin';
 
@@ -21,11 +22,11 @@ export interface ProjectGeneratorOptions {
   offline?:boolean;
   tags?: string;
   directory?: string;
+  projectNameAndRootFormat?: ProjectNameAndRootFormat;
 }
 
 export interface NormalizedSchema extends ProjectGeneratorOptions {
   projectName: string;
   projectRoot: string;
-  projectDirectory: string;
   parsedTags: string[];
 }
