@@ -54,7 +54,8 @@
           "packages/nx-quarkus/**/*.ts",
           "packages/nx-quarkus/generators.json",
           "packages/nx-quarkus/executors.json",
-          "packages/nx-quarkus/package.json"
+          "packages/nx-quarkus/package.json",
+          "packages/nx-quarkus/migrations.json"
         ]
       }
     },

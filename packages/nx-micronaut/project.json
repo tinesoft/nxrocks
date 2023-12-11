@@ -54,7 +54,8 @@
           "packages/nx-micronaut/**/*.ts",
           "packages/nx-micronaut/generators.json",
           "packages/nx-micronaut/executors.json",
-          "packages/nx-micronaut/package.json"
+          "packages/nx-micronaut/package.json",
+          "packages/nx-micronaut/migrations.json"
         ]
       }
     },

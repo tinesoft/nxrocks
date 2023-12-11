@@ -4,6 +4,11 @@
       "version": "3.0.0",
       "description": "Add  target to Nx cacheable operations",
       "implementation": "./src/migrations/update-3.0.0/add-install-to-cacheable-operations"
+    },
+    "make-serve-target-depends-on-dependency-install": {
+      "version": "9.2.0",
+      "description": "Migration for v9.2.0",
+      "implementation": "./src/migrations/update-3.2.0/make-serve-target-depends-on-dependency-install"
     }
   }
 }

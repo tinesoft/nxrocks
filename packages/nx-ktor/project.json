@@ -53,7 +53,8 @@
           "packages/nx-ktor/**/*.ts",
           "packages/nx-ktor/generators.json",
           "packages/nx-ktor/executors.json",
-          "packages/nx-ktor/package.json"
+          "packages/nx-ktor/package.json",
+          "packages/nx-ktor/migrations.json"
         ]
       }
     },
