@@ -3,7 +3,7 @@
     "add-install-to-cacheable-operations": {
       "version": "9.0.0",
       "description": "Add  target to Nx cacheable operations",
-      "implementation": "./src/migrations/add-install-to-cacheable-operations"
+      "implementation": "./src/migrations/update-9.0.0/add-install-to-cacheable-operations"
     }
   }
 }
