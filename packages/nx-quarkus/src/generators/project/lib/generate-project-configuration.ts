@@ -49,7 +49,7 @@ export async function generateProjectConfiguration(
           root: rootFolder,
           ...(runFromParentModule? { runFromParentModule } : {}),
         },
-        ...(['build', 'install'].includes(command) ? { dependsOn: ['^install'] } : {}),
+        ...(['build', 'install', 'dev', 'remote-dev', 'serve'].includes(command) ? { dependsOn: ['^install'] } : {}),
         ...(['build', 'install', 'test'].includes(command)
           ? {
               outputs: [

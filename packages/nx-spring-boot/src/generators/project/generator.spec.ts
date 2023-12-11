@@ -286,7 +286,7 @@ describe('project generator', () => {
         }
 
         if (
-          ['build', 'install'].includes(cmd)
+          ['build', 'install', 'serve', 'run'].includes(cmd)
         ) {
           expect(project.targets[cmd].dependsOn).toEqual(['^install']);
         }
