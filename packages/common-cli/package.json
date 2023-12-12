@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/common-cli",
   "description": "Common library to share code among the `create-*` packages.",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "private": false,
   "publishConfig": {
     "access": "public"
