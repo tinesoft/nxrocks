@@ -1,3 +1,12 @@
+# [3.2.0](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v3.1.1...nx-ktor/v3.2.0) (2023-12-12)
+
+
+### Features
+
+* add `projectNameAndRootFormat` option to better control where projects are generated ([5c449b5](https://github.com/tinesoft/nxrocks/commit/5c449b58265295b953a355890a7102b20c3ab094))
+* add migrations to automate making `serve`-like targets depend on `^install` ([f3449ea](https://github.com/tinesoft/nxrocks/commit/f3449ea8a2843d4b763dd9c361e72e034fb84982))
+* make `serve`-like targets depend on `^install` to automatically install dependencies first ([c85b7a6](https://github.com/tinesoft/nxrocks/commit/c85b7a6c398a849cddb403a8013c68723d47f9b9))
+
 ## [3.1.1](https://github.com/tinesoft/nxrocks/compare/nx-ktor/v3.1.0...nx-ktor/v3.1.1) (2023-11-25)
 
 
