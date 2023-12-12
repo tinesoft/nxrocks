@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired<%= lineEnding %>
 import org.springframework.boot.autoconfigure.SpringBootApplication<%= lineEnding %>
 import org.springframework.boot.test.context.SpringBootTest<%= lineEnding %>
 
-<% if(language === 'java') {%>@SpringBootTest("service.message=Hello")
+<% if(language === 'java') {%>@SpringBootTest("<%= projectName %>.service.message=Hello")
 public class MyServiceTest {
 
 	@Autowired
