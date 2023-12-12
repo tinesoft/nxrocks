@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/tinesoft/nxrocks/compare/create-nx-spring-boot/v2.2.0...create-nx-spring-boot/v2.2.1) (2023-12-12)
+
+
+### Bug Fixes
+
+* **nx-spring-boot:** fix generated parent `pom.xml`  of a multi-module project was not valid ([02b1e2d](https://github.com/tinesoft/nxrocks/commit/02b1e2ddec341ca611fe73c497703a33f96ab156))
+
 # [2.2.0](https://github.com/tinesoft/nxrocks/compare/create-nx-spring-boot/v2.1.2...create-nx-spring-boot/v2.2.0) (2023-12-12)
 
 
