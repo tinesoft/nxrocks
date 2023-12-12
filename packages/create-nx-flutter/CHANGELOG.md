@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/tinesoft/nxrocks/compare/create-nx-flutter/v2.0.2...create-nx-flutter/v2.1.0) (2023-12-12)
+
+
+### Features
+
+* add `projectNameAndRootFormat` option to better control where projects are generated ([5c449b5](https://github.com/tinesoft/nxrocks/commit/5c449b58265295b953a355890a7102b20c3ab094))
+
 ## [2.0.2](https://github.com/tinesoft/nxrocks/compare/create-nx-flutter/v2.0.1...create-nx-flutter/v2.0.2) (2023-11-16)
 
 
