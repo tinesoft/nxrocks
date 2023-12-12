@@ -439,12 +439,13 @@ export function addMavenModule(
 
 export function initMavenParentModule(tree: Tree, rootFolder: string, groupId: string, parentModuleName: string, childModuleName: string, helpComment = '', version = 'O.0.1-SNAPSHOT') {
 
-  const parentPomXml = `
-${helpComment}
-<?xml version="1.0" encoding="UTF-8"?>
+  const parentPomXml = 
+`<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    ${helpComment}
 
     <groupId>${groupId}</groupId>
     <artifactId>${parentModuleName}</artifactId>
