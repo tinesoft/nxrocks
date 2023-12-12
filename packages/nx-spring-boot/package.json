@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/nx-spring-boot",
   "description": "Nx Plugin to generate, run, package, build (and more) Spring Boot projects inside your Nx workspace",
-  "version": "9.2.0",
+  "version": "9.2.1",
   "private": false,
   "publishConfig": {
     "access": "public"

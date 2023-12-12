@@ -1,3 +1,10 @@
+## [9.2.1](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v9.2.0...nx-spring-boot/v9.2.1) (2023-12-12)
+
+
+### Bug Fixes
+
+* **nx-spring-boot:** fix generated parent `pom.xml`  of a multi-module project was not valid ([02b1e2d](https://github.com/tinesoft/nxrocks/commit/02b1e2ddec341ca611fe73c497703a33f96ab156))
+
 # [9.2.0](https://github.com/tinesoft/nxrocks/compare/nx-spring-boot/v9.1.2...nx-spring-boot/v9.2.0) (2023-12-12)
 
 
