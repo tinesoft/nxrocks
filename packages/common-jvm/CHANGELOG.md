@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/tinesoft/nxrocks/compare/common-jvm/v1.0.4...common-jvm/v1.1.0) (2023-12-12)
+
+
+### Features
+
+* add `projectNameAndRootFormat` option to better control where projects are generated ([5c449b5](https://github.com/tinesoft/nxrocks/commit/5c449b58265295b953a355890a7102b20c3ab094))
+
 ## [1.0.4](https://github.com/tinesoft/nxrocks/compare/common-jvm/v1.0.3...common-jvm/v1.0.4) (2023-11-25)
 
 
