@@ -380,12 +380,12 @@ export function hasGradleModule(cwd:string, moduleName: string){
 
 function checkForModule(settings:string, moduleName:string){
   const opts = {
-    fragments: [new RegExp(`rootProject\\.name\\s*=\\s*'`), new RegExp(`include\\s+':?${moduleName}'`)],
+    fragments: [new RegExp(`rootProject\\.name\\s*=\\s*'`), new RegExp(`include\\s+':?(?:[^:]*:)*${moduleName}'`)],
     logicalOp: 'and' as 'and' | 'or'
   };
 
   const optsKts = {
-    fragments: [new RegExp(`rootProject\\.name\\s*=\\s*"`), new RegExp(`include\\(":?${moduleName}"\\)`)],
+    fragments: [new RegExp(`rootProject\\.name\\s*=\\s*"`), new RegExp(`include\\(":?(?:[^:]*:)*${moduleName}"\\)`)],
     logicalOp: 'and' as 'and' | 'or'
   };
 
