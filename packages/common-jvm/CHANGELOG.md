@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/tinesoft/nxrocks/compare/common-jvm/v1.1.1...common-jvm/v1.1.2) (2023-12-16)
+
+
+### Bug Fixes
+
+* **common-jvm:** fix `checkForModule` util to match gradle child module names w/ arbitrary paths ([759c02f](https://github.com/tinesoft/nxrocks/commit/759c02f69bc63e25067af981dcade650a639ea52))
+
 ## [1.1.1](https://github.com/tinesoft/nxrocks/compare/common-jvm/v1.1.0...common-jvm/v1.1.1) (2023-12-12)
 
 
