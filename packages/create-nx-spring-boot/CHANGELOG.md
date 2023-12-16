@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/tinesoft/nxrocks/compare/create-nx-spring-boot/v2.2.1...create-nx-spring-boot/v2.2.2) (2023-12-16)
+
+
+### Bug Fixes
+
+* **common-jvm:** fix `checkForModule` util to match gradle child module names w/ arbitrary paths ([759c02f](https://github.com/tinesoft/nxrocks/commit/759c02f69bc63e25067af981dcade650a639ea52))
+
 ## [2.2.1](https://github.com/tinesoft/nxrocks/compare/create-nx-spring-boot/v2.2.0...create-nx-spring-boot/v2.2.1) (2023-12-12)
 
 
