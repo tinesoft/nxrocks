@@ -1,14 +1,12 @@
-import { Tree, formatFiles, getProjects, readNxJson, updateNxJson, updateProjectConfiguration } from '@nx/devkit';
+import { Tree, formatFiles } from '@nx/devkit';
 import { NX_MICRONAUT_PKG } from '../../index';
+import { updateNxJsonIf, updateProjectConfigurationIf } from '@nxrocks/common-jvm';
 
 export default async function update(tree: Tree) {
 
   const targetExecutors = [`${NX_MICRONAUT_PKG}:run`, `${NX_MICRONAUT_PKG}:serve`];
-  const projects = getProjects(tree);
-  for (const [, project] of projects) {
-    if (project.projectType !== 'application') {
-      continue;
-    }
+
+  updateProjectConfigurationIf(tree, (project) => project.projectType === 'application', (project) => {
 
     for (const target of Object.values(project.targets ?? {})) {
       if (targetExecutors.includes(target.executor)) {
@@ -18,29 +16,22 @@ export default async function update(tree: Tree) {
         }
       }
     }
-
-    updateProjectConfiguration(tree, project.name, project);
-  }
+  });
 
   // update options from nx.json target defaults
-  const nxJson = readNxJson(tree);
-  if (!nxJson.targetDefaults) {
-    return;
-  }
+  updateNxJsonIf(tree, (nxJson) => !!nxJson.targetDefaults, (nxJson) => {
+    for (const [targetOrExecutor, targetConfig] of Object.entries(
+      nxJson.targetDefaults
+    )) {
+      if (targetExecutors.includes(targetOrExecutor)) {
 
-  for (const [targetOrExecutor, targetConfig] of Object.entries(
-    nxJson.targetDefaults
-  )) {
-    if (targetExecutors.includes(targetOrExecutor)) {
-
-      targetConfig.dependsOn ??= [];
-      if (!targetConfig.dependsOn.includes('^install')) {
-        targetConfig.dependsOn.push('^install');
+        targetConfig.dependsOn ??= [];
+        if (!targetConfig.dependsOn.includes('^install')) {
+          targetConfig.dependsOn.push('^install');
+        }
       }
     }
-  }
-
-  updateNxJson(tree, nxJson);
+  })
 
   await formatFiles(tree);
 }
