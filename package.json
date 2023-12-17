@@ -10,7 +10,7 @@
     "lint": "nx run-many --target=lint --fix --parallel 4 --exclude smoke",
     "affected:build": "nx affected --target build --exclude=smoke",
     "affected:e2e": "nx affected --target e2e --exclude=smoke",
-    "affected:test": "nx affected --target test --exclude=smoke --runInBand",
+    "affected:test": "nx affected --target test --exclude=smoke",
     "affected:lint": "nx affected --target lint",
     "affected:graph": "nx affected --graph",
     "format": "nx format:write",
