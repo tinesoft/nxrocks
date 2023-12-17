@@ -40,7 +40,8 @@
 				"esbenp.prettier-vscode",
 				"dbaeumer.vscode-eslint",
 				"firsttris.vscode-jest-runner",
-				"anweber.reveal-button"
+				"anweber.reveal-button",
+				"github.vscode-github-actions"
 			],
 			"settings":{
 				"debug.javascript.autoAttachFilter": "onlyWithFlag",
