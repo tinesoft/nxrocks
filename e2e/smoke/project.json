@@ -25,6 +25,7 @@
     "nx-spring-boot",
     "nx-quarkus",
     "nx-micronaut",
-    "nx-flutter"
+    "nx-flutter",
+    "nx-ktor"
   ]
 }
