@@ -94,7 +94,7 @@ export async function fetchBootDependencies(
     `${options.springInitializerUrl}/dependencies`,
     getCommonHttpHeaders(
       NX_SPRING_BOOT_PKG,
-      options.springInitializerUrl,
+      options.springInitializerUrl!,
       options.proxyUrl
     )
   );

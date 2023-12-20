@@ -295,22 +295,22 @@ describe('project generator', () => {
       'run-docker',
     ];
     commands.forEach((cmd) => {
-      expect(project.targets[cmd].executor).toBe(`${NX_KTOR_PKG}:${cmd}`);
+      expect(project.targets?.[cmd].executor).toBe(`${NX_KTOR_PKG}:${cmd}`);
       if (['build', 'build-image', 'install', 'test'].includes(cmd)) {
-        expect(project.targets[cmd].outputs).toEqual([
+        expect(project.targets?.[cmd].outputs).toEqual([
           `{workspaceRoot}/${project.root}/target`,
         ]);
       }
       if (
         ['publish-image', 'publish-image-locally', 'run-docker'].includes(cmd)
       ) {
-        expect(project.targets[cmd].dependsOn).toEqual(['build-image']);
+        expect(project.targets?.[cmd].dependsOn).toEqual(['build-image']);
       }
 
       if (
         ['build', 'install', 'run', 'serve'].includes(cmd)
       ) {
-        expect(project.targets[cmd].dependsOn).toEqual(['^install']);
+        expect(project.targets?.[cmd].dependsOn).toEqual(['^install']);
       }
     });
   });
@@ -356,12 +356,12 @@ describe('project generator', () => {
       if (skipFormat) {
         // expect project.targets not to have the format commands
         formatCommands.forEach((cmd) => {
-          expect(project.targets[cmd]).toBeUndefined();
+          expect(project.targets?.[cmd]).toBeUndefined();
         });
       } else {
         // expect project.targets to have the format commands
         formatCommands.forEach((cmd) => {
-          expect(project.targets[cmd].executor).toBe(`${NX_KTOR_PKG}:${cmd}`);
+          expect(project.targets?.[cmd].executor).toBe(`${NX_KTOR_PKG}:${cmd}`);
         });
       }
       expect(

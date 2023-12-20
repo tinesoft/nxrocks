@@ -9,8 +9,9 @@ export async function updateProjectConfigurationIf(tree: Tree, predicate: (proje
         }
 
         updater(project);
-
-        updateProjectConfiguration(tree, project.name, project);
+        
+        if(project.name)
+            updateProjectConfiguration(tree, project.name, project);
     }
 }
 

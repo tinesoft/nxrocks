@@ -7,7 +7,7 @@ export interface ProjectGeneratorOptions {
   directory?: string;
   projectNameAndRootFormat?: ProjectNameAndRootFormat;
 
-  micronautLaunchUrl?: string;
+  micronautLaunchUrl: string;
   proxyUrl?: string;
 
   buildSystem?: 'MAVEN' | 'GRADLE' | 'GRADLE_KOTLIN';

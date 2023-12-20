@@ -22,6 +22,7 @@ jest.mock('@nx/workspace/src/utilities/fileutils');
 //then, we import
 import * as fsUtility from '@nx/workspace/src/utilities/fileutils';
 import * as cp from 'child_process';
+import { PathLike } from 'fs';
 
 const mockContext = mockExecutorContext(NX_MICRONAUT_PKG, 'aot-sample-config');
 const options: AotSampleConfigExecutorOptions = {
@@ -50,7 +51,7 @@ describe('Aot Sample Config Executor', () => {
 
       const files = [buildFile as string, ...(buildSystem === 'maven'? getMavenWrapperFiles() : getGradleWrapperFiles())];
       mocked(fsUtility.fileExists).mockImplementation(
-        (filePath: string) => files.some((f) => joinPathFragments(filePath).endsWith(f))
+        (filePath: PathLike) => files.some((f) => joinPathFragments(filePath.toString()).endsWith(f))
       );
 
       await aotSampleConfigExecutor({ ...options, ignoreWrapper }, mockContext);

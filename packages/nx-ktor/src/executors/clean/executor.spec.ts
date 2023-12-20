@@ -22,6 +22,7 @@ jest.mock('@nx/workspace/src/utilities/fileutils');
 //then, we import
 import * as fsUtility from '@nx/workspace/src/utilities/fileutils';
 import * as cp from 'child_process';
+import { PathLike } from 'fs';
 
 const mockContext = mockExecutorContext(NX_KTOR_PKG, 'clean');
 const options: CleanExecutorOptions = {
@@ -50,7 +51,7 @@ describe('Clean Executor', () => {
 
       const files = [buildFile as string, ...(buildSystem === 'maven' ? getMavenWrapperFiles() : getGradleWrapperFiles())];
       mocked(fsUtility.fileExists).mockImplementation(
-        (filePath: string) => files.some((f) => joinPathFragments(filePath).endsWith(f))
+        (filePath: PathLike) => files.some((f) => joinPathFragments(filePath.toString()).endsWith(f))
       );
 
       await cleanExecutor({ ...options, ignoreWrapper }, mockContext);

@@ -75,7 +75,7 @@ export function buildMicronautDownloadUrl(options: NormalizedSchema) {
   };
 
   const baseUrl = options.micronautVersion
-    ? options.micronautLaunchUrl.replace(
+    ? options.micronautLaunchUrl?.replace(
         'launch',
         versions[options.micronautVersion]
       )

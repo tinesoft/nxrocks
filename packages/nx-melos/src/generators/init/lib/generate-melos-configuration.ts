@@ -16,7 +16,7 @@ export async function generateMelosConfigurationFile(
   const dartVersions = getDartSDKVersion()?.split('.');
 
   // setting usePubspecOverrides to true, if on Dart 2.17.0 or greater, as recommnend by Melos
-  const usePubspecOverrides =
+  const usePubspecOverrides = dartVersions && 
     +dartVersions?.[0] >= 2 &&
     +dartVersions?.[1] >= 17 &&
     +dartVersions?.[2] >= 0;

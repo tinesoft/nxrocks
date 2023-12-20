@@ -26,6 +26,7 @@
     "nx-quarkus",
     "nx-micronaut",
     "nx-flutter",
-    "nx-ktor"
+    "nx-ktor",
+    "nx-melos"
   ]
 }

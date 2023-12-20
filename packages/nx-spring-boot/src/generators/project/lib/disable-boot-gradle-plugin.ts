@@ -15,6 +15,7 @@ export function disableBootGradlePlugin(tree: Tree, options: NormalizedSchema) {
 
     const disabled = disableGradlePlugin(
       tree,
+      
       options.projectRoot,
       options.language,
       'org.springframework.boot',

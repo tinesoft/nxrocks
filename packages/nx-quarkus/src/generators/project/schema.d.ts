@@ -7,10 +7,10 @@ export interface ProjectGeneratorOptions {
   directory?: string;
   projectNameAndRootFormat?: ProjectNameAndRootFormat;
 
-  quarkusInitializerUrl?: string;
+  quarkusInitializerUrl: string;
   proxyUrl?: string;
 
-  buildSystem?: 'MAVEN' | 'GRADLE' | 'GRADLE_KOTLIN_DSL';
+  buildSystem: 'MAVEN' | 'GRADLE' | 'GRADLE_KOTLIN_DSL';
   groupId?: string;
   artifactId?: string;
   skipCodeSamples?: boolean;

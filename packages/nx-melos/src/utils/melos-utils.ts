@@ -12,12 +12,12 @@ export function isDartInstalled(): boolean {
   }
 }
 
-export function getDartSDKVersion(): string | null {
+export function getDartSDKVersion(): string | undefined | null {
   try {
     const rawVersion = execSync('dart --version', {
       stdio: ['ignore', 'ignore', 'ignore'],
     }).toString();
-    return /Dart SDK version: (\d+\.\d+\.\d+)/.exec(rawVersion).groups?.[1];
+    return /Dart SDK version: (\d+\.\d+\.\d+)/.exec(rawVersion)?.groups?.[1];
   } catch (e) {
     return null;
   }

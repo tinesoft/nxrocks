@@ -9,7 +9,7 @@ jest.mock('child_process'); // we need to mock 'execSync' so that it doesn't rea
 //jest.mock('enquirer'); // we mock 'enquirer' to bypass the interactive prompt
 import * as enquirer from 'enquirer';
 
-process.env.NX_INTERACTIVE = 'true'; // simulate normal cli interactive mode (the prompt is mocked anyway)
+process.env['NX_INTERACTIVE'] = 'true'; // simulate normal cli interactive mode (the prompt is mocked anyway)
 
 describe('preset generator', () => {
   let tree: Tree;

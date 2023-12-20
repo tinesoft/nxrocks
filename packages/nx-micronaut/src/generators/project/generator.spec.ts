@@ -298,9 +298,9 @@ describe('project generator', () => {
       'aot-sample-config',
     ];
     commands.forEach((cmd) => {
-      expect(project.targets[cmd].executor).toBe(`${NX_MICRONAUT_PKG}:${cmd}`);
+      expect(project.targets?.[cmd].executor).toBe(`${NX_MICRONAUT_PKG}:${cmd}`);
       if (['build', 'install', 'test'].includes(cmd)) {
-        expect(project.targets[cmd].outputs).toEqual([
+        expect(project.targets?.[cmd].outputs).toEqual([
           `{workspaceRoot}/${project.root}/target`,
         ]);
       }
@@ -308,7 +308,7 @@ describe('project generator', () => {
       if (
         ['build', 'install', 'run', 'serve'].includes(cmd)
       ) {
-        expect(project.targets[cmd].dependsOn).toEqual(['^install']);
+        expect(project.targets?.[cmd].dependsOn).toEqual(['^install']);
       }
     });
   });
@@ -354,12 +354,12 @@ describe('project generator', () => {
       if (skipFormat) {
         // expect project.targets not to have the format commands
         formatCommands.forEach((cmd) => {
-          expect(project.targets[cmd]).toBeUndefined();
+          expect(project.targets?.[cmd]).toBeUndefined();
         });
       } else {
         // expect project.targets to have the format commands
         formatCommands.forEach((cmd) => {
-          expect(project.targets[cmd].executor).toBe(
+          expect(project.targets?.[cmd].executor).toBe(
             `${NX_MICRONAUT_PKG}:${cmd}`
           );
         });

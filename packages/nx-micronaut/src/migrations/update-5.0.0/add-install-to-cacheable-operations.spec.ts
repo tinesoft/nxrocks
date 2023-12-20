@@ -13,7 +13,7 @@ describe('add-install-to-cacheable-operations migration', () => {
   it('should run successfully', async () => {
     await update(tree);
     const nxJson = readJson<NxJsonConfiguration>(tree, 'nx.json');
-    expect(nxJson.targetDefaults['install'].cache).toBe(true)
+    expect(nxJson.targetDefaults?.['install'].cache).toBe(true)
 
   });
 });

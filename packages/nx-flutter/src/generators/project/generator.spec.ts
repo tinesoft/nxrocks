@@ -10,7 +10,7 @@ jest.mock('child_process'); // we need to mock 'execSync' so that it doesn't rea
 //jest.mock('enquirer'); // we mock 'enquirer' to bypass the interactive prompt
 import * as enquirer from 'enquirer';
 
-process.env.NX_INTERACTIVE = 'true'; // simulate normal cli interactive mode (the prompt is mocked anyway)
+process.env['NX_INTERACTIVE'] = 'true'; // simulate normal cli interactive mode (the prompt is mocked anyway)
 
 const appCommands = [
   { key: 'assemble', value: 'assemble' },
@@ -80,10 +80,10 @@ describe('application generator', () => {
       ...iOsOnlyCommands,
     ];
     commands.forEach((e) => {
-      expect(project.targets[e.key].executor).toBe('nx:run-commands');
-      expect(project.targets[e.key].options.command).toBe(`${e.key === 'format' ? 'dart' : 'flutter'} ${e.value}`);
+      expect(project.targets?.[e.key].executor).toBe('nx:run-commands');
+      expect(project.targets?.[e.key].options.command).toBe(`${e.key === 'format' ? 'dart' : 'flutter'} ${e.value}`);
       if (e.key.startsWith('build-')) {
-        expect(project.targets[e.key].outputs).toEqual([
+        expect(project.targets?.[e.key].outputs).toEqual([
           joinPathFragments('{workspaceRoot}', project.root, 'build'),
         ]);
       }

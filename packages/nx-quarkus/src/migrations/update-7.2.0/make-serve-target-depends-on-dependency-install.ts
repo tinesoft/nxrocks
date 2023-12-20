@@ -9,7 +9,7 @@ export default async function update(tree: Tree) {
   updateProjectConfigurationIf(tree, (project) => project.projectType === 'application', (project) => {
 
     for (const target of Object.values(project.targets ?? {})) {
-      if (targetExecutors.includes(target.executor)) {
+      if (target.executor && targetExecutors.includes(target.executor)) {
         target.dependsOn ??= [];
         if (!target.dependsOn.includes('^install')) {
           target.dependsOn.push('^install');

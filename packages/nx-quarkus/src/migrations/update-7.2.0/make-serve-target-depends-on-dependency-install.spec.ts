@@ -43,7 +43,7 @@ describe('make-serve-target-depends-on-dependency-install migration', () => {
     await update(tree);
 
     const project = readProjectConfiguration(tree, 'app1');
-    expect(project.targets.run.dependsOn).toContain('^install');
-    expect(project.targets.serve.dependsOn).toContain('^install');
+    expect(project.targets?.['run'].dependsOn).toContain('^install');
+    expect(project.targets?.['serve'].dependsOn).toContain('^install');
   });
 });
