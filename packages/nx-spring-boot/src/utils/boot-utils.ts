@@ -18,7 +18,6 @@ import {
   hasMultiModuleGradleProject,
 } from '@nxrocks/common-jvm';
 import { MAVEN_BUILDER, GRADLE_BUILDER } from '../core/constants';
-import { ProjectConfiguration } from '@nx/devkit';
 import fetch from 'node-fetch';
 
 const getBuilder = (cwd: string) => {
@@ -64,7 +63,7 @@ export function buildBootDownloadUrl(options: NormalizedSchema) {
   return `${options.springInitializerUrl}/starter.zip?${queryParams}`;
 }
 
-export function isBootProject(project: ProjectConfiguration): boolean {
+export function isBootProject(project: {root:string}): boolean {
 
   if(hasMultiModuleMavenProject(project.root) || hasMultiModuleGradleProject(project.root))
     return true;
@@ -94,7 +93,7 @@ export async function fetchBootDependencies(
     `${options.springInitializerUrl}/dependencies`,
     getCommonHttpHeaders(
       NX_SPRING_BOOT_PKG,
-      options.springInitializerUrl!,
+      options.springInitializerUrl,
       options.proxyUrl
     )
   );
