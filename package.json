@@ -34,6 +34,7 @@
     "enquirer": "^2.4.1",
     "hpagent": "^1.2.0",
     "js-yaml": "^4.1.0",
+    "minimatch": "^9.0.3",
     "node-fetch": "^2.6.12",
     "terminal-link": "^2.1.1",
     "tslib": "^2.6.1",
