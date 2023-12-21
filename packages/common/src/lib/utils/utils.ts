@@ -39,8 +39,6 @@ export function getHttpProxyAgent(
     return undefined;
   }
 
-  console.log(`The proxy server at '${proxy}' will be used.`);
-
   const proxyAgentOpts = {
     keepAlive: true,
     keepAliveMsecs: 1000,
