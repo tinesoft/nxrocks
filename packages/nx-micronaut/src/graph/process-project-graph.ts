@@ -1,11 +1,10 @@
 import { ProjectGraph, ProjectGraphProcessorContext } from '@nx/devkit';
 
-import { NX_MICRONAUT_PKG } from '.';
+import { NX_MICRONAUT_PKG } from '..';
 import {
   getProjectGraph,
-  getJvmPackageInfo,
-} from '@nxrocks/common-jvm';
-import { isMicronautProject } from './utils/micronaut-utils';
+  getJvmPackageInfo } from '@nxrocks/common-jvm';
+import { isMicronautProject } from '../utils/micronaut-utils';
 
 export function processProjectGraph(
   graph: ProjectGraph,
