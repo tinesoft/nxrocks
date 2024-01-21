@@ -1,6 +1,7 @@
-import { Tree } from '@nx/devkit';
+import { Tree, workspaceRoot } from '@nx/devkit';
 import {
   addXmlNode,
+  findXmlContent,
   findXmlContents,
   findXmlMatching,
   hasMavenProject,
@@ -12,18 +13,18 @@ import {
 } from './index';
 import { fileExists } from '@nx/workspace/src/utilities/fileutils';
 import { resolve } from 'path';
-import { stripIndent, getProjectFileContent } from '@nxrocks/common';
+import { stripIndent, getProjectFileContent, getCurrentAndParentFolder } from '@nxrocks/common';
 import { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
 
 export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.diffplug.spotless';
 export const SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID = 'spotless-maven-plugin';
 export const SPOTLESS_MAVEN_PLUGIN_VERSION = '2.23.0';
 
-function readPomXml(tree: Tree, rootFolder:string): XMLBuilder | null{
+function readPomXml(tree: Tree, rootFolder: string): XMLBuilder | null {
   const pomFile = `./${rootFolder}/pom.xml`;
   const pomXmlStr = tree.read(pomFile, 'utf-8');
 
-  return pomXmlStr !== null ? readXml(pomXmlStr): null;
+  return pomXmlStr !== null ? readXml(pomXmlStr) : null;
 }
 
 export function hasMavenPlugin(
@@ -36,7 +37,7 @@ export function hasMavenPlugin(
 
   const pomXml = readPomXml(tree, rootFolder);
 
-  if(pomXml === null)
+  if (pomXml === null)
     return false;
 
   let pluginXPath = `/project/build/plugins/plugin/groupId/text()[.="${groupId}"]/../../artifactId/text()[.="${artifactId}"]`;
@@ -55,7 +56,7 @@ export function hasMavenProperty(
 ): boolean {
   const pomXml = readPomXml(tree, rootFolder);
 
-  if(pomXml === null)
+  if (pomXml === null)
     return false;
 
   const propertyXPath = value
@@ -76,7 +77,7 @@ export function addMavenPlugin(
 ): boolean {
   const pomXml = readPomXml(tree, rootFolder);
 
-  if(pomXml === null)
+  if (pomXml === null)
     return false;
 
   if (hasMavenPlugin(tree, rootFolder, groupId, artifactId, version)) {
@@ -105,9 +106,9 @@ export function addMavenPlugin(
   let pluginsNode = findXmlMatching(pomXml, '/project/build/plugins');
   if (!pluginsNode) {
     // make sure the <plugins> node exists
-    if(!buildNode)
+    if (!buildNode)
       return false;
-    
+
     addXmlNode(buildNode, {
       plugins: {},
     });
@@ -137,7 +138,7 @@ export function addMavenPlugin(
             ${executions ? `<executions>${executions}</executions>` : ''}
         </plugin>`;
 
-  if(pluginsNode){
+  if (pluginsNode) {
     addXmlNode(pluginsNode, pluginNode);
     tree.write(
       `${rootFolder}/pom.xml`,
@@ -156,7 +157,7 @@ export function removeMavenPlugin(
 ): boolean {
   const pomXml = readPomXml(tree, rootFolder);
 
-  if(pomXml === null)
+  if (pomXml === null)
     return false;
 
   const pluginNode = findXmlMatching(
@@ -196,7 +197,7 @@ export function addMavenProperty(
 ): boolean {
   const pomXml = readPomXml(tree, rootFolder);
 
-  if(pomXml === null)
+  if (pomXml === null)
     return false;
 
   if (hasMavenProperty(tree, rootFolder, property, value)) {
@@ -218,7 +219,7 @@ export function addMavenProperty(
 
   const propertyNode = `<${property}>${value}</${property}>`;
 
-  if(propertiesNode){
+  if (propertiesNode) {
     addXmlNode(propertiesNode, propertyNode);
     tree.write(
       `${rootFolder}/pom.xml`,
@@ -358,7 +359,7 @@ export function hasMultiModuleMavenProjectInTree(tree: Tree, rootFolder: string)
 
   const pomXml = readPomXml(tree, rootFolder);
 
-  if(pomXml === null)
+  if (pomXml === null)
     return false;
 
   const modulesXpath = `/project/modules`;
@@ -386,7 +387,7 @@ export function hasMavenModuleInTree(tree: Tree, rootFolder: string, moduleName:
 
   const pomXml = readPomXml(tree, rootFolder);
 
-  if(pomXml === null)
+  if (pomXml === null)
     return false;
 
   const modulesXpath = `/project/modules/module/text()[.="${moduleName}"]`;
@@ -418,12 +419,12 @@ export function addMavenModule(
 
   const pomXml = readPomXml(tree, rootFolder);
 
-  if(pomXml === null)
+  if (pomXml === null)
     return false;
 
   const modulesNode = findXmlMatching(pomXml, `/project/modules`);;
 
-  if(modulesNode){
+  if (modulesNode) {
     addXmlNode(modulesNode, {
       module: moduleName
     });
@@ -439,8 +440,8 @@ export function addMavenModule(
 
 export function initMavenParentModule(tree: Tree, rootFolder: string, groupId: string, parentModuleName: string, childModuleName: string, helpComment = '', version = 'O.0.1-SNAPSHOT') {
 
-  const parentPomXml = 
-`<?xml version="1.0" encoding="UTF-8"?>
+  const parentPomXml =
+    `<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -493,6 +494,41 @@ export function hasMavenWrapperInTree(tree: Tree, rootFolder: string) {
 
 export function hasMavenWrapper(rootFolder: string) {
   return hasMavenWrapperWithPredicate((file: string) => fileExists(resolve(rootFolder, file)));
+}
+
+export function getCoordinatesForMavenProjet(cwd: string): { groupId?: string | null, artifactId?: string | null } {
+
+  const pomXmlStr = getProjectFileContent({ root: cwd }, 'pom.xml');
+  const pomXmlNode = readXml(pomXmlStr);
+
+  let groupId = findXmlContent(pomXmlNode, `/project/groupId/text()`);
+  const artifactId = findXmlContent(pomXmlNode, `/project/artifactId/text()`);
+
+
+  if (!groupId && artifactId) {
+    // groupId might be defined at parent module level,  continue searching for it
+    groupId = getGroupIdInHierarchy(cwd);
+  }
+
+  return { groupId, artifactId };
+}
+
+function getGroupIdInHierarchy(cwd: string): string | undefined {
+
+  if (cwd === workspaceRoot)
+    return undefined;
+
+  const { parentFolder: root, currentFolder: name } = getCurrentAndParentFolder(cwd);
+
+  if (!hasMavenModule(root, name))
+    return undefined;
+
+  const pomXmlStr = getProjectFileContent({ root }, 'pom.xml');
+  const pomXmlNode = readXml(pomXmlStr);
+
+  const groupId = findXmlContent(pomXmlNode, `/project/groupId/text()`);
+
+  return groupId ?? getGroupIdInHierarchy(root);
 }
 
 function hasMavenWrapperWithPredicate(predicate: (file: string) => boolean) {

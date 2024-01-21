@@ -10,13 +10,12 @@ import {
   PackageInfo,
 } from '@nxrocks/common';
 import {
-  findXmlContent,
   readXml,
   findXmlNodes,
   findNodeContent,
 } from '../utils';
-import { getMavenModules } from './maven-utils';
-import { getGradleModules } from './gradle-utils';
+import { getCoordinatesForMavenProjet, getMavenModules } from './maven-utils';
+import { getCoordinatesForGradleProjet, getGradleModules } from './gradle-utils';
 
 export const LARGE_BUFFER = 1024 * 1000000;
 
@@ -121,8 +120,8 @@ export function getJvmPackageInfo(project: {root:string}): PackageInfo {
     const pomXmlStr = getProjectFileContent(project, 'pom.xml');
     const pomXmlNode = readXml(pomXmlStr);
 
-    const groupId = findXmlContent(pomXmlNode, `/project/groupId/text()`);
-    const artifactId = findXmlContent(pomXmlNode, `/project/artifactId/text()`);
+    const {groupId, artifactId} = getCoordinatesForMavenProjet(project.root);
+
 
     const dependencies: PackageInfo[] = [];
     const dependencyNodes = findXmlNodes(
@@ -153,13 +152,7 @@ export function getJvmPackageInfo(project: {root:string}): PackageInfo {
   if (isGradleProject(project)) {
     // gradle project
     const ext = getGradleBuildFilesExtension(project);
-
-    const settingsGradle = getProjectFileContent(project, `settings${ext}`);
-
-    let groupId;
-    const artifactId = settingsGradle.match(
-      /rootProject\.name\s*=\s*['"]([^"']+)['"]/
-    )?.[1];
+    const {groupId, artifactId} = getCoordinatesForGradleProjet(project.root);
 
     const gradleDependencyIdRegEx = getGradleDependencyIdRegEx();
     const dependencyIds: string[] = [];
@@ -167,8 +160,6 @@ export function getJvmPackageInfo(project: {root:string}): PackageInfo {
     if(hasGradleBuildFile(project.root)){
       const buildGradle = getProjectFileContent(project, `build${ext}`);
       
-      groupId = buildGradle.match(/group\s*=\s*['"]([^"']+)['"]/)?.[1] ?? 'not-available';
-
       let match: RegExpExecArray|null;
       do {
         match = gradleDependencyIdRegEx.exec(buildGradle);
@@ -232,6 +223,7 @@ export function checkProjectFileContains(
 
   return findOccurencesInContent(content);
 }
+
 
 function match(content: string, value: string | RegExp) {
   if( typeof value === 'string'){
