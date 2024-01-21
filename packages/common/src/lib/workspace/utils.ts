@@ -1,4 +1,4 @@
-import { dirname, join, resolve } from 'path';
+import { basename, dirname, join, resolve } from 'path';
 
 import { workspaceRoot } from '@nx/devkit';
 import { readFileSync } from 'fs';
@@ -22,7 +22,6 @@ export function getProjectFileContent(
   return readFileSync(filePath, 'utf8');
 }
 
-
 export function getNameAndRoot(file: string) {
   const root = dirname(file);
 
@@ -31,4 +30,12 @@ export function getNameAndRoot(file: string) {
   const name = parts[parts.length - 1].toLowerCase();
 
   return { root, name };
+}
+
+
+export function getCurrentAndParentFolder(cwd: string) {
+  const currentFolder = basename(resolve(cwd));
+  const parentFolder = dirname(cwd);
+
+  return { currentFolder, parentFolder };
 }
