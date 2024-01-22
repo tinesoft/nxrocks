@@ -145,11 +145,11 @@ export function getProjectGraph(
   return builder.getUpdatedProjectGraph();
 }
 
-//Project Graph V2
+// Project Graph V2
 
-export const createNodesFor = (projectFilePattern: string[], pluginName: string) =>
+export const createNodesFor = (projectFiles: string[], pluginName: string) =>
   [
-    `**/{${projectFilePattern.join(',')}}` as string,
+    `**/{${projectFiles.join(',')}}` as string,
     (
       file: string,
       opt: unknown,
@@ -172,7 +172,7 @@ export const createNodesFor = (projectFilePattern: string[], pluginName: string)
 
 
 export const createDependenciesIf = (pluginName: string,
-  projectFilePattern: string[],
+  projectFiles: string[],
   projectFilter: (project: { root: string }) => boolean,
   getPackageInfo: (project: { root: string }) => PackageInfo,
   ctx: CreateDependenciesContext) => {
@@ -190,10 +190,11 @@ export const createDependenciesIf = (pluginName: string,
 
   let dependencies: RawProjectGraphDependency[] = [];
 
+  const projectFilePattern = `**/{${projectFiles.join(',')}}`;
   for (const source in ctx.filesToProcess.projectFileMap) {
     const changed = ctx.filesToProcess.projectFileMap[source];
     for (const file of changed) {
-      if (projectFilePattern.some(p => minimatch(file.file, p))) {
+      if (minimatch(file.file, projectFilePattern)) {
         const { root, name } = getNameAndRoot(file.file);
 
         dependencies = dependencies.concat(
