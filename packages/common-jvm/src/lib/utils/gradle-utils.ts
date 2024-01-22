@@ -340,12 +340,12 @@ function checkForMultiModuleProject(settings: string) {
   };
 
   const optsKts = {
-    fragments: [/rootProject\.name\s*=\s*"/, /include\("/],
+    fragments: [/rootProject\.name\s*=\s*"/, /include\s*\("/],
     logicalOp: 'and' as const
   };
 
   return checkProjectFileContains(settings, opts) || checkProjectFileContains(settings, optsKts);
-}
+  }
 
 export function hasGradleModuleInTree(tree: Tree, rootFolder: string, moduleName: string) {
 

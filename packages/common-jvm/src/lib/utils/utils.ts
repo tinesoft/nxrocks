@@ -19,7 +19,7 @@ import { getCoordinatesForGradleProjet, getGradleModules } from './gradle-utils'
 
 export const LARGE_BUFFER = 1024 * 1000000;
 
-export const JVM_PROJECT_FILES = ['pom.xml', 'build.gradle', 'build.gradle.kts']
+export const JVM_PROJECT_FILES = ['pom.xml', 'build.gradle', 'build.gradle.kts', 'settings.gradle', 'settings.gradle.kts']
 
 export function runBuilderCommand(
   commandAlias: BuilderCommandAliasType,
