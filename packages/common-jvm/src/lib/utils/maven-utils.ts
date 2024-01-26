@@ -515,11 +515,11 @@ export function getCoordinatesForMavenProjet(cwd: string): { groupId?: string | 
 
 function getGroupIdInHierarchy(cwd: string): string | undefined {
 
-  if (cwd === workspaceRoot)
-    return undefined;
-
   const { parentFolder: root, currentFolder: name } = getCurrentAndParentFolder(cwd);
 
+  if (root === '.') // we reach the root of the workspace without finding the groupId, so we stop the search
+  return undefined;
+  
   if (!hasMavenModule(root, name))
     return undefined;
 

@@ -13,7 +13,7 @@ import {
 } from './gradle-utils';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { stripIndent } from '@nxrocks/common';
-import { SPOTLESS_GRADLE_PLUGIN_ID } from '.';
+import { SPOTLESS_GRADLE_PLUGIN_ID, checkForMultiModuleGradleProject } from '.';
 
 const BUILD_GRADLE_FILE = `plugins {
 	id 'org.springframework.boot' version '2.6.2'
@@ -469,5 +469,22 @@ describe('gradle-utils', () => {
       expect(addGradleModule(tree, rootFolder, 'library1', true)).toBe(false);
     });
   });
+
+  describe('checkForMultiModuleGradleProject', ()=>{
+
+    it('should return true if the given settings.gradle represents a multi-module gradle project', ()=>{
+      const settings = `
+      // For more information about Spring boot multi-modules projects, go to: https://spring.io/guides/gs/multi-module/
+      rootProject.name = 'gboot-parent'
+      
+      
+      include 'gbootlib'
+      include 'gbootapp'
+      `;
+  
+      expect(checkForMultiModuleGradleProject(settings)).toBe(true)
+    });
+  });
+
 });
 

@@ -319,7 +319,7 @@ export function hasMultiModuleGradleProjectInTree(tree: Tree, rootFolder: string
   if (settings === null)
     return false;
 
-  return checkForMultiModuleProject(settings);
+  return checkForMultiModuleGradleProject(settings);
 }
 
 export function hasMultiModuleGradleProject(cwd: string) {
@@ -330,10 +330,10 @@ export function hasMultiModuleGradleProject(cwd: string) {
   const extension = getGradleBuildFilesExtension({ root: cwd });
   const settings = getProjectFileContent({ root: cwd }, `settings${extension}`);
 
-  return checkForMultiModuleProject(settings);
+  return checkForMultiModuleGradleProject(settings);
 }
 
-function checkForMultiModuleProject(settings: string) {
+export function checkForMultiModuleGradleProject(settings: string) {
   const opts = {
     fragments: [/rootProject\.name\s*=\s*'/, /include\s+'/],
     logicalOp: 'and' as const
@@ -394,7 +394,7 @@ export function getGradleModules(cwd: string): string[] {
   const extension = getGradleBuildFilesExtension({ root: cwd });
   const settings = getProjectFileContent({ root: cwd }, `settings${extension}`);
 
-  const modulesRegex = extension === '.gradle.kts' ? /include\(":?(\w+)"\)/g : /include\s+':?(\w+)'/g;
+  const modulesRegex = extension === '.gradle.kts' ? /include\s*\(":?(\w+)"\)/g : /include\s+':?(\w+)'/g;
   const modules = [];
   let m;
   while ((m = modulesRegex.exec(settings))) {
@@ -487,10 +487,10 @@ export function getCoordinatesForGradleProjet(cwd: string): { groupId?: string |
 
 function getGroupIdInHierarchy(cwd: string, buildFileExtension: string): string | undefined {
 
-  if (cwd === workspaceRoot)
-    return undefined;
-
   const { parentFolder: root, currentFolder: name } = getCurrentAndParentFolder(cwd);
+
+  if (root === '.') // we reach the root of the workspace without finding the groupId, so we stop the search
+    return undefined;
 
   let groupId;
   if (hasGradleBuildFile(root) && hasGradleModule(root, name)) {
