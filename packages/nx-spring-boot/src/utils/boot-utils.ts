@@ -77,8 +77,8 @@ export function isBootProject(project: {root:string}): boolean {
   if (isGradleProject(project)) {
     return checkProjectBuildFileContains(project, {
       fragments: [
-        "implementation 'org.springframework.boot:spring-boot-starter-parent'",
-        'implementation("org.springframework.boot:spring-boot-starter")',
+        "id 'io.spring.dependency-management'",
+        'id("io.spring.dependency-management"'
       ],
     });
   }
