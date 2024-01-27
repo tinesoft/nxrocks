@@ -82,7 +82,7 @@ export async function promptForMultiModuleSupport(tree: Tree, options: Normalize
                 initMavenParentModule(tree, options.moduleRoot, options.groupId, options.parentModuleName, options.projectName, `<!-- ${helpComment} -->`);
             }
             else {
-                initGradleParentModule(tree, options.moduleRoot, options.parentModuleName, options.projectName, options. buildSystem === 'gradle-project-kotlin', `// ${helpComment}`);
+                initGradleParentModule(tree, options.moduleRoot, options.groupId, options.parentModuleName, options.projectName, options. buildSystem === 'gradle-project-kotlin', `// ${helpComment}`);
             }
         }
         else if(options.addToExistingParentModule){

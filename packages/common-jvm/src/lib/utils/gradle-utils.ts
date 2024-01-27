@@ -345,7 +345,7 @@ export function checkForMultiModuleGradleProject(settings: string) {
   };
 
   return checkProjectFileContains(settings, opts) || checkProjectFileContains(settings, optsKts);
-  }
+}
 
 export function hasGradleModuleInTree(tree: Tree, rootFolder: string, moduleName: string) {
 
@@ -427,7 +427,7 @@ export function addGradleModule(
   return true
 }
 
-export function initGradleParentModule(tree: Tree, rootFolder: string, parentModuleName: string, childModuleName: string, withKotlinDSL: boolean, helpComment = '') {
+export function initGradleParentModule(tree: Tree, rootFolder: string, groupId: string, parentModuleName: string, childModuleName: string, withKotlinDSL: boolean, helpComment = '') {
 
   const settingsGradle = `
 ${helpComment}
@@ -436,7 +436,12 @@ rootProject.name = ${withKotlinDSL ? `"${parentModuleName}"` : `'${parentModuleN
 ${withKotlinDSL ? `include("${childModuleName}")` : `include '${childModuleName}'`}
 `;
 
-  tree.write(`./${rootFolder}/settings.gradle${withKotlinDSL ? '.kts' : ''}`, settingsGradle);
+  const buildGradle = `group = ${withKotlinDSL ? `"${groupId}"` : `'${groupId}'`}`;
+
+  const ext = withKotlinDSL ? '.kts' : '';
+
+  tree.write(`./${rootFolder}/settings.gradle${ext}`, settingsGradle);
+  tree.write(`./${rootFolder}/build.gradle${ext}`, buildGradle);
 }
 
 export function getGradleWrapperFiles() {
