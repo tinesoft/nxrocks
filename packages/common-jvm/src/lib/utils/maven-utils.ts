@@ -1,4 +1,4 @@
-import { Tree, workspaceRoot } from '@nx/devkit';
+import { Tree } from '@nx/devkit';
 import {
   addXmlNode,
   findXmlContent,
