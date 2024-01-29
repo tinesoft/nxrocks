@@ -28,6 +28,11 @@
 	"mounts": [
 		"source=nxrocks-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
 	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [
+		4211
+	],
 	"runArgs": [],
 	"postCreateCommand": "./.devcontainer/postCreateCommand.sh",
 	"customizations": {
