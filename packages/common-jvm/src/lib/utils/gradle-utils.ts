@@ -1,4 +1,4 @@
-import { Tree, workspaceRoot } from '@nx/devkit';
+import { Tree } from '@nx/devkit';
 import { checkProjectFileContains, getGradleBuildFilesExtension, getGradleBuildFilesExtensionInTree, hasGradleSettingsFile, isGradleProjectSettingsInTree as hasGradleProjectSettingsInTree, hasGradleBuildFile } from './utils';
 import { fileExists } from '@nx/workspace/src/utilities/fileutils';
 import { resolve } from 'path';
@@ -490,6 +490,24 @@ export function getCoordinatesForGradleProjet(cwd: string): { groupId?: string |
   return { groupId, artifactId };
 }
 
+export function getPathFromParenModule(cwd: string): string[] {
+
+  let pathFromParent: string[] = [];
+  let root: string, name: string;
+  let currentFolder = cwd;
+  do {
+    const obj = getCurrentAndParentFolder(currentFolder);
+
+    root = obj.parentFolder;
+    name = obj.currentFolder;
+    currentFolder = root;
+
+    pathFromParent = [name, ...pathFromParent];
+  } while (!(hasGradleBuildFile(root) && hasGradleModule(root, name)) && root !== '.');
+
+  return pathFromParent;
+}
+
 function getGroupIdInHierarchy(cwd: string, buildFileExtension: string): string | undefined {
 
   const { parentFolder: root, currentFolder: name } = getCurrentAndParentFolder(cwd);
@@ -499,7 +517,7 @@ function getGroupIdInHierarchy(cwd: string, buildFileExtension: string): string 
 
   let groupId;
   if (hasGradleBuildFile(root) && hasGradleModule(root, name)) {
-    const buildGradle = getProjectFileContent({ root: cwd }, `build${buildFileExtension}`);
+    const buildGradle = getProjectFileContent({ root }, `build${buildFileExtension}`);
     groupId = buildGradle.match(/group\s*=\s*['"]([^"']+)['"]/)?.[1];
   }
 

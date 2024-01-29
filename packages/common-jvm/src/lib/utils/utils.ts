@@ -15,7 +15,7 @@ import {
   findNodeContent,
 } from '../utils';
 import { getCoordinatesForMavenProjet, getMavenModules } from './maven-utils';
-import { getCoordinatesForGradleProjet, getGradleModules } from './gradle-utils';
+import { getCoordinatesForGradleProjet, getGradleModules, getPathFromParenModule } from './gradle-utils';
 
 export const LARGE_BUFFER = 1024 * 1000000;
 
@@ -35,8 +35,8 @@ export function runBuilderCommand(
   // Take the parameters or set defaults
   const buildSystem = getBuilder(options.cwd);
   const executable = buildSystem.getExecutable(
-    options.ignoreWrapper??false,
-    options.useLegacyWrapper??false
+    options.ignoreWrapper ?? false,
+    options.useLegacyWrapper ?? false
   );
   const { cwd, command } = buildSystem.getCommand(commandAlias, options);
   // Create the command to execute
@@ -52,7 +52,7 @@ export function runBuilderCommand(
   }
 }
 
-export function isMavenProject(project: {root:string}) {
+export function isMavenProject(project: { root: string }) {
   return fileExists(getProjectFilePath(project, 'pom.xml'));
 }
 
@@ -64,7 +64,7 @@ export function hasMavenProject(cwd: string) {
   return fileExists(`${cwd}/pom.xml`);
 }
 
-export function isGradleProject(project: {root:string}) {
+export function isGradleProject(project: { root: string }) {
   return fileExists(getProjectFilePath(project, 'build.gradle')) || fileExists(getProjectFilePath(project, 'settings.gradle')) ||
     fileExists(getProjectFilePath(project, 'build.gradle.kts')) || fileExists(getProjectFilePath(project, 'settings.gradle.kts'));
 }
@@ -91,7 +91,7 @@ export function hasGradleBuildFile(cwd: string) {
   return fileExists(`${cwd}/build.gradle`) || fileExists(`${cwd}/build.gradle.kts`);
 }
 
-export function getGradleBuildFilesExtension(project: {root:string}): '.gradle.kts' | '.gradle' | undefined {
+export function getGradleBuildFilesExtension(project: { root: string }): '.gradle.kts' | '.gradle' | undefined {
   if (fileExists(getProjectFilePath(project, 'build.gradle.kts')) || fileExists(getProjectFilePath(project, 'settings.gradle.kts'))) {
     return '.gradle.kts';
   }
@@ -106,21 +106,21 @@ export function getGradleBuildFilesExtensionInTree(tree: Tree, rootFolder: strin
     return '.gradle.kts';
   }
 
-  return (tree.exists(`./${rootFolder}/build.gradle`) || tree.exists(`./${rootFolder}/settings.gradle`)) 
+  return (tree.exists(`./${rootFolder}/build.gradle`) || tree.exists(`./${rootFolder}/settings.gradle`))
     ? '.gradle'
     : undefined;
 }
 
 export const getGradleDependencyIdRegEx = () =>
-  /\s*(api|implementation|testImplementation)\s*\(?['"](?<id>[^"']+)['"]\)?/g;
+  /\s*(api|implementation|testImplementation)\s*(\(?project)?\s*\(?['"](?<id>[^"']+)['"]\)?\)?/g;
 
-export function getJvmPackageInfo(project: {root:string}): PackageInfo {
+export function getJvmPackageInfo(project: { root: string }): PackageInfo {
   if (isMavenProject(project)) {
     // maven project
     const pomXmlStr = getProjectFileContent(project, 'pom.xml');
     const pomXmlNode = readXml(pomXmlStr);
 
-    const {groupId, artifactId} = getCoordinatesForMavenProjet(project.root);
+    const { groupId, artifactId } = getCoordinatesForMavenProjet(project.root);
 
 
     const dependencies: PackageInfo[] = [];
@@ -152,19 +152,20 @@ export function getJvmPackageInfo(project: {root:string}): PackageInfo {
   if (isGradleProject(project)) {
     // gradle project
     const ext = getGradleBuildFilesExtension(project);
-    const {groupId, artifactId} = getCoordinatesForGradleProjet(project.root);
+    const { groupId } = getCoordinatesForGradleProjet(project.root);
 
     const gradleDependencyIdRegEx = getGradleDependencyIdRegEx();
     const dependencyIds: string[] = [];
 
-    if(hasGradleBuildFile(project.root)){
+    if (hasGradleBuildFile(project.root)) {
       const buildGradle = getProjectFileContent(project, `build${ext}`);
-      
-      let match: RegExpExecArray|null;
+
+      let match: RegExpExecArray | null;
       do {
         match = gradleDependencyIdRegEx.exec(buildGradle);
-        if (match?.groups?.['id']) {
-          dependencyIds.push(match.groups['id']);
+        const id = match?.groups?.['id']
+        if (id) {// project dependencies start with ':', we prepend the groupId to it
+          dependencyIds.push(id.startsWith(':') ? `${groupId}${id}` : id);
         }
       } while (match);
     }
@@ -176,7 +177,7 @@ export function getJvmPackageInfo(project: {root:string}): PackageInfo {
     const modules = getGradleModules(project.root);
 
     return {
-      packageId: `${groupId}:${artifactId}`,
+      packageId: `${groupId}:${getPathFromParenModule(project.root).join(':')}`,
       packageFile: hasGradleSettingsFile(project.root) ? `settings${ext}` : `build${ext}`,
       dependencies,
       modules
@@ -191,7 +192,7 @@ export function getJvmPackageInfo(project: {root:string}): PackageInfo {
 }
 
 export function checkProjectBuildFileContains(
-  project: {root:string},
+  project: { root: string },
   opts: { fragments: string[]; logicalOp?: 'and' | 'or' }
 ): boolean {
 
@@ -226,10 +227,10 @@ export function checkProjectFileContains(
 
 
 function match(content: string, value: string | RegExp) {
-  if( typeof value === 'string'){
+  if (typeof value === 'string') {
     return content.includes(value);
   }
-  else{
+  else {
     return value.test(content)
   }
 }
