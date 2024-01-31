@@ -490,24 +490,6 @@ export function getCoordinatesForGradleProjet(cwd: string): { groupId?: string |
   return { groupId, artifactId };
 }
 
-export function getPathFromParenModule(cwd: string): string[] {
-
-  let pathFromParent: string[] = [];
-  let root: string, name: string;
-  let currentFolder = cwd;
-  do {
-    const obj = getCurrentAndParentFolder(currentFolder);
-
-    root = obj.parentFolder;
-    name = obj.currentFolder;
-    currentFolder = root;
-
-    pathFromParent = [name, ...pathFromParent];
-  } while (!(hasGradleBuildFile(root) && hasGradleModule(root, name)) && root !== '.');
-
-  return pathFromParent;
-}
-
 function getGroupIdInHierarchy(cwd: string, buildFileExtension: string): string | undefined {
 
   const { parentFolder: root, currentFolder: name } = getCurrentAndParentFolder(cwd);

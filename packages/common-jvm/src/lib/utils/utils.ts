@@ -4,6 +4,7 @@ import { fileExists } from '@nx/workspace/src/utilities/fileutils';
 
 import { BuilderCommandAliasType, BuilderCore } from '../builders';
 import {
+  getCurrentAndParentFolder,
   getProjectFileContent,
   getProjectFilePath,
   getProjectRoot,
@@ -14,8 +15,8 @@ import {
   findXmlNodes,
   findNodeContent,
 } from '../utils';
-import { getCoordinatesForMavenProjet, getMavenModules } from './maven-utils';
-import { getCoordinatesForGradleProjet, getGradleModules, getPathFromParenModule } from './gradle-utils';
+import { getCoordinatesForMavenProjet, getMavenModules, hasMavenModule } from './maven-utils';
+import { getCoordinatesForGradleProjet, getGradleModules, hasGradleModule } from './gradle-utils';
 
 export const LARGE_BUFFER = 1024 * 1000000;
 
@@ -177,7 +178,7 @@ export function getJvmPackageInfo(project: { root: string }): PackageInfo {
     const modules = getGradleModules(project.root);
 
     return {
-      packageId: `${groupId}:${getPathFromParenModule(project.root).join(':')}`,
+      packageId: `${groupId}:${getPathFromParentModule(project.root).join(':')}`,
       packageFile: hasGradleSettingsFile(project.root) ? `settings${ext}` : `build${ext}`,
       dependencies,
       modules
@@ -193,21 +194,33 @@ export function getJvmPackageInfo(project: { root: string }): PackageInfo {
 
 export function checkProjectBuildFileContains(
   project: { root: string },
-  opts: { fragments: string[]; logicalOp?: 'and' | 'or' }
+  opts: { fragments: string[]; logicalOp?: 'and' | 'or' },
+  searchInParentModule = true
 ): boolean {
 
+  let found = false;
   if (isMavenProject(project)) {
     const content = getProjectFileContent(project, 'pom.xml');
-    return checkProjectFileContains(content, opts);
+    found = checkProjectFileContains(content, opts);
+    if (!found && searchInParentModule) {//not found in the project, check at parent module level
+      const parentRoot = getPathToParentModule(project.root);
+      const parentModuleContent = getProjectFileContent({ root: parentRoot }, 'pom.xml');
+      return checkProjectFileContains(parentModuleContent, opts);
+    }
   }
 
   if (isGradleProject(project)) {
     const ext = getGradleBuildFilesExtension(project);
     const content = getProjectFileContent(project, `build${ext}`);
-    return checkProjectFileContains(content, opts);
+    found = checkProjectFileContains(content, opts);
+    if (!found && searchInParentModule) {//not found in the project, check at parent module level
+      const parentRoot = getPathToParentModule(project.root);
+      const parentModuleContent = getProjectFileContent({ root: parentRoot }, `build${ext}`);
+      return checkProjectFileContains(parentModuleContent, opts);
+    }
   }
 
-  return false;
+  return found;
 }
 
 export function checkProjectFileContains(
@@ -223,6 +236,46 @@ export function checkProjectFileContains(
   };
 
   return findOccurencesInContent(content);
+}
+
+export function getPathFromParentModule(cwd: string): string[] {
+
+  let pathFromParent: string[] = [];
+  let root: string, name: string;
+  let currentFolder = cwd;
+  do {
+    const obj = getCurrentAndParentFolder(currentFolder);
+
+    root = obj.parentFolder;
+    name = obj.currentFolder;
+    currentFolder = root;
+
+    pathFromParent = [name, ...pathFromParent];
+  } while (
+    !(hasGradleBuildFile(root) && hasGradleModule(root, name)) &&
+    !(hasMavenProject(root) && hasMavenModule(root, name)) &&
+    root !== '.');
+
+  return pathFromParent;
+}
+
+export function getPathToParentModule(cwd: string): string {
+
+  let root: string, name: string;
+  let currentFolder = cwd;
+  do {
+    const obj = getCurrentAndParentFolder(currentFolder);
+
+    root = obj.parentFolder;
+    name = obj.currentFolder;
+
+    currentFolder = root;
+  } while (
+    !(hasGradleBuildFile(root) && hasGradleModule(root, name)) &&
+    !(hasMavenProject(root) && hasMavenModule(root, name)) &&
+    root !== '.');
+
+  return root;
 }
 
 
