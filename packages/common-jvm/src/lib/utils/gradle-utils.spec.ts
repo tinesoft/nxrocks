@@ -442,7 +442,7 @@ describe('gradle-utils', () => {
       tree.write(`./${rootFolder}/settings.gradle`, MULTI_MODULE_SETTINGS_FILE);
 
       expect(hasGradleModuleInTree(tree, rootFolder, 'libraryX')).toBe(false);
-      expect(addGradleModule(tree, rootFolder, 'libraryX', false)).toBe(true);
+      expect(addGradleModule(tree, rootFolder, 'libraryX', '', false)).toBe(true);
       expect(hasGradleModuleInTree(tree, rootFolder, 'libraryX')).toBe(true);
     });
 
@@ -450,7 +450,7 @@ describe('gradle-utils', () => {
       tree.write(`./${rootFolder}/build.gradle`, BUILD_GRADLE_FILE);
       tree.write(`./${rootFolder}/settings.gradle`, MULTI_MODULE_SETTINGS_FILE);
 
-      expect(addGradleModule(tree, rootFolder, 'library1', false)).toBe(false);
+      expect(addGradleModule(tree, rootFolder, 'library1', '', false)).toBe(false);
     });
 
     it('should add kotlin gradle module when not already present', ()=>{
@@ -458,7 +458,7 @@ describe('gradle-utils', () => {
       tree.write(`./${rootFolder}/settings.gradle.kts`, MULTI_MODULE_SETTINGS_KTS_FILE);
 
       expect(hasGradleModuleInTree(tree, rootFolder, 'libraryX')).toBe(false);
-      expect(addGradleModule(tree, rootFolder, 'libraryX', true)).toBe(true);
+      expect(addGradleModule(tree, rootFolder, 'libraryX', '', true)).toBe(true);
       expect(hasGradleModuleInTree(tree, rootFolder, 'libraryX')).toBe(true);
     });
 
@@ -466,7 +466,7 @@ describe('gradle-utils', () => {
       tree.write(`./${rootFolder}/build.gradle.kts`, BUILD_GRADLE_KOTLIN_FILE);
       tree.write(`./${rootFolder}/settings.gradle.kts`, MULTI_MODULE_SETTINGS_KTS_FILE);
 
-      expect(addGradleModule(tree, rootFolder, 'library1', true)).toBe(false);
+      expect(addGradleModule(tree, rootFolder, 'library1', '', true)).toBe(false);
     });
   });
 

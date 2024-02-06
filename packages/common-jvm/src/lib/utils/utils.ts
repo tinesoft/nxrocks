@@ -1,4 +1,4 @@
-import { logger, Tree } from '@nx/devkit';
+import { createProjectGraphAsync, logger, ProjectGraph, readCachedProjectGraph, Tree } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { fileExists } from '@nx/workspace/src/utilities/fileutils';
 
@@ -17,6 +17,7 @@ import {
 } from '../utils';
 import { getCoordinatesForMavenProjet, getMavenModules, hasMavenModule } from './maven-utils';
 import { getCoordinatesForGradleProjet, getGradleModules, hasGradleModule } from './gradle-utils';
+import { dirname, relative } from 'path';
 
 export const LARGE_BUFFER = 1024 * 1000000;
 
@@ -130,7 +131,7 @@ export function getJvmPackageInfo(project: { root: string }): PackageInfo {
       `/project/dependencies/dependency`
     );
 
-    if (Array.isArray(dependencyNodes))
+    if (Array.isArray(dependencyNodes)){
       dependencyNodes?.forEach((node) => {
         const depGroupId = findNodeContent(node, `/dependency/groupId/text()`);
         const depArtifactId = findNodeContent(
@@ -142,18 +143,21 @@ export function getJvmPackageInfo(project: { root: string }): PackageInfo {
           packageFile: 'pom.xml',
         });
       });
+    }
+
+    const modules = getMavenModules(project.root);
     return {
       packageId: `${groupId}:${artifactId}`,
       packageFile: 'pom.xml',
       dependencies,
-      modules: getMavenModules(project.root)
+      modules: modules.map(mod => `${groupId}:${mod}`)
     };
   }
 
   if (isGradleProject(project)) {
     // gradle project
     const ext = getGradleBuildFilesExtension(project);
-    const { groupId } = getCoordinatesForGradleProjet(project.root);
+    const { groupId, artifactId } = getCoordinatesForGradleProjet(project.root);
 
     const gradleDependencyIdRegEx = getGradleDependencyIdRegEx();
     const dependencyIds: string[] = [];
@@ -177,11 +181,14 @@ export function getJvmPackageInfo(project: { root: string }): PackageInfo {
 
     const modules = getGradleModules(project.root);
 
+    const offsetFromRoot = getPathFromParentModule(project.root);
+    const pkgId = offsetFromRoot ? offsetFromRoot.replaceAll('/', ':') : artifactId;
+
     return {
-      packageId: `${groupId}:${getPathFromParentModule(project.root).join(':')}`,
+      packageId: `${groupId}:${pkgId}`,
       packageFile: hasGradleSettingsFile(project.root) ? `settings${ext}` : `build${ext}`,
       dependencies,
-      modules
+      modules: modules.map(mod => `${groupId}:${mod}`)
     };
   }
 
@@ -238,7 +245,7 @@ export function checkProjectFileContains(
   return findOccurencesInContent(content);
 }
 
-export function getPathFromParentModule(cwd: string): string[] {
+export function getPathFromParentModule(cwd: string): string {
 
   let pathFromParent: string[] = [];
   let root: string, name: string;
@@ -250,13 +257,16 @@ export function getPathFromParentModule(cwd: string): string[] {
     name = obj.currentFolder;
     currentFolder = root;
 
-    pathFromParent = [name, ...pathFromParent];
+    if (root !== '.') {
+      pathFromParent = [name, ...pathFromParent];
+    }
+
   } while (
     !(hasGradleBuildFile(root) && hasGradleModule(root, name)) &&
     !(hasMavenProject(root) && hasMavenModule(root, name)) &&
     root !== '.');
 
-  return pathFromParent;
+  return pathFromParent.slice(1).join('/');
 }
 
 export function getPathToParentModule(cwd: string): string {
@@ -278,6 +288,38 @@ export function getPathToParentModule(cwd: string): string {
   return root;
 }
 
+export async function getAdjustedProjectAndModuleRoot(options: {
+  projectRoot: string;
+  addToExistingParentModule?: boolean;
+  parentModuleName?: string;
+}, isMavenProject: boolean
+) {
+
+  const projectGraph: ProjectGraph = process.env['NX_INTERACTIVE'] === 'true' ? readCachedProjectGraph() : await createProjectGraphAsync();
+
+  if (options.addToExistingParentModule && options.parentModuleName && !projectGraph.nodes[options.parentModuleName]) {
+    throw new Error(`No parent module project named '${options.parentModuleName}' was found in this workspace! Make sure the project exists.`);
+  }
+  const indexOfPathSlash = isMavenProject ? options.projectRoot.lastIndexOf('/') : options.projectRoot.indexOf('/');
+  let projectRoot = options.projectRoot;
+  let moduleRoot;
+  if (options.addToExistingParentModule && options.parentModuleName) {
+    moduleRoot = projectGraph.nodes[options.parentModuleName].data.root;
+  }
+  else {
+    const rootFolder = options.projectRoot.substring(0, indexOfPathSlash);
+    moduleRoot = `${rootFolder}/${options.parentModuleName}`;
+  }
+  projectRoot = `${moduleRoot}/${options.projectRoot.substring(indexOfPathSlash + 1)}`;
+
+  const offsetFromRoot = dirname(relative(moduleRoot, projectRoot));
+
+  return {
+    projectRoot,
+    moduleRoot,
+    offsetFromRoot
+  };
+}
 
 function match(content: string, value: string | RegExp) {
   if (typeof value === 'string') {

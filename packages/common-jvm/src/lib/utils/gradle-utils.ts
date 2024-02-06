@@ -394,7 +394,7 @@ export function getGradleModules(cwd: string): string[] {
   const extension = getGradleBuildFilesExtension({ root: cwd });
   const settings = getProjectFileContent({ root: cwd }, `settings${extension}`);
 
-  const modulesRegex = extension === '.gradle.kts' ? /include\s*\(":?(\w+)"\)/g : /include\s+':?(\w+)'/g;
+  const modulesRegex = extension === '.gradle.kts' ? /include\s*\("([\w:]+)"\)/g : /include\s+'([\w:]+)'/g;
   const modules = [];
   let m;
   while ((m = modulesRegex.exec(settings))) {
@@ -407,6 +407,7 @@ export function addGradleModule(
   tree: Tree,
   rootFolder: string,
   moduleName: string,
+  offsetFromRoot: string,
   withKotlinDSL: boolean
 ) {
 
@@ -420,20 +421,23 @@ export function addGradleModule(
 
   let lastIncludeIdx = settingsGradle.lastIndexOf('include');
   lastIncludeIdx = lastIncludeIdx > 0 ? lastIncludeIdx : settingsGradle.length;
-  const newModule = withKotlinDSL ? `\ninclude("${moduleName}")\n` : `\ninclude '${moduleName}'\n`;
+
+  const name = offsetFromRoot === '.' ? moduleName: `${offsetFromRoot}/${moduleName}`.replaceAll('/', ':') ;
+  const newModule = withKotlinDSL ? `\ninclude("${name}")\n` : `\ninclude '${name}'\n`;
 
   const newSettingGradle = settingsGradle.slice(0, lastIncludeIdx) + newModule + settingsGradle.slice(lastIncludeIdx);
   tree.write(`${rootFolder}/settings${ext}`, newSettingGradle)
   return true
 }
 
-export function initGradleParentModule(tree: Tree, rootFolder: string, groupId: string, parentModuleName: string, childModuleName: string, withKotlinDSL: boolean, helpComment = '') {
+export function initGradleParentModule(tree: Tree, rootFolder: string, groupId: string, parentModuleName: string, childModuleName: string, offsetFromRoot: string, withKotlinDSL: boolean, helpComment = '') {
 
+  const name = offsetFromRoot === '.' ? childModuleName: `${offsetFromRoot}/${childModuleName}`.replaceAll('/', ':') ;
   const settingsGradle = `
 ${helpComment}
 rootProject.name = ${withKotlinDSL ? `"${parentModuleName}"` : `'${parentModuleName}'`}
 
-${withKotlinDSL ? `include("${childModuleName}")` : `include '${childModuleName}'`}
+${withKotlinDSL ? `include("${name}")` : `include '${name}'`}
 `;
 
   const buildGradle = `group = ${withKotlinDSL ? `"${groupId}"` : `'${groupId}'`}`;
