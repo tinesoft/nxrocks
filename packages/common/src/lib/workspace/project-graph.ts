@@ -99,15 +99,19 @@ export function getDependenciesForProject(
     }
   });
 
-  rootPkgInfo.modules?.forEach((childModuleName) => {
-    dependencies.push(
-      {
-        source: rootProjectName,
-        target: childModuleName,
-        type: DependencyType.static,
-        sourceFile: joinPathFragments(rootProjectFolder, rootPkgInfo.packageFile)
-      }
-    );
+  rootPkgInfo.modules?.forEach((moduleId) => {
+    const depProjectName = workspace.packages[moduleId];
+
+    if (depProjectName) {
+      dependencies.push(
+        {
+          source: rootProjectName,
+          target: depProjectName,
+          type: DependencyType.static,
+          sourceFile: joinPathFragments(rootProjectFolder, rootPkgInfo.packageFile)
+        }
+      );
+    }
   });
 
   return dependencies;
