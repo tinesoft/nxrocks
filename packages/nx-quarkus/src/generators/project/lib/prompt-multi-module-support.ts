@@ -1,8 +1,8 @@
-import { logger, createProjectGraphAsync, ProjectGraph, Tree, readCachedProjectGraph } from "@nx/devkit";
+import { logger, createProjectGraphAsync, ProjectGraph, Tree } from "@nx/devkit";
 import { prompt } from 'enquirer';
 
 import { NormalizedSchema } from "../schema";
-import { addGradleModule, addMavenModule, initGradleParentModule, initMavenParentModule, hasMultiModuleGradleProjectInTree, hasMultiModuleMavenProjectInTree } from "@nxrocks/common-jvm";
+import { addGradleModule, addMavenModule, initGradleParentModule, initMavenParentModule, hasMultiModuleGradleProjectInTree, hasMultiModuleMavenProjectInTree, getAdjustedProjectAndModuleRoot } from "@nxrocks/common-jvm";
 
 export async function promptForMultiModuleSupport(tree: Tree, options: NormalizedSchema) {
 
@@ -49,7 +49,7 @@ export async function promptForMultiModuleSupport(tree: Tree, options: Normalize
             options.addToExistingParentModule = await prompt({
                 name: 'addToExistingParentModule',
                 message:
-                `We found ${multiModuleProjects.length} existing ${buildSystemName} multi-module projects in your workaspace${multiModuleProjects.length === 1 ? `('${multiModuleProjects[0].name}')` : ''}.\nWould you like to add this new project ${multiModuleProjects.length === 1 ? 'to it?' : 'into one of them?'}`,
+                    `We found ${multiModuleProjects.length} existing ${buildSystemName} multi-module projects in your workaspace${multiModuleProjects.length === 1 ? `('${multiModuleProjects[0].name}')` : ''}.\nWould you like to add this new project ${multiModuleProjects.length === 1 ? 'to it?' : 'into one of them?'}`,
                 type: 'confirm',
                 initial: false
             }).then((a) => a['addToExistingParentModule']);
@@ -62,7 +62,7 @@ export async function promptForMultiModuleSupport(tree: Tree, options: Normalize
                     options.parentModuleName = await prompt({
                         name: 'parentModuleName',
                         message:
-                        'Which parent module would you like to add the new project into?',
+                            'Which parent module would you like to add the new project into?',
                         type: 'select',
                         choices: multiModuleProjects.map(p => p.name),
                     }).then((a) => a['parentModuleName']);
@@ -72,46 +72,32 @@ export async function promptForMultiModuleSupport(tree: Tree, options: Normalize
         }
     }
 
-    if((options.transformIntoMultiModule || options.addToExistingParentModule) && options.parentModuleName){
-        const helpComment = `For more information about ${buildSystemName} multi-modules projects, go to: ${options.buildSystem === 'MAVEN' ? 'https://maven.apache.org/guides/mini/guide-multiple-modules-4.html' : 'https://docs.gradle.org/current/userguide/intro_multi_project_builds.html'}`;
+    if ((options.transformIntoMultiModule || options.addToExistingParentModule) && options.parentModuleName) {
+        const isMavenProject = options.buildSystem === 'MAVEN';
+        const helpComment = `For more information about ${buildSystemName} multi-modules projects, go to: ${isMavenProject ? 'https://maven.apache.org/guides/mini/guide-multiple-modules-4.html' : 'https://docs.gradle.org/current/userguide/intro_multi_project_builds.html'}`;
 
-        await adjustOptionsForMultiModules(options);
+        const opts = await getAdjustedProjectAndModuleRoot(options, isMavenProject);
 
-        if(options.transformIntoMultiModule){
+        options.projectRoot = opts.projectRoot;
+        options.moduleRoot = opts.moduleRoot;
+
+        if (options.transformIntoMultiModule) {
             // add the root module
-            if(options.buildSystem === 'MAVEN'){
+            if (isMavenProject) {
                 initMavenParentModule(tree, options.moduleRoot, options.groupId, options.parentModuleName, options.projectName, `<!-- ${helpComment} -->`);
             }
             else {
-                initGradleParentModule(tree, options.moduleRoot, options.groupId, options.parentModuleName, options.projectName, options. buildSystem === 'GRADLE_KOTLIN_DSL', `// ${helpComment}`);
+                initGradleParentModule(tree, options.moduleRoot, options.groupId, options.parentModuleName, options.projectName, opts.offsetFromRoot, options.buildSystem === 'GRADLE_KOTLIN_DSL', `// ${helpComment}`);
             }
         }
-        else if(options.addToExistingParentModule){
+        else if (options.addToExistingParentModule) {
             // add to the chosen root module
-            if(options.buildSystem === 'MAVEN'){
+            if (isMavenProject) {
                 addMavenModule(tree, options.moduleRoot, options.projectName);
             }
             else {
-                addGradleModule(tree, options.moduleRoot, options.projectName, options. buildSystem === 'GRADLE_KOTLIN_DSL');
+                addGradleModule(tree, options.moduleRoot, options.projectName, opts.offsetFromRoot, options.buildSystem === 'GRADLE_KOTLIN_DSL');
             }
         }
     }
-}
-
-async function adjustOptionsForMultiModules(options: NormalizedSchema) {
-
-    const projectGraph: ProjectGraph = process.env.NX_INTERACTIVE === 'true' ? readCachedProjectGraph() : await createProjectGraphAsync();
-
-    if(options.addToExistingParentModule && !projectGraph.nodes[options.parentModuleName]){
-        throw new Error(`No parent module project named '${options.parentModuleName}' was found in this workspace! Make sure the project exists.`);
-    }
-    const lastIndexOfPathSlash = options.projectRoot.lastIndexOf('/');
-    if(options.addToExistingParentModule){
-        options.moduleRoot = projectGraph.nodes[options.parentModuleName].data.root;
-    }
-    else {
-        const rootFolder = options.projectRoot.substring(0, lastIndexOfPathSlash);
-        options.moduleRoot = `${rootFolder}/${options.parentModuleName}`;
-    }
-    options.projectRoot = `${options.moduleRoot}/${options.projectRoot.substring(lastIndexOfPathSlash + 1)}`;
 }

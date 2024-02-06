@@ -1,8 +1,8 @@
-import { logger, createProjectGraphAsync, ProjectGraph, Tree, readCachedProjectGraph } from "@nx/devkit";
+import { logger, createProjectGraphAsync, ProjectGraph, Tree } from "@nx/devkit";
 import { prompt } from 'enquirer';
 
 import { NormalizedSchema } from "../schema";
-import { addGradleModule, addMavenModule, initGradleParentModule, initMavenParentModule, hasMultiModuleGradleProjectInTree, hasMultiModuleMavenProjectInTree } from "@nxrocks/common-jvm";
+import { addGradleModule, addMavenModule, initGradleParentModule, initMavenParentModule, hasMultiModuleGradleProjectInTree, hasMultiModuleMavenProjectInTree, getAdjustedProjectAndModuleRoot } from "@nxrocks/common-jvm";
 
 export async function promptForMultiModuleSupport(tree: Tree, options: NormalizedSchema) {
     if (
@@ -71,46 +71,32 @@ export async function promptForMultiModuleSupport(tree: Tree, options: Normalize
         }
     }
 
-    if((options.transformIntoMultiModule || options.addToExistingParentModule) && options.parentModuleName){
+    if ((options.transformIntoMultiModule || options.addToExistingParentModule) && options.parentModuleName) {
         const helpComment = 'For more information about Spring boot multi-modules projects, go to: https://spring.io/guides/gs/multi-module/';
 
-        await adjustOptionsForMultiModules(options);
+        const isMavenProject = options.buildSystem === 'maven-project';
+        const opts = await getAdjustedProjectAndModuleRoot(options, isMavenProject);
 
-        if(options.transformIntoMultiModule){
+        options.projectRoot = opts.projectRoot;
+        options.moduleRoot = opts.moduleRoot;
+
+        if (options.transformIntoMultiModule) {
             // add the root module
-            if(options.buildSystem === 'maven-project'){
+            if (isMavenProject) {
                 initMavenParentModule(tree, options.moduleRoot, options.groupId, options.parentModuleName, options.projectName, `<!-- ${helpComment} -->`);
             }
             else {
-                initGradleParentModule(tree, options.moduleRoot, options.groupId, options.parentModuleName, options.projectName, options. buildSystem === 'gradle-project-kotlin', `// ${helpComment}`);
+                initGradleParentModule(tree, options.moduleRoot, options.groupId, options.parentModuleName, options.projectName, opts.offsetFromRoot, options.buildSystem === 'gradle-project-kotlin', `// ${helpComment}`);
             }
         }
-        else if(options.addToExistingParentModule){
+        else if (options.addToExistingParentModule) {
             // add to the chosen root module
-            if(options.buildSystem === 'maven-project'){
+            if (isMavenProject) {
                 addMavenModule(tree, options.moduleRoot, options.projectName);
             }
             else {
-                addGradleModule(tree, options.moduleRoot, options.projectName, options. buildSystem === 'gradle-project-kotlin');
+                addGradleModule(tree, options.moduleRoot, options.projectName, opts.offsetFromRoot, options.buildSystem === 'gradle-project-kotlin');
             }
         }
     }
-}
-
-async function adjustOptionsForMultiModules(options: NormalizedSchema) {
-
-    const projectGraph: ProjectGraph = process.env.NX_INTERACTIVE === 'true' ? readCachedProjectGraph() : await createProjectGraphAsync();
-
-    if(options.addToExistingParentModule && !projectGraph.nodes[options.parentModuleName]){
-        throw new Error(`No parent module project named '${options.parentModuleName}' was found in this workspace! Make sure the project exists.`);
-    }
-    const lastIndexOfPathSlash = options.projectRoot.lastIndexOf('/');
-    if(options.addToExistingParentModule){
-        options.moduleRoot = projectGraph.nodes[options.parentModuleName].data.root;
-    }
-    else {
-        const rootFolder = options.projectRoot.substring(0, lastIndexOfPathSlash);
-        options.moduleRoot = `${rootFolder}/${options.parentModuleName}`;
-    }
-    options.projectRoot = `${options.moduleRoot}/${options.projectRoot.substring(lastIndexOfPathSlash + 1)}`;
 }
