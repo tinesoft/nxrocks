@@ -65,7 +65,7 @@ export function addDependenciesForProject(
   const dependencies = getDependenciesForProject(pluginName, rootProjectFolder, rootProjectName, rootPkgInfo, workspace);
   for (const dep of dependencies) {
     builder.addDependency(dep.source, dep.target, dep.type, dep.source);
-  };
+  }
 }
 
 

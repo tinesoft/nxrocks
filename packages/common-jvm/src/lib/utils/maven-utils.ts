@@ -422,7 +422,7 @@ export function addMavenModule(
   if (pomXml === null)
     return false;
 
-  const modulesNode = findXmlMatching(pomXml, `/project/modules`);;
+  const modulesNode = findXmlMatching(pomXml, `/project/modules`);
 
   if (modulesNode) {
     addXmlNode(modulesNode, {

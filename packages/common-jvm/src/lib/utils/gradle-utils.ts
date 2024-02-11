@@ -519,5 +519,5 @@ function hasGradleWrapperWithPredicate(predicate: (file: string) => boolean) {
     [
       'gradlew.bat',
       'gradlew.cmd',
-    ].some(file => predicate(file));;
+    ].some(file => predicate(file));
 }
