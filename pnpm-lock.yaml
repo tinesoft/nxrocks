@@ -16,8 +16,8 @@ dependencies:
     specifier: 0.5.2
     version: 0.5.2
   create-nx-workspace:
-    specifier: 17.0.1
-    version: 17.0.1
+    specifier: ~17.3.0
+    version: 17.3.2
   enquirer:
     specifier: ^2.4.1
     version: 2.4.1
@@ -181,7 +181,7 @@ devDependencies:
     version: 21.0.2
   semantic-release-plugin-decorators:
     specifier: https://github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%2Fdynamic_import
-    version: '@github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%252525252525252525252525252Fdynamic_import(semantic-release@21.0.2)'
+    version: '@github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%2525252525252525252525252525252Fdynamic_import(semantic-release@21.0.2)'
   ts-jest:
     specifier: 29.1.0
     version: 29.1.0(@babel/core@7.23.9)(jest@29.4.3)(typescript@5.3.3)
@@ -3505,7 +3505,7 @@ packages:
       cosmiconfig: 7.1.0
       remeda: 0.0.32
       semantic-release: 21.0.2
-      semantic-release-plugin-decorators: '@github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%252525252525252525252525252Fdynamic_import(semantic-release@21.0.2)'
+      semantic-release-plugin-decorators: '@github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%2525252525252525252525252525252Fdynamic_import(semantic-release@21.0.2)'
     transitivePeerDependencies:
       - encoding
       - nx
@@ -4253,16 +4253,6 @@ packages:
     resolution: {integrity: sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg==}
     dev: true
 
-  /axios@1.5.1:
-    resolution: {integrity: sha512-Q28iYCWzNHjAm+yEAot5QaAMxhMghWLFVf7rRdwhUI+c2jix2DUXjAHXVi+s1ibs3mjPO/cCgbA++3BjD0vP/A==}
-    dependencies:
-      follow-redirects: 1.15.2
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /axios@1.6.7:
     resolution: {integrity: sha512-/hDJGff6/c7u0hDkvkGxR/oy6CbCs8ziCsC7SqmhjfozqiJGc8Z11wrv9z9lYfY4K8l+H9TpjcMDX0xOZmx+RA==}
     dependencies:
@@ -4271,7 +4261,6 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
-    dev: true
 
   /babel-jest@29.5.0(@babel/core@7.22.9):
     resolution: {integrity: sha512-mA4eCDh5mSo2EcA9xQjVTpmbbNk32Zb3Q3QFQsNhaK56Q+yoXowzFodLux30HRgyOho5rsQ6B0P9QpMkvvnJ0Q==}
@@ -5028,11 +5017,11 @@ packages:
       path-type: 4.0.0
     dev: true
 
-  /create-nx-workspace@17.0.1:
-    resolution: {integrity: sha512-o+mAI4ruP5LsekdbfrO8jAnp0kvjLUn8xrXriCsY9JOnqpqrematnITnj/fW3e19l8SI3s81HMXtZ5CZm0mPKg==}
+  /create-nx-workspace@17.3.2:
+    resolution: {integrity: sha512-tNkP9/92sa8aQow45QQ5yvmwR/tajNWzA0G4u4ocUCOkOkcwdii2lp+37A1CQrdM3Eg5xnf7qdsuAQGCqob2pQ==}
     hasBin: true
     dependencies:
-      axios: 1.5.1
+      axios: 1.6.7
       chalk: 4.1.2
       enquirer: 2.3.6
       flat: 5.0.2
@@ -6019,16 +6008,6 @@ packages:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
     dev: true
 
-  /follow-redirects@1.15.2:
-    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dev: false
-
   /follow-redirects@1.15.5:
     resolution: {integrity: sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==}
     engines: {node: '>=4.0'}
@@ -6037,7 +6016,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: true
 
   /forever-agent@0.6.1:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
@@ -10641,9 +10619,9 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  '@github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%252525252525252525252525252Fdynamic_import(semantic-release@21.0.2)':
+  '@github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%2525252525252525252525252525252Fdynamic_import(semantic-release@21.0.2)':
     resolution: {registry: https://registry.npmjs.org/, tarball: https://github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%2Fdynamic_import}
-    id: '@github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%252525252525252525252525252Fdynamic_import'
+    id: '@github.com/tjg184/semantic-release-plugin-decorators/tarball/fix%2525252525252525252525252525252Fdynamic_import'
     name: semantic-release-plugin-decorators
     version: 0.0.0-development
     peerDependencies:

@@ -28,6 +28,14 @@ This command will guide you through the creation process steps by steps.
 
 Run `npx create-nx-micronaut --help` to print some helpful info on available options.
 
+## Compatibility with Nx
+
+Every Nx package relies on the underlying Nx Workspace/DevKit it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this package.
+
+| Package Version | Nx Workspace version
+| --------------- | --------------------
+| `>=v3.0.0`      | `>=v17.3.0`
+| `<v3.0.0`       | `<17.3.0`
 
 ## License
 

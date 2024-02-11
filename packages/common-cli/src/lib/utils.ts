@@ -3,7 +3,10 @@ import { execSync, ExecSyncOptions } from 'child_process';
 import { ensureDirSync, existsSync, readJSONSync, rmSync, writeJsonSync } from 'fs-extra';
 import { dirname, join, relative, resolve } from 'path';
 
-export function createWorkspaceWithNxWrapper(name: string, pkgName: string, extraArgs = '', useNxCloud = false, presetVersion = 'latest', silent = true) {
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+export const createNxWorkspaceVersion = require('../../package.json')?.devDependencies['create-nx-workspace'] || 'latest';
+
+export function createWorkspaceWithNxWrapper(name: string, pkgName: string, extraArgs = '', nxCloud = 'skip', presetVersion = 'latest', nxVersion= createNxWorkspaceVersion, silent = true) {
 
   const directory = resolve(process.cwd(), name);
   rmSync(directory, {
@@ -13,7 +16,7 @@ export function createWorkspaceWithNxWrapper(name: string, pkgName: string, extr
 
   ensureDirSync(directory)
 
-  execSync(`npx --yes nx@latest init --nxCloud=${useNxCloud} --useDotNxInstallation`, {
+  execSync(`npx --yes nx@${nxVersion} init --nxCloud=${nxCloud !== 'skip'} --useDotNxInstallation --no-interactive`, {
     cwd: directory,
     ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
   });
