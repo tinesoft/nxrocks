@@ -37,7 +37,7 @@ export function createTestProject(pkgManager='npm', projectName='test-project', 
       throw new Error(`Unsupported package manager: ${pkgManager}`);
   }
   execSync(
-    `${createCommand}@${nxVersion} ${projectName} --preset apps --no-nxCloud --no-interactive --pm ${pkgManager}`,
+    `${createCommand}@${nxVersion} ${projectName} --preset apps --nxCloud=skip --no-interactive --pm ${pkgManager}`,
     {
       cwd: dirname(projectDirectory),
       stdio: 'inherit',

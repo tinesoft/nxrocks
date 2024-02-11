@@ -30,7 +30,7 @@
   "dependencies": {
     "@clack/prompts": "^0.7.0",
     "@swc/helpers": "0.5.2",
-    "create-nx-workspace": "17.0.1",
+    "create-nx-workspace": "~17.3.0",
     "enquirer": "^2.4.1",
     "hpagent": "^1.2.0",
     "js-yaml": "^4.1.0",

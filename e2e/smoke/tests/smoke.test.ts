@@ -32,7 +32,7 @@ describe('nxrocks smoke tests', () => {
   afterEach(async () => {
     if(!process.env.KEEP_SMOKE_TESTS_DIR) {
       // Cleanup the test project
-      rmSync(projectDirectory, {
+      projectDirectory && rmSync(projectDirectory, {
         recursive: true,
         force: true,
       });

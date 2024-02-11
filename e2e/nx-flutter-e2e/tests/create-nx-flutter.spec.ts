@@ -7,9 +7,9 @@ import { join } from 'path';
 describe('create-nx-flutter', () => {
   let projectDirectory: string;
 
-  afterAll(() => {
+  beforeAll(() => {
     // Cleanup the test project
-    rmSync(projectDirectory, {
+    projectDirectory && rmSync(projectDirectory, {
       recursive: true,
       force: true,
     });
@@ -20,7 +20,7 @@ describe('create-nx-flutter', () => {
   ${true}
   ${false}
 `('should be installed with Nx Wrapper=$useNxWrapper', ({useNxWrapper}) => {
-    projectDirectory = createCLITestProject('create-nx-flutter', `--prjName=bootapp --useNxWrapper=${useNxWrapper} --useNxCloud=false --no-interactive`);
+    projectDirectory = createCLITestProject('create-nx-flutter', `--prjName=bootapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --no-interactive`);
 
     // npm ls will fail if the package is not installed properly
     execSync('npm ls @nxrocks/nx-flutter', {

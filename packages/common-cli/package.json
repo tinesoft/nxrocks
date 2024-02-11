@@ -26,7 +26,7 @@
     "create-nx-ktor"
   ],
   "dependencies": {
-    "create-nx-workspace": ">=17.0.0",
+    "create-nx-workspace": ">=17.3.0",
     "@clack/prompts": "^0.7.0",
     "yargs": "^17.7.2",
     "tslib": "^2.6.1",

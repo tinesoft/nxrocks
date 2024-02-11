@@ -1,10 +1,10 @@
-import { intro, text, confirm, spinner, note, outro } from '@clack/prompts';
+import { intro, text, confirm, spinner, note, outro, select } from '@clack/prompts';
 import { createWorkspace } from 'create-nx-workspace';
 import * as yargs from 'yargs';
 import * as terminalLink from 'terminal-link';
 
 import { CLIArguments } from './models';
-import { createWorkspaceWithNxWrapper, getNxCommand } from './utils';
+import { createNxWorkspaceVersion, createWorkspaceWithNxWrapper, getNxCommand } from './utils';
 
 export async function mainCLI(pkgName: string, stackName: string) {
 
@@ -30,10 +30,10 @@ export async function mainCLI(pkgName: string, stackName: string) {
             describe: 'Let Nx manages its own installation and updates',
             type: 'boolean',
           }).
-        option('useNxCloud',
+          option('nxCloud',
           {
-            describe: "Enable distributed caching to make your CI faster",
-            type: 'boolean',
+            describe: "Do you want Nx Cloud to make your CI fast?",
+            choices: ['yes', 'github', 'circleci', 'skip'] as const
           }).
         option('verbose',
           {
@@ -44,7 +44,7 @@ export async function mainCLI(pkgName: string, stackName: string) {
     )
     .help('help', 'Show help') as yargs.Argv<CLIArguments>).parseSync();
 
-  let { name, useNxWrapper, useNxCloud } = options;
+  let { name, useNxWrapper, nxCloud } = options;
   const { _, $0, name: ignoredName, verbose, ...restArgs } = options;
 
   name ||= await text({
@@ -58,13 +58,19 @@ export async function mainCLI(pkgName: string, stackName: string) {
     initialValue: true
   }) as boolean;
 
-  useNxCloud ??= await confirm({
-    message: `Would you like to use Nx Cloud? [ ${linkify('Nx Cloud', 'https://nx.app/?utm_source=' + createPkgName)} ]`,
-    initialValue: false
-  }) as boolean;
+  nxCloud ??= await select({
+    message: `Would you like Nx Cloud to make your CI faster? [ ${linkify('Nx Cloud', 'https://nx.app/?utm_source=' + createPkgName)} ]`,
+    options: [
+      { value: 'yes', label: 'Yes' },
+      { value: 'github', label: 'Github' },
+      { value: 'circleci', label: 'Circle CI' },
+      { value: 'skip', label: 'Skip for now' },
+    ],
+    initialValue: 'skip' as 'yes' | 'github' | 'circleci' | 'skip'
+  }) as 'yes' | 'github' | 'circleci' | 'skip';
 
   const presetVersion = 'latest';
-
+  
   let directory: string;
 
   const notes = [
@@ -80,7 +86,7 @@ export async function mainCLI(pkgName: string, stackName: string) {
     const s = spinner();
     s.start('Initializing your workspace');
 
-    directory = createWorkspaceWithNxWrapper(name, pkgName, allArgs, useNxCloud, presetVersion, !verbose);
+    directory = createWorkspaceWithNxWrapper(name, pkgName, allArgs, nxCloud, presetVersion, createNxWorkspaceVersion, !verbose);
 
     s.stop(`Successfully created the workspace: ${name}`);
   }
@@ -89,8 +95,8 @@ export async function mainCLI(pkgName: string, stackName: string) {
       `${pkgName}@${presetVersion}`,
       {
         ...restArgs,
-        name: name,
-        nxCloud: useNxCloud,
+        name,
+        nxCloud,
         packageManager: 'npm'
       }
     ))?.directory;

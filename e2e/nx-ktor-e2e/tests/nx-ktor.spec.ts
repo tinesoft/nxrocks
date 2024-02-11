@@ -12,11 +12,11 @@ describe('nx-ktor e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
-    projectDirectory = createTestProject('pnpm');
+    projectDirectory = createTestProject();
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`pnpm install @nxrocks/nx-ktor@0.0.0-e2e`, {
+    execSync(`npm install @nxrocks/nx-ktor@0.0.0-e2e`, {
       cwd: projectDirectory,
       stdio: 'inherit',
       env: process.env,
@@ -25,7 +25,7 @@ describe('nx-ktor e2e', () => {
 
   afterAll(() => {
     // Cleanup the test project
-    rmSync(projectDirectory, {
+    projectDirectory && rmSync(projectDirectory, {
       recursive: true,
       force: true,
     });
@@ -84,7 +84,7 @@ describe('nx-ktor e2e', () => {
     it('should add tags to the project', async () => {
       const prjName = uniq('nx-ktor');
       await runNxCommandAsync(
-        `generate @nxrocks/nx-ktor:new ${prjName} --tags e2etag,e2ePackage --no-interactive`
+        `generate @nxrocks/nx-ktor:new ${prjName} --tags e2etag,e2ePackage --no-interactive --verbose`
       );
       const project = readJson(`${prjName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);

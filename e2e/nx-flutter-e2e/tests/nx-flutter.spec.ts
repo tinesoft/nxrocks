@@ -12,11 +12,11 @@ describe('nx-flutter e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
-    projectDirectory = createTestProject('pnpm');
+    projectDirectory = createTestProject();
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`pnpm install @nxrocks/nx-flutter@0.0.0-e2e`, {
+    execSync(`npm install @nxrocks/nx-flutter@0.0.0-e2e`, {
       cwd: projectDirectory,
       stdio: 'inherit',
       env: process.env,
@@ -25,7 +25,7 @@ describe('nx-flutter e2e', () => {
 
   afterAll(() => {
     // Cleanup the test project
-    rmSync(projectDirectory, {
+    projectDirectory && rmSync(projectDirectory, {
       recursive: true,
       force: true,
     });
