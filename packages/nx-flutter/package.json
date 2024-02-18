@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/nx-flutter",
   "description": "Nx plugin adding first class support for Flutter in your Nx workspace",
-  "version": "8.1.0",
+  "version": "8.2.0",
   "private": false,
   "publishConfig": {
     "access": "public"
