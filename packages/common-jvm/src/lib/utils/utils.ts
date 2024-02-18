@@ -1,4 +1,4 @@
-import { createProjectGraphAsync, logger, ProjectGraph, readCachedProjectGraph, Tree } from '@nx/devkit';
+import { createProjectGraphAsync, joinPathFragments, logger, ProjectGraph, readCachedProjectGraph, Tree } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { fileExists } from '@nx/workspace/src/utilities/fileutils';
 

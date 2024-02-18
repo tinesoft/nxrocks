@@ -18,8 +18,9 @@ describe('create-nx-ktor', () => {
   it.each`
   useNxWrapper
   ${true}
+  ${false}
 `('should be installed with Nx Wrapper=$useNxWrapper', ({useNxWrapper}) => {
-    projectDirectory = createCLITestProject('create-nx-ktor', `--prjName=bootapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --no-interactive`);
+    projectDirectory = createCLITestProject('create-nx-ktor', `--prjName=bootapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --no-interactive --verbose=true`);
 
     // npm ls will fail if the package is not installed properly
     execSync('npm ls @nxrocks/nx-ktor', {
