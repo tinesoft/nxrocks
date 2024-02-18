@@ -1,3 +1,15 @@
+# [2.2.0](https://github.com/tinesoft/nxrocks/compare/common-cli/v2.1.0...common-cli/v2.2.0) (2024-02-18)
+
+
+### Bug Fixes
+
+* fix `create-nx-*` broken due to changes in Nx Cloud setup since Nx `v17.3.0` ([6c981d4](https://github.com/tinesoft/nxrocks/commit/6c981d4a75e6b53bd595642e8087496b246edcbd))
+
+
+### Features
+
+* **common:** add utilities to generate Project Graph using `v2` API ([c6f70e0](https://github.com/tinesoft/nxrocks/commit/c6f70e0c4fc8ee9fe235dba05e14e453c3617b90))
+
 # [2.1.0](https://github.com/tinesoft/nxrocks/compare/common-cli/v2.0.1...common-cli/v2.1.0) (2023-12-12)
 
 
