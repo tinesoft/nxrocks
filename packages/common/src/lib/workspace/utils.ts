@@ -1,6 +1,6 @@
-import { basename, dirname, join, resolve } from 'path';
+import { basename, dirname, isAbsolute, join, relative, resolve } from 'path';
 
-import { workspaceRoot } from '@nx/devkit';
+import { normalizePath, workspaceRoot } from '@nx/devkit';
 import { readFileSync } from 'fs';
 
 export function getProjectRoot(project: { root: string }) {
@@ -38,4 +38,14 @@ export function getCurrentAndParentFolder(cwd: string) {
   const parentFolder = dirname(cwd);
 
   return { currentFolder, parentFolder };
+}
+
+
+export function getProjectRootFromFile(filePath: string){
+
+  const absoluteFilePath = isAbsolute(filePath) ? filePath : resolve(workspaceRoot, filePath);
+
+  const projectRootFilePath = relative(workspaceRoot, absoluteFilePath);
+  
+  return normalizePath(dirname(projectRootFilePath));
 }

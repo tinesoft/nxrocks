@@ -15,9 +15,9 @@ import {
 import { minimatch } from 'minimatch';
 
 import { PackageInfo, WorkspacePackageInfoConfiguration } from './models';
-import { getNameAndRoot } from './utils';
+import { getNameAndRoot, getProjectRootFromFile } from './utils';
 
-export function getPackageInfosForNxProjects(
+function getPackageInfosForNxProjects(
   pluginName: string,
   projectFilter: (project: ProjectConfiguration) => boolean,
   getPackageInfo: (project: ProjectConfiguration) => PackageInfo,
@@ -38,7 +38,7 @@ export function getPackageInfosForNxProjects(
       try {
         const pkgInfo = getPackageInfo(project);
 
-        workspacePackageInfo.projects[projectName] = pkgInfo;
+        workspacePackageInfo.projects[project.root] = pkgInfo;
         workspacePackageInfo.packages[pkgInfo.packageId] = projectName;
       } catch (e) {
         if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
@@ -53,62 +53,49 @@ export function getPackageInfosForNxProjects(
   return workspacePackageInfo;
 }
 
-export function addDependenciesForProject(
+function getDependenciesForProject(
   pluginName: string,
-  rootProjectFolder: string,
-  rootProjectName: string,
-  rootPkgInfo: PackageInfo,
-  builder: ProjectGraphBuilder,
-  workspace: WorkspacePackageInfoConfiguration
-): void {
-
-  const dependencies = getDependenciesForProject(pluginName, rootProjectFolder, rootProjectName, rootPkgInfo, workspace);
-  for (const dep of dependencies) {
-    builder.addDependency(dep.source, dep.target, dep.type, dep.source);
-  }
-}
-
-
-export function getDependenciesForProject(
-  pluginName: string,
-  rootProjectFolder: string,
-  rootProjectName: string,
-  rootPkgInfo: PackageInfo,
+  filePath: string,
+  sourceProjectName: string,
   workspace: WorkspacePackageInfoConfiguration
 ): RawProjectGraphDependency[] {
   if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
     logger.debug(
-      `[${pluginName}]: Getting dependencies for project '${rootProjectName}'...`
+      `[${pluginName}]: Getting dependencies for project '${sourceProjectName}'...`
     );
   }
 
   const dependencies: RawProjectGraphDependency[] = [];
 
-  rootPkgInfo.dependencies?.forEach((depPkgInfo) => {
-    const depProjectName = workspace.packages[depPkgInfo.packageId];
+  const sourceProjectRoot = getProjectRootFromFile(filePath);
+  const sourcePkgInfo = workspace.projects[sourceProjectRoot];
 
-    if (depProjectName) {
+
+  sourcePkgInfo.dependencies?.forEach((depPkgInfo) => {
+    const targetProjectName = workspace.packages[depPkgInfo.packageId];
+
+    if (targetProjectName) {
       dependencies.push(
         {
-          source: rootProjectName,
-          target: depProjectName,
+          source: sourceProjectName,
+          target: targetProjectName,
           type: DependencyType.static,
-          sourceFile: joinPathFragments(rootProjectFolder, rootPkgInfo.packageFile),
+          sourceFile: joinPathFragments(sourceProjectRoot, sourcePkgInfo.packageFile),
         }
       );
     }
   });
 
-  rootPkgInfo.modules?.forEach((moduleId) => {
+  sourcePkgInfo.modules?.forEach((moduleId) => {
     const depProjectName = workspace.packages[moduleId];
 
     if (depProjectName) {
       dependencies.push(
         {
-          source: rootProjectName,
+          source: sourceProjectName,
           target: depProjectName,
           type: DependencyType.static,
-          sourceFile: joinPathFragments(rootProjectFolder, rootPkgInfo.packageFile)
+          sourceFile: joinPathFragments(sourceProjectRoot, sourcePkgInfo.packageFile)
         }
       );
     }
@@ -117,12 +104,14 @@ export function getDependenciesForProject(
   return dependencies;
 }
 
+// Project Graph V1
+
 export function getProjectGraph(
   pluginName: string,
   projectFilter: (project: { root: string }) => boolean,
   getPackageInfo: (project: { root: string }) => PackageInfo,
   graph: ProjectGraph,
-  context: ProjectGraphProcessorContext
+  ctx: ProjectGraphProcessorContext
 ): ProjectGraph {
   const builder = new ProjectGraphBuilder(graph);
   if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
@@ -130,28 +119,38 @@ export function getProjectGraph(
       `[${pluginName}]: Looking related projects inside the workspace...`
     );
   }
-  const workspace = getPackageInfosForNxProjects(
-    pluginName,
-    projectFilter,
-    getPackageInfo,
-    context.projectsConfigurations
-  );
-  Object.entries(workspace.projects).forEach(([projectName, pkgInfo]) => {
-    addDependenciesForProject(
-      pluginName,
-      graph.nodes[projectName].data.root,
-      projectName,
-      pkgInfo,
-      builder,
-      workspace
-    );
-  });
+  let workspace = undefined;
+  let dependencies: RawProjectGraphDependency[] = [];
+
+  for (const source in ctx.filesToProcess) {
+    const changed = ctx.filesToProcess[source];
+    for (const file of changed) {
+      // we only create the workspace map once and only if changed file is of interest
+      workspace ??= getPackageInfosForNxProjects(
+        pluginName,
+        projectFilter,
+        getPackageInfo,
+        ctx.projectsConfigurations
+      );
+
+      dependencies = dependencies.concat(
+        getDependenciesForProject(pluginName, file.file, source, workspace),
+      );
+    }
+  }
+
+  for (const dep of dependencies) {
+    builder.addDependency(dep.source, dep.target, dep.type, dep.source);
+  }
+
   return builder.getUpdatedProjectGraph();
+
 }
 
 // Project Graph V2
 
-export const createNodesFor = (projectFiles: string[], pluginName: string) =>
+
+export const createNodesFor = (projectFiles: string[], projectFilter: (project: { root: string }) => boolean, pluginName: string) =>
   [
     `**/{${projectFiles.join(',')}}` as string,
     (
@@ -159,6 +158,10 @@ export const createNodesFor = (projectFiles: string[], pluginName: string) =>
       opt: unknown,
       context: CreateNodesContext,
     ): CreateNodesResult => {
+
+      if (!projectFilter({ root: getProjectRootFromFile(file) })) {
+        return {}; // back off if the file/project does not match the criteria
+      }
 
       const { root, name } = getNameAndRoot(file);
 
@@ -185,12 +188,7 @@ export const createDependenciesIf = (pluginName: string,
       `[${pluginName}]: Looking related projects inside the workspace...`
     );
   }
-  const workspace = getPackageInfosForNxProjects(
-    pluginName,
-    projectFilter,
-    getPackageInfo,
-    { projects: ctx.projects }
-  );
+  let workspace = undefined;
 
   let dependencies: RawProjectGraphDependency[] = [];
 
@@ -199,10 +197,16 @@ export const createDependenciesIf = (pluginName: string,
     const changed = ctx.filesToProcess.projectFileMap[source];
     for (const file of changed) {
       if (minimatch(file.file, projectFilePattern)) {
-        const { root, name } = getNameAndRoot(file.file);
+        // we only create the workspace map once and only if changed file is of interest
+        workspace ??= getPackageInfosForNxProjects(
+          pluginName,
+          projectFilter,
+          getPackageInfo,
+          { projects: ctx.projects }
+        );
 
         dependencies = dependencies.concat(
-          getDependenciesForProject(pluginName, root, name, workspace.projects[name], workspace),
+          getDependenciesForProject(pluginName, file.file, source, workspace),
         );
       }
     }

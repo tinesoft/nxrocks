@@ -13,7 +13,7 @@ export interface PackageInfo {
  */
 export interface WorkspacePackageInfoConfiguration {
   projects: {
-    [projectName: string]: PackageInfo;
+    [projectRoot: string]: PackageInfo;
   };
 
   packages: {
