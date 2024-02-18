@@ -1,7 +1,7 @@
 {
   "name": "create-nx-flutter",
   "description": "CLI to create Nx workspaces with built-in support for Spring Boot",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "license": "MIT",
   "author": "Tine Kondo ",
   "repository": {
