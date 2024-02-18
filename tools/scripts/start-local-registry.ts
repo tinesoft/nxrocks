@@ -7,7 +7,7 @@ import { execFileSync } from 'child_process';
 
 export default async () => {
   if(process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP && process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP !== 'false') {
-    console.log("Envionment variable 'SKIP_LOCAL_REGISTRY_GLOBAL_SETUP' is set. Skipping global setup of Verdaccio's Local Registrty...");
+    console.log("Environment variable 'SKIP_LOCAL_REGISTRY_GLOBAL_SETUP' is set. Skipping global setup of Verdaccio's Local Registry...");
     return;
   }
 
@@ -23,7 +23,7 @@ export default async () => {
   const nx = require.resolve('nx');
   execFileSync(
     nx,
-    ['run-many', '--targets', 'publish', '--ver', '0.0.0-e2e', '--tag', 'latest', '--output-style', 'stream'],
+    ['affected', '--target', 'publish', '--ver', '0.0.0-e2e', '--tag', 'latest', '--output-style', 'stream'],
     { env: process.env, stdio: 'inherit' }
   );
 };

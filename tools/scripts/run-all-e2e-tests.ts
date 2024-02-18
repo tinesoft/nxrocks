@@ -9,7 +9,7 @@ import stopRegistry from './stop-local-registry';
     const nx = require.resolve('nx');
     execFileSync(
         nx,
-        ['run-many', '-t', 'e2e', '--runInBand'],
+        ['affected', '-t', 'e2e', '--runInBand'],
         {
             env: {
                 ...process.env,
