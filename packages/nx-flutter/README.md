@@ -97,7 +97,7 @@ nx g @nxrocks/nx-flutter:project <app-folder>
 ```
 
 
-> you can also use the following aliases to call the generator: `prj`, `new`, `gen`, `init`, `create`, or `generate`
+> you can also use the following aliases to call the generator: `prj`, `new`, or `create`
 
 You will be prompted for entering the most commonly customized generation options (like application's `package`, `description`, `template`,  etc).
 

@@ -6,7 +6,7 @@
       "factory": "./src/generators/project/generator",
       "schema": "./src/generators/project/schema.json",
       "description": "Creates a `Micronaut` project",
-      "aliases": ["proj", "new", "gen", "init", "create", "generate"]
+      "aliases": ["proj", "new", "create"]
     },
     "link": {
       "factory": "./src/generators/link/generator",

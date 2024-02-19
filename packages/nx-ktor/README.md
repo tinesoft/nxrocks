@@ -94,7 +94,7 @@ Simply run the `project` generator with the following command:
 nx g @nxrocks/nx-ktor:project <your-app-name>
 ```
 
-> you can also use the following aliases to call the generator: `proj`, `new`, `gen`, `init`, `create`, or `generate`
+> you can also use the following aliases to call the generator: `proj`, `new`, or `create`
 
 You will be prompted for entering the most commonly customized generation options (like project's `groupId`, `artifactId`, `features`, etc).
 
