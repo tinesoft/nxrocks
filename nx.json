@@ -5,7 +5,10 @@
   "tasksRunnerOptions": {
     "default": {
       "options": {
-        "runtimeCacheInputs": ["node -v", "echo $RUNNER_OS"],
+        "runtimeCacheInputs": [
+          "node -v",
+          "echo $RUNNER_OS"
+        ],
         "canTrackAnalytics": false,
         "showUsageWarnings": true
       }
@@ -19,22 +22,35 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["production", "^production"],
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ],
       "cache": true
     },
     "semantic-release": {
-      "dependsOn": ["^semantic-release"]
+      "dependsOn": [
+        "^semantic-release"
+      ]
     },
     "publish": {
-      "outputs": ["{options.outputPath}"]
+      "outputs": [
+        "{options.outputPath}"
+      ]
     },
     "lint": {
       "cache": true
     },
     "@nx/jest:jest": {
       "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/jest.preset.js"
+      ],
       "options": {
         "passWithNoTests": true
       },
@@ -44,10 +60,16 @@
           "codeCoverage": true
         }
       }
+    },
+    "install": {
+      "cache": true
     }
   },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
     "sharedGlobals": [
       "{workspaceRoot}/workspace.json",
       "{workspaceRoot}/tsconfig.base.json",
@@ -63,5 +85,6 @@
     ]
   },
   "nxCloudAccessToken": "OTMwZTE2ZDgtODg2NS00Y2M1LTg0OTMtNGU3ZmI0NzY4YTUyfHJlYWQtd3JpdGU=",
-  "parallel": 1
+  "parallel": 1,
+  "plugins": []
 }
