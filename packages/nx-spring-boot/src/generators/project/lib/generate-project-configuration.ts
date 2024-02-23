@@ -25,8 +25,6 @@ export async function generateProjectConfiguration(
     commands.push('format', 'apply-format', 'check-format');
   }
 
-  const parentModuleCommands = [...commands];
-
   const appOnlyCommands = ['run', 'serve', 'build-image', 'build-info'];
   if (options.projectType === 'application') {
     //only 'application' projects should have 'boot' related commands
@@ -63,7 +61,7 @@ export async function generateProjectConfiguration(
       root: options.moduleRoot,
       sourceRoot: `${options.moduleRoot}`,
       projectType: options.projectType,
-      targets: getTargets(parentModuleCommands, options.moduleRoot, false),
+      targets: {},
       tags: options.parsedTags,
     });
   }
