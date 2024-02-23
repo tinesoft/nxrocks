@@ -25,8 +25,6 @@ export async function generateProjectConfiguration(
     commands.push('format', 'apply-format', 'check-format');
   }
 
-  const parentModuleCommands = [...commands];
-
   const appOnlyCommands = [ 
   'dev',
   'serve',

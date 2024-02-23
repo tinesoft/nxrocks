@@ -24,8 +24,6 @@ export async function generateProjectConfiguration(
     commands.push('format', 'apply-format', 'check-format');
   }
 
-  const parentModuleCommands = [...commands];
-
   const ktorOnlyCommands = [ 
     'run',
     'serve',
