@@ -68,7 +68,7 @@ export async function generateProjectConfiguration(
       root: options.moduleRoot,
       sourceRoot: `${options.moduleRoot}`,
       projectType: options.projectType,
-      targets: getTargets(parentModuleCommands, options.moduleRoot, false),
+      targets: {},
       tags: options.parsedTags,
     });
   }
