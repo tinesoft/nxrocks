@@ -23,7 +23,7 @@ public class MyServiceTest {
 	static class TestConfiguration {
 	}
 }
-<%} else if(language === 'groovy') {%>@SpringBootTest(properties = ["service.message=Hello"])
+<%} else if(language === 'groovy') {%>@SpringBootTest(properties = ["<%= projectName %>.service.message=Hello"])
 class MyServiceTest {
 
 	@Autowired
@@ -38,7 +38,7 @@ class MyServiceTest {
 	static class TestConfiguration {
 	}
 }
-<%} else if(language === 'kotlin') {%>@SpringBootTest(properties = ["service.message=Hello"])
+<%} else if(language === 'kotlin') {%>@SpringBootTest(properties = ["<%= projectName %>.service.message=Hello"])
 class MyServiceTest {
 
 	@Autowired
