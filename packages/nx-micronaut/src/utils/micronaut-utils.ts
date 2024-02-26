@@ -90,15 +90,17 @@ export function isMicronautProject(project: ProjectConfiguration): boolean {
 
   if (isMavenProject(project)) {
     return checkProjectBuildFileContains(project, {
-      fragments: ['<artifactId>micronaut-parent</artifactId>'],
+      fragments: ['<artifactId>micronaut-maven-plugin</artifactId>'],
     });
   }
 
   if (isGradleProject(project)) {
     return checkProjectBuildFileContains(project, {
       fragments: [
-        "implementation 'io.micronaut:micronaut-runtime'",
-        'implementation("io.micronaut:micronaut-runtime")',
+        'id("io.micronaut.application")',
+        'id("io.micronaut.application")',
+        'id("io.micronaut.library")',
+        'id("io.micronaut.library")',
       ],
     });
   }
