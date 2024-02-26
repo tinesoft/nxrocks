@@ -1,7 +1,7 @@
 import { basename, dirname, isAbsolute, join, relative, resolve } from 'path';
 
 import { normalizePath, workspaceRoot } from '@nx/devkit';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 
 export function getProjectRoot(project: { root: string }) {
   return resolve(workspaceRoot, project.root);
@@ -12,6 +12,14 @@ export function getProjectFilePath(
   relativeFile: string
 ) {
   return join(getProjectRoot(project), ...relativeFile.split(/[/\\]/));
+}
+
+export function hasProjectFile(
+  project: { root: string },
+  relativeFile: string
+) {
+  const filePath = getProjectFilePath(project, relativeFile);
+  return existsSync(filePath);
 }
 
 export function getProjectFileContent(
