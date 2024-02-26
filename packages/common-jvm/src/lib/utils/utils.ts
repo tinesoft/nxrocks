@@ -8,6 +8,7 @@ import {
   getProjectFileContent,
   getProjectFilePath,
   getProjectRoot,
+  hasProjectFile,
   PackageInfo,
 } from '@nxrocks/common';
 import {
@@ -131,7 +132,7 @@ export function getJvmPackageInfo(project: { root: string }): PackageInfo {
       `/project/dependencies/dependency`
     );
 
-    if (Array.isArray(dependencyNodes)){
+    if (Array.isArray(dependencyNodes)) {
       dependencyNodes?.forEach((node) => {
         const depGroupId = findNodeContent(node, `/dependency/groupId/text()`);
         const depArtifactId = findNodeContent(
@@ -206,24 +207,30 @@ export function checkProjectBuildFileContains(
 ): boolean {
 
   let found = false;
-  if (isMavenProject(project)) {
+  if (isMavenProject(project) && hasProjectFile(project, 'pom.xml')) {
     const content = getProjectFileContent(project, 'pom.xml');
     found = checkProjectFileContains(content, opts);
     if (!found && searchInParentModule) {//not found in the project, check at parent module level
       const parentRoot = getPathToParentModule(project.root);
-      const parentModuleContent = getProjectFileContent({ root: parentRoot }, 'pom.xml');
-      return checkProjectFileContains(parentModuleContent, opts);
+
+      if (hasProjectFile({ root: parentRoot }, 'pom.xml')) {
+        const parentModuleContent = getProjectFileContent({ root: parentRoot }, 'pom.xml');
+        return checkProjectFileContains(parentModuleContent, opts);
+      }
     }
   }
 
-  if (isGradleProject(project)) {
-    const ext = getGradleBuildFilesExtension(project);
+  const ext = getGradleBuildFilesExtension(project);
+
+  if (isGradleProject(project) && ext && hasProjectFile(project, `build${ext}`)) {
     const content = getProjectFileContent(project, `build${ext}`);
     found = checkProjectFileContains(content, opts);
     if (!found && searchInParentModule) {//not found in the project, check at parent module level
       const parentRoot = getPathToParentModule(project.root);
-      const parentModuleContent = getProjectFileContent({ root: parentRoot }, `build${ext}`);
-      return checkProjectFileContains(parentModuleContent, opts);
+      if (hasProjectFile({root: parentRoot}, `build${ext}`)) {
+        const parentModuleContent = getProjectFileContent({ root: parentRoot }, `build${ext}`);
+        return checkProjectFileContains(parentModuleContent, opts);
+      }
     }
   }
 
