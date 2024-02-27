@@ -45,7 +45,7 @@ describe('nx-melos e2e', () => {
     const scripts = [
       {
         name: 'melos-bootstrap',
-        output: `NX   Successfully ran target melos-bootstrap for project @test-project/source`,
+        output: `Successfully ran target melos-bootstrap for project @test-project/source`,
       },
     ];
 
