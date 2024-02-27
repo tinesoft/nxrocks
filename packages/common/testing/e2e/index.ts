@@ -1,6 +1,6 @@
-import { JsonParseOptions, PackageManager, getPackageManagerCommand, joinPathFragments, parseJson, readJsonFile, workspaceRoot } from '@nx/devkit';
+import { JsonParseOptions, PackageManager, detectPackageManager, getPackageManagerCommand, joinPathFragments, parseJson, readJsonFile, workspaceRoot } from '@nx/devkit';
 import { getPackageLatestNpmVersion } from '../../src/';
-import { ExecSyncOptions, execSync } from 'child_process';
+import { exec, execSync } from 'child_process';
 import { rmSync, mkdirSync, statSync, readFileSync, existsSync } from 'fs-extra';
 import { join, dirname, isAbsolute } from 'path';
 
@@ -103,18 +103,58 @@ function exists(filePath: string): boolean {
   return directoryExists(filePath) || fileExists(filePath);
 }
 
-export function runNxCommand(command: string, pkgManagerExec = 'npx', opts: ExecSyncOptions = { cwd: tmpProjPath(), env: process.env, stdio: 'pipe' }) {
-  return {
-    stdout: execSync(`${pkgManagerExec} nx ${command}`, {
-      cwd: opts.cwd,
-      env: opts.env,
-      stdio: opts.stdio
-    })?.toString()
-  };
+
+//https://github.com/nrwl/nx/blob/master/e2e/utils/create-project-utils.ts#L628
+
+/**
+ * Run a command asynchronously inside the e2e directory.
+ *
+ * @param command
+ * @param opts
+ */
+export function runCommandAsync(
+  command: string,
+  opts: { silenceError?: boolean; env?: NodeJS.ProcessEnv; cwd?: string } = {
+    silenceError: false,
+  }
+): Promise<{ stdout: string; stderr: string }> {
+  return new Promise((resolve, reject) => {
+    exec(
+      command,
+      {
+        cwd: opts.cwd ?? tmpProjPath(),
+        env: { ...process.env, ...opts.env },
+      },
+      (err, stdout, stderr) => {
+        if (!opts.silenceError && err) {
+          reject(err);
+        }
+        resolve({ stdout, stderr });
+      }
+    );
+  });
 }
 
-export async function runNxCommandAsync(command: string, pkgManagerExec = 'npx', opts: ExecSyncOptions = { cwd: tmpProjPath(), env: process.env, stdio: 'pipe' }) {
-  return runNxCommand(command, pkgManagerExec, opts);
+/**
+ * Run a nx command asynchronously inside the e2e directory
+ * @param command
+ * @param opts
+ */
+export function runNxCommandAsync(
+  command: string,
+  opts: { silenceError?: boolean; env?: NodeJS.ProcessEnv; cwd?: string } = {
+    silenceError: false,
+  }
+): Promise<{ stdout: string; stderr: string }> {
+  const cwd = opts.cwd ?? tmpProjPath();
+  if (fileExists(tmpProjPath('package.json'))) {
+    const pmc = getPackageManagerCommand(detectPackageManager(cwd));
+    return runCommandAsync(`${pmc.exec} nx ${command}`, opts);
+  } else if (process.platform === 'win32') {
+    return runCommandAsync(`./nx.bat %${command}`, opts);
+  } else {
+    return runCommandAsync(`./nx %${command}`, opts);
+  }
 }
 
 export function readJson<T extends object = any>(path: string, options?: JsonParseOptions): T {
