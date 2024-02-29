@@ -30,22 +30,12 @@ export function getProjectFileContent(
   return readFileSync(filePath, 'utf8');
 }
 
-export function getNameAndRoot(file: string) {
-  const root = dirname(file);
 
-  // eslint-disable-next-line no-useless-escape -- eslint's wrong
-  const parts = root.split(/[\/\\]/g);
-  const name = parts[parts.length - 1].toLowerCase();
+export function getNameAndRoot(cwd: string) {
+  const name = basename(resolve(cwd));
+  const root = dirname(cwd);
 
-  return { root, name };
-}
-
-
-export function getCurrentAndParentFolder(cwd: string) {
-  const currentFolder = basename(resolve(cwd));
-  const parentFolder = dirname(cwd);
-
-  return { currentFolder, parentFolder };
+  return { name, root };
 }
 
 
@@ -56,4 +46,11 @@ export function getProjectRootFromFile(filePath: string){
   const projectRootFilePath = relative(workspaceRoot, absoluteFilePath);
   
   return normalizePath(dirname(projectRootFilePath));
+}
+
+export function isNxCrystalEnabled() {
+  // should be on by default starting Nx 18
+  return !(
+    process.env['NX_PCV3'] === 'false' || process.env['NX_CRYSTAL'] === 'false'
+  );
 }
