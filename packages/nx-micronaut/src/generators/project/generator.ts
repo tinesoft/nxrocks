@@ -10,9 +10,9 @@ import {
   promptForMultiModuleSupport,
 } from './lib';
 import { NX_MICRONAUT_PKG } from '../../index';
-import {
-  addPluginToNxJson,
-} from '@nxrocks/common-jvm';
+import { normalizePluginOptions } from '../../graph/plugin';
+
+import { addPluginToNxJson } from '@nxrocks/common-jvm';
 
 export async function projectGenerator(
   tree: Tree,
@@ -24,8 +24,8 @@ export async function projectGenerator(
 
   await promptForMultiModuleSupport(tree, normalizedOptions);
 
-  await generateProjectConfiguration(tree, normalizedOptions);
-  
+  generateProjectConfiguration(tree, normalizedOptions);
+
   await generateMicronautProject(tree, normalizedOptions);
 
   addMavenPublishPlugin(tree, normalizedOptions);
@@ -35,7 +35,13 @@ export async function projectGenerator(
     addFormattingWithSpotless(tree, normalizedOptions);
   }
 
-  addPluginToNxJson(NX_MICRONAUT_PKG, tree, 'install');
+  const defaultPluginOptions = normalizePluginOptions();
+  addPluginToNxJson(
+    NX_MICRONAUT_PKG,
+    tree,
+    defaultPluginOptions,
+    defaultPluginOptions.installTargetName
+  );
 }
 
 export default projectGenerator;

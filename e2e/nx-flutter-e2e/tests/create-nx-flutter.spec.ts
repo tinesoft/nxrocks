@@ -9,29 +9,35 @@ describe('create-nx-flutter', () => {
 
   beforeAll(() => {
     // Cleanup the test project
-    projectDirectory && rmSync(projectDirectory, {
-      recursive: true,
-      force: true,
-    });
+    projectDirectory &&
+      rmSync(projectDirectory, {
+        recursive: true,
+        force: true,
+      });
   });
 
   it.each`
-  useNxWrapper
-  ${true}
-  ${false}
-`('should be installed with Nx Wrapper=$useNxWrapper', ({useNxWrapper}) => {
-    projectDirectory = createCLITestProject('create-nx-flutter', `--prjName=bootapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --no-interactive`);
+    useNxWrapper
+    ${true}
+    ${false}
+  `('should be installed with Nx Wrapper=$useNxWrapper', ({ useNxWrapper }) => {
+    projectDirectory = createCLITestProject(
+      'create-nx-flutter',
+      `--prjName=flutapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --no-interactive`
+    );
 
     // npm ls will fail if the package is not installed properly
     execSync('npm ls @nxrocks/nx-flutter', {
-      cwd: useNxWrapper ? join(projectDirectory, '/.nx/installation'): projectDirectory,
+      cwd: useNxWrapper
+        ? join(projectDirectory, '/.nx/installation')
+        : projectDirectory,
       stdio: 'inherit',
     });
 
     expect(hasNxWrapper(projectDirectory)).toEqual(useNxWrapper);
 
-    if(useNxWrapper){
-      expect(isNxWrapperInstalled(projectDirectory)).toBe(true)
+    if (useNxWrapper) {
+      expect(isNxWrapperInstalled(projectDirectory)).toBe(true);
     }
   });
 });

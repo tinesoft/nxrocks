@@ -1,11 +1,11 @@
 import {
   Tree,
+  logger,
   addProjectConfiguration,
   joinPathFragments,
-  logger,
 } from '@nx/devkit';
 import { NormalizedSchema } from '../schema';
-import { isNxCrystalEnabled } from '@nxrocks/common-jvm';
+import { isNxCrystalEnabled } from '@nxrocks/common';
 import { getProjectTypeAndTargetsFromOptions } from '../../../utils/plugin-utils';
 
 export function generateProjectConfiguration(
@@ -13,16 +13,6 @@ export function generateProjectConfiguration(
   options: NormalizedSchema
 ) {
   logger.info(`⚙️ Generating project configuration...`);
-
-  if (options.transformIntoMultiModule) {
-    addProjectConfiguration(tree, options.parentModuleName, {
-      root: options.moduleRoot,
-      sourceRoot: `${options.moduleRoot}`,
-      projectType: options.projectType,
-      targets: {},
-      tags: options.parsedTags,
-    });
-  }
 
   addProjectConfiguration(tree, options.projectName, {
     root: options.projectRoot,

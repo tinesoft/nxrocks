@@ -1,6 +1,11 @@
 import { basename, dirname, isAbsolute, join, relative, resolve } from 'path';
 
-import { normalizePath, workspaceRoot } from '@nx/devkit';
+import {
+  NxJsonConfiguration,
+  normalizePath,
+  readJsonFile,
+  workspaceRoot,
+} from '@nx/devkit';
 import { existsSync, readFileSync } from 'fs';
 
 export function getProjectRoot(project: { root: string }) {
@@ -30,7 +35,6 @@ export function getProjectFileContent(
   return readFileSync(filePath, 'utf8');
 }
 
-
 export function getNameAndRoot(cwd: string) {
   const name = basename(resolve(cwd));
   const root = dirname(cwd);
@@ -38,19 +42,21 @@ export function getNameAndRoot(cwd: string) {
   return { name, root };
 }
 
-
-export function getProjectRootFromFile(filePath: string){
-
-  const absoluteFilePath = isAbsolute(filePath) ? filePath : resolve(workspaceRoot, filePath);
+export function getProjectRootFromFile(filePath: string) {
+  const absoluteFilePath = isAbsolute(filePath)
+    ? filePath
+    : resolve(workspaceRoot, filePath);
 
   const projectRootFilePath = relative(workspaceRoot, absoluteFilePath);
-  
+
   return normalizePath(dirname(projectRootFilePath));
 }
 
 export function isNxCrystalEnabled() {
-  // should be on by default starting Nx 18
+  const nxJson = readJsonFile<NxJsonConfiguration>(`${workspaceRoot}/nx.json`);
   return !(
-    process.env['NX_PCV3'] === 'false' || process.env['NX_CRYSTAL'] === 'false'
+    /**nxJson.useInferencePlugins === false ||**/ (
+      process.env['NX_ADD_PLUGINS'] === 'false'
+    )
   );
 }

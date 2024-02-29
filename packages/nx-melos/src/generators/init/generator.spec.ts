@@ -54,6 +54,12 @@ describe('init generator', () => {
   it('should add plugin to nx.json', async () => {
     await initGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
-    expect(nxJson.plugins).toEqual([NX_MELOS_PKG]);
+    expect(nxJson.plugins).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "plugin": "@nxrocks/nx-melos",
+        },
+      ]
+    `);
   });
 });

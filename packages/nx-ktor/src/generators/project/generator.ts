@@ -10,10 +10,9 @@ import {
   promptForMultiModuleSupport,
   generateProjectConfiguration,
 } from './lib';
-import {
-  addPluginToNxJson,
-} from '@nxrocks/common-jvm';
 import { NX_KTOR_PKG } from '../../index';
+import { normalizePluginOptions } from '../../graph/plugin';
+import { addPluginToNxJson } from '@nxrocks/common-jvm';
 
 export async function projectGenerator(
   tree: Tree,
@@ -25,7 +24,7 @@ export async function projectGenerator(
 
   await promptForMultiModuleSupport(tree, normalizedOptions);
 
-  await generateProjectConfiguration(tree, normalizedOptions);
+  generateProjectConfiguration(tree, normalizedOptions);
 
   await generateKtorProject(tree, normalizedOptions);
 
@@ -38,7 +37,13 @@ export async function projectGenerator(
     addFormattingWithSpotless(tree, normalizedOptions);
   }
 
-  addPluginToNxJson(NX_KTOR_PKG, tree, 'install');
+  const defaultPluginOptions = normalizePluginOptions();
+  addPluginToNxJson(
+    NX_KTOR_PKG,
+    tree,
+    defaultPluginOptions,
+    defaultPluginOptions.installTargetName
+  );
 }
 
 export default projectGenerator;

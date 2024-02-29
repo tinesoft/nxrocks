@@ -36,11 +36,10 @@ Here is a list of some of the coolest features of the plugin:
 <details open>
 <summary>📢 ℹ️ 🆕 <b>HEADS UP!</b> New <b>simplified</b> setup since <i>October 2023</i>, with our custom <b>CLI</b>!</summary>
 
-
 > You can now use our own `create-nx-spring-boot` **CLI** to easily create a Nx workspace, that comes with this plugin pre-installed!
-> 
+>
 > Simply run:
-> 
+>
 > ```
 > # npm
 > npx create-nx-spring-boot@latest
@@ -48,13 +47,12 @@ Here is a list of some of the coolest features of the plugin:
 > # yarn
 > yarn create nx-spring-boot
 > ```
-> 
+>
 > and you are good to go‧o‧o‧o! 🚀
-> 
+>
 > More information here: [create-nx-spring-boot](../packages/create-nx-spring-boot/README.md)
 
 </details>
-
 
 Otherwise, this is the traditional way of setting things up:
 
@@ -115,28 +113,28 @@ Here the list of available generation options :
 | --------- | ------------------------- |
 | `<name>`  | The name of your project. |
 
-| Option                     | Value                               | Description                                                                                                          |
-| -------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `projectType`              | `application` \| `library`          | Type of project to generate                                                                                          |
-| `buildSystem`              | `maven-project` \| `gradle-project` | Build system                                                                                                         |
-| `packaging`                | `jar` \| `war`                      | Packaging to use                                                                                                     |
-| `javaVersion`              | `8` \| `11` \| `15`                 | Java version to use                                                                                                  |
-| `language`                 | `java` \| `groovy` \| `kotlin`      | Language to use                                                                                                      |
-| `groupId`                  | `string`                            | GroupId of the project                                                                                               |
-| `artifactId`               | `string`                            | ArtifactId of the project                                                                                            |
-| `packageName`              | `string`                            | Main package name                                                                                                    |
-| `description`              | `string`                            | Description of the project                                                                                           |
-| `skipFormat`               | `boolean`                           | Do not add the ability to format code (using Spotless plugin)                                                        |
-| `dependencies`             | `string`                            | List of dependencies to use (comma-separated). Go to [recipes](recipes/README.md#adding-spring-boot-dependencies) for more information               |
-| `transformIntoMultiModule` | `boolean`                           | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information               |
-| `addToExistingParentModule`| `boolean`                           | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information               |
-| `parentModuleName`         | `string`                            | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information               |
-| `keepProjectLevelWrapper`  | `boolean`                           | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information               |
-| `springInitializerUrl`     | `https://start.spring.io`           | URL to the Spring Initializer instance to use                                                                        |
-| `proxyUrl`                 |                                     | The URL of the (corporate) proxy server to use to access Spring Initializr                                           |
-| `bootVersion`              | `string`                            | Spring Boot version to use                                                                                           |
-| `tags`                     | `string`                            | Tags to use for linting (comma-separated)                                                                            |
-| `directory`                | `string`                            | Directory where the project is placed                                                                                |
+| Option                      | Value                               | Description                                                                                                                                                                                                 |
+| --------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `projectType`               | `application` \| `library`          | Type of project to generate                                                                                                                                                                                 |
+| `buildSystem`               | `maven-project` \| `gradle-project` | Build system                                                                                                                                                                                                |
+| `packaging`                 | `jar` \| `war`                      | Packaging to use                                                                                                                                                                                            |
+| `javaVersion`               | `8` \| `11` \| `15`                 | Java version to use                                                                                                                                                                                         |
+| `language`                  | `java` \| `groovy` \| `kotlin`      | Language to use                                                                                                                                                                                             |
+| `groupId`                   | `string`                            | GroupId of the project                                                                                                                                                                                      |
+| `artifactId`                | `string`                            | ArtifactId of the project                                                                                                                                                                                   |
+| `packageName`               | `string`                            | Main package name                                                                                                                                                                                           |
+| `description`               | `string`                            | Description of the project                                                                                                                                                                                  |
+| `skipFormat`                | `boolean`                           | Do not add the ability to format code (using Spotless plugin)                                                                                                                                               |
+| `dependencies`              | `string`                            | List of dependencies to use (comma-separated). Go to [recipes](recipes/README.md#adding-spring-boot-dependencies) for more information                                                                      |
+| `transformIntoMultiModule`  | `boolean`                           | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information                                                      |
+| `addToExistingParentModule` | `boolean`                           | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information                                                 |
+| `parentModuleName`          | `string`                            | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information                                       |
+| `keepProjectLevelWrapper`   | `boolean`                           | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-multi-modules-spring-boot-projects) for more information |
+| `springInitializerUrl`      | `https://start.spring.io`           | URL to the Spring Initializer instance to use                                                                                                                                                               |
+| `proxyUrl`                  |                                     | The URL of the (corporate) proxy server to use to access Spring Initializr                                                                                                                                  |
+| `bootVersion`               | `string`                            | Spring Boot version to use                                                                                                                                                                                  |
+| `tags`                      | `string`                            | Tags to use for linting (comma-separated)                                                                                                                                                                   |
+| `directory`                 | `string`                            | Directory where the project is placed                                                                                                                                                                       |
 
 > **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
 > Otherwise, you'll get a [ETIMEDOUT error](https://github.com/tinesoft/nxrocks/issues/125) when trying to access official Spring Initializer to generate the project.
@@ -323,6 +321,7 @@ Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This ta
 
 | Plugin Version | Nx Workspace version |
 | -------------- | -------------------- |
+| `>=v10.x.x`    | `>=v18.x.x`          |
 | `>=v9.x.x`     | `>=v17.x.x`          |
 | `>=v8.x.x`     | `>=v16.x.x`          |
 | `>=v7.x.x`     | `>=v15.8.x`          |
