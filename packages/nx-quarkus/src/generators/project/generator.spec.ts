@@ -10,7 +10,7 @@ import {
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { projectGenerator } from './generator';
-import { ProjectGeneratorOptions } from './schema';
+import { NormalizedSchema, ProjectGeneratorOptions } from './schema';
 
 import { Readable } from 'stream';
 
@@ -22,12 +22,15 @@ const { Response } = jest.requireActual('node-fetch');
 import { NX_QUARKUS_PKG } from '../../index';
 import {
   BuilderCommandAliasType,
-  hasMavenPlugin,
+  hasMavenPluginInTree,
   SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
   SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
 } from '@nxrocks/common-jvm';
 import { mockZipStream } from '@nxrocks/common/testing';
 import { DEFAULT_QUARKUS_INITIALIZR_URL } from '../../utils/quarkus-utils';
+import { normalizeOptions } from './lib';
+import { getProjectTypeAndTargetsFromOptions } from '../../utils/plugin-utils';
+import { normalizePluginOptions } from '../../graph/plugin';
 
 export const POM_XML = `<?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
@@ -84,9 +87,12 @@ compileTestJava {
   options.encoding = 'UTF-8'
 }
 `;
+
+const defaultPluginOptions = normalizePluginOptions();
 describe('project generator', () => {
   let tree: Tree;
-  const options: ProjectGeneratorOptions = {
+  let options: NormalizedSchema;
+  const _options: ProjectGeneratorOptions = {
     name: 'quarkusapp',
     projectType: 'application',
     groupId: 'com.tinesoft',
@@ -98,8 +104,9 @@ describe('project generator', () => {
   const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
   const mockedResponse = new Response(Readable.from(['quarkus.zip']));
 
-  beforeEach(() => {
+  beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace();
+    options = await normalizeOptions(tree, _options);
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream([]));
@@ -159,7 +166,11 @@ describe('project generator', () => {
 
       expect(logger.info).toHaveBeenNthCalledWith(
         3,
-        `📦 Extracting Quarkus project zip to '${joinPathFragments(workspaceRoot, rootDir, options.name)}'...`
+        `📦 Extracting Quarkus project zip to '${joinPathFragments(
+          workspaceRoot,
+          rootDir,
+          options.name
+        )}'...`
       );
     }
   );
@@ -183,24 +194,26 @@ describe('project generator', () => {
       await projectGenerator(tree, { ...options, projectType });
 
       const project = readProjectConfiguration(tree, options.name);
+      project.targets = getProjectTypeAndTargetsFromOptions(options).targets;
       expect(project.root).toBe(`${options.name}`);
 
       const commands: BuilderCommandAliasType[] = [
-        'test',
-        'clean',
-        'build',
-        'format',
-        'apply-format',
-        'check-format',
+        defaultPluginOptions.installTargetName,
+        defaultPluginOptions.testTargetName,
+        defaultPluginOptions.cleanTargetName,
+        defaultPluginOptions.buildTargetName,
+        defaultPluginOptions.formatTargetName,
+        defaultPluginOptions.applyFormatTargetName,
+        defaultPluginOptions.checkFormatTargetName,
       ];
 
-      const appOnlyCommands = [ 
-        'dev',
-        'serve',
-        'remote-dev',
-        'package',
-        'add-extension',
-        'list-extensions',
+      const appOnlyCommands = [
+        defaultPluginOptions.devTargetName,
+        defaultPluginOptions.serveTargetName,
+        defaultPluginOptions.remoteDevTargetName,
+        defaultPluginOptions.packageTargetName,
+        defaultPluginOptions.addExtensionTargetName,
+        defaultPluginOptions.listExtensionsTargetName,
       ];
 
       if (projectType === 'application') {
@@ -208,17 +221,33 @@ describe('project generator', () => {
       }
 
       commands.forEach((cmd) => {
-        expect(project.targets?.[cmd].executor).toBe(`${NX_QUARKUS_PKG}:${cmd}`);
-        if (['build', 'install', 'test'].includes(cmd)) {
+        expect(project.targets?.[cmd].executor).toBe(
+          `${NX_QUARKUS_PKG}:${cmd}`
+        );
+        if (
+          [
+            defaultPluginOptions.buildTargetName,
+            defaultPluginOptions.installTargetName,
+            defaultPluginOptions.testTargetName,
+          ].includes(cmd)
+        ) {
           expect(project.targets?.[cmd].outputs).toEqual([
             `{workspaceRoot}/${project.root}/target`,
           ]);
         }
 
         if (
-          ['build', 'install', 'dev', 'remote-dev', 'serve'].includes(cmd)
+          [
+            defaultPluginOptions.buildTargetName,
+            defaultPluginOptions.installTargetName,
+            defaultPluginOptions.devTargetName,
+            defaultPluginOptions.remoteDevTargetName,
+            defaultPluginOptions.serveTargetName,
+          ].includes(cmd)
         ) {
-          expect(project.targets?.[cmd].dependsOn).toEqual(['^install']);
+          expect(project.targets?.[cmd].dependsOn).toEqual([
+            `^${defaultPluginOptions.installTargetName}`,
+          ]);
         }
       });
     }
@@ -237,7 +266,28 @@ describe('project generator', () => {
 
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
-    expect(nxJson.plugins).toEqual([NX_QUARKUS_PKG]);
+    expect(nxJson.plugins).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "options": Object {
+            "addExtensionTargetName": "add-extension",
+            "applyFormatTargetName": "apply-format",
+            "buildTargetName": "build",
+            "checkFormatTargetName": "check-format",
+            "cleanTargetName": "clean",
+            "devTargetName": "dev",
+            "formatTargetName": "format",
+            "installTargetName": "install",
+            "listExtensionsTargetName": "list-extensions",
+            "packageTargetName": "package",
+            "remoteDevTargetName": "remote-dev",
+            "serveTargetName": "serve",
+            "testTargetName": "test",
+          },
+          "plugin": "@nxrocks/nx-quarkus",
+        },
+      ]
+    `);
   });
 
   it.each`
@@ -260,7 +310,13 @@ describe('project generator', () => {
       await projectGenerator(tree, { ...options, skipFormat });
 
       const project = readProjectConfiguration(tree, options.name);
-      const formatCommands = ['format', 'apply-format', 'check-format'];
+      if (!skipFormat)
+        project.targets = getProjectTypeAndTargetsFromOptions(options).targets;
+      const formatCommands = [
+        defaultPluginOptions.formatTargetName,
+        defaultPluginOptions.applyFormatTargetName,
+        defaultPluginOptions.checkFormatTargetName,
+      ];
 
       if (skipFormat) {
         // expect project.targets not to have the format commands
@@ -276,7 +332,7 @@ describe('project generator', () => {
         });
       }
       expect(
-        hasMavenPlugin(
+        hasMavenPluginInTree(
           tree,
           `./${options.name}`,
           SPOTLESS_MAVEN_PLUGIN_GROUP_ID,

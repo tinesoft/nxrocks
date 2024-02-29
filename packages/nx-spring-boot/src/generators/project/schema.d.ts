@@ -2,7 +2,7 @@ import type { ProjectNameAndRootFormat } from '@nx/devkit/src/generators/project
 
 export interface ProjectGeneratorOptions {
   name: string;
-  projectType: 'application' | 'library';
+  projectType: ProjectType;
   tags?: string;
   directory?: string;
   projectNameAndRootFormat?: ProjectNameAndRootFormat;

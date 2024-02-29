@@ -15,9 +15,8 @@ import {
   removeBootBuildImageGradleTask,
 } from './lib';
 import { NX_SPRING_BOOT_PKG } from '../../index';
-import {
-  addPluginToNxJson,
-} from '@nxrocks/common-jvm';
+import { normalizePluginOptions } from '../../graph/plugin';
+import { addPluginToNxJson } from '@nxrocks/common-jvm';
 
 export async function projectGenerator(
   tree: Tree,
@@ -29,7 +28,7 @@ export async function projectGenerator(
 
   await promptForMultiModuleSupport(tree, normalizedOptions);
 
-  await generateProjectConfiguration(tree, normalizedOptions);
+  generateProjectConfiguration(tree, normalizedOptions);
 
   await generateBootProject(tree, normalizedOptions);
 
@@ -42,20 +41,26 @@ export async function projectGenerator(
     } else {
       disableBootGradlePlugin(tree, normalizedOptions);
 
-      removeBootBuildImageGradleTask(tree, normalizedOptions)
+      removeBootBuildImageGradleTask(tree, normalizedOptions);
     }
 
     createLibraryFiles(tree, normalizedOptions);
   }
 
-  addMavenPublishPlugin(tree, normalizedOptions);  
+  addMavenPublishPlugin(tree, normalizedOptions);
 
   if (!options.skipFormat) {
     //if skipFormat is true, then we don't want to add Spotless plugin
     addFormattingWithSpotless(tree, normalizedOptions);
   }
 
-  addPluginToNxJson(NX_SPRING_BOOT_PKG, tree, 'install');
+  const defaultPluginOptions = normalizePluginOptions();
+  addPluginToNxJson(
+    NX_SPRING_BOOT_PKG,
+    tree,
+    defaultPluginOptions,
+    defaultPluginOptions.installTargetName
+  );
 }
 
 export default projectGenerator;

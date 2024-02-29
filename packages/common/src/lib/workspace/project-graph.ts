@@ -9,13 +9,16 @@ import {
   ProjectGraph,
   ProjectGraphBuilder,
   ProjectGraphProcessorContext,
+  ProjectType,
   RawProjectGraphDependency,
+  TargetConfiguration,
   validateDependency,
 } from '@nx/devkit';
 import { minimatch } from 'minimatch';
 
 import { PackageInfo, WorkspacePackageInfoConfiguration } from './models';
-import { getNameAndRoot, getProjectRootFromFile } from './utils';
+import { getProjectRootFromFile, isNxCrystalEnabled } from './utils';
+import { dirname } from 'path';
 
 function getPackageInfosForNxProjects(
   pluginName: string,
@@ -24,7 +27,7 @@ function getPackageInfosForNxProjects(
   workspace: {
     projects: {
       [projectName: string]: ProjectConfiguration;
-    }
+    };
   }
 ): WorkspacePackageInfoConfiguration {
   const workspacePackageInfo: WorkspacePackageInfoConfiguration = {
@@ -70,19 +73,19 @@ function getDependenciesForProject(
   const sourceProjectRoot = getProjectRootFromFile(filePath);
   const sourcePkgInfo = workspace.projects[sourceProjectRoot];
 
-
   sourcePkgInfo.dependencies?.forEach((depPkgInfo) => {
     const targetProjectName = workspace.packages[depPkgInfo.packageId];
 
     if (targetProjectName) {
-      dependencies.push(
-        {
-          source: sourceProjectName,
-          target: targetProjectName,
-          type: DependencyType.static,
-          sourceFile: joinPathFragments(sourceProjectRoot, sourcePkgInfo.packageFile),
-        }
-      );
+      dependencies.push({
+        source: sourceProjectName,
+        target: targetProjectName,
+        type: DependencyType.static,
+        sourceFile: joinPathFragments(
+          sourceProjectRoot,
+          sourcePkgInfo.packageFile
+        ),
+      });
     }
   });
 
@@ -90,14 +93,15 @@ function getDependenciesForProject(
     const depProjectName = workspace.packages[moduleId];
 
     if (depProjectName) {
-      dependencies.push(
-        {
-          source: sourceProjectName,
-          target: depProjectName,
-          type: DependencyType.static,
-          sourceFile: joinPathFragments(sourceProjectRoot, sourcePkgInfo.packageFile)
-        }
-      );
+      dependencies.push({
+        source: sourceProjectName,
+        target: depProjectName,
+        type: DependencyType.static,
+        sourceFile: joinPathFragments(
+          sourceProjectRoot,
+          sourcePkgInfo.packageFile
+        ),
+      });
     }
   });
 
@@ -134,7 +138,7 @@ export function getProjectGraph(
       );
 
       dependencies = dependencies.concat(
-        getDependenciesForProject(pluginName, file.file, source, workspace),
+        getDependenciesForProject(pluginName, file.file, source, workspace)
       );
     }
   }
@@ -144,45 +148,63 @@ export function getProjectGraph(
   }
 
   return builder.getUpdatedProjectGraph();
-
 }
 
 // Project Graph V2
 
-
-export const createNodesFor = (projectFiles: string[], projectFilter: (project: { root: string }) => boolean, pluginName: string) =>
+export const createNodesFor = <T = unknown>(
+  projectFiles: string[],
+  projectFilter: (project: { root: string }) => boolean,
+  getProjectTypeAndTargets: (
+    projectFile: string,
+    options?: T
+  ) => {
+    projectType: ProjectType;
+    targets: {
+      [targetName: string]: TargetConfiguration;
+    };
+  },
+  pluginName: string
+) =>
   [
     `**/{${projectFiles.join(',')}}` as string,
     (
       file: string,
-      opt: unknown,
-      context: CreateNodesContext,
+      options: T,
+      context: CreateNodesContext
     ): CreateNodesResult => {
-
       if (!projectFilter({ root: getProjectRootFromFile(file) })) {
         return {}; // back off if the file/project does not match the criteria
       }
 
-      const { root, name } = getNameAndRoot(file);
+      const root = dirname(file);
+
+      // eslint-disable-next-line no-useless-escape -- eslint's wrong
+      const parts = root.split(/[\/\\]/g);
+      const name = parts[parts.length - 1].toLowerCase();
 
       return {
         projects: {
           [name]: {
             name,
             root,
+            ...(isNxCrystalEnabled()
+              ? getProjectTypeAndTargets(file, options)
+              : {}),
             tags: [`type:${pluginName.replace('@nxrocks/', '')}`],
           },
         },
       };
-    }
+    },
   ] as const;
 
-
-export const createDependenciesIf = (pluginName: string,
+export const createDependenciesIf = (
+  pluginName: string,
   projectFiles: string[],
   projectFilter: (project: { root: string }) => boolean,
   getPackageInfo: (project: { root: string }) => PackageInfo,
-  ctx: CreateDependenciesContext) => {
+  ctx: CreateDependenciesContext
+) => {
   if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
     logger.debug(
       `[${pluginName}]: Looking related projects inside the workspace...`
@@ -206,13 +228,13 @@ export const createDependenciesIf = (pluginName: string,
         );
 
         dependencies = dependencies.concat(
-          getDependenciesForProject(pluginName, file.file, source, workspace),
+          getDependenciesForProject(pluginName, file.file, source, workspace)
         );
       }
     }
   }
 
-  dependencies.forEach(dep => validateDependency(dep, ctx));
+  dependencies.forEach((dep) => validateDependency(dep, ctx));
 
   return dependencies;
-}
+};

@@ -13,7 +13,11 @@ import {
 } from './index';
 import { fileExists } from '@nx/workspace/src/utilities/fileutils';
 import { resolve } from 'path';
-import { stripIndent, getProjectFileContent, getCurrentAndParentFolder } from '@nxrocks/common';
+import {
+  stripIndent,
+  getProjectFileContent,
+  getNameAndRoot,
+} from '@nxrocks/common';
 import { XMLBuilder } from 'xmlbuilder2/lib/interfaces';
 
 export const SPOTLESS_MAVEN_PLUGIN_GROUP_ID = 'com.diffplug.spotless';
@@ -28,17 +32,35 @@ function readPomXml(tree: Tree, rootFolder: string): XMLBuilder | null {
 }
 
 export function hasMavenPlugin(
+  cwd: string,
+  groupId: string,
+  artifactId: string,
+  version?: string
+): boolean {
+  const pomXmlStr = getProjectFileContent({ root: cwd }, `pom.xml`);
+  const pomXml = readXml(pomXmlStr);
+
+  return hasMavenPluginBase(pomXml, groupId, artifactId, version);
+}
+
+export function hasMavenPluginInTree(
   tree: Tree,
   rootFolder: string,
   groupId: string,
   artifactId: string,
   version?: string
 ): boolean {
-
   const pomXml = readPomXml(tree, rootFolder);
+  return hasMavenPluginBase(pomXml, groupId, artifactId, version);
+}
 
-  if (pomXml === null)
-    return false;
+function hasMavenPluginBase(
+  pomXml: XMLBuilder | null,
+  groupId: string,
+  artifactId: string,
+  version?: string
+): boolean {
+  if (pomXml === null) return false;
 
   let pluginXPath = `/project/build/plugins/plugin/groupId/text()[.="${groupId}"]/../../artifactId/text()[.="${artifactId}"]`;
   if (version) {
@@ -56,8 +78,7 @@ export function hasMavenProperty(
 ): boolean {
   const pomXml = readPomXml(tree, rootFolder);
 
-  if (pomXml === null)
-    return false;
+  if (pomXml === null) return false;
 
   const propertyXPath = value
     ? `/project/properties/${property}/text()[.="${value}"]`
@@ -77,10 +98,9 @@ export function addMavenPlugin(
 ): boolean {
   const pomXml = readPomXml(tree, rootFolder);
 
-  if (pomXml === null)
-    return false;
+  if (pomXml === null) return false;
 
-  if (hasMavenPlugin(tree, rootFolder, groupId, artifactId, version)) {
+  if (hasMavenPluginInTree(tree, rootFolder, groupId, artifactId, version)) {
     return false; // plugin already exists
   }
 
@@ -106,8 +126,7 @@ export function addMavenPlugin(
   let pluginsNode = findXmlMatching(pomXml, '/project/build/plugins');
   if (!pluginsNode) {
     // make sure the <plugins> node exists
-    if (!buildNode)
-      return false;
+    if (!buildNode) return false;
 
     addXmlNode(buildNode, {
       plugins: {},
@@ -117,24 +136,25 @@ export function addMavenPlugin(
 
   const pluginNode =
     (configuration || executions) &&
-      (typeof configuration === 'object' || typeof executions === 'object')
+    (typeof configuration === 'object' || typeof executions === 'object')
       ? {
-        plugin: {
-          groupId: groupId,
-          artifactId: artifactId,
-          ...(version && { version: version }),
-          ...(configuration && { configuration: configuration }),
-          ...(executions && { executions: executions }),
-        },
-      }
+          plugin: {
+            groupId: groupId,
+            artifactId: artifactId,
+            ...(version && { version: version }),
+            ...(configuration && { configuration: configuration }),
+            ...(executions && { executions: executions }),
+          },
+        }
       : `<plugin>
             <groupId>${groupId}</groupId>
             <artifactId>${artifactId}</artifactId>
             ${version ? `<version>${version}</version>` : ''}
-            ${configuration
-        ? `<configuration>${configuration}</configuration>`
-        : ''
-      }
+            ${
+              configuration
+                ? `<configuration>${configuration}</configuration>`
+                : ''
+            }
             ${executions ? `<executions>${executions}</executions>` : ''}
         </plugin>`;
 
@@ -157,8 +177,7 @@ export function removeMavenPlugin(
 ): boolean {
   const pomXml = readPomXml(tree, rootFolder);
 
-  if (pomXml === null)
-    return false;
+  if (pomXml === null) return false;
 
   const pluginNode = findXmlMatching(
     pomXml,
@@ -197,8 +216,7 @@ export function addMavenProperty(
 ): boolean {
   const pomXml = readPomXml(tree, rootFolder);
 
-  if (pomXml === null)
-    return false;
+  if (pomXml === null) return false;
 
   if (hasMavenProperty(tree, rootFolder, property, value)) {
     return false; // property already exists
@@ -299,10 +317,11 @@ export function getMavenSpotlessConfig(
                     <!-- Clean up -->
                     <removeUnusedImports/>
 
-                    <!-- Apply ${jdkVersion && jdkVersion >= 11
-            ? 'ktfmt formatter(similar to google-java-format, but for Kotlin)'
-            : 'ktlint formatter'
-          } -->
+                    <!-- Apply ${
+                      jdkVersion && jdkVersion >= 11
+                        ? 'ktfmt formatter(similar to google-java-format, but for Kotlin)'
+                        : 'ktlint formatter'
+                    } -->
                     ${jdkVersion && jdkVersion >= 11 ? '<ktfmt/>' : '<ktlint/>'}
 
                 </kotlin>`,
@@ -352,15 +371,15 @@ export function addSpotlessMavenPlugin(
   );
 }
 
-export function hasMultiModuleMavenProjectInTree(tree: Tree, rootFolder: string) {
-
-  if (!isMavenProjectInTree(tree, rootFolder))
-    return false;
+export function hasMultiModuleMavenProjectInTree(
+  tree: Tree,
+  rootFolder: string
+) {
+  if (!isMavenProjectInTree(tree, rootFolder)) return false;
 
   const pomXml = readPomXml(tree, rootFolder);
 
-  if (pomXml === null)
-    return false;
+  if (pomXml === null) return false;
 
   const modulesXpath = `/project/modules`;
 
@@ -368,9 +387,7 @@ export function hasMultiModuleMavenProjectInTree(tree: Tree, rootFolder: string)
 }
 
 export function hasMultiModuleMavenProject(cwd: string) {
-
-  if (!hasMavenProject(cwd))
-    return false;
+  if (!hasMavenProject(cwd)) return false;
 
   const pomXmlStr = getProjectFileContent({ root: cwd }, `pom.xml`);
   const pomXml = readXml(pomXmlStr);
@@ -380,15 +397,16 @@ export function hasMultiModuleMavenProject(cwd: string) {
   return hasXmlMatching(pomXml, modulesXpath);
 }
 
-export function hasMavenModuleInTree(tree: Tree, rootFolder: string, moduleName: string) {
-
-  if (!hasMultiModuleMavenProjectInTree(tree, rootFolder))
-    return false;
+export function hasMavenModuleInTree(
+  tree: Tree,
+  rootFolder: string,
+  moduleName: string
+) {
+  if (!hasMultiModuleMavenProjectInTree(tree, rootFolder)) return false;
 
   const pomXml = readPomXml(tree, rootFolder);
 
-  if (pomXml === null)
-    return false;
+  if (pomXml === null) return false;
 
   const modulesXpath = `/project/modules/module/text()[.="${moduleName}"]`;
 
@@ -396,9 +414,7 @@ export function hasMavenModuleInTree(tree: Tree, rootFolder: string, moduleName:
 }
 
 export function hasMavenModule(cwd: string, moduleName: string) {
-
-  if (!hasMultiModuleMavenProject(cwd))
-    return false;
+  if (!hasMultiModuleMavenProject(cwd)) return false;
 
   const pomXmlStr = getProjectFileContent({ root: cwd }, `pom.xml`);
   const pomXml = readXml(pomXmlStr);
@@ -411,22 +427,19 @@ export function hasMavenModule(cwd: string, moduleName: string) {
 export function addMavenModule(
   tree: Tree,
   rootFolder: string,
-  moduleName: string,
+  moduleName: string
 ) {
-
-  if (hasMavenModuleInTree(tree, rootFolder, moduleName))
-    return false;
+  if (hasMavenModuleInTree(tree, rootFolder, moduleName)) return false;
 
   const pomXml = readPomXml(tree, rootFolder);
 
-  if (pomXml === null)
-    return false;
+  if (pomXml === null) return false;
 
   const modulesNode = findXmlMatching(pomXml, `/project/modules`);
 
   if (modulesNode) {
     addXmlNode(modulesNode, {
-      module: moduleName
+      module: moduleName,
     });
     tree.write(
       `${rootFolder}/pom.xml`,
@@ -438,10 +451,16 @@ export function addMavenModule(
   return false;
 }
 
-export function initMavenParentModule(tree: Tree, rootFolder: string, groupId: string, parentModuleName: string, childModuleName: string, helpComment = '', version = 'O.0.1-SNAPSHOT') {
-
-  const parentPomXml =
-    `<?xml version="1.0" encoding="UTF-8"?>
+export function initMavenParentModule(
+  tree: Tree,
+  rootFolder: string,
+  groupId: string,
+  parentModuleName: string,
+  childModuleName: string,
+  helpComment = '',
+  version = 'O.0.1-SNAPSHOT'
+) {
+  const parentPomXml = `<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -464,9 +483,7 @@ export function initMavenParentModule(tree: Tree, rootFolder: string, groupId: s
 }
 
 export function getMavenModules(cwd: string) {
-
-  if (!hasMultiModuleMavenProject(cwd))
-    return [];
+  if (!hasMultiModuleMavenProject(cwd)) return [];
 
   const pomXmlStr = getProjectFileContent({ root: cwd }, `pom.xml`);
   const pomXml = readXml(pomXmlStr);
@@ -484,26 +501,31 @@ export function getMavenWrapperFiles() {
     '.mvn/wrapper/maven-wrapper.properties',
     '.mvn/wrapper/MavenWrapperDownloader.class',
     '.mvn/wrapper/MavenWrapperDownloader.java',
-    '.mvn/wrapper/maven-wrapper.jar'
+    '.mvn/wrapper/maven-wrapper.jar',
   ];
 }
 
 export function hasMavenWrapperInTree(tree: Tree, rootFolder: string) {
-  return hasMavenWrapperWithPredicate((file: string) => tree.exists(`./${rootFolder}/${file}`));
+  return hasMavenWrapperWithPredicate((file: string) =>
+    tree.exists(`./${rootFolder}/${file}`)
+  );
 }
 
 export function hasMavenWrapper(rootFolder: string) {
-  return hasMavenWrapperWithPredicate((file: string) => fileExists(resolve(rootFolder, file)));
+  return hasMavenWrapperWithPredicate((file: string) =>
+    fileExists(resolve(rootFolder, file))
+  );
 }
 
-export function getCoordinatesForMavenProjet(cwd: string): { groupId?: string | null, artifactId?: string | null } {
-
+export function getCoordinatesForMavenProjet(cwd: string): {
+  groupId?: string | null;
+  artifactId?: string | null;
+} {
   const pomXmlStr = getProjectFileContent({ root: cwd }, 'pom.xml');
   const pomXmlNode = readXml(pomXmlStr);
 
   let groupId = findXmlContent(pomXmlNode, `/project/groupId/text()`);
   const artifactId = findXmlContent(pomXmlNode, `/project/artifactId/text()`);
-
 
   if (!groupId && artifactId) {
     // groupId might be defined at parent module level,  continue searching for it
@@ -514,14 +536,13 @@ export function getCoordinatesForMavenProjet(cwd: string): { groupId?: string | 
 }
 
 function getGroupIdInHierarchy(cwd: string): string | undefined {
+  const { root, name } = getNameAndRoot(cwd);
 
-  const { parentFolder: root, currentFolder: name } = getCurrentAndParentFolder(cwd);
-
-  if (root === '.') // we reach the root of the workspace without finding the groupId, so we stop the search
-  return undefined;
-  
-  if (!hasMavenModule(root, name))
+  if (root === '.')
+    // we reach the root of the workspace without finding the groupId, so we stop the search
     return undefined;
+
+  if (!hasMavenModule(root, name)) return undefined;
 
   const pomXmlStr = getProjectFileContent({ root }, 'pom.xml');
   const pomXmlNode = readXml(pomXmlStr);
@@ -532,17 +553,15 @@ function getGroupIdInHierarchy(cwd: string): string | undefined {
 }
 
 function hasMavenWrapperWithPredicate(predicate: (file: string) => boolean) {
-  return [
-    'mvnw',
-    '.mvn/wrapper/maven-wrapper.properties'
-  ].every(file => predicate(file)) &&
-    [
-      'mvnw.bat',
-      'mvnw.cmd',
-    ].some(file => predicate(file)) &&
+  return (
+    ['mvnw', '.mvn/wrapper/maven-wrapper.properties'].every((file) =>
+      predicate(file)
+    ) &&
+    ['mvnw.bat', 'mvnw.cmd'].some((file) => predicate(file)) &&
     [
       '.mvn/wrapper/MavenWrapperDownloader.class',
       '.mvn/wrapper/MavenWrapperDownloader.java',
-      '.mvn/wrapper/maven-wrapper.jar'
-    ].some(file => predicate(file));
+      '.mvn/wrapper/maven-wrapper.jar',
+    ].some((file) => predicate(file))
+  );
 }

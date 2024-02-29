@@ -1,10 +1,31 @@
-import { NxJsonConfiguration, Tree, readJson, writeJson } from '@nx/devkit';
+import { Tree, readNxJson, updateNxJson } from '@nx/devkit';
 
-export function addPluginToNxJson(pluginName: string, tree: Tree, ...cacheableOperations: string[]) {
-  const nxJson = readJson<NxJsonConfiguration>(tree, 'nx.json');
-  nxJson.plugins = nxJson.plugins || [];
-  if (!nxJson.plugins.includes(pluginName)) {
-    nxJson.plugins.push(pluginName);
+export function addPluginToNxJson<T = unknown>(
+  pluginName: string,
+  tree: Tree,
+  options?: T,
+  ...cacheableOperations: string[]
+) {
+  //
+  const nxJson = readNxJson(tree);
+
+  if (!nxJson) {
+    throw new Error(
+      `${pluginName} requires nx.json to be present in the workspace`
+    );
+  }
+
+  nxJson.plugins ??= [];
+
+  if (
+    !nxJson.plugins.some((p) =>
+      typeof p === 'string' ? p === pluginName : p.plugin === pluginName
+    )
+  ) {
+    nxJson.plugins.push({
+      plugin: pluginName,
+      ...(options ? { options } : {}),
+    });
   }
 
   nxJson.targetDefaults ??= {};
@@ -13,5 +34,5 @@ export function addPluginToNxJson(pluginName: string, tree: Tree, ...cacheableOp
     nxJson.targetDefaults[target].cache ??= true;
   }
 
-  writeJson(tree, 'nx.json', nxJson);
+  updateNxJson(tree, nxJson);
 }

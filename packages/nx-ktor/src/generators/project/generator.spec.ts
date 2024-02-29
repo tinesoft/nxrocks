@@ -10,7 +10,7 @@ import {
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { projectGenerator } from './generator';
-import { ProjectGeneratorOptions } from './schema';
+import { NormalizedSchema, ProjectGeneratorOptions } from './schema';
 
 import { Readable } from 'stream';
 
@@ -22,12 +22,15 @@ const { Response } = jest.requireActual('node-fetch');
 import { NX_KTOR_PKG } from '../../index';
 import {
   BuilderCommandAliasType,
-  hasMavenPlugin,
+  hasMavenPluginInTree,
   SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
   SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
 } from '@nxrocks/common-jvm';
 import { mockZipStream } from '@nxrocks/common/testing';
 import { DEFAULT_KTOR_INITIALIZR_URL } from '../../utils/ktor-utils';
+import { normalizeOptions } from './lib';
+import { getProjectTypeAndTargetsFromOptions } from '../../utils/plugin-utils';
+import { normalizePluginOptions } from '../../graph/plugin';
 
 export const POM_XML = `<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -196,9 +199,12 @@ dependencies {
   testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
 `;
+
+const defaultPluginOptions = normalizePluginOptions();
 describe('project generator', () => {
   let tree: Tree;
-  const options: ProjectGeneratorOptions = {
+  let options: NormalizedSchema;
+  const _options: ProjectGeneratorOptions = {
     name: 'ktapp',
     groupId: 'com.tinesoft',
     artifactId: 'ktapp',
@@ -211,8 +217,9 @@ describe('project generator', () => {
   const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
   const mockedResponse = new Response(Readable.from(['ktor.zip']));
 
-  beforeEach(() => {
+  beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace();
+    options = await normalizeOptions(tree, _options);
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream([]));
@@ -263,7 +270,11 @@ describe('project generator', () => {
 
       expect(logger.info).toHaveBeenNthCalledWith(
         3,
-        `📦 Extracting Ktor project zip to '${joinPathFragments(workspaceRoot, rootDir, options.name)}'...`
+        `📦 Extracting Ktor project zip to '${joinPathFragments(
+          workspaceRoot,
+          rootDir,
+          options.name
+        )}'...`
       );
     }
   );
@@ -281,36 +292,58 @@ describe('project generator', () => {
 
     await projectGenerator(tree, options);
     const project = readProjectConfiguration(tree, options.name);
+    project.targets = getProjectTypeAndTargetsFromOptions(options).targets;
     expect(project.root).toBe(`${options.name}`);
 
     const commands: BuilderCommandAliasType[] = [
-      'run',
-      'serve',
-      'test',
-      'clean',
-      'build',
-      'build-image',
-      'publish-image',
-      'publish-image-locally',
-      'run-docker',
+      defaultPluginOptions.installTargetName,
+      defaultPluginOptions.runTargetName,
+      defaultPluginOptions.serveTargetName,
+      defaultPluginOptions.testTargetName,
+      defaultPluginOptions.cleanTargetName,
+      defaultPluginOptions.buildTargetName,
+      defaultPluginOptions.buildImageTargetName,
+      defaultPluginOptions.publishImageTargetName,
+      defaultPluginOptions.publishImageLocallyTargetName,
+      defaultPluginOptions.runDockerTargetName,
     ];
     commands.forEach((cmd) => {
       expect(project.targets?.[cmd].executor).toBe(`${NX_KTOR_PKG}:${cmd}`);
-      if (['build', 'build-image', 'install', 'test'].includes(cmd)) {
+      if (
+        [
+          defaultPluginOptions.buildTargetName,
+          defaultPluginOptions.buildImageTargetName,
+          defaultPluginOptions.installTargetName,
+          defaultPluginOptions.testTargetName,
+        ].includes(cmd)
+      ) {
         expect(project.targets?.[cmd].outputs).toEqual([
           `{workspaceRoot}/${project.root}/target`,
         ]);
       }
       if (
-        ['publish-image', 'publish-image-locally', 'run-docker'].includes(cmd)
+        [
+          defaultPluginOptions.publishImageTargetName,
+          defaultPluginOptions.publishImageLocallyTargetName,
+          defaultPluginOptions.runDockerTargetName,
+        ].includes(cmd)
       ) {
-        expect(project.targets?.[cmd].dependsOn).toEqual(['build-image']);
+        expect(project.targets?.[cmd].dependsOn).toEqual([
+          defaultPluginOptions.buildImageTargetName,
+        ]);
       }
 
       if (
-        ['build', 'install', 'run', 'serve'].includes(cmd)
+        [
+          defaultPluginOptions.buildTargetName,
+          defaultPluginOptions.installTargetName,
+          defaultPluginOptions.runTargetName,
+          defaultPluginOptions.serveTargetName,
+        ].includes(cmd)
       ) {
-        expect(project.targets?.[cmd].dependsOn).toEqual(['^install']);
+        expect(project.targets?.[cmd].dependsOn).toEqual([
+          `^${defaultPluginOptions.installTargetName}`,
+        ]);
       }
     });
   });
@@ -328,7 +361,28 @@ describe('project generator', () => {
 
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
-    expect(nxJson.plugins).toEqual([NX_KTOR_PKG]);
+    expect(nxJson.plugins).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "options": Object {
+            "applyFormatTargetName": "apply-format",
+            "buildImageTargetName": "build-image",
+            "buildTargetName": "build",
+            "checkFormatTargetName": "check-format",
+            "cleanTargetName": "clean",
+            "formatTargetName": "format",
+            "installTargetName": "install",
+            "publishImageLocallyTargetName": "publish-image-locally",
+            "publishImageTargetName": "publish-image",
+            "runDockerTargetName": "run-docker",
+            "runTargetName": "run",
+            "serveTargetName": "serve",
+            "testTargetName": "test",
+          },
+          "plugin": "@nxrocks/nx-ktor",
+        },
+      ]
+    `);
   });
 
   it.each`
@@ -351,7 +405,11 @@ describe('project generator', () => {
       await projectGenerator(tree, { ...options, skipFormat });
 
       const project = readProjectConfiguration(tree, options.name);
-      const formatCommands = ['format', 'apply-format', 'check-format'];
+      const formatCommands = [
+        defaultPluginOptions.formatTargetName,
+        defaultPluginOptions.applyFormatTargetName,
+        defaultPluginOptions.checkFormatTargetName,
+      ];
 
       if (skipFormat) {
         // expect project.targets not to have the format commands
@@ -359,13 +417,14 @@ describe('project generator', () => {
           expect(project.targets?.[cmd]).toBeUndefined();
         });
       } else {
+        project.targets = getProjectTypeAndTargetsFromOptions(options).targets;
         // expect project.targets to have the format commands
         formatCommands.forEach((cmd) => {
           expect(project.targets?.[cmd].executor).toBe(`${NX_KTOR_PKG}:${cmd}`);
         });
       }
       expect(
-        hasMavenPlugin(
+        hasMavenPluginInTree(
           tree,
           `./${options.name}`,
           SPOTLESS_MAVEN_PLUGIN_GROUP_ID,

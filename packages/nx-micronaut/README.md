@@ -33,11 +33,10 @@ Here is a list of some of the coolest features of the plugin:
 <details open>
 <summary>📢 ℹ️ 🆕 <b>HEADS UP!</b> New <b>simplified</b> setup since <i>October 2023</i>, with our custom <b>CLI</b>!</summary>
 
-
 > You can now use our own `create-nx-micronaut` **CLI** to easily create a Nx workspace, that comes with this plugin pre-installed!
-> 
+>
 > Simply run:
-> 
+>
 > ```
 > # npm
 > npx create-nx-micronaut@latest
@@ -45,13 +44,12 @@ Here is a list of some of the coolest features of the plugin:
 > # yarn
 > yarn create nx-micronaut
 > ```
-> 
+>
 > and you are good to go‧o‧o‧o! 🚀
-> 
+>
 > More information here: [create-nx-micronaut](../packages/create-nx-micronaut/README.md)
 
 </details>
-
 
 Otherwise, this is the traditional way of setting things up:
 
@@ -78,6 +76,7 @@ npm install @nxrocks/nx-micronaut --save-dev
 # yarn
 yarn add @nxrocks/nx-micronaut --dev
 ```
+
 ## Generators
 
 This plugin is composed of 2 main **generators**:
@@ -111,25 +110,25 @@ Here the list of available generation options :
 | --------- | ------------------------- |
 | `<name>`  | The name of your project. |
 
-| Option                     | Value                                                     | Description                                                                                             |
-| -------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `projectType`              | `default` \| `cli` \| `function` \| `grpc` \| `messaging` | Type of application to generate                                                                         |
-| `buildSystem`              | `MAVEN` \| `GRADLE` \| `GRADLE_KOTLIN`                    | Build system                                                                                            |
-| `basePackage`              | `string`                                                  | Base package of the project                                                                             |
-| `javaVersion`              | `JDK_8` \| `JDK_11` \| `JDK_17`                           | Java version to use                                                                                     |
-| `language`                 | `JAVA` \| `GROOVY` \| `KOTLIN`                            | Language to use                                                                                         |
-| `testFramework`            | `JUNIT` \| `SPOCK` \| `KOTEST`                            | Test Framework to use                                                                                   |
-| `skipFormat`               | `boolean`                                                 | Do not add the ability to format code (using Spotless plugin)                                           |
-| `features`                 | `string`                                                  | List of features to use (comma-separated). Go to https://micronaut.io/launch to get the ids needed here |
-| `transformIntoMultiModule` | `boolean`                                                 | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information               |
-| `addToExistingParentModule`| `boolean`                                                 | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information               |
-| `parentModuleName`         | `string`                                                  | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information               |
-| `keepProjectLevelWrapper`  | `boolean`                                                 | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information               |
-| `micronautVersion`         | `current` \| `snapshot` \| `previous`                     | Micronaut version to use                                                                                |
-| `micronautLaunchUrl`       | `https://launch.micronaut.io`                             | URL to the Micronaut Launch instance to use                                                             |
-| `proxyUrl`                 |                                                           | The URL of the (corporate) proxy server to use to access Micronaut Launch                               |
-| `tags`                     | `string`                                                  | Tags to use for linting (comma-separated)                                                               |
-| `directory`                | `string`                                                  | Directory where the project is placed                                                                   |
+| Option                      | Value                                                     | Description                                                                                                                                                                                               |
+| --------------------------- | --------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `projectType`               | `default` \| `cli` \| `function` \| `grpc` \| `messaging` | Type of application to generate                                                                                                                                                                           |
+| `buildSystem`               | `MAVEN` \| `GRADLE` \| `GRADLE_KOTLIN`                    | Build system                                                                                                                                                                                              |
+| `basePackage`               | `string`                                                  | Base package of the project                                                                                                                                                                               |
+| `javaVersion`               | `JDK_8` \| `JDK_11` \| `JDK_17`                           | Java version to use                                                                                                                                                                                       |
+| `language`                  | `JAVA` \| `GROOVY` \| `KOTLIN`                            | Language to use                                                                                                                                                                                           |
+| `testFramework`             | `JUNIT` \| `SPOCK` \| `KOTEST`                            | Test Framework to use                                                                                                                                                                                     |
+| `skipFormat`                | `boolean`                                                 | Do not add the ability to format code (using Spotless plugin)                                                                                                                                             |
+| `features`                  | `string`                                                  | List of features to use (comma-separated). Go to https://micronaut.io/launch to get the ids needed here                                                                                                   |
+| `transformIntoMultiModule`  | `boolean`                                                 | Transform the project into a multi-module project. Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information                                                      |
+| `addToExistingParentModule` | `boolean`                                                 | Add the project into an existing parent module project. Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information                                                 |
+| `parentModuleName`          | `string`                                                  | Name of the parent module to create or to add child project into. Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information                                       |
+| `keepProjectLevelWrapper`   | `boolean`                                                 | Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Go to [recipes](recipes/README.md#creating-multi-modules-micronaut-projects) for more information |
+| `micronautVersion`          | `current` \| `snapshot` \| `previous`                     | Micronaut version to use                                                                                                                                                                                  |
+| `micronautLaunchUrl`        | `https://launch.micronaut.io`                             | URL to the Micronaut Launch instance to use                                                                                                                                                               |
+| `proxyUrl`                  |                                                           | The URL of the (corporate) proxy server to use to access Micronaut Launch                                                                                                                                 |
+| `tags`                      | `string`                                                  | Tags to use for linting (comma-separated)                                                                                                                                                                 |
+| `directory`                 | `string`                                                  | Directory where the project is placed                                                                                                                                                                     |
 
 > **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
 > Otherwise, you'll get a [ETIMEDOUT error](https://github.com/tinesoft/nxrocks/issues/125) when trying to access official Micronaut Launch to generate the project.
@@ -289,6 +288,7 @@ Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This ta
 
 | Plugin Version | Nx Workspace version |
 | -------------- | -------------------- |
+| `>=v6.x.x`     | `>=v18.x.x`          |
 | `>=v5.x.x`     | `>=v17.x.x`          |
 | `>=v4.x.x`     | `>=v16.x.x`          |
 | `>=v3.x.x`     | `>=v15.8.x`          |

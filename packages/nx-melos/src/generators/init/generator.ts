@@ -12,7 +12,7 @@ export async function initGenerator(tree: Tree, options: InitGeneratorOptions) {
   await installMelosPackageGlobally();
   await generateMelosConfigurationFile(tree);
   addMelosScriptsToPackageJson(tree, options);
-  addPluginToNxJson(NX_MELOS_PKG, tree);
+  addPluginToNxJson(NX_MELOS_PKG, tree, null);
   await formatFiles(tree);
 }
 

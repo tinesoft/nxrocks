@@ -10,7 +10,7 @@ import {
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 
 import { projectGenerator } from './generator';
-import { ProjectGeneratorOptions } from './schema';
+import { NormalizedSchema, ProjectGeneratorOptions } from './schema';
 
 import { Readable } from 'stream';
 
@@ -22,13 +22,16 @@ const { Response } = jest.requireActual('node-fetch');
 import { NX_SPRING_BOOT_PKG } from '../../index';
 import {
   stripIndent,
-
-  hasMavenPlugin,
+  hasMavenPluginInTree,
   SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
   SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
+  BuilderCommandAliasType,
 } from '@nxrocks/common-jvm';
 import { mockZipStream } from '@nxrocks/common/testing';
 import { DEFAULT_SPRING_INITIALIZR_URL } from '../../utils/boot-utils';
+import { getProjectTypeAndTargetsFromOptions } from '../../utils/plugin-utils';
+import { normalizeOptions } from './lib';
+import { normalizePluginOptions } from '../../graph/plugin';
 
 export const POM_XML = `<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -119,9 +122,11 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }`;
 
+const defaultPluginOptions = normalizePluginOptions();
 describe('project generator', () => {
   let tree: Tree;
-  const options: ProjectGeneratorOptions = {
+  let options: NormalizedSchema;
+  const _options: ProjectGeneratorOptions = {
     name: 'bootapp',
     projectType: 'application',
     springInitializerUrl: DEFAULT_SPRING_INITIALIZR_URL,
@@ -132,8 +137,10 @@ describe('project generator', () => {
   const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
   const mockedResponse = new Response(Readable.from(['starter.zip']));
 
-  beforeEach(() => {
+  beforeEach(async () => {
     tree = createTreeWithEmptyWorkspace();
+    options = await normalizeOptions(tree, _options);
+
     jest.spyOn(logger, 'info');
     jest.spyOn(logger, 'debug');
     jest.spyOn(mockedResponse.body, 'pipe').mockReturnValue(mockZipStream([]));
@@ -192,7 +199,11 @@ describe('project generator', () => {
 
       expect(logger.info).toHaveBeenNthCalledWith(
         3,
-        `📦 Extracting Spring Boot project zip to '${joinPathFragments(workspaceRoot, rootDir, options.name)}'...`
+        `📦 Extracting Spring Boot project zip to '${joinPathFragments(
+          workspaceRoot,
+          rootDir,
+          options.name
+        )}'...`
       );
 
       if (projectType === 'library') {
@@ -205,8 +216,7 @@ describe('project generator', () => {
             2,
             `Generating sample files for library project...`
           );
-        }
-        else {
+        } else {
           expect(logger.debug).toHaveBeenNthCalledWith(
             1,
             `Disabling 'spring-boot' gradle plugin on a library project...`
@@ -221,9 +231,11 @@ describe('project generator', () => {
             `Generating sample files for library project...`
           );
         }
-
       } else {
-        if (buildSystem === 'gradle-project' || buildSystem === 'gradle-project-kotlin') {
+        if (
+          buildSystem === 'gradle-project' ||
+          buildSystem === 'gradle-project-kotlin'
+        ) {
           expect(logger.debug).toHaveBeenNthCalledWith(
             1,
             `Adding 'buildInfo' task to the ${buildFile} file...`
@@ -258,18 +270,22 @@ describe('project generator', () => {
       await projectGenerator(tree, { ...options, projectType });
 
       const project = readProjectConfiguration(tree, options.name);
+      project.targets = getProjectTypeAndTargetsFromOptions(options).targets;
       expect(project.root).toBe(`${options.name}`);
 
-      const commands = [
-        'build',
-        'install',
-        'format',
-        'apply-format',
-        'check-format',
-        'test',
-        'clean',
+      const commands: BuilderCommandAliasType[] = [
+        defaultPluginOptions.buildTargetName,
+        defaultPluginOptions.installTargetName,
+        defaultPluginOptions.testTargetName,
+        defaultPluginOptions.cleanTargetName,
       ];
-      const appOnlyCommands = ['run', 'serve', 'build-image', 'build-info'];
+
+      const appOnlyCommands = [
+        defaultPluginOptions.runTargetName,
+        defaultPluginOptions.serveTargetName,
+        defaultPluginOptions.buildImageTargetName,
+        defaultPluginOptions.buildInfoTargetName,
+      ];
 
       if (projectType === 'application') {
         commands.push(...appOnlyCommands);
@@ -279,16 +295,30 @@ describe('project generator', () => {
         expect(project.targets?.[cmd].executor).toBe(
           `${NX_SPRING_BOOT_PKG}:${cmd}`
         );
-        if (['build', 'build-image', 'install', 'test'].includes(cmd)) {
+        if (
+          [
+            defaultPluginOptions.buildTargetName,
+            defaultPluginOptions.buildImageTargetName,
+            defaultPluginOptions.installTargetName,
+            defaultPluginOptions.testTargetName,
+          ].includes(cmd)
+        ) {
           expect(project.targets?.[cmd].outputs).toEqual([
             `{workspaceRoot}/${project.root}/target`,
           ]);
         }
 
         if (
-          ['build', 'install', 'serve', 'run'].includes(cmd)
+          [
+            defaultPluginOptions.buildTargetName,
+            defaultPluginOptions.installTargetName,
+            defaultPluginOptions.serveTargetName,
+            defaultPluginOptions.runTargetName,
+          ].includes(cmd)
         ) {
-          expect(project.targets?.[cmd].dependsOn).toEqual(['^install']);
+          expect(project.targets?.[cmd].dependsOn).toEqual([
+            `^${defaultPluginOptions.installTargetName}`,
+          ]);
         }
       });
     }
@@ -308,7 +338,26 @@ describe('project generator', () => {
     await projectGenerator(tree, options);
 
     const nxJson = readJson(tree, 'nx.json');
-    expect(nxJson.plugins).toEqual([NX_SPRING_BOOT_PKG]);
+    expect(nxJson.plugins).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "options": Object {
+            "applyFormatTargetName": "apply-format",
+            "buildImageTargetName": "build-image",
+            "buildInfoTargetName": "build-info",
+            "buildTargetName": "build",
+            "checkFormatTargetName": "check-format",
+            "cleanTargetName": "clean",
+            "formatTargetName": "format",
+            "installTargetName": "install",
+            "runTargetName": "run",
+            "serveTargetName": "serve",
+            "testTargetName": "test",
+          },
+          "plugin": "@nxrocks/nx-spring-boot",
+        },
+      ]
+    `);
   });
 
   it.each`
@@ -338,7 +387,7 @@ describe('project generator', () => {
 
       const expectedResult = projectType === 'application';
       expect(
-        hasMavenPlugin(
+        hasMavenPluginInTree(
           tree,
           `./${options.name}`,
           'org.springframework.boot',
@@ -373,10 +422,7 @@ describe('project generator', () => {
 
       await projectGenerator(tree, opts);
 
-      const buildGradle = tree.read(
-        `./${options.name}/build.gradle`,
-        'utf-8'
-      );
+      const buildGradle = tree.read(`./${options.name}/build.gradle`, 'utf-8');
 
       const dependencyManagement = stripIndent`
     dependencyManagement {
@@ -420,7 +466,13 @@ describe('project generator', () => {
       await projectGenerator(tree, { ...options, skipFormat });
 
       const project = readProjectConfiguration(tree, options.name);
-      const formatCommands = ['format', 'apply-format', 'check-format'];
+      if (!skipFormat)
+        project.targets = getProjectTypeAndTargetsFromOptions(options).targets;
+      const formatCommands = [
+        defaultPluginOptions.formatTargetName,
+        defaultPluginOptions.applyFormatTargetName,
+        defaultPluginOptions.checkFormatTargetName,
+      ];
 
       if (skipFormat) {
         // expect project.targets not to have the format commands
@@ -437,7 +489,7 @@ describe('project generator', () => {
       }
 
       expect(
-        hasMavenPlugin(
+        hasMavenPluginInTree(
           tree,
           `./${options.name}`,
           SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
