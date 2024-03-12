@@ -20,7 +20,7 @@
     "run-migrate": "nx migrate --run-migrations --if-exists",
     "graph": "nx graph",
     "help": "nx help",
-    "release": "DEBUG=true nx run-many --target semantic-release --exclude=smoke --verbose --output-style stream",
+    "release": "nx release --dry-run",
     "prepare": "husky install",
     "smoke": "FORCE_SMOKE_TESTS=true nx test smoke",
     "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true pnpm smoke",

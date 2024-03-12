@@ -2,6 +2,22 @@
   "affected": {
     "defaultBase": "origin/develop"
   },
+  "release": {
+    "projects": ["packages/*"],
+    "projectsRelationship": "independent",
+    "releaseTagPattern": "{projectName}/v{version}",
+    "git": {
+      "commitMessage": "chore(release): 🚀 release {version}"
+    },
+    "changelog": {
+      "projectChangelogs": {
+        "createRelease": "github"
+      }      
+    },
+    "version": {
+      "conventionalCommits": true
+    }
+  },
   "tasksRunnerOptions": {
     "default": {
       "options": {
@@ -12,7 +28,6 @@
     }
   },
   "workspaceLayout": {
-    "projectNameAndRootFormat": "derived",
     "appsDir": "e2e",
     "libsDir": "packages"
   },
@@ -47,7 +62,13 @@
     },
     "install": {
       "cache": true
-    }
+    },
+    "nx-release-publish": {
+      "dependsOn": ["build"],
+      "options": {
+          "packageRoot": "{workspaceRoot}/dist/packages/{projectName}"
+      }
+   }
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],

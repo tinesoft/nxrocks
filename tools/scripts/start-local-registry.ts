@@ -3,9 +3,10 @@
  * It is meant to be called in jest's globalSetup.
  */
 import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
-import { execFileSync } from 'child_process';
+import { releasePublish, releaseVersion } from 'nx/release';
 
 export default async () => {
+
   if(process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP && process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP !== 'false') {
     console.log("Environment variable 'SKIP_LOCAL_REGISTRY_GLOBAL_SETUP' is set. Skipping global setup of Verdaccio's Local Registry...");
     return;
@@ -15,15 +16,26 @@ export default async () => {
   const localRegistryTarget = 'nxrocks:local-registry';
   // storage folder for the local registry
   const storage = './tmp/local-registry/storage';
+
   global.stopLocalRegistry = await startLocalRegistry({
     localRegistryTarget,
     storage,
     verbose: false,
   });
-  const nx = require.resolve('nx');
-  execFileSync(
-    nx,
-    ['affected', '--target', 'publish', '--ver', '0.0.0-e2e', '--tag', 'latest', '--output-style', 'stream'],
-    { env: process.env, stdio: 'inherit' }
-  );
+
+  await releaseVersion({
+    specifier: '0.0.0-e2e',
+    stageChanges: false,
+    gitCommit: false,
+    gitTag: false,
+    firstRelease: true,
+    //FIXME TKO: not released yet
+    //generatorOptionsOverrides: {
+    //  skipLockFileUpdate: true,
+    //},
+  });
+  await releasePublish({
+    tag: 'e2e',
+    firstRelease: true,
+  });
 };
