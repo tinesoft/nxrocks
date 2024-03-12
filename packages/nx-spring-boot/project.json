@@ -42,10 +42,6 @@
         ]
       }
     },
-    "publish": {
-      "command": "node tools/scripts/publish.mjs nx-spring-boot {args.ver} {args.tag}",
-      "dependsOn": ["build"]
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
@@ -64,9 +60,6 @@
       "options": {
         "jestConfig": "packages/nx-spring-boot/jest.config.ts"
       }
-    },
-    "semantic-release": {
-      "executor": "@theunderscorer/nx-semantic-release:semantic-release"
     }
   },
   "tags": []
