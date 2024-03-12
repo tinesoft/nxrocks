@@ -14,11 +14,13 @@ env:
 jobs:
   release:
     name: Build, Release & Publish
-    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    permissions:
+      contents: read
+      id-token: write # needed for provenance data generation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Checkout the release branch
         run: |
           git fetch --depth=1
@@ -31,6 +33,7 @@ jobs:
         env:
           HUSKY: '0' # By default do not run HUSKY install
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
         run: |
-          pnpm run release --verbose
+          pnpm nx release --yes

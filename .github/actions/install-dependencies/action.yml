@@ -5,7 +5,7 @@ inputs:
   node-version: # id of input
     description: 'Node version'
     required: false
-    default: 18
+    default: 20
 
 runs:
   using: 'composite'
@@ -15,14 +15,14 @@ runs:
         version: 8.2
 
     - name: Use Node.js ${{ inputs.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
         cache: 'pnpm'
 
     - name: Cache node_modules
       id: cache-modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         lookup-only: true
         path: '**/node_modules'
