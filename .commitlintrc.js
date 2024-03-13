@@ -37,6 +37,7 @@ module.exports = {
       // prettier-ignore
       [
         ...packageScopes,
+        "ci",
         "release"
       ],
     ],
