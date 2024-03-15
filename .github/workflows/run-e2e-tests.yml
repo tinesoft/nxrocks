@@ -12,6 +12,7 @@ jobs:
   run_e2e:
     name: Run e2e Tests
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     strategy:
       matrix:
         os: [ubuntu-latest]

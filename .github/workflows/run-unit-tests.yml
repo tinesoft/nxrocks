@@ -10,6 +10,7 @@ jobs:
   run_unit:
     name: Run Unit Tests
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
