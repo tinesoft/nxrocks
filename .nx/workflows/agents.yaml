@@ -1,0 +1,128 @@
+launch-templates:
+  linux-medium-js-java-flutter:
+    resource-class: 'docker_linux_amd64/medium'
+    image: 'ubuntu22.04-node20.9-v2'
+    init-steps:
+      - name: Checkout
+        uses: 'nrwl/nx-cloud-workflows/v3.5/workflow-steps/checkout/main.yaml'
+      - name: Restore Node Modules Cache
+        uses: 'nrwl/nx-cloud-workflows/v3.5/workflow-steps/cache/main.yaml'
+        env:
+          KEY: 'package-lock.json|yarn.lock|pnpm-lock.yaml'
+          PATHS: 'node_modules'
+          BASE_BRANCH: 'main'
+      - name: Restore Maven/Gradle Cache
+        uses: 'nrwl/nx-cloud-workflows/v3.5/workflow-steps/cache/main.yaml'
+        env:
+          KEY: 'pom.xml|build.gradle|build.gradle.kts|settings.gradle|settings.gradle.kts'
+          PATHS: '~/.m2/repository'
+          BASE_BRANCH: 'main'
+
+      - name: Install Node Modules
+        uses: 'nrwl/nx-cloud-workflows/v3.5/workflow-steps/install-node-modules/main.yaml'
+
+      - name: Install required System tools
+        script: |
+          sudo apt-get update -y
+          sudo apt-get -yqq install zip unzip
+
+      - name: Install Flutter
+        script: |
+          flutterVersion="${FLUTTER_VERSION:-3.19.3}"
+          flutterChannel="${FLUTTER_CHANNEL:-stable}"
+
+          flutterPkgName="flutter_linux_${flutterVersion}-${flutterChannel}.tar.xz"
+          flutterPkgUrl="https://storage.googleapis.com/flutter_infra_release/releases/${flutterChannel}/linux/${flutterPkgName}"
+
+          if [ ! -d $HOME/flutter ]
+          then
+            echo "⬇️ Downloading and Installing Flutter from $flutterPkgName..."
+            curl -s -L ${flutterPkgUrl} | tar -xJf - -C $HOME
+            echo "PATH=$HOME/flutter/bin:$PATH" >> $NX_CLOUD_ENV
+            echo 'export PATH="$HOME/flutter/bin:$PATH"' >> $HOME/.profile
+            source $HOME/.profile
+          else
+             echo "⏭️ Flutter v$flutterPkgName already installed. Skipping it"
+          fi
+
+          echo "⌛️ Checking Flutter Installation and Version..."
+          flutter --version
+          echo "✅ Done !"
+
+      - name: Install SDKMan! and Java
+        script: |
+          if [ ! -d $HOME/.sdkman ]
+          then
+            echo "⬇️ Downloading and Installing SDKMan!..."
+            curl -s "https://get.sdkman.io" | bash
+            source $HOME/.sdkman/bin/sdkman-init.sh
+          else
+             echo "⏭️ SDKMan! already installed. Skipping it"
+          fi
+
+          sdk version
+
+          jdkVersion="${JDK_VERSION:-17.0.10}"
+          jdkDistro="${JDK_DISTRO:-ms}"
+          javaVersion="${jdkVersion}-${jdkDistro}"
+          JAVA_HOME="$HOME/.sdkman/candidates/java/$javaVersion"
+
+          if [ ! -d $JAVA_HOME ]
+          then
+            echo "⌛️ Installing  Java v$javaVersion.."
+            sdk install java $javaVersion
+            sdk use java $javaVersion
+            echo "JAVA_HOME=$JAVA_HOME" >> $NX_CLOUD_ENV
+            echo "PATH=$JAVA_HOME/bin:$PATH" >> $NX_CLOUD_ENV
+            echo 'export JAVA_HOME="$JAVA_HOME"' >> $HOME/.profile
+            source $HOME/.profile
+          else
+             echo "⏭️ Java v$javaVersion already installed. Skipping it"
+          fi
+
+          echo "⌛️ Checking Java Installation and Version..."
+          java -version
+          echo "✅ Done !"
+
+      - name: Install Android SDK
+        script: |
+          SDK_VERSION=${ANDROID_SDK_VERSION:-34}
+          SDK_TOOLS_URL="https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip"
+          ANDROID_HOME="$HOME/android/sdk"
+
+          if [ ! -d $ANDROID_HOME ]
+          then
+              echo "⬇️ Downloading and Installing Android SDK v$SDK_VERSION..."
+              wget -q "$SDK_TOOLS_URL" -O sdk-tools.zip
+              mkdir -p $ANDROID_HOME/cmdline-tools
+              unzip -qq sdk-tools.zip -d $ANDROID_HOME/cmdline-tools
+              mv $ANDROID_HOME/cmdline-tools/cmdline-tools $ANDROID_HOME/cmdline-tools/latest
+              rm -f sdk-tools.zip
+              echo 'export ANDROID_HOME="$ANDROID_HOME"' >> $HOME/.profile
+              echo "ANDROID_HOME=$ANDROID_HOME" >> $NX_CLOUD_ENV
+              echo "PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH" >> $NX_CLOUD_ENV
+              echo 'export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"' >> $HOME/.profile
+              source $HOME/.profile
+
+              #yes | sdkmanager --licenses
+          else
+              echo "⏭️ Android SDK already installed. Skipping it"
+          fi
+
+          echo "ℹ️ Android SDK Manager version: `sdkmanager --version`"
+          echo "📚 Android SDK Manager - Accepting licenses..."
+          # https://discuss.circleci.com/t/build-fails-on-acceptance-of-license-agreements/27828/5
+          yes | sdkmanager --licenses || if [ $? -ne '141' ]; then exit $?; fi; > /dev/null #Captures SIGPIPE 141 error but still allow repeating "y" to accept all licenses
+
+          # Install specific version and platform tools (if not already installed)
+          if [[ "$SDK_VERSION" != "latest" ]]; then
+            sdkmanager --update  # Update tools if necessary
+            sdkmanager "platforms;android-$SDK_VERSION" "build-tools;$SDK_VERSION.0.0" "platform-tools"
+          fi
+
+          echo "✅ Done !"
+
+      - name: Check Flutter/Android SDK Installation
+        script: |
+          flutter doctor
+          echo "✅ Done !"

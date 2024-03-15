@@ -13,6 +13,7 @@
     "affected:test": "nx affected --target test --exclude=smoke",
     "affected:lint": "nx affected --target lint",
     "affected:graph": "nx affected --graph",
+    "affected:format": "nx affected --target format --exclude=smoke",
     "format": "nx format:write",
     "format:write": "nx format:write",
     "format:check": "nx format:check",
@@ -93,4 +94,3 @@
     "includedScripts": []
   }
 }
-

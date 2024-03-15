@@ -1,6 +1,7 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+pnpm affected:format
 pnpm affected:lint
 pnpm affected:test
 pnpm sync-preset-schemas

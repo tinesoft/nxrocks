@@ -12,7 +12,7 @@
     "changelog": {
       "projectChangelogs": {
         "createRelease": "github"
-      }      
+      }
     },
     "version": {
       "conventionalCommits": true
@@ -60,9 +60,9 @@
     "nx-release-publish": {
       "dependsOn": ["build"],
       "options": {
-          "packageRoot": "{workspaceRoot}/dist/packages/{projectName}"
+        "packageRoot": "{workspaceRoot}/dist/packages/{projectName}"
       }
-   }
+    }
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
@@ -80,7 +80,7 @@
       "!{projectRoot}/src/test-setup.[jt]s"
     ]
   },
-  "nxCloudAccessToken": "OTMwZTE2ZDgtODg2NS00Y2M1LTg0OTMtNGU3ZmI0NzY4YTUyfHJlYWQtd3JpdGU=",
+  "nxCloudAccessToken": "ZDRmZDczZWUtMDU2My00YzQ0LTlkMWEtZjM2YjZlZWNmNGIxfHJlYWQ=",
   "parallel": 1,
   "plugins": []
 }
