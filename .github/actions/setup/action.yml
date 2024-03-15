@@ -1,0 +1,56 @@
+name: 'Setup Build Tools and Dependencies'
+description: Setup node, pnpm, java, flutter, cache, and install dependencies
+
+inputs:
+  node-version: # id of input
+    description: 'Node version'
+    required: false
+    default: 20
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Derive appropriate SHAs for base and head for `nx affected` commands
+      uses: nrwl/nx-set-shas@v4
+
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8.2
+
+    - name: Setup Node.js ${{ inputs.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'pnpm'
+
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: 17
+    - run: java -version
+      shell: bash
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+        cache: true
+        cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache
+        cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:' # optional, change this to specify the cache path
+        architecture: x64 # optional, x64 or arm64
+    - run: flutter --version
+      shell: bash
+
+    - name: Cache node_modules
+      id: cache-modules
+      uses: actions/cache@v4
+      with:
+        lookup-only: true
+        path: '**/node_modules'
+        key: pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+
+    - name: Install packages
+      run: pnpm install --frozen-lockfile
+      shell: bash

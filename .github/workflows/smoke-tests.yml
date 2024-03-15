@@ -1,0 +1,35 @@
+name: Nightly Smoke Tests
+
+on:
+  # Trigger manually or on schedule
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  smoke-tests:
+    name: Smoke Tests
+    runs-on: ${{ matrix.os }}
+    env:
+      NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+    timeout-minutes: 60
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node-version: [20]
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup node, pnpm, java, flutter, and dependencies
+        uses: ./.github/actions/setup
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Run smoke tests
+        env:
+          NX_E2E_CI_CACHE_KEY: smoke-gha-${{ matrix.os }}-${{ matrix.node-version }}
+          NX_RUN_GROUP: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}
+        run: pnpm nx test smoke --verbose
