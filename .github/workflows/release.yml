@@ -21,10 +21,9 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-      - name: Checkout the release branch
-        run: |
-          git fetch --depth=1
-          git checkout $GITHUB_REF_NAME
+        with:
+          fetch-depth: 0
+          fetch-tags: true
 
       - name: Install node, pnpm, and dependencies
         uses: ./.github/actions/install-dependencies
