@@ -19,6 +19,7 @@ runs:
       with:
         node-version: ${{ inputs.node-version }}
         cache: 'pnpm'
+        registry-url: 'https://registry.npmjs.org'
 
     - name: Cache node_modules
       id: cache-modules
