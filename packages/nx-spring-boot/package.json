@@ -36,7 +36,7 @@
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
-    "@nx/devkit": ">=17.0.0"
+    "@nx/devkit": ">=18.0.0"
   },
   "nx-migrations": {
     "migrations": "./migrations.json"

@@ -30,7 +30,7 @@
     "hpagent": "^1.2.0",
     "unzipper": "^0.10.14",
     "fs-extra": "^10.1.0",
-    "@nx/devkit": ">=17.0.0",
+    "@nx/devkit": ">=18.0.0",
     "tslib": "^2.6.1",
     "minimatch": "^9.0.3"
   },
