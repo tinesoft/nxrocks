@@ -7,7 +7,7 @@
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}/v{version}",
     "git": {
-      "commitMessage": "chore(release): 🚀 release {version}"
+      "commitMessage": "chore(release): 🚀 release packages [skip ci]"
     },
     "changelog": {
       "projectChangelogs": {
@@ -58,9 +58,10 @@
       "cache": true
     },
     "nx-release-publish": {
+      "cache": false,
       "dependsOn": ["build"],
       "options": {
-        "packageRoot": "{workspaceRoot}/dist/packages/{projectName}"
+        "packageRoot": "dist/packages/{projectName}"
       }
     }
   },

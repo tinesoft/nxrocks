@@ -40,4 +40,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
         run: |
-          pnpm nx release --yes
+          pnpm nx release --yes -- --skip-nx-cache
