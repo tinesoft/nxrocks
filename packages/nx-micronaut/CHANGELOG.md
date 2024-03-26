@@ -1,3 +1,31 @@
+# 6.0.0 (2024-03-26)
+
+
+### 🚀 Features
+
+- ⚠️  update to support `inferred tasks` (Nx `Project Crystal`) ([8a21e3f](https://github.com/tinesoft/nxrocks/commit/8a21e3f))
+
+
+### 🩹 Fixes
+
+- remove `gen`, `init`, and `generate` aliases for `project` generator ([e39ad3a](https://github.com/tinesoft/nxrocks/commit/e39ad3a))
+
+- ⚠️  do not generate `targets` at parent module level and lets Nx manage dependencies entirely ([f37531f](https://github.com/tinesoft/nxrocks/commit/f37531f))
+
+- fix base version for `@nx/devkit` to `>=18.0.0` ([d048cfe](https://github.com/tinesoft/nxrocks/commit/d048cfe))
+
+- **nx-micronaut:** fix how `Micronaut` projects are identified ([fa3ebb2](https://github.com/tinesoft/nxrocks/commit/fa3ebb2))
+
+
+#### ⚠️  Breaking Changes
+
+- Nx `v18` is now the minimal version to use the plugins
+- `project.json` of parent module no longer contain `targets` (i.e no `build`, `install`, etc task anymore)
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 # [5.3.0](https://github.com/tinesoft/nxrocks/compare/nx-micronaut/v5.2.2...nx-micronaut/v5.3.0) (2024-02-18)
 
 

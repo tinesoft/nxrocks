@@ -1,3 +1,15 @@
+## 2.2.1 (2024-03-26)
+
+
+### 🩹 Fixes
+
+- fix base version for `@nx/devkit` to `>=18.0.0` ([d048cfe](https://github.com/tinesoft/nxrocks/commit/d048cfe))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 # [2.2.0](https://github.com/tinesoft/nxrocks/compare/common-cli/v2.1.0...common-cli/v2.2.0) (2024-02-18)
 
 

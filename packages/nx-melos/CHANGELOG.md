@@ -1,3 +1,24 @@
+# 4.0.0 (2024-03-26)
+
+
+### 🚀 Features
+
+- ⚠️  update to support `inferred tasks` (Nx `Project Crystal`) ([8a21e3f](https://github.com/tinesoft/nxrocks/commit/8a21e3f))
+
+
+### 🩹 Fixes
+
+- fix base version for `@nx/devkit` to `>=18.0.0` ([d048cfe](https://github.com/tinesoft/nxrocks/commit/d048cfe))
+
+
+#### ⚠️  Breaking Changes
+
+- Nx `v18` is now the minimal version to use the plugins
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 # [3.2.0](https://github.com/tinesoft/nxrocks/compare/nx-melos/v3.1.0...nx-melos/v3.2.0) (2024-02-18)
 
 
