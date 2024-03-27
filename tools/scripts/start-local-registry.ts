@@ -29,10 +29,9 @@ export default async () => {
     gitCommit: false,
     gitTag: false,
     firstRelease: true,
-    //FIXME TKO: not released yet
-    //generatorOptionsOverrides: {
-    //  skipLockFileUpdate: true,
-    //},
+    generatorOptionsOverrides: {
+      skipLockFileUpdate: true,
+    },
   });
   await releasePublish({
     tag: 'e2e',
