@@ -25,7 +25,7 @@
     "nx-ktor"
   ],
   "dependencies": {
-    "@nxrocks/common": "4.0.0",
+    "@nxrocks/common": "4.0.1",
     "@nx/workspace": ">=17.0.0",
     "@nx/devkit": ">=18.0.0",
     "tslib": "^2.6.1",

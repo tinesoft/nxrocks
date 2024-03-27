@@ -1,3 +1,15 @@
+## 4.0.1 (2024-03-27)
+
+
+### 🩹 Fixes
+
+- **common:** fix `TypeError: Failed to process project dependencies` ([ca7f96c](https://github.com/tinesoft/nxrocks/commit/ca7f96c))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 # 4.0.0 (2024-03-26)
 
 
