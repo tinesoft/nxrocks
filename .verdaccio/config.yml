@@ -8,13 +8,17 @@ uplinks:
     maxage: 60m
 
 packages:
+  '@nxrocks/*':
+    access: $all
+    publish: $all
+    # proxy: npmjs <-- disable this, because version `0.0.0-e2e` of `@nxrocks/*` packages was accidentally published to NPM 🤦🏿‍♂️ (it makes no sense to proxy them anyway)
+
   '**':
     # give all users (including non-authenticated users) full access
     # because it is a local registry
     access: $all
     publish: $all
     unpublish: $all
-
     # if package is not available locally, proxy requests to npm registry
     proxy: npmjs
 
