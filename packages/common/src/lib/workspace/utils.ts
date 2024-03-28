@@ -1,12 +1,14 @@
 import { basename, dirname, isAbsolute, join, relative, resolve } from 'path';
 
 import {
+  NX_VERSION,
   NxJsonConfiguration,
   normalizePath,
   readJsonFile,
   workspaceRoot,
 } from '@nx/devkit';
 import { existsSync, readFileSync } from 'fs';
+import { lt } from 'semver';
 
 export function getProjectRoot(project: { root: string }) {
   return resolve(workspaceRoot, project.root);
@@ -54,9 +56,12 @@ export function getProjectRootFromFile(filePath: string) {
 
 export function isNxCrystalEnabled() {
   const nxJson = readJsonFile<NxJsonConfiguration>(`${workspaceRoot}/nx.json`);
-  return !(
-    /**nxJson.useInferencePlugins === false ||**/ (
-      process.env['NX_ADD_PLUGINS'] === 'false'
-    )
+
+  if (lt(NX_VERSION, '18.1.0')) {
+    return process.env['NX_ADD_PLUGINS'] !== 'false';
+  }
+  return (
+    process.env['NX_ADD_PLUGINS'] !== 'false' &&
+    nxJson.useInferencePlugins !== false
   );
 }

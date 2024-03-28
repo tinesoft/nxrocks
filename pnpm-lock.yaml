@@ -29,6 +29,9 @@ dependencies:
   node-fetch:
     specifier: ^2.6.12
     version: 2.6.12
+  semver:
+    specifier: ^7.6.0
+    version: 7.6.0
   terminal-link:
     specifier: ^2.1.1
     version: 2.1.1
@@ -100,6 +103,9 @@ devDependencies:
   '@types/node-fetch':
     specifier: ^2.6.9
     version: 2.6.9
+  '@types/semver':
+    specifier: ^7.5.8
+    version: 7.5.8
   '@types/tmp':
     specifier: ^0.2.3
     version: 0.2.3
@@ -3700,17 +3706,10 @@ packages:
       '@types/node': 18.16.9
     dev: true
 
-  /@types/semver@7.3.13:
+  /@types/semver@7.5.8:
     resolution:
       {
-        integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==,
-      }
-    dev: true
-
-  /@types/semver@7.5.6:
-    resolution:
-      {
-        integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A==,
+        integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==,
       }
     dev: true
 
@@ -3965,7 +3964,7 @@ packages:
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.15.0)
       '@types/json-schema': 7.0.11
-      '@types/semver': 7.3.13
+      '@types/semver': 7.5.8
       '@typescript-eslint/scope-manager': 5.60.1
       '@typescript-eslint/types': 5.60.1
       '@typescript-eslint/typescript-estree': 5.60.1(typescript@5.3.3)
@@ -3988,7 +3987,7 @@ packages:
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.15.0)
       '@types/json-schema': 7.0.15
-      '@types/semver': 7.5.6
+      '@types/semver': 7.5.8
       '@typescript-eslint/scope-manager': 6.21.0
       '@typescript-eslint/types': 6.21.0
       '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.3.3)
@@ -8782,7 +8781,6 @@ packages:
     engines: { node: '>=10' }
     dependencies:
       yallist: 4.0.0
-    dev: true
 
   /lru-queue@0.1.0:
     resolution:
@@ -10454,7 +10452,6 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
-    dev: true
 
   /send@0.17.1:
     resolution:
@@ -12073,7 +12070,6 @@ packages:
       {
         integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==,
       }
-    dev: true
 
   /yaml@1.10.2:
     resolution:
