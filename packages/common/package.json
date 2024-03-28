@@ -32,7 +32,8 @@
     "fs-extra": "^10.1.0",
     "@nx/devkit": ">=18.0.0",
     "tslib": "^2.6.1",
-    "minimatch": "^9.0.3"
+    "minimatch": "^9.0.3",
+    "semver": "^7.6.0"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {},

@@ -1,7 +1,4 @@
 {
-  "affected": {
-    "defaultBase": "origin/develop"
-  },
   "release": {
     "projects": ["packages/*"],
     "projectsRelationship": "independent",
@@ -83,5 +80,6 @@
   },
   "nxCloudAccessToken": "ZDRmZDczZWUtMDU2My00YzQ0LTlkMWEtZjM2YjZlZWNmNGIxfHJlYWQ=",
   "parallel": 1,
-  "plugins": []
+  "plugins": [],
+  "defaultBase": "origin/develop"
 }
