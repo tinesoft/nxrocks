@@ -30,7 +30,7 @@
   ],
   "dependencies": {
     "tslib": "^2.6.1",
-    "@nx/workspace": ">=17.0.0",
+    "@nx/workspace": ">=18.0.0",
     "@nxrocks/common": "*"
   },
   "typings": "./src/index.d.ts",
