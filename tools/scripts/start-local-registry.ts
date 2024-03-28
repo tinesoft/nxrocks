@@ -33,9 +33,9 @@ export default async () => {
     gitCommit: false,
     gitTag: false,
     firstRelease: true,
-    //generatorOptionsOverrides: {
-    //  skipLockFileUpdate: true,
-    //},
+    generatorOptionsOverrides: {
+      skipLockFileUpdate: true,
+    },
   });
   await releasePublish({
     tag: 'e2e',

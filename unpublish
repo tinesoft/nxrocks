@@ -1,0 +1,19 @@
+npm login
+
+npm unpublish create-nx-spring-boot@"$1" --force --verbose
+npm unpublish create-nx-micronaut@"$1" --force --verbose
+npm unpublish create-nx-quarkus@"$1" --force --verbose
+npm unpublish create-nx-flutter@"$1" --force --verbose
+npm unpublish create-nx-ktor@"$1" --force --verbose
+
+npm unpublish @nxrocks/nx-spring-boot@"$1" --force --verbose
+npm unpublish @nxrocks/nx-micronaut@"$1" --force --verbose
+npm unpublish @nxrocks/nx-quarkus@"$1" --force --verbose
+npm unpublish @nxrocks/nx-ktor@"$1" --force --verbose
+npm unpublish @nxrocks/nx-flutter@"$1" --force --verbose
+npm unpublish @nxrocks/nx-melos@"$1" --force --verbose
+
+npm unpublish @nxrocks/common-jvm@"$1" --force --verbose
+npm unpublish @nxrocks/common-cli@"$1" --force --verbose
+
+npm unpublish @nxrocks/common@"$1" --force --verbose
