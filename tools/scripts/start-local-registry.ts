@@ -6,9 +6,13 @@ import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { releasePublish, releaseVersion } from 'nx/release';
 
 export default async () => {
-
-  if(process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP && process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP !== 'false') {
-    console.log("Environment variable 'SKIP_LOCAL_REGISTRY_GLOBAL_SETUP' is set. Skipping global setup of Verdaccio's Local Registry...");
+  if (
+    process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP &&
+    process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP !== 'false'
+  ) {
+    console.log(
+      "Environment variable 'SKIP_LOCAL_REGISTRY_GLOBAL_SETUP' is set. Skipping global setup of Verdaccio's Local Registry..."
+    );
     return;
   }
 
@@ -29,9 +33,9 @@ export default async () => {
     gitCommit: false,
     gitTag: false,
     firstRelease: true,
-    generatorOptionsOverrides: {
-      skipLockFileUpdate: true,
-    },
+    //generatorOptionsOverrides: {
+    //  skipLockFileUpdate: true,
+    //},
   });
   await releasePublish({
     tag: 'e2e',
