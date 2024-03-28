@@ -32,7 +32,7 @@
     "js-yaml": "^4.1.0",
     "tslib": "^2.6.1",
     "@nx/workspace": ">=17.0.0",
-    "@nxrocks/common": "4.0.1"
+    "@nxrocks/common": "*"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
