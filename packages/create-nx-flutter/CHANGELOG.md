@@ -1,3 +1,15 @@
+## 2.2.1 (2024-03-28)
+
+
+### 🩹 Fixes
+
+- bump versions of packages to include changes in common-cli@2.2.2 ([2935068](https://github.com/tinesoft/nxrocks/commit/2935068))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 # [2.2.0](https://github.com/tinesoft/nxrocks/compare/create-nx-flutter/v2.1.0...create-nx-flutter/v2.2.0) (2024-02-18)
 
 

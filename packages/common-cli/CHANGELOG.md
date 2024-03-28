@@ -1,3 +1,15 @@
+## 2.2.2 (2024-03-28)
+
+
+### 🩹 Fixes
+
+- bump version of `create-nx-workspace` and `@nx/workspace` ([7126e20](https://github.com/tinesoft/nxrocks/commit/7126e20))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 2.2.1 (2024-03-26)
 
 

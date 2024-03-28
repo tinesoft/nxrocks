@@ -1,3 +1,15 @@
+## 4.1.0 (2024-03-28)
+
+
+### 🚀 Features
+
+- **common:** update how we detect if `project crystal` is enabled on nx `v18.1.x` or later ([7316a21](https://github.com/tinesoft/nxrocks/commit/7316a21))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 4.0.1 (2024-03-27)
 
 

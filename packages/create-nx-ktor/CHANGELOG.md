@@ -1,3 +1,15 @@
+## 2.3.1 (2024-03-28)
+
+
+### 🩹 Fixes
+
+- bump versions of packages to include changes in common-cli@2.2.2 ([2935068](https://github.com/tinesoft/nxrocks/commit/2935068))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 # [2.3.0](https://github.com/tinesoft/nxrocks/compare/create-nx-ktor/v2.2.2...create-nx-ktor/v2.3.0) (2024-02-18)
 
 

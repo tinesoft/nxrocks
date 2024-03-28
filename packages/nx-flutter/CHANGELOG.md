@@ -1,3 +1,17 @@
+## 9.0.1 (2024-03-28)
+
+
+### 🩹 Fixes
+
+- bump versions of packages to include changes in `common@4.0.1` ([796333a](https://github.com/tinesoft/nxrocks/commit/796333a))
+
+- bump version of `create-nx-workspace` and `@nx/workspace` ([7126e20](https://github.com/tinesoft/nxrocks/commit/7126e20))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 # 9.0.0 (2024-03-26)
 
 

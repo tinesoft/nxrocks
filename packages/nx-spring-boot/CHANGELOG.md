@@ -1,3 +1,15 @@
+## 10.0.1 (2024-03-28)
+
+
+### 🩹 Fixes
+
+- bump versions of packages to include changes in `common@4.0.1` ([796333a](https://github.com/tinesoft/nxrocks/commit/796333a))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 # 10.0.0 (2024-03-26)
 
 
