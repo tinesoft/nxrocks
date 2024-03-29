@@ -12,6 +12,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+      npm_config_registry: http://localhost:4873
+      YARN_REGISTRY: http://localhost:4873
     timeout-minutes: 60
     strategy:
       matrix:

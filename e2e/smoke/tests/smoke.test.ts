@@ -1,12 +1,13 @@
+import { getPackageManagerCommand } from '@nx/devkit';
 import { createTestProject, isLocalNxMatchingLatestFeatureVersion, runNxCommand} from '@nxrocks/common/testing';
-import { execSync, ExecSyncOptions } from 'child_process';
+import { execSync } from 'child_process';
 import { rmSync } from 'fs-extra';
 
 process.env.NODE_OPTIONS="--max-old-space-size=8192"; // to avoid oom error during the tests
 
 let projectDirectory: string;
 
-const execSyncOptions: (cwd?:string) => ExecSyncOptions = (cwd:string = projectDirectory) => ({
+const execSyncOptions: (cwd?:string) => { silenceError?: boolean; env?: NodeJS.ProcessEnv; cwd?: string } = (cwd:string = projectDirectory) => ({
   cwd: cwd,
   env: {
     ...process.env,
@@ -15,7 +16,7 @@ const execSyncOptions: (cwd?:string) => ExecSyncOptions = (cwd:string = projectD
     GIT_AUTHOR_NAME: 'Smoke Test CI',
     GIT_AUTHOR_EMAIL: 'no-reply@fake.com',
   },
-  stdio: 'inherit',
+  silentError: 'false',
 });
 
 const bootapp = 'bootapp';
@@ -43,14 +44,14 @@ describe('nxrocks smoke tests', () => {
   });
 
   it.each`
-  pkgManager  | runCommand     | addCommand     | workspaceVersion | pluginVersion
-  ${'npm'}    | ${'npx'}       | ${'npm i'}     | ${'latest'}      | ${'0.0.0-e2e'}  
-  ${'yarn'}   | ${'yarn'}      | ${'yarn add'}  | ${'latest'}      | ${'0.0.0-e2e'}  
-  ${'pnpm'}   | ${'pnpm exec'} | ${'pnpm add'}  | ${'latest'}      | ${'0.0.0-e2e'}  
-  ${'npm'}    | ${'npx'}       | ${'npm i'}     | ${'local'}       | ${'0.0.0-e2e'}     
-  ${'yarn'}   | ${'yarn'}      | ${'yarn add'}  | ${'local'}       | ${'0.0.0-e2e'}     
-  ${'pnpm'}   | ${'pnpm exec'} | ${'pnpm add'}  | ${'local'}       | ${'0.0.0-e2e'}     
-`(`should sucessfully run using '$workspaceVersion' Nx workspace, $pluginVersion plugins version and $pkgManager package manager`, async ({pkgManager, runCommand, addCommand, workspaceVersion, pluginVersion }) => {
+  pkgManager | workspaceVersion | pluginVersion
+  ${'npm'}   | ${'latest'}      | ${'0.0.0-e2e'}  
+  ${'yarn'}  | ${'latest'}      | ${'0.0.0-e2e'}  
+  ${'pnpm'}  | ${'latest'}      | ${'0.0.0-e2e'}  
+  ${'npm'}   | ${'local'}       | ${'0.0.0-e2e'}     
+  ${'yarn'}  | ${'local'}       | ${'0.0.0-e2e'}     
+  ${'pnpm'}  | ${'local'}       | ${'0.0.0-e2e'}     
+`(`should sucessfully run using '$workspaceVersion' Nx workspace, $pluginVersion plugins version and $pkgManager package manager`, async ({pkgManager, workspaceVersion, pluginVersion }) => {
 
     if(!process.env.CI && !process.env.FORCE_SMOKE_TESTS) {
       console.log('Skipping smoke test because not running on CI and FORCE_SMOKE_TESTS is not set');
@@ -75,72 +76,72 @@ describe('nxrocks smoke tests', () => {
       `@nxrocks/nx-ktor@${pluginVersion}`,
     ].join(' ');
 
-    execSync(`${addCommand} ${pluginPkgs}`, execSyncOptions(projectDirectory));
+    execSync(`${getPackageManagerCommand(pkgManager).addDev} ${pluginPkgs}`, execSyncOptions(projectDirectory));
 
       
     runNxCommand(
       `generate @nxrocks/nx-spring-boot:new ${bootapp} --skip-format=false --projectType application --no-interactive`,
-      runCommand,
+      pkgManager,
       execSyncOptions(),
     );
     runNxCommand(
       `generate @nxrocks/nx-spring-boot:new ${bootlib} --skip-format=false --projectType library --no-interactive`,
-      runCommand,
+      pkgManager,
       execSyncOptions(),
     );
 
     runNxCommand(
       `generate @nxrocks/nx-quarkus:new ${quarkusapp} --skip-format=false --projectType application --no-interactive`,
-      runCommand,
+      pkgManager,
       execSyncOptions(),
     );
     runNxCommand(
       `generate @nxrocks/nx-quarkus:new ${quarkuslib} --skip-format=false --projectType library --no-interactive`,
-      runCommand,
+      pkgManager,
       execSyncOptions(),
     );
     
     runNxCommand(
       `generate @nxrocks/nx-micronaut:new ${mnApp} --skip-format=false --no-interactive`,
-      runCommand,
+      pkgManager,
       execSyncOptions(),
     );
 
     runNxCommand(
       `generate @nxrocks/nx-melos:init --scriptNameSeparator=-`,
-      runCommand,
+      pkgManager,
       execSyncOptions(),
     );
     
     runNxCommand(
       `generate @nxrocks/nx-ktor:new ${krApp} --skip-format=false --no-interactive`,
-      runCommand,
+      pkgManager,
       execSyncOptions(),
     );
 
     runNxCommand(
       `generate @nxrocks/nx-flutter:new ${flutterapp} --template app --no-interactive`,
-      runCommand,
+      pkgManager,
       execSyncOptions(),
     );
     runNxCommand(
       `generate @nxrocks/nx-flutter:new ${flutterlib} --template plugin --no-interactive`,
-      runCommand,
+      pkgManager,
       execSyncOptions(),
     );
 
     execSync(`git add -A`, execSyncOptions());
     execSync(`git commit -am "chore: scaffold projects"`, execSyncOptions());
 
-    runNxCommand(`clean ${bootapp}`, runCommand, execSyncOptions());
-    runNxCommand(`clean ${bootlib}`, runCommand, execSyncOptions());
-    runNxCommand(`clean ${quarkusapp}`, runCommand, execSyncOptions());
-    runNxCommand(`clean ${quarkuslib}`, runCommand, execSyncOptions());
-    runNxCommand(`clean ${mnApp}`, runCommand, execSyncOptions());
-    runNxCommand(`melos-bootstrap`, runCommand, execSyncOptions());
-    runNxCommand(`clean ${flutterapp}`, runCommand, execSyncOptions());
-    runNxCommand(`clean ${flutterlib}`, runCommand, execSyncOptions());
-    runNxCommand(`clean ${krApp}`, runCommand, execSyncOptions());
+    runNxCommand(`clean ${bootapp}`, pkgManager, execSyncOptions());
+    runNxCommand(`clean ${bootlib}`, pkgManager, execSyncOptions());
+    runNxCommand(`clean ${quarkusapp}`, pkgManager, execSyncOptions());
+    runNxCommand(`clean ${quarkuslib}`, pkgManager, execSyncOptions());
+    runNxCommand(`clean ${mnApp}`, pkgManager, execSyncOptions());
+    runNxCommand(`melos-bootstrap`, pkgManager, execSyncOptions());
+    runNxCommand(`clean ${flutterapp}`, pkgManager, execSyncOptions());
+    runNxCommand(`clean ${flutterlib}`, pkgManager, execSyncOptions());
+    runNxCommand(`clean ${krApp}`, pkgManager, execSyncOptions());
 
 
     expect(true).toBeTruthy();

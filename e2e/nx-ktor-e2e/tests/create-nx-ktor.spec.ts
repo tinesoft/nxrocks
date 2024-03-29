@@ -9,7 +9,7 @@ describe('create-nx-ktor', () => {
 
   beforeAll(() => {
     // Cleanup the test project
-    projectDirectory && projectDirectory && rmSync(projectDirectory, {
+    projectDirectory && rmSync(projectDirectory, {
       recursive: true,
       force: true,
     });
