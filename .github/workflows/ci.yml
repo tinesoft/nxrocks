@@ -34,7 +34,7 @@ jobs:
       - run: pnpm exec nx-cloud start-ci-run --distribute-on=".nx/workflows/dynamic-changesets.yaml" --stop-agents-after="e2e" --with-env-vars="ANDROID_SDK_VERSION,FLUTTER_VERSION,JDK_VERSION"
 
       # This line is needed for nx affected to work when CI is running on a PR
-      - run: git branch --track develop origin/develop
+      - run: git branch --track develop origin/develop || exit 0
 
       - run: pnpm exec nx-cloud record -- nx format:check
       - run: pnpm exec nx affected -t lint test build e2e --exclude=smoke --codeCoverage
