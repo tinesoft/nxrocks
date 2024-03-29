@@ -10,13 +10,13 @@ launch-templates:
         env:
           KEY: 'package-lock.json|yarn.lock|pnpm-lock.yaml'
           PATHS: 'node_modules'
-          BASE_BRANCH: 'main'
+          BASE_BRANCH: 'develop'
       - name: Restore Maven/Gradle Cache
         uses: 'nrwl/nx-cloud-workflows/v3.5/workflow-steps/cache/main.yaml'
         env:
           KEY: 'pom.xml|build.gradle|build.gradle.kts|settings.gradle|settings.gradle.kts'
           PATHS: '~/.m2/repository'
-          BASE_BRANCH: 'main'
+          BASE_BRANCH: 'develop'
 
       - name: Install Node Modules
         uses: 'nrwl/nx-cloud-workflows/v3.5/workflow-steps/install-node-modules/main.yaml'
