@@ -142,19 +142,37 @@ export function runCommandAsync(
  */
 export function runNxCommandAsync(
   command: string,
+  pkgManager?: PackageManager,
   opts: { silenceError?: boolean; env?: NodeJS.ProcessEnv; cwd?: string } = {
     silenceError: false,
   }
 ): Promise<{ stdout: string; stderr: string }> {
   const cwd = opts.cwd ?? tmpProjPath();
   if (fileExists(tmpProjPath('package.json'))) {
-    const pmc = getPackageManagerCommand(detectPackageManager(cwd));
+    const pmc = getPackageManagerCommand(pkgManager || detectPackageManager(cwd));
     return runCommandAsync(`${pmc.exec} nx ${command}`, opts);
   } else if (process.platform === 'win32') {
     return runCommandAsync(`./nx.bat %${command}`, opts);
   } else {
     return runCommandAsync(`./nx %${command}`, opts);
   }
+}
+
+/**
+ * Run a nx command synchronously inside the e2e directory
+ * @param command
+ * @param opts
+ */
+export async function runNxCommand(
+  command: string,
+  pkgManager?: PackageManager,
+  opts: { silenceError?: boolean; env?: NodeJS.ProcessEnv; cwd?: string } = {
+    silenceError: false,
+  }
+): Promise<{ stdout: string; stderr: string; }> {
+
+  return await runNxCommandAsync(command,pkgManager, opts);
+
 }
 
 export function readJson<T extends object = any>(path: string, options?: JsonParseOptions): T {
