@@ -44,8 +44,8 @@ export function getProjectTypeAndTargetsFromFile(
     );
     projectType = hasMavenPlugin(
       root,
-      'org.springframework.boot',
-      'spring-boot-maven-plugin'
+      '${quarkus.platform.group-id}',
+      'quarkus-maven-plugin'
     )
       ? 'application'
       : 'library';
@@ -56,8 +56,7 @@ export function getProjectTypeAndTargetsFromFile(
     );
     skipFormat = hasGradlePlugin(projectContent, SPOTLESS_GRADLE_PLUGIN_ID);
     projectType =
-      getGradlePlugin(projectContent, 'org.springframework.boot').applied ===
-      false
+      getGradlePlugin(projectContent, 'io.quarkus')?.applied === false
         ? 'library'
         : 'application';
   }
