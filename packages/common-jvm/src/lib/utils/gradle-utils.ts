@@ -533,7 +533,7 @@ export function getCoordinatesForGradleProjet(cwd: string): {
       /rootProject\.name\s*=\s*['"]([^"']+)['"]/
     )?.[1];
   }
-  artifactId = artifactId ?? name; // use the folder name as default if stil undefined
+  artifactId = artifactId ?? name; // use the folder name as default if still undefined
 
   if (hasGradleBuildFile(cwd)) {
     const buildGradle = getProjectFileContent({ root: cwd }, `build${ext}`);

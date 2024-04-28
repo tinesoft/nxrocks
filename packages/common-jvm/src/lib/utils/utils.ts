@@ -204,7 +204,7 @@ export function getJvmPackageInfo(project: { root: string }): PackageInfo {
       packageId: `${groupId}:${artifactId}`,
       packageFile: 'pom.xml',
       dependencies,
-      modules: modules.map((mod) => `${groupId}:${mod}`),
+      modules: modules.map((module) => `${project.root}/${module}`),
     };
   }
 
@@ -225,29 +225,46 @@ export function getJvmPackageInfo(project: { root: string }): PackageInfo {
         const id = match?.groups?.['id'];
         if (id) {
           // project dependencies start with ':', we prepend the groupId to it
-          dependencyIds.push(id.startsWith(':') ? `${groupId}${id}` : id);
+          dependencyIds.push(
+            id.startsWith(':')
+              ? `${project.root}${id.replaceAll(':', '/')}`
+              : id
+          );
         }
       } while (match);
     }
 
     const dependencies: PackageInfo[] = dependencyIds.map((depId) => {
-      return { packageId: depId, packageFile: `build${ext}` };
+      let depGroupId: string | null | undefined;
+      let depArtifactId: string | null | undefined;
+      if (depId.startsWith(':')) {
+        // project dependencies start with ':'
+        const coordinates = getCoordinatesForGradleProjet(
+          `${project.root}/${depId.replaceAll(':', '/')}`
+        );
+        depGroupId = coordinates.groupId;
+        depArtifactId = coordinates.artifactId;
+      } else {
+        [depGroupId, depArtifactId] = depId.split(':');
+      }
+
+      return {
+        packageId: `${depGroupId}:${depArtifactId}`,
+        packageFile: `build${ext}`,
+      };
     });
 
     const modules = getGradleModules(project.root);
 
-    const offsetFromRoot = getPathFromParentModule(project.root);
-    const pkgId = offsetFromRoot
-      ? offsetFromRoot.replaceAll('/', ':')
-      : artifactId;
-
     return {
-      packageId: `${groupId}:${pkgId}`,
+      packageId: `${groupId}:${artifactId}`,
       packageFile: hasGradleSettingsFile(project.root)
         ? `settings${ext}`
         : `build${ext}`,
       dependencies,
-      modules: modules.map((mod) => `${groupId}:${mod}`),
+      modules: modules.map(
+        (module) => `${project.root}/${module.replaceAll(':', '/')}`
+      ),
     };
   }
 

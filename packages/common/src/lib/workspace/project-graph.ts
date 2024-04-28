@@ -73,8 +73,7 @@ function getDependenciesForProject(
   const sourceProjectRoot = getProjectRootFromFile(filePath);
   const sourcePkgInfo = workspace.projects[sourceProjectRoot];
 
-  if(!sourcePkgInfo)
-    return dependencies;
+  if (!sourcePkgInfo) return dependencies;
 
   sourcePkgInfo.dependencies?.forEach((depPkgInfo) => {
     const targetProjectName = workspace.packages[depPkgInfo.packageId];
@@ -93,12 +92,12 @@ function getDependenciesForProject(
   });
 
   sourcePkgInfo.modules?.forEach((moduleId) => {
-    const depProjectName = workspace.packages[moduleId];
+    const depProject = workspace.projects[moduleId];
 
-    if (depProjectName) {
+    if (depProject) {
       dependencies.push({
         source: sourceProjectName,
-        target: depProjectName,
+        target: workspace.packages[depProject.packageId],
         type: DependencyType.static,
         sourceFile: joinPathFragments(
           sourceProjectRoot,
