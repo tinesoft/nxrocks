@@ -56,7 +56,7 @@ export function getProjectTypeAndTargetsFromFile(
     );
     skipFormat = hasGradlePlugin(projectContent, SPOTLESS_GRADLE_PLUGIN_ID);
     projectType =
-      getGradlePlugin(projectContent, 'org.springframework.boot').applied ===
+      getGradlePlugin(projectContent, 'org.springframework.boot')?.applied ===
       false
         ? 'library'
         : 'application';
