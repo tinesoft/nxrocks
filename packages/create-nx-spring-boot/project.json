@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/create-nx-spring-boot/bin",
   "projectType": "library",
+  "tags": [],
+  "implicitDependencies": ["nx-spring-boot"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -31,7 +33,5 @@
         "jestConfig": "packages/create-nx-spring-boot/jest.config.ts"
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["nx-spring-boot"]
+  }
 }

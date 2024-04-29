@@ -3,6 +3,15 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "e2e/smoke/src",
   "projectType": "application",
+  "tags": [],
+  "implicitDependencies": [
+    "nx-spring-boot",
+    "nx-quarkus",
+    "nx-micronaut",
+    "nx-flutter",
+    "nx-ktor",
+    "nx-melos"
+  ],
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
@@ -19,14 +28,5 @@
       },
       "dependsOn": ["^build"]
     }
-  },
-  "tags": [],
-  "implicitDependencies": [
-    "nx-spring-boot",
-    "nx-quarkus",
-    "nx-micronaut",
-    "nx-flutter",
-    "nx-ktor",
-    "nx-melos"
-  ]
+  }
 }

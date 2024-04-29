@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/create-nx-quarkus/bin",
   "projectType": "library",
+  "tags": [],
+  "implicitDependencies": ["nx-quarkus"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -31,7 +33,5 @@
         "jestConfig": "packages/create-nx-quarkus/jest.config.ts"
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["nx-quarkus"]
+  }
 }

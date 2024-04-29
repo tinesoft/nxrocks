@@ -57,7 +57,10 @@
     "nx-release-publish": {
       "cache": false,
       "dependsOn": [
-        { "projects": "self", "target": "build", "params": "forward" }
+        {
+          "target": "build",
+          "params": "forward"
+        }
       ],
       "options": {
         "packageRoot": "dist/packages/{projectName}"

@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/create-nx-micronaut/bin",
   "projectType": "library",
+  "tags": [],
+  "implicitDependencies": ["nx-micronaut"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -31,7 +33,5 @@
         "jestConfig": "packages/create-nx-micronaut/jest.config.ts"
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["nx-micronaut"]
+  }
 }

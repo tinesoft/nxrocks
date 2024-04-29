@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "e2e/nx-spring-boot-e2e/tests",
+  "tags": ["e2e"],
+  "implicitDependencies": ["nx-spring-boot"],
   "targets": {
     "e2e": {
       "executor": "@nx/jest:jest",
@@ -20,7 +22,5 @@
         "lintFilePatterns": ["e2e/nx-spring-boot-e2e/**/*.ts"]
       }
     }
-  },
-  "implicitDependencies": ["nx-spring-boot"],
-  "tags": ["e2e"]
+  }
 }

@@ -3,6 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/create-nx-ktor/bin",
   "projectType": "library",
+  "tags": [],
+  "implicitDependencies": ["nx-ktor"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
@@ -31,7 +33,5 @@
         "jestConfig": "packages/create-nx-ktor/jest.config.ts"
       }
     }
-  },
-  "tags": [],
-  "implicitDependencies": ["nx-ktor"]
+  }
 }
