@@ -1,4 +1,3 @@
-
 export interface InitGeneratorOptions {
-  scriptNameSeparator?: '-' | ':' = '-';
+  scriptNameSeparator?: '-' | ':';
 }

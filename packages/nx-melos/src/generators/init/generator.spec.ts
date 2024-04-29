@@ -6,8 +6,6 @@ import { InitGeneratorOptions } from './schema';
 
 jest.mock('child_process'); // we need to mock 'execSync' so that it doesn't really run 'melos' (reserved to e2e testing) (see __mocks__/child_process.js)
 
-import { NX_MELOS_PKG } from '../../index';
-
 describe('init generator', () => {
   let tree: Tree;
   const options: InitGeneratorOptions = {};
