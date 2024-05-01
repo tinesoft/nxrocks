@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/nx-quarkus",
   "description": "Nx Plugin to generate, run, package, build (and more) Quarkus projects inside your Nx workspace",
-  "version": "8.0.1",
+  "version": "8.0.2",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -30,7 +30,7 @@
     "native"
   ],
   "dependencies": {
-    "@nxrocks/common-jvm": "*",
+    "@nxrocks/common-jvm": "2.0.2",
     "node-fetch": "^2.6.12",
     "enquirer": "^2.4.1",
     "tslib": "^2.6.1"

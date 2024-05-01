@@ -1,3 +1,15 @@
+## 2.2.2 (2024-05-01)
+
+
+### 🩹 Fixes
+
+- bump internal packages version ([232e7d7](https://github.com/tinesoft/nxrocks/commit/232e7d7))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 2.2.1 (2024-03-28)
 
 

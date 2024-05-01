@@ -1,3 +1,17 @@
+## 10.0.2 (2024-05-01)
+
+
+### 🩹 Fixes
+
+- bump internal packages version ([232e7d7](https://github.com/tinesoft/nxrocks/commit/232e7d7))
+
+- **nx-spring-boot:** fix `undefined (reading 'applied')` when generating the project graph ([03eaff2](https://github.com/tinesoft/nxrocks/commit/03eaff2))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 10.0.1 (2024-03-28)
 
 

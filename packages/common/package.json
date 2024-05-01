@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/common",
   "description": "Common library to share code among the `@nxrocks/*` plugins.",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "private": false,
   "publishConfig": {
     "access": "public"

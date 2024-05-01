@@ -1,3 +1,17 @@
+## 8.0.2 (2024-05-01)
+
+
+### 🩹 Fixes
+
+- bump internal packages version ([232e7d7](https://github.com/tinesoft/nxrocks/commit/232e7d7))
+
+- **nx-quarkus:** fix `undefined (reading 'applied')` when generating the project graph ([50ed737](https://github.com/tinesoft/nxrocks/commit/50ed737))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 8.0.1 (2024-03-28)
 
 

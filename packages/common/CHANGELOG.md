@@ -1,3 +1,15 @@
+## 4.1.1 (2024-05-01)
+
+
+### 🩹 Fixes
+
+- fix dependencies from modules not properly created when building project graph ([06e0370](https://github.com/tinesoft/nxrocks/commit/06e0370))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 4.1.0 (2024-03-28)
 
 

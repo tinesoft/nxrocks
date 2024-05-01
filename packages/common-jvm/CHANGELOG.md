@@ -1,3 +1,21 @@
+## 2.0.2 (2024-05-01)
+
+
+### 🩹 Fixes
+
+- fix dependencies from modules not properly created when building project graph ([06e0370](https://github.com/tinesoft/nxrocks/commit/06e0370))
+
+- bump internal packages version ([232e7d7](https://github.com/tinesoft/nxrocks/commit/232e7d7))
+
+- **common-jvm:** fix project graph generation for `Gradle` projects ([32d2bfb](https://github.com/tinesoft/nxrocks/commit/32d2bfb))
+
+- **common-jvm:** fix command to run `Gradle` tasks ([3081ff5](https://github.com/tinesoft/nxrocks/commit/3081ff5))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 2.0.1 (2024-03-28)
 
 

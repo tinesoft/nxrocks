@@ -1,7 +1,7 @@
 {
   "name": "create-nx-micronaut",
   "description": "CLI to create Nx workspaces with built-in support for Micronaut",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "license": "MIT",
   "author": "Tine Kondo ",
   "repository": {
