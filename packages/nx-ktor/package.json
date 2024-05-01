@@ -28,7 +28,7 @@
     "kotlin"
   ],
   "dependencies": {
-    "@nxrocks/common-jvm": "2.0.1",
+    "@nxrocks/common-jvm": "*",
     "node-fetch": "^2.6.12",
     "enquirer": "^2.4.1",
     "tslib": "^2.6.1"

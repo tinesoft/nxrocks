@@ -24,7 +24,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@nxrocks/common-cli": "2.2.2",
+    "@nxrocks/common-cli": "*",
     "tslib": "^2.6.1"
   },
   "type": "commonjs",
