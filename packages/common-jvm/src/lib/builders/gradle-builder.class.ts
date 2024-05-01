@@ -9,7 +9,7 @@ import { hasGradleModule, hasGradleWrapper, hasGradleProject } from '../utils';
 import { basename, resolve } from 'path';
 
 export class GradleBuilder implements BuilderCore {
-  constructor(private commandAliases: BuilderCommandAliasMapper) { }
+  constructor(private commandAliases: BuilderCommandAliasMapper) {}
 
   getBuildSystemType() {
     return BuildSystem.GRADLE;
@@ -19,16 +19,29 @@ export class GradleBuilder implements BuilderCore {
     return ignoreWrapper ? GRADLE_EXECUTABLE : GRADLE_WRAPPER_EXECUTABLE;
   }
 
-  getCommand(alias: BuilderCommandAliasType, options: { cwd: string, ignoreWrapper?: boolean, runFromParentModule?: boolean }) {
+  getCommand(
+    alias: BuilderCommandAliasType,
+    options: {
+      cwd: string;
+      ignoreWrapper?: boolean;
+      runFromParentModule?: boolean;
+    }
+  ) {
     let additionalArgs = '';
     let cwd = options.cwd;
 
-    if (!options.ignoreWrapper && !hasGradleWrapper(options.cwd) && !options.runFromParentModule) {
-      throw new Error(`⚠️ You chose not to use the Gradle wrapper from the parent module, but no wrapper was found in current child module`);
+    if (
+      !options.ignoreWrapper &&
+      !hasGradleWrapper(options.cwd) &&
+      !options.runFromParentModule
+    ) {
+      throw new Error(
+        `⚠️ You chose not to use the Gradle wrapper from the parent module, but no wrapper was found in current child module`
+      );
     }
-    
+
+    let pathToModule: string[] = [];
     if (options.runFromParentModule) {
-      let pathToModule:string[] = [];
       const childModuleName = basename(cwd);
       do {
         const module = basename(cwd);
@@ -36,9 +49,9 @@ export class GradleBuilder implements BuilderCore {
         pathToModule = [module, ...pathToModule];
       } while (!hasGradleModule(cwd, childModuleName));
 
-      additionalArgs = `-p ${pathToModule.join('/')} `;
+      additionalArgs = `${pathToModule.join(':')}`;
     }
 
-    return { cwd, command: `${additionalArgs}${this.commandAliases[alias]}` };
+    return { cwd, command: `${additionalArgs}${pathToModule.length ? ':' : ''}${this.commandAliases[alias]}` };
   }
 }
