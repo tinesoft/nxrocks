@@ -169,7 +169,7 @@ export function getGradleBuildFilesExtensionInTree(
 }
 
 export const getGradleDependencyIdRegEx = () =>
-  /\s*(api|implementation|testImplementation)\s*(\(?project)?\s*\(?['"](?<id>[^"']+)['"]\)?\)?/g;
+  /\s*(api|compileOnly|implementation|runtimeOnly|testApi|testCompileOnly|testImplementation|testRuntimeOnly)\s*(?<project>(\(?project)?\s*\(?['"]:?(?<id>[^"']+)['"]\)?\)?)/g;
 
 export function getJvmPackageInfo(project: { root: string }): PackageInfo {
   if (isMavenProject(project)) {
@@ -214,7 +214,7 @@ export function getJvmPackageInfo(project: { root: string }): PackageInfo {
     const { groupId, artifactId } = getCoordinatesForGradleProjet(project.root);
 
     const gradleDependencyIdRegEx = getGradleDependencyIdRegEx();
-    const dependencyIds: string[] = [];
+    const dependencies: PackageInfo[] = [];
 
     if (hasGradleBuildFile(project.root)) {
       const buildGradle = getProjectFileContent(project, `build${ext}`);
@@ -222,37 +222,26 @@ export function getJvmPackageInfo(project: { root: string }): PackageInfo {
       let match: RegExpExecArray | null;
       do {
         match = gradleDependencyIdRegEx.exec(buildGradle);
-        const id = match?.groups?.['id'];
-        if (id) {
-          // project dependencies start with ':', we prepend the groupId to it
-          dependencyIds.push(
-            id.startsWith(':')
-              ? `${project.root}${id.replaceAll(':', '/')}`
-              : id
-          );
+        const idGroup = match?.groups?.['id'];
+        const projectGroup = match?.groups?.['project'];
+        if (idGroup && projectGroup) {
+          let packageId = idGroup;
+          if (projectGroup.startsWith('project')) {
+            // an internal project dependency starts with 'project', we search for its maven coordinates
+            const { groupId, artifactId } = getCoordinatesForGradleProjet(
+              `${project.root}/../${idGroup.replaceAll(':', '/')}`
+            );
+
+            packageId = `${groupId}:${artifactId}`;
+          }
+
+          dependencies.push({
+            packageId,
+            packageFile: `build${ext}`,
+          });
         }
       } while (match);
     }
-
-    const dependencies: PackageInfo[] = dependencyIds.map((depId) => {
-      let depGroupId: string | null | undefined;
-      let depArtifactId: string | null | undefined;
-      if (depId.startsWith(':')) {
-        // project dependencies start with ':'
-        const coordinates = getCoordinatesForGradleProjet(
-          `${project.root}/${depId.replaceAll(':', '/')}`
-        );
-        depGroupId = coordinates.groupId;
-        depArtifactId = coordinates.artifactId;
-      } else {
-        [depGroupId, depArtifactId] = depId.split(':');
-      }
-
-      return {
-        packageId: `${depGroupId}:${depArtifactId}`,
-        packageFile: `build${ext}`,
-      };
-    });
 
     const modules = getGradleModules(project.root);
 
