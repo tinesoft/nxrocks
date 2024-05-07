@@ -1,57 +1,55 @@
 {
-	"name": "NxRocksDevContainer",
-	"image": "cirrusci/flutter:stable",
-	"features": {
-		"ghcr.io/devcontainers/features/java:1": {
-			"installGradle": true,
-			"installMaven": true,
-			"version": "17"
-		},
-		"ghcr.io/devcontainers/features/node:1": {
-			"nodeGypDependencies": true,
-			"version": "20"
-		},
-		"ghcr.io/devcontainers/features/git:1": {
-			"ppa": true,
-			"version": "latest"
-		},
-		"ghcr.io/devcontainers/features/common-utils:2": {
-			"installZsh": true,
-			"installOhMyZsh": true,
-			"upgradePackages": true,
-			"username": "automatic",
-			"userUid": "automatic",
-			"userGid": "automatic"
-		}
-	},
+  "name": "NxRocksDevContainer",
+  "image": "cirrusci/flutter:stable",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "installGradle": true,
+      "installMaven": true,
+      "version": "21"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "nodeGypDependencies": true,
+      "version": "20"
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "ppa": true,
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true,
+      "username": "automatic",
+      "userUid": "automatic",
+      "userGid": "automatic"
+    }
+  },
 
-	"mounts": [
-		"source=nxrocks-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
-	],
+  "mounts": [
+    "source=nxrocks-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+  ],
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [
-		4211
-	],
-	"runArgs": [],
-	"postCreateCommand": "./.devcontainer/postCreateCommand.sh",
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"mhutchie.git-graph",
-				"eamodio.gitlens",
-				"usernamehw.errorlens",
-				"nrwl.angular-console",
-				"esbenp.prettier-vscode",
-				"dbaeumer.vscode-eslint",
-				"firsttris.vscode-jest-runner",
-				"anweber.reveal-button",
-				"github.vscode-github-actions"
-			],
-			"settings":{
-				"debug.javascript.autoAttachFilter": "onlyWithFlag",
-				"dotfiles.repository": "https://github.com/tinesoft/dotfiles"
-			}
-		}
-	}
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [4211],
+  "runArgs": [],
+  "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "mhutchie.git-graph",
+        "eamodio.gitlens",
+        "usernamehw.errorlens",
+        "nrwl.angular-console",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "firsttris.vscode-jest-runner",
+        "anweber.reveal-button",
+        "github.vscode-github-actions"
+      ],
+      "settings": {
+        "debug.javascript.autoAttachFilter": "onlyWithFlag",
+        "dotfiles.repository": "https://github.com/tinesoft/dotfiles"
+      }
+    }
+  }
 }

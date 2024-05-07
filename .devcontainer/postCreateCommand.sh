@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Install pnpm
-npm install -g @pnpm/exe@8.3.1
+# Install pnpm.
+npm install -g @pnpm/exe@9.1.0
 
 
 # Make sure 'node' user can access the 'node_modules' folder that will be mounted as a volume

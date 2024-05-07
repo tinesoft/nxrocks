@@ -80,7 +80,7 @@ launch-templates:
           source $HOME/.sdkman/bin/sdkman-init.sh
           sdk version
 
-          jdkVersion="${JDK_VERSION:-17.0.10}"
+          jdkVersion="${JDK_VERSION:-21.0.3}"
           jdkDistro="${JDK_DISTRO:-ms}"
           javaVersion="${jdkVersion}-${jdkDistro}"
           JAVA_HOME="$HOME/.sdkman/candidates/java/$javaVersion"
