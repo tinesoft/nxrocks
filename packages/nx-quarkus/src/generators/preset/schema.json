@@ -64,6 +64,30 @@
       },
       "x-priority": "important"
     },
+    "javaVersion": {
+      "description": "Java version.",
+      "type": "string",
+      "default": "17",
+      "enum": [
+        "17",
+        "21"
+      ],
+      "x-prompt": {
+        "message": "Which version of Java would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "21",
+            "label": "21"
+          },
+          {
+            "value": "17",
+            "label": "17"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
     "groupId": {
       "description": "Group Id of the project.",
       "type": "string",

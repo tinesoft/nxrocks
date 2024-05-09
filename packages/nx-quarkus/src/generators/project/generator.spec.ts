@@ -98,6 +98,7 @@ describe('project generator', () => {
     groupId: 'com.tinesoft',
     artifactId: 'demo',
     buildSystem: 'MAVEN',
+    javaVersion: '17',
     quarkusInitializerUrl: DEFAULT_QUARKUS_INITIALIZR_URL,
   };
 
@@ -133,7 +134,7 @@ describe('project generator', () => {
       wrapperName,
     }) => {
       const rootDir = '.';
-      const downloadUrl = `${options.quarkusInitializerUrl}/d?b=${buildSystem}&g=${options.groupId}&a=${options.artifactId}`;
+      const downloadUrl = `${options.quarkusInitializerUrl}/d?b=${buildSystem}&j=${options.javaVersion}&g=${options.groupId}&a=${options.artifactId}`;
 
       const zipFiles = [
         {

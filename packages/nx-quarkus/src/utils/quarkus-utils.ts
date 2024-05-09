@@ -48,6 +48,7 @@ export function runQuarkusPluginCommand(
 export function buildQuarkusDownloadUrl(options: NormalizedSchema) {
   const params = [
     { key: 'b', value: options.buildSystem },
+    { key: 'j', value: options.javaVersion },
     { key: 'g', value: options.groupId },
     { key: 'a', value: options.artifactId },
     { key: 'v', value: options.version },

@@ -11,6 +11,7 @@ export interface ProjectGeneratorOptions {
   proxyUrl?: string;
 
   buildSystem: 'MAVEN' | 'GRADLE' | 'GRADLE_KOTLIN_DSL';
+  javaVersion?: string;
   groupId?: string;
   artifactId?: string;
   skipCodeSamples?: boolean;
