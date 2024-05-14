@@ -226,7 +226,7 @@ export function getJvmPackageInfo(project: { root: string }): PackageInfo {
         const projectGroup = match?.groups?.['project'];
         if (idGroup && projectGroup) {
           let packageId = idGroup;
-          if (projectGroup.startsWith('project')) {
+          if (/^\(?project/.test(projectGroup)) {
             // an internal project dependency starts with 'project', we search for its maven coordinates
             const { groupId, artifactId } = getCoordinatesForGradleProjet(
               `${project.root}/../${idGroup.replaceAll(':', '/')}`
