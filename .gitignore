@@ -44,3 +44,8 @@ Thumbs.db
 # Nx files
 /migrations.json
 .nx/cache
+
+# Misc files
+
+.gradle
+bin
