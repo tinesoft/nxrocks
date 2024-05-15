@@ -113,12 +113,17 @@
         "11",
         "17",
         "19",
-        "21"
+        "21",
+        "22"
       ],
       "x-prompt": {
         "message": "Which version of Java would you like to use?",
         "type": "list",
         "items": [
+          {
+            "value": "22",
+            "label": "22"
+          },
           {
             "value": "21",
             "label": "21"
