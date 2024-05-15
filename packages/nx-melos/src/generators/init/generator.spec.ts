@@ -53,8 +53,8 @@ describe('init generator', () => {
     await initGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
     expect(nxJson.plugins).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "plugin": "@nxrocks/nx-melos",
         },
       ]

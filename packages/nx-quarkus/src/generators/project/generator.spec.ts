@@ -268,9 +268,9 @@ describe('project generator', () => {
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
     expect(nxJson.plugins).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "options": Object {
+      [
+        {
+          "options": {
             "addExtensionTargetName": "add-extension",
             "applyFormatTargetName": "apply-format",
             "buildTargetName": "build",

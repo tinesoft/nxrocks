@@ -3,6 +3,14 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-flutter/src",
   "projectType": "library",
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag"
+      }
+    }
+  },
   "tags": [],
   "targets": {
     "build": {
@@ -38,17 +46,13 @@
         ]
       }
     },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+    "nx-release-publish": {
       "options": {
-        "lintFilePatterns": [
-          "packages/nx-flutter/**/*.ts",
-          "packages/nx-flutter/generators.json",
-          "packages/nx-flutter/executors.json",
-          "packages/nx-flutter/package.json"
-        ]
+        "packageRoot": "dist/{projectRoot}"
       }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",

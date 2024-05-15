@@ -3,6 +3,14 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-melos/src",
   "projectType": "library",
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag"
+      }
+    }
+  },
   "tags": [],
   "targets": {
     "build": {
@@ -37,17 +45,13 @@
         ]
       }
     },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+    "nx-release-publish": {
       "options": {
-        "lintFilePatterns": [
-          "packages/nx-melos/**/*.ts",
-          "packages/nx-melos/generators.json",
-          "packages/nx-melos/executors.json",
-          "packages/nx-melos/package.json"
-        ]
+        "packageRoot": "dist/{projectRoot}"
       }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",

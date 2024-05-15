@@ -1,0 +1,3 @@
+pnpm affected:test
+
+git com "$1"

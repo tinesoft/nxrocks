@@ -3,6 +3,14 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/nx-ktor/src",
   "projectType": "library",
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag"
+      }
+    }
+  },
   "tags": [],
   "targets": {
     "build": {
@@ -42,18 +50,13 @@
         ]
       }
     },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+    "nx-release-publish": {
       "options": {
-        "lintFilePatterns": [
-          "packages/nx-ktor/**/*.ts",
-          "packages/nx-ktor/generators.json",
-          "packages/nx-ktor/executors.json",
-          "packages/nx-ktor/package.json",
-          "packages/nx-ktor/migrations.json"
-        ]
+        "packageRoot": "dist/{projectRoot}"
       }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",

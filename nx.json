@@ -1,4 +1,9 @@
 {
+  "pluginsConfig": {
+    "@nx/js": {
+      "analyzeSourceFiles": true
+    }
+  },
   "release": {
     "projects": ["packages/*"],
     "projectsRelationship": "independent",
@@ -12,7 +17,12 @@
       }
     },
     "version": {
-      "conventionalCommits": true
+      "preVersionCommand": "pnpm dlx nx run-many -t build",
+      "generatorOptions": {
+        "currentVersionResolver": "git-tag",
+        "specifierSource": "conventional-commits",
+        "updateDependents": "auto"
+      }
     }
   },
   "tasksRunnerOptions": {
@@ -30,17 +40,23 @@
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
-    "build": {
+    "@nx/js:tsc": {
+      "cache": true,
       "dependsOn": ["^build"],
-      "inputs": ["production", "^production"],
-      "cache": true
+      "inputs": ["default", "^default"]
     },
-    "lint": {
-      "cache": true
+    "@nx/eslint:lint": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json",
+        "{workspaceRoot}/.eslintignore",
+        "{workspaceRoot}/eslint.config.js"
+      ]
     },
     "@nx/jest:jest": {
       "cache": true,
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"],
       "options": {
         "passWithNoTests": true
       },
@@ -50,41 +66,18 @@
           "codeCoverage": true
         }
       }
-    },
-    "install": {
-      "cache": true
-    },
-    "nx-release-publish": {
-      "cache": false,
-      "dependsOn": [
-        {
-          "target": "build",
-          "params": "forward"
-        }
-      ],
-      "options": {
-        "packageRoot": "dist/packages/{projectName}"
-      }
     }
-  },
-  "namedInputs": {
-    "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": [
-      "{workspaceRoot}/workspace.json",
-      "{workspaceRoot}/tsconfig.base.json",
-      "{workspaceRoot}/tslint.json",
-      "{workspaceRoot}/nx.json"
-    ],
-    "production": [
-      "default",
-      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/src/test-setup.[jt]s"
-    ]
   },
   "nxCloudAccessToken": "ZDRmZDczZWUtMDU2My00YzQ0LTlkMWEtZjM2YjZlZWNmNGIxfHJlYWQ=",
   "parallel": 1,
-  "plugins": [],
+  "plugins": [
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "eslint:lint",
+        "extensions": ["ts", "tsx", "js", "jsx", "html", "vue"]
+      }
+    }
+  ],
   "defaultBase": "origin/develop"
 }

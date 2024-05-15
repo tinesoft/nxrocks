@@ -237,9 +237,9 @@ describe('application generator', () => {
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
     expect(nxJson.plugins).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "options": Object {
+      [
+        {
+          "options": {
             "analyzeTargetName": "analyze",
             "assembleTargetName": "assemble",
             "attachTargetName": "attach",

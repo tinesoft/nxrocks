@@ -362,9 +362,9 @@ describe('project generator', () => {
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
     expect(nxJson.plugins).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "options": Object {
+      [
+        {
+          "options": {
             "applyFormatTargetName": "apply-format",
             "buildImageTargetName": "build-image",
             "buildTargetName": "build",

@@ -3,6 +3,14 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/common/src",
   "projectType": "library",
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag"
+      }
+    }
+  },
   "tags": [],
   "targets": {
     "build": {
@@ -10,22 +18,22 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/common",
-        "tsConfig": "packages/common/tsconfig.lib.json",
-        "packageJson": "packages/common/package.json",
         "main": "packages/common/src/index.ts",
+        "tsConfig": "packages/common/tsconfig.lib.json",
         "assets": ["packages/common/*.md"]
       }
     },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+    "nx-release-publish": {
       "options": {
-        "lintFilePatterns": ["packages/common/**/*.ts"]
+        "packageRoot": "dist/{projectRoot}"
       }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/packages/common"],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/common/jest.config.ts"
       }

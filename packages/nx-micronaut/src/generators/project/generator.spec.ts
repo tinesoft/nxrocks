@@ -354,9 +354,9 @@ describe('project generator', () => {
     await projectGenerator(tree, options);
     const nxJson = readJson(tree, 'nx.json');
     expect(nxJson.plugins).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "options": Object {
+      [
+        {
+          "options": {
             "aotSampleConfigTargetName": "aot-sample-config",
             "applyFormatTargetName": "apply-format",
             "buildTargetName": "build",
