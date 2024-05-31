@@ -48,5 +48,4 @@ Thumbs.db
 # Misc files
 
 .gradle
-bin
 target
