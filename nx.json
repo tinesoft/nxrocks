@@ -43,7 +43,7 @@
     "@nx/js:tsc": {
       "cache": true,
       "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
+      "inputs": ["production", "^production"]
     },
     "@nx/eslint:lint": {
       "cache": true,
@@ -79,5 +79,14 @@
       }
     }
   ],
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*"],
+    "production": [
+      "default",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/jest.config.[jt]s"
+    ]
+  },
   "defaultBase": "origin/develop"
 }
