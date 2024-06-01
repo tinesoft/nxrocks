@@ -18,6 +18,7 @@
       "@nxrocks/common": ["packages/common/src/index.ts"],
       "@nxrocks/common-cli": ["packages/common-cli/src/index.ts"],
       "@nxrocks/common-jvm": ["packages/common-jvm/src/index.ts"],
+      "@nxrocks/common-jvm/testing": ["packages/common-jvm/testing/index.ts"],
       "@nxrocks/common/testing": ["packages/common/testing/index.ts"],
       "@nxrocks/nx-flutter": ["packages/nx-flutter/src/index.ts"],
       "@nxrocks/nx-ktor": ["packages/nx-ktor/src/index.ts"],

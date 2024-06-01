@@ -1,10 +1,13 @@
+import { uniq } from '@nx/plugin/testing';
 import {
-  uniq,
-} from '@nx/plugin/testing';
-import {
-  createTestProject, checkFilesExist, isWin, runNxCommandAsync,
-  readJson, tmpProjPath, octal
-} from '@nxrocks/common/testing';
+  createTestProject,
+  checkFilesExist,
+  isWin,
+  runNxCommandAsync,
+  readJson,
+  tmpProjPath,
+  octal,
+} from '@nxrocks/common-jvm/testing';
 import { execSync } from 'child_process';
 import { lstatSync, rmSync } from 'fs-extra';
 
@@ -25,10 +28,11 @@ describe('nx-ktor e2e', () => {
 
   afterAll(() => {
     // Cleanup the test project
-    projectDirectory && rmSync(projectDirectory, {
-      recursive: true,
-      force: true,
-    });
+    projectDirectory &&
+      rmSync(projectDirectory, {
+        recursive: true,
+        force: true,
+      });
   });
 
   it('should be installed', () => {
@@ -41,27 +45,29 @@ describe('nx-ktor e2e', () => {
 
   it('should create nx-ktor', async () => {
     const prjName = uniq('nx-ktor');
-    await runNxCommandAsync(`generate @nxrocks/nx-ktor:new ${prjName} --no-interactive --verbose`);
+    await runNxCommandAsync(
+      `generate @nxrocks/nx-ktor:new ${prjName} --no-interactive --verbose`
+    );
     const resultBuild = await runNxCommandAsync(`build ${prjName}`);
     expect(resultBuild.stdout).toContain(
       `Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} buildFatJar`
     );
     expect(() =>
-    checkFilesExist(
-      `${prjName}/gradlew`,
-      `${prjName}/build.gradle.kts`,
-      `${prjName}/src/main/kotlin/example/com/Application.kt`
-    )
-  ).not.toThrow();
+      checkFilesExist(
+        `${prjName}/gradlew`,
+        `${prjName}/build.gradle.kts`,
+        `${prjName}/src/main/kotlin/example/com/Application.kt`
+      )
+    ).not.toThrow();
 
-  // make sure the build wrapper file is executable (*nix only)
-  if (!isWin) {
-    const execPermission = '755';
-    expect(
-      lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
-      octal(execPermission)
-    ).toEqual(octal(execPermission));
-  }
+    // make sure the build wrapper file is executable (*nix only)
+    if (!isWin) {
+      const execPermission = '755';
+      expect(
+        lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
+          octal(execPermission)
+      ).toEqual(octal(execPermission));
+    }
   }, 120000);
 
   describe('--directory', () => {

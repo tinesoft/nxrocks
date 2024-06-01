@@ -1,15 +1,18 @@
+import { uniq } from '@nx/plugin/testing';
 import {
-  uniq,
-} from '@nx/plugin/testing';
-import {
-  createTestProject, checkFilesExist, tmpProjPath, runNxCommandAsync, readFile,
-  readJson, octal, isWin
-} from '@nxrocks/common/testing';
+  createTestProject,
+  checkFilesExist,
+  tmpProjPath,
+  runNxCommandAsync,
+  readFile,
+  readJson,
+  octal,
+  isWin,
+} from '@nxrocks/common-jvm/testing';
 import { execSync } from 'child_process';
 import { lstatSync, rmSync } from 'fs';
 
 describe('nx-micronaut e2e', () => {
-
   let projectDirectory: string;
 
   beforeAll(() => {
@@ -26,10 +29,11 @@ describe('nx-micronaut e2e', () => {
 
   afterAll(() => {
     // Cleanup the test project
-    projectDirectory && rmSync(projectDirectory, {
-      recursive: true,
-      force: true,
-    });
+    projectDirectory &&
+      rmSync(projectDirectory, {
+        recursive: true,
+        force: true,
+      });
   });
 
   it('should be installed', () => {
@@ -42,7 +46,9 @@ describe('nx-micronaut e2e', () => {
 
   xit('should create nx-micronaut with default options', async () => {
     const prjName = uniq('nx-micronaut');
-    runNxCommandAsync(`generate @nxrocks/nx-micronaut:new ${prjName} --no-interactive`);
+    runNxCommandAsync(
+      `generate @nxrocks/nx-micronaut:new ${prjName} --no-interactive`
+    );
 
     const resultBuild = await runNxCommandAsync(`build ${prjName}`);
     expect(resultBuild.stdout).toContain(
@@ -62,7 +68,7 @@ describe('nx-micronaut e2e', () => {
       const execPermission = '755';
       expect(
         lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
-        octal(execPermission)
+          octal(execPermission)
       ).toEqual(octal(execPermission));
     }
   }, 200000);
@@ -101,8 +107,7 @@ describe('nx-micronaut e2e', () => {
       if (!isWin) {
         const execPermission = '755';
         expect(
-          lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode &
-          octal(execPermission)
+          lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode & octal(execPermission)
         ).toEqual(octal(execPermission));
       }
     },
@@ -155,7 +160,7 @@ describe('nx-micronaut e2e', () => {
         const execPermission = '755';
         expect(
           lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
-          octal(execPermission)
+            octal(execPermission)
         ).toEqual(octal(execPermission));
       }
     }, 200000);
@@ -187,7 +192,7 @@ describe('nx-micronaut e2e', () => {
         const execPermission = '755';
         expect(
           lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
-          octal(execPermission)
+            octal(execPermission)
         ).toEqual(octal(execPermission));
       }
     }, 200000);

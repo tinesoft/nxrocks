@@ -11,7 +11,7 @@ jest.mock('node-fetch');
 import fetch from 'node-fetch';
 const { Response } = jest.requireActual('node-fetch');
 
-import { mockZipStream } from '@nxrocks/common/testing';
+import { mockZipStream } from '@nxrocks/common-jvm/testing';
 import { DEFAULT_SPRING_INITIALIZR_URL } from '../../utils/boot-utils';
 import { POM_XML } from '../project/generator.spec';
 

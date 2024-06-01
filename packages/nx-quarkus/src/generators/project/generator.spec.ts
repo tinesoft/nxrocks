@@ -26,7 +26,7 @@ import {
   SPOTLESS_MAVEN_PLUGIN_ARTIFACT_ID,
   SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
 } from '@nxrocks/common-jvm';
-import { mockZipStream } from '@nxrocks/common/testing';
+import { mockZipStream } from '@nxrocks/common-jvm/testing';
 import { DEFAULT_QUARKUS_INITIALIZR_URL } from '../../utils/quarkus-utils';
 import { normalizeOptions } from './lib';
 import { getProjectTypeAndTargetsFromOptions } from '../../utils/plugin-utils';

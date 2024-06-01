@@ -1,16 +1,19 @@
+import { uniq } from '@nx/plugin/testing';
 import {
-  uniq,
-} from '@nx/plugin/testing';
-import {
-  createTestProject, checkFilesExist, isWin, tmpProjPath, runNxCommandAsync, readFile,
-  readJson, octal
-} from '@nxrocks/common/testing';
+  createTestProject,
+  checkFilesExist,
+  isWin,
+  tmpProjPath,
+  runNxCommandAsync,
+  readFile,
+  readJson,
+  octal,
+} from '@nxrocks/common-jvm/testing';
 import { execSync } from 'child_process';
 
 import { lstatSync, rmSync } from 'fs';
 
 describe('nx-quarkus e2e', () => {
-
   let projectDirectory: string;
 
   beforeAll(() => {
@@ -27,10 +30,11 @@ describe('nx-quarkus e2e', () => {
 
   afterAll(() => {
     // Cleanup the test project
-    projectDirectory && rmSync(projectDirectory, {
-      recursive: true,
-      force: true,
-    });
+    projectDirectory &&
+      rmSync(projectDirectory, {
+        recursive: true,
+        force: true,
+      });
   });
 
   it('should be installed', () => {
@@ -43,9 +47,13 @@ describe('nx-quarkus e2e', () => {
 
   it('should create nx-quarkus with default options', async () => {
     const prjName = uniq('nx-quarkus');
-    await runNxCommandAsync(`generate @nxrocks/nx-quarkus:new ${prjName} --no-interactive`);
+    await runNxCommandAsync(
+      `generate @nxrocks/nx-quarkus:new ${prjName} --no-interactive`
+    );
 
-    const resultBuild = await runNxCommandAsync(`build ${prjName} --no-interactive`);
+    const resultBuild = await runNxCommandAsync(
+      `build ${prjName} --no-interactive`
+    );
     expect(resultBuild.stdout).toContain(
       `Executing command: ${isWin ? 'mvnw.cmd' : './mvnw'} package`
     );
@@ -62,8 +70,7 @@ describe('nx-quarkus e2e', () => {
     if (!isWin) {
       const execPermission = '755';
       expect(
-        lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode &
-          octal(execPermission)
+        lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode & octal(execPermission)
       ).toEqual(octal(execPermission));
     }
   }, 200000);
@@ -110,8 +117,7 @@ describe('nx-quarkus e2e', () => {
       if (!isWin) {
         const execPermission = '755';
         expect(
-          lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode &
-            octal(execPermission)
+          lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode & octal(execPermission)
         ).toEqual(octal(execPermission));
       }
     },

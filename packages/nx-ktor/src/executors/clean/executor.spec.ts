@@ -13,7 +13,7 @@ import {
 import {
   expectExecutorCommandRanWith,
   mockExecutorContext,
-} from '@nxrocks/common/testing';
+} from '@nxrocks/common-jvm/testing';
 
 //first, we mock
 jest.mock('child_process');
@@ -48,10 +48,14 @@ describe('Clean Executor', () => {
   `(
     'should execute a $buildSystem build and ignoring wrapper : $ignoreWrapper',
     async ({ ignoreWrapper, buildSystem, buildFile, execute }) => {
-
-      const files = [buildFile as string, ...(buildSystem === 'maven' ? getMavenWrapperFiles() : getGradleWrapperFiles())];
-      mocked(fsUtility.fileExists).mockImplementation(
-        (filePath: PathLike) => files.some((f) => joinPathFragments(filePath.toString()).endsWith(f))
+      const files = [
+        buildFile as string,
+        ...(buildSystem === 'maven'
+          ? getMavenWrapperFiles()
+          : getGradleWrapperFiles()),
+      ];
+      mocked(fsUtility.fileExists).mockImplementation((filePath: PathLike) =>
+        files.some((f) => joinPathFragments(filePath.toString()).endsWith(f))
       );
 
       await cleanExecutor({ ...options, ignoreWrapper }, mockContext);

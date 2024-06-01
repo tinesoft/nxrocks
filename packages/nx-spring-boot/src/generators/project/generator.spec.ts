@@ -27,7 +27,7 @@ import {
   SPOTLESS_MAVEN_PLUGIN_GROUP_ID,
   BuilderCommandAliasType,
 } from '@nxrocks/common-jvm';
-import { mockZipStream } from '@nxrocks/common/testing';
+import { mockZipStream } from '@nxrocks/common-jvm/testing';
 import { DEFAULT_SPRING_INITIALIZR_URL } from '../../utils/boot-utils';
 import { getProjectTypeAndTargetsFromOptions } from '../../utils/plugin-utils';
 import { normalizeOptions } from './lib';
