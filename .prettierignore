@@ -3,4 +3,9 @@
 /dist
 /coverage
 
+node_modules
+/package.json
+/pnpm-lock.yaml
+
 /.nx/cache
+/.nx/workspace-data
