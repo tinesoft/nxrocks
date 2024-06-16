@@ -1,3 +1,20 @@
+## 9.0.3 (2024-06-16)
+
+
+### 🩹 Fixes
+
+- add empty `targets` in `project.json` when generating projects with inferred tasks ([88a6e8a](https://github.com/tinesoft/nxrocks/commit/88a6e8a))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common to 4.1.2
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 9.0.2 (2024-05-01)
 
 

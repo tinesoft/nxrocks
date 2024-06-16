@@ -1,3 +1,20 @@
+## 2.0.3 (2024-06-16)
+
+
+### 🩹 Fixes
+
+- **common-jvm:** fix dependencies graph generation for `Gradle ` projects with Kotlin DSL ([571424a](https://github.com/tinesoft/nxrocks/commit/571424a))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common to 4.1.2
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 2.0.2 (2024-05-01)
 
 

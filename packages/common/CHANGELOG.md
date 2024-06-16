@@ -1,3 +1,15 @@
+## 4.1.2 (2024-06-16)
+
+
+### 🩹 Fixes
+
+- **common:** fix wrong glob used when listing project files to build project graph ([8d5fd7f](https://github.com/tinesoft/nxrocks/commit/8d5fd7f))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 4.1.1 (2024-05-01)
 
 

@@ -1,3 +1,25 @@
+## 10.1.0 (2024-06-16)
+
+
+### 🚀 Features
+
+- **nx-spring-boot:** add support for Java `22` in the options ([b989258](https://github.com/tinesoft/nxrocks/commit/b989258))
+
+
+### 🩹 Fixes
+
+- add empty `targets` in `project.json` when generating projects with inferred tasks ([88a6e8a](https://github.com/tinesoft/nxrocks/commit/88a6e8a))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common-jvm to 2.0.3
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 10.0.2 (2024-05-01)
 
 

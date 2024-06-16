@@ -1,3 +1,25 @@
+## 8.1.0 (2024-06-16)
+
+
+### 🚀 Features
+
+- **nx-quarkus:** add option to choose which version of Java to use ([6ef262c](https://github.com/tinesoft/nxrocks/commit/6ef262c))
+
+
+### 🩹 Fixes
+
+- add empty `targets` in `project.json` when generating projects with inferred tasks ([88a6e8a](https://github.com/tinesoft/nxrocks/commit/88a6e8a))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common-jvm to 2.0.3
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 8.0.2 (2024-05-01)
 
 
