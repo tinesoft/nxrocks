@@ -110,6 +110,12 @@ function getDependenciesForProject(
   return dependencies;
 }
 
+function getProjectFilesGlob(projectFiles: string[]): string {
+  return projectFiles.length > 1
+    ? `**/{${projectFiles.join(',')}}`
+    : `**/${projectFiles[0]}`;
+}
+
 // Project Graph V1
 
 export function getProjectGraph(
@@ -169,7 +175,7 @@ export const createNodesFor = <T = unknown>(
   pluginName: string
 ) =>
   [
-    `**/{${projectFiles.join(',')}}` as string,
+    getProjectFilesGlob(projectFiles),
     (
       file: string,
       options: T,
@@ -216,11 +222,11 @@ export const createDependenciesIf = (
 
   let dependencies: RawProjectGraphDependency[] = [];
 
-  const projectFilePattern = `**/{${projectFiles.join(',')}}`;
+  const projectFileGlob = getProjectFilesGlob(projectFiles);
   for (const source in ctx.filesToProcess.projectFileMap) {
     const changed = ctx.filesToProcess.projectFileMap[source];
     for (const file of changed) {
-      if (minimatch(file.file, projectFilePattern)) {
+      if (minimatch(file.file, projectFileGlob)) {
         // we only create the workspace map once and only if changed file is of interest
         workspace ??= getPackageInfosForNxProjects(
           pluginName,
