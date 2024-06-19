@@ -1,3 +1,25 @@
+## 6.1.0 (2024-06-19)
+
+
+### 🚀 Features
+
+- remove the prompt to keep project level wrapper (`false` by default) ([d3b89b3](https://github.com/tinesoft/nxrocks/commit/d3b89b3))
+
+
+### 🩹 Fixes
+
+- make `build` target cacheable again ([bc523a2](https://github.com/tinesoft/nxrocks/commit/bc523a2))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common-jvm to null
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 6.0.3 (2024-06-16)
 
 
