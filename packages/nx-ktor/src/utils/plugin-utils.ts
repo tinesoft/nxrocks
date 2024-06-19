@@ -111,6 +111,12 @@ function getProjectTypeAndTargets(
       ...([
         pluginOptions.buildTargetName,
         pluginOptions.installTargetName,
+      ].includes(command)
+        ? { cache: true}
+        : {}),
+      ...([
+        pluginOptions.buildTargetName,
+        pluginOptions.installTargetName,
         pluginOptions.runTargetName,
         pluginOptions.serveTargetName,
       ].includes(command)

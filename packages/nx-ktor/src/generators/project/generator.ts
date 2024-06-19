@@ -37,12 +37,10 @@ export async function projectGenerator(
     addFormattingWithSpotless(tree, normalizedOptions);
   }
 
-  const defaultPluginOptions = normalizePluginOptions();
   addPluginToNxJson(
     NX_KTOR_PKG,
     tree,
-    defaultPluginOptions,
-    defaultPluginOptions.installTargetName
+    normalizePluginOptions()
   );
 }
 

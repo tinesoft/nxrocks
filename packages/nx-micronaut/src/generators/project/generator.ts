@@ -35,12 +35,10 @@ export async function projectGenerator(
     addFormattingWithSpotless(tree, normalizedOptions);
   }
 
-  const defaultPluginOptions = normalizePluginOptions();
   addPluginToNxJson(
     NX_MICRONAUT_PKG,
     tree,
-    defaultPluginOptions,
-    defaultPluginOptions.installTargetName
+    normalizePluginOptions()
   );
 }
 
