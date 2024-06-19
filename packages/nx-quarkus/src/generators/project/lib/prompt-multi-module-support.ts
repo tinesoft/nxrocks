@@ -36,13 +36,7 @@ export async function promptForMultiModuleSupport(tree: Tree, options: Normalize
                     initial: `${options.projectName}-parent`
                 }).then((a) => a['parentModuleName'])).replace(/\//g, '-');
 
-                options.keepProjectLevelWrapper = await prompt({
-                    name: 'keepProjectLevelWrapper',
-                    message:
-                        `A root ${buildSystemName} wrapper will be added in the root module '${options.parentModuleName}'. Do you want to keep the one in the generated child module '${options.projectName}'?`,
-                    type: 'confirm',
-                    initial: false
-                }).then((a) => a['keepProjectLevelWrapper']);
+                options.keepProjectLevelWrapper ??= false;
             }
         }
         else {

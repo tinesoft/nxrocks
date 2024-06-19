@@ -127,7 +127,7 @@
     "keepProjectLevelWrapper": {
       "description": "Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Follow this guide https://t.ly/TmKF- for more information.",
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "quarkusInitializerUrl": {
       "type": "string",
