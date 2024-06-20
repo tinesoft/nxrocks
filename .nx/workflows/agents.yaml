@@ -1,7 +1,7 @@
 launch-templates:
   linux-medium-js-java-flutter:
     resource-class: 'docker_linux_amd64/medium'
-    image: 'ubuntu22.04-node20.9-v2'
+    image: 'ubuntu22.04-node20.11-v7'
     init-steps:
       - name: Checkout
         uses: 'nrwl/nx-cloud-workflows/v3.5/workflow-steps/checkout/main.yaml'
