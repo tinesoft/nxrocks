@@ -1,4 +1,7 @@
+import { isFlutterInstalled } from '../utils/flutter-utils';
+
 export interface NxFlutterPluginOptions {
+  useFvm?: boolean;
   analyzeTargetName?: string;
   cleanTargetName?: string;
   formatTargetName?: string;
@@ -23,8 +26,11 @@ export function normalizePluginOptions(
   opts?: NxFlutterPluginOptions
 ): NxFlutterPluginOptions {
   const options = opts ?? {};
+  const isFvmInstalled = isFlutterInstalled(true);
+
   return {
     ...options,
+    useFvm: options.useFvm && isFvmInstalled,
     analyzeTargetName: options.analyzeTargetName ?? 'analyze',
     cleanTargetName: options.cleanTargetName ?? 'clean',
     formatTargetName: options.formatTargetName ?? 'format',

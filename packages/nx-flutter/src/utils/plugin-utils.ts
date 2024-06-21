@@ -23,7 +23,6 @@ export function getProjectTypeAndTargetsFromFile(
 
   const platforms: PlatformType[] = [];
   let template: TemplateType = 'app';
-  const useFvm = isFlutterInstalled(true);
 
   if (hasProjectFile({ root }, 'android')) platforms.push('android');
   if (hasProjectFile({ root }, 'ios')) platforms.push('ios');
@@ -43,7 +42,6 @@ export function getProjectTypeAndTargetsFromFile(
     root,
     template,
     platforms,
-    useFvm,
     normalizePluginOptions(pluginOptions)
   );
 }
@@ -53,8 +51,7 @@ export function getProjectTypeAndTargetsFromOptions(options: NormalizedSchema) {
     options.projectRoot,
     options.template,
     options.platforms,
-    options.useFvm,
-    normalizePluginOptions()
+    normalizePluginOptions({ useFvm: options.useFvm })
   );
 }
 
@@ -62,7 +59,6 @@ function getProjectTypeAndTargets(
   projectRoot: string,
   template: TemplateType,
   platforms: PlatformType[],
-  useFvm: boolean,
   pluginOptions: NxFlutterPluginOptions
 ) {
   const targets = {};
@@ -115,7 +111,7 @@ function getProjectTypeAndTargets(
         command: `${
           command.key === pluginOptions.formatTargetName
             ? 'dart'
-            : `${useFvm === true ? 'fvm ' : ''}flutter`
+            : `${pluginOptions.useFvm === true ? 'fvm ' : ''}flutter`
         } ${command.value}`,
         cwd: projectRoot,
       },
