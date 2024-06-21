@@ -7,35 +7,35 @@ launch-templates:
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/checkout/main.yaml'
       - name: Restore Node Modules Cache
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
-        env:
-          KEY: 'package-lock.json|yarn.lock|pnpm-lock.yaml'
-          PATHS: 'node_modules'
-          BASE_BRANCH: 'develop'
+        inputs:
+          key: 'package-lock.json|yarn.lock|pnpm-lock.yaml'
+          paths: 'node_modules'
+          base-branch: 'develop'
       - name: Restore Maven/Gradle/SDKMan Cache
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
-        env:
-          KEY: 'pom.xml|build.gradle|build.gradle.kts|settings.gradle|settings.gradle.kts'
-          PATHS: |
+        inputs:
+          key: 'pom.xml|build.gradle|build.gradle.kts|settings.gradle|settings.gradle.kts'
+          paths: |
             ~/.m2/repository
             ~/.sdkman
-          BASE_BRANCH: 'develop'
+          base-branch: 'develop'
 
       - name: Restore Flutter Cache
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
-        env:
-          KEY: '"flutter-sdk"|~/flutter/version|pubspec.yaml'
-          PATHS: |
+        inputs:
+          key: 'pubspec.yaml|"flutter-sdk"'
+          paths: |
             ~/flutter
             ~/.pub-cache
-          BASE_BRANCH: 'develop'
+          base-branch: 'develop'
 
       - name: Restore Android Cache
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
-        env:
-          KEY: '"android-sdk"'
-          PATHS: |
+        inputs:
+          key: '"android-sdk"'
+          paths: |
             ~/android/sdk
-          BASE_BRANCH: 'develop'
+          base-branch: 'develop'
 
       - name: Install Node Modules
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/install-node-modules/main.yaml'
