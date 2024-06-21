@@ -29,6 +29,9 @@ jobs:
       - name: Install node, pnpm, and dependencies
         uses: ./.github/actions/install-dependencies
 
+      # Validating Launch Templates
+      - run: pnpm exec nx-cloud validate --workflow-file="./.nx/workflows/agents.yaml"
+
       # Connect your workspace on nx.app and uncomment this to enable task distribution.
       # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "e2e" targets have been requested
       - run: pnpm exec nx-cloud start-ci-run --distribute-on=".nx/workflows/dynamic-changesets.yaml" --stop-agents-after="e2e" --with-env-vars="ANDROID_SDK_VERSION,FLUTTER_VERSION,JDK_VERSION"
