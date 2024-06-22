@@ -14,13 +14,6 @@
         "runInBand": true
       },
       "dependsOn": ["^build"]
-    },
-    "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["e2e/nx-spring-boot-e2e/**/*.ts"]
-      }
     }
   }
 }
