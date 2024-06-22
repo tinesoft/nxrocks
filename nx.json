@@ -93,5 +93,5 @@
     ],
     "sharedGlobals": ["{workspaceRoot}/.nx/workflows/**/**"]
   },
-  "defaultBase": "origin/develop"
+  "defaultBase": "develop"
 }
