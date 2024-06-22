@@ -29,7 +29,7 @@ export function generateProjectConfiguration(
     sourceRoot: joinPathFragments(options.projectRoot, 'src'),
     ...(!isNxCrystalEnabled()
       ? getProjectTypeAndTargetsFromOptions(options)
-      : { targets: {} }),
+      : {}),
     tags: options.parsedTags,
   });
 }
