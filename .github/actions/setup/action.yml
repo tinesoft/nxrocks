@@ -10,9 +10,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Derive appropriate SHAs for base and head for `nx affected` commands
-      uses: nrwl/nx-set-shas@v4
-
     - name: Setup PNPM
       run: corepack enable pnpm
       shell: bash
@@ -53,3 +50,6 @@ runs:
     - name: Install packages
       run: pnpm install --frozen-lockfile
       shell: bash
+
+    - name: Derive appropriate SHAs for base and head for `nx affected` commands
+      uses: nrwl/nx-set-shas@v4
