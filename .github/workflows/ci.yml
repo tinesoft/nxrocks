@@ -18,7 +18,7 @@ jobs:
       NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
       ANDROID_SDK_VERSION: 34
       FLUTTER_VERSION: 3.19.3
-      JDK_VERSION: 21.0.3
+      JDK_VERSION: 17.0.11
     timeout-minutes: 60
     steps:
       - name: Checkout Repo
