@@ -1,3 +1,20 @@
+## 9.1.0 (2024-06-23)
+
+
+### 🚀 Features
+
+- add `useFvm` in the plugin options (nx.json) to control whether to use `FVM`to run `flutter` ([a4e9878](https://github.com/tinesoft/nxrocks/commit/a4e9878))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common to null
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 9.0.3 (2024-06-16)
 
 

@@ -1,3 +1,20 @@
+## 8.2.1 (2024-06-23)
+
+
+### 🩹 Fixes
+
+- fix `mvnw` or `gradlew` no longer generated when creating simple projects ([95ee167](https://github.com/tinesoft/nxrocks/commit/95ee167))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common-jvm to null
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 8.2.0 (2024-06-19)
 
 
