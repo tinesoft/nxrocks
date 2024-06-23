@@ -1,4 +1,10 @@
-import { Tree, joinPathFragments, logger, stripIndents, workspaceRoot } from '@nx/devkit';
+import {
+  Tree,
+  joinPathFragments,
+  logger,
+  stripIndents,
+  workspaceRoot,
+} from '@nx/devkit';
 
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
@@ -27,7 +33,10 @@ export async function generateMicronautProject(
   );
 
   logger.info(
-    `📦 Extracting Micronaut project zip to '${joinPathFragments(workspaceRoot, options.projectRoot)}'...`
+    `📦 Extracting Micronaut project zip to '${joinPathFragments(
+      workspaceRoot,
+      options.projectRoot
+    )}'...`
   );
 
   if (response.ok) {
@@ -40,7 +49,10 @@ export async function generateMicronautProject(
         filePath.endsWith('mvnw') || filePath.endsWith('gradlew')
           ? '755'
           : undefined;
-      if (getMavenWrapperFiles().includes(filePath) || getGradleWrapperFiles().includes(filePath)) {
+      if (
+        getMavenWrapperFiles().includes(filePath) ||
+        getGradleWrapperFiles().includes(filePath)
+      ) {
         if (options.transformIntoMultiModule) {
           tree.write(`${options.moduleRoot}/${filePath}`, entryContent, {
             mode: execPermission,
@@ -51,9 +63,7 @@ export async function generateMicronautProject(
             mode: execPermission,
           });
         }
-
-      }
-      else {
+      } else {
         tree.write(`${options.projectRoot}/${filePath}`, entryContent, {
           mode: execPermission,
         });
@@ -61,8 +71,9 @@ export async function generateMicronautProject(
     });
   } else {
     throw new Error(stripIndents`
-        ❌ Error downloading Micronaut project zip from '${options.micronautLaunchUrl
-      }'
+        ❌ Error downloading Micronaut project zip from '${
+          options.micronautLaunchUrl
+        }'
         If the problem persists, please open an issue at https://github.com/tinesoft/nxrocks/issues, with the following information:
         ------------------------------------------------------
         Download URL: ${downloadUrl}

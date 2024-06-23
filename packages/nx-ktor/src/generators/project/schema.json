@@ -158,7 +158,7 @@
     "keepProjectLevelWrapper": {
       "description": "Keep the `Maven` or `Gradle` wrapper files from child project (when generating a multi-module project). Follow this guide https://t.ly/dZelN for more information.",
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "ktorInitializrUrl": {
       "type": "string",

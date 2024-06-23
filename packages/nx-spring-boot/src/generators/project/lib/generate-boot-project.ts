@@ -1,4 +1,11 @@
-import { Tree, joinPathFragments, logger, names, stripIndents, workspaceRoot } from '@nx/devkit';
+import {
+  Tree,
+  joinPathFragments,
+  logger,
+  names,
+  stripIndents,
+  workspaceRoot,
+} from '@nx/devkit';
 
 import fetch from 'node-fetch';
 import { NormalizedSchema } from '../schema';
@@ -27,15 +34,23 @@ export async function generateBootProject(
   );
 
   logger.info(
-    `📦 Extracting Spring Boot project zip to '${joinPathFragments(workspaceRoot, options.projectRoot)}'...`
+    `📦 Extracting Spring Boot project zip to '${joinPathFragments(
+      workspaceRoot,
+      options.projectRoot
+    )}'...`
   );
 
   if (response.ok) {
     await extractFromZipStream(response.body, (entryPath, entryContent) => {
       const execPermission =
-        entryPath.endsWith('mvnw') || entryPath.endsWith('gradlew') ? '755' : undefined;
+        entryPath.endsWith('mvnw') || entryPath.endsWith('gradlew')
+          ? '755'
+          : undefined;
 
-      if (getMavenWrapperFiles().includes(entryPath) || getGradleWrapperFiles().includes(entryPath)) {
+      if (
+        getMavenWrapperFiles().includes(entryPath) ||
+        getGradleWrapperFiles().includes(entryPath)
+      ) {
         if (options.transformIntoMultiModule) {
           tree.write(`${options.moduleRoot}/${entryPath}`, entryContent, {
             mode: execPermission,
@@ -46,9 +61,10 @@ export async function generateBootProject(
             mode: execPermission,
           });
         }
-
-      }
-      else if (options.projectType !== 'library' || !getBootApplicationOnlyFiles(options).includes(entryPath)) {
+      } else if (
+        options.projectType !== 'library' ||
+        !getBootApplicationOnlyFiles(options).includes(entryPath)
+      ) {
         tree.write(`${options.projectRoot}/${entryPath}`, entryContent, {
           mode: execPermission,
         });
@@ -56,8 +72,9 @@ export async function generateBootProject(
     });
   } else {
     throw new Error(stripIndents`
-        ❌ Error downloading Spring Boot project zip from '${options.springInitializerUrl
-      }'
+        ❌ Error downloading Spring Boot project zip from '${
+          options.springInitializerUrl
+        }'
         If the problem persists, please open an issue at https://github.com/tinesoft/nxrocks/issues, with the following information:
         ------------------------------------------------------
         Download URL: ${downloadUrl}
@@ -68,14 +85,21 @@ export async function generateBootProject(
   }
 }
 
-
 function getBootApplicationOnlyFiles(options: NormalizedSchema) {
-
   const basePath = options.packageName?.replaceAll('.', '/');
-  const ext = options.language === 'kotlin' ? '.kt' : options.language === 'groovy' ? '.groovy' : '.java';
+  const ext =
+    options.language === 'kotlin'
+      ? '.kt'
+      : options.language === 'groovy'
+      ? '.groovy'
+      : '.java';
   return [
     `src/main/resources/application.properties`,
-    `src/main/${options.language}/${basePath}/${names(options.name).className}Application${ext}`,
-    `src/test/${options.language}/${basePath}/${names(options.name).className}ApplicationTests${ext}`];
-
+    `src/main/${options.language}/${basePath}/${
+      names(options.name).className
+    }Application${ext}`,
+    `src/test/${options.language}/${basePath}/${
+      names(options.name).className
+    }ApplicationTests${ext}`,
+  ];
 }
