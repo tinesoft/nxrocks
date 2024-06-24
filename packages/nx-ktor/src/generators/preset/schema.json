@@ -58,12 +58,7 @@
       "description": "Engine to use to serve the application.",
       "type": "string",
       "default": "NETTY",
-      "enum": [
-        "NETTY",
-        "JETTY",
-        "CIO",
-        "TOMCAT"
-      ],
+      "enum": ["NETTY", "JETTY", "CIO", "TOMCAT"],
       "x-prompt": {
         "message": "Which engine(application server) would you like to use?",
         "type": "list",
@@ -106,11 +101,7 @@
       "description": "Configuratin Location.",
       "type": "string",
       "default": "CODE",
-      "enum": [
-        "YAML",
-        "HOCON",
-        "CODE"
-      ],
+      "enum": ["YAML", "HOCON", "CODE"],
       "x-prompt": {
         "message": "Where would you like to put the configuration in?",
         "type": "list",
@@ -185,13 +176,8 @@
     "projectNameAndRootFormat": {
       "description": "Whether to generate the project name and root directory as provided (`as-provided`) or generate them composing their values and taking the configured layout into account (`derived`).",
       "type": "string",
-      "enum": [
-        "as-provided",
-        "derived"
-      ]
+      "enum": ["as-provided", "derived"]
     }
   },
-  "required": [
-    "prjName"
-  ]
+  "required": ["prjName"]
 }

@@ -23,10 +23,7 @@
       "description": "Type of project.",
       "default": "application",
       "type": "string",
-      "enum": [
-        "application",
-        "library"
-      ],
+      "enum": ["application", "library"],
       "x-prompt": {
         "message": "What kind of project are you generating?",
         "type": "list",
@@ -48,11 +45,7 @@
       "alias": "type",
       "default": "maven-project",
       "type": "string",
-      "enum": [
-        "maven-project",
-        "gradle-project",
-        "gradle-project-kotlin"
-      ],
+      "enum": ["maven-project", "gradle-project", "gradle-project-kotlin"],
       "x-prompt": {
         "message": "Which build system would you like to use?",
         "type": "list",
@@ -77,10 +70,7 @@
       "description": "Packaging of the project.",
       "type": "string",
       "default": "jar",
-      "enum": [
-        "jar",
-        "war"
-      ],
+      "enum": ["jar", "war"],
       "x-prompt": {
         "message": "Which packaging would you like to use?",
         "type": "list",
@@ -108,14 +98,7 @@
         }
       ],
       "default": "17",
-      "enum": [
-        "1.8",
-        "11",
-        "17",
-        "19",
-        "21",
-        "22"
-      ],
+      "enum": ["1.8", "11", "17", "19", "21", "22"],
       "x-prompt": {
         "message": "Which version of Java would you like to use?",
         "type": "list",
@@ -140,11 +123,7 @@
       "description": "Language of the project.",
       "type": "string",
       "default": "java",
-      "enum": [
-        "java",
-        "kotlin",
-        "groovy"
-      ],
+      "enum": ["java", "kotlin", "groovy"],
       "x-prompt": {
         "message": "Which language would you like to use?",
         "type": "list",
@@ -252,15 +231,9 @@
     "projectNameAndRootFormat": {
       "description": "Whether to generate the project name and root directory as provided (`as-provided`) or generate them composing their values and taking the configured layout into account (`derived`).",
       "type": "string",
-      "enum": [
-        "as-provided",
-        "derived"
-      ]
+      "enum": ["as-provided", "derived"]
     }
   },
   "additionalProperties": true,
-  "required": [
-    "prjName",
-    "projectType"
-  ]
+  "required": ["prjName", "projectType"]
 }

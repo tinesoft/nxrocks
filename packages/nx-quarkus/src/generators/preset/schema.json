@@ -68,10 +68,7 @@
       "description": "Java version.",
       "type": "string",
       "default": "17",
-      "enum": [
-        "17",
-        "21"
-      ],
+      "enum": ["17", "21"],
       "x-prompt": {
         "message": "Which version of Java would you like to use?",
         "type": "list",
@@ -162,14 +159,8 @@
     "projectNameAndRootFormat": {
       "description": "Whether to generate the project name and root directory as provided (`as-provided`) or generate them composing their values and taking the configured layout into account (`derived`).",
       "type": "string",
-      "enum": [
-        "as-provided",
-        "derived"
-      ]
+      "enum": ["as-provided", "derived"]
     }
   },
-  "required": [
-    "prjName",
-    "projectType"
-  ]
+  "required": ["prjName", "projectType"]
 }
