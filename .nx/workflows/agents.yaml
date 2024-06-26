@@ -17,6 +17,7 @@ launch-templates:
           key: '**/pom.xml|**/build.gradle|**/build.gradle.kts|**/settings.gradle|**/settings.gradle.kts'
           paths: |
             ../.m2/repository
+            ../.gradle/caches
             ../.sdkman
           base-branch: 'develop'
 
