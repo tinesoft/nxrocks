@@ -5,6 +5,9 @@ launch-templates:
     init-steps:
       - name: System Environment Variables
         script: env
+      - name: List Installed Tools
+        script: ls -al $HOME
+
       - name: Checkout
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/checkout/main.yaml'
       - name: Restore Node Modules Cache
@@ -39,6 +42,9 @@ launch-templates:
           paths: |
             ../android/sdk
           base-branch: 'develop'
+
+      - name: 'Post Restore: List Installed Tools'
+        script: ls -al $HOME
 
       - name: Install Node Modules
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/install-node-modules/main.yaml'
@@ -158,5 +164,7 @@ launch-templates:
           flutter doctor
           echo "✅ Done !"
 
-      - name: System Environment Variables (Post)
+      - name: 'Post Step: List Installed Tools'
+        script: ls -al $HOME
+      - name: 'Post Step:  System Environment Variables'
         script: env
