@@ -46,4 +46,4 @@ jobs:
           main-branch-name: 'develop'
 
       - run: pnpm exec nx-cloud record -- nx format:check
-      - run: pnpm exec nx affected -t lint test build e2e-ci --parallel=6 --exclude=smoke --codeCoverage
+      - run: pnpm exec nx affected -t lint test build e2e-ci --parallel=8 --exclude=smoke --codeCoverage
