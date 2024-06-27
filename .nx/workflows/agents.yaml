@@ -3,6 +3,8 @@ launch-templates:
     resource-class: 'docker_linux_amd64/medium'
     image: 'ubuntu22.04-node20.11-v7'
     init-steps:
+      - name: System Environment Variables
+        script: env
       - name: Checkout
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/checkout/main.yaml'
       - name: Restore Node Modules Cache
@@ -155,3 +157,6 @@ launch-templates:
         script: |
           flutter doctor
           echo "✅ Done !"
+
+      - name: System Environment Variables (Post)
+        script: env
