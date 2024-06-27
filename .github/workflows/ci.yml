@@ -35,7 +35,7 @@ jobs:
 
       # Connect your workspace on nx.app and uncomment this to enable task distribution.
       # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "e2e" targets have been requested
-      - run: pnpm exec nx-cloud start-ci-run --distribute-on=".nx/workflows/dynamic-changesets.yaml" --stop-agents-after="e2e" --with-env-vars="ANDROID_SDK_VERSION,FLUTTER_VERSION,JDK_VERSION"
+      - run: pnpm exec nx-cloud start-ci-run --distribute-on=".nx/workflows/dynamic-changesets.yaml" --stop-agents-after="e2e-ci" --with-env-vars="ANDROID_SDK_VERSION,FLUTTER_VERSION,JDK_VERSION"
 
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track develop origin/develop || exit 0
@@ -46,4 +46,4 @@ jobs:
           main-branch-name: 'develop'
 
       - run: pnpm exec nx-cloud record -- nx format:check
-      - run: pnpm exec nx affected -t lint test build e2e-ci --parallel=8 --exclude=smoke --codeCoverage
+      - run: pnpm exec nx affected -t lint test build e2e-ci --parallel=5 --exclude=smoke --codeCoverage
