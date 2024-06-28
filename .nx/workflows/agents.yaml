@@ -3,23 +3,20 @@ launch-templates:
     resource-class: 'docker_linux_amd64/medium'
     image: 'ubuntu22.04-node20.11-v7'
     init-steps:
-      - name: System Environment Variables
-        script: env
-      - name: List Installed Tools
-        script: ls -al $HOME
-
       - name: Checkout
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/checkout/main.yaml'
+
       - name: Restore Node Modules Cache
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
         inputs:
           key: 'package-lock.json|yarn.lock|pnpm-lock.yaml'
           paths: 'node_modules'
           base-branch: 'develop'
+
       - name: Restore Maven/Gradle/SDKMan Cache
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
         inputs:
-          key: '**/pom.xml|**/build.gradle|**/build.gradle.kts|**/settings.gradle|**/settings.gradle.kts'
+          key: '"sdkman"|**/pom.xml|**/build.gradle|**/build.gradle.kts|**/settings.gradle|**/settings.gradle.kts'
           paths: |
             ../.m2/repository
             ../.gradle/caches
@@ -42,9 +39,6 @@ launch-templates:
           paths: |
             ../android/sdk
           base-branch: 'develop'
-
-      - name: 'Post Restore: List Installed Tools'
-        script: ls -al $HOME
 
       - name: Install Node Modules
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/install-node-modules/main.yaml'
@@ -163,8 +157,3 @@ launch-templates:
         script: |
           flutter doctor
           echo "✅ Done !"
-
-      - name: 'Post Step: List Installed Tools'
-        script: ls -al $HOME
-      - name: 'Post Step:  System Environment Variables'
-        script: env
