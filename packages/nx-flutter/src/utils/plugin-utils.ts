@@ -64,21 +64,20 @@ function getProjectTypeAndTargets(
   const targets = {};
   const commands = [
     { key: pluginOptions.analyzeTargetName, value: 'analyze' },
+    { key: pluginOptions.assembleTargetName, value: 'assemble' },
     { key: pluginOptions.cleanTargetName, value: 'clean' },
     {
       key: pluginOptions.formatTargetName,
       value: `format ${joinPathFragments(projectRoot, '*')}`,
     },
     { key: pluginOptions.testTargetName, value: 'test' },
-    { key: pluginOptions.doctorTargetName, value: 'doctor' },
+    { key: pluginOptions.genL10nTargetName, value: 'gen-l10n' },
   ];
 
   if (template === 'app') {
     commands.push(
-      { key: pluginOptions.assembleTargetName, value: 'assemble' },
       { key: pluginOptions.attachTargetName, value: 'attach' },
       { key: pluginOptions.driveTargetName, value: 'drive' },
-      { key: pluginOptions.genL10nTargetName, value: 'gen-l10n' },
       { key: pluginOptions.installTargetName, value: 'install' },
       { key: pluginOptions.runTargetName, value: 'run' }
     );

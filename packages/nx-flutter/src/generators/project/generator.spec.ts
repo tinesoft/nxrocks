@@ -20,10 +20,8 @@ import { getProjectTypeAndTargetsFromOptions } from '../../utils/plugin-utils';
 process.env['NX_INTERACTIVE'] = 'true'; // simulate normal cli interactive mode (the prompt is mocked anyway)
 
 const appCommands = [
-  { key: 'assemble', value: 'assemble' },
   { key: 'attach', value: 'attach' },
   { key: 'drive', value: 'drive' },
-  { key: 'gen-l10n', value: 'gen-l10n' },
   { key: 'install', value: 'install' },
   { key: 'run', value: 'run' },
 ];
@@ -77,7 +75,8 @@ describe('application generator', () => {
       { key: 'clean', value: 'clean' },
       { key: 'format', value: `format ${project.root}/*` },
       { key: 'test', value: 'test' },
-      { key: 'doctor', value: 'doctor' },
+      { key: 'assemble', value: 'assemble' },
+      { key: 'gen-l10n', value: 'gen-l10n' },
     ];
 
     const commands = [
@@ -251,7 +250,6 @@ describe('application generator', () => {
             "buildIosTargetName": "build-ios",
             "buildIpaTargetName": "build-ipa",
             "cleanTargetName": "clean",
-            "doctorTargetName": "doctor",
             "driveTargetName": "drive",
             "formatTargetName": "format",
             "genL10nTargetName": "gen-l10n",

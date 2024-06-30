@@ -6,7 +6,6 @@ export interface NxFlutterPluginOptions {
   cleanTargetName?: string;
   formatTargetName?: string;
   testTargetName?: string;
-  doctorTargetName?: string;
   assembleTargetName?: string;
   attachTargetName?: string;
   driveTargetName?: string;
@@ -35,7 +34,6 @@ export function normalizePluginOptions(
     cleanTargetName: options.cleanTargetName ?? 'clean',
     formatTargetName: options.formatTargetName ?? 'format',
     testTargetName: options.testTargetName ?? 'test',
-    doctorTargetName: options.doctorTargetName ?? 'doctor',
     assembleTargetName: options.assembleTargetName ?? 'assemble',
     attachTargetName: options.attachTargetName ?? 'attach',
     driveTargetName: options.driveTargetName ?? 'drive',
