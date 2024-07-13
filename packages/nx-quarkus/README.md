@@ -130,6 +130,7 @@ Here the list of available generation options :
 | `skipeCodeSamples`          | `string`                   | Whether or not to include code samples from extensions (when available)                                                                                                                                 |
 | `tags`                      | `string`                   | Tags to use for linting (comma-separated)                                                                                                                                                               |
 | `directory`                 | `string`                   | Directory where the project is placed                                                                                                                                                                   |
+| `javaVersion`               | `string \| number`         | The java version of the project (currently supports versions 17 and 21)                                                                                                                                 |
 
 > **Note:** If you are working behind a corporate proxy, you can use the `proxyUrl` option to specify the URL of that corporate proxy server.
 > Otherwise, you'll get a [ETIMEDOUT error](https://github.com/tinesoft/nxrocks/issues/125) when trying to access official Quarkus Initializer to generate the project.

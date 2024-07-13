@@ -89,9 +89,10 @@ describe('nx-quarkus e2e', () => {
       const artifactId = 'api';
       //const version = '1.2.3'; https://github.com/nrwl/nx/issues/10786
       const extensions = 'resteasy';
+      const javaVersion = '21';
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem=${buildSystem} --groupId=${groupId} --artifactId=${artifactId} --extensions=${extensions} --no-interactive`
+        `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem=${buildSystem} --groupId=${groupId} --artifactId=${artifactId} --extensions=${extensions} --javaVersion ${javaVersion} --no-interactive`
       );
 
       const resultBuild = await runNxCommandAsync(`build ${prjName}`);
@@ -112,6 +113,9 @@ describe('nx-quarkus e2e', () => {
       expect(pomXml).toContain(`<groupId>${groupId}</groupId>`);
       expect(pomXml).toContain(`<artifactId>${artifactId}</artifactId>`);
       //expect(pomXml).toContain(`<version>${version}</version>`);
+      expect(pomXml).toContain(
+        `<maven.compiler.releasez>21</maven.compiler.release>`
+      );
 
       // make sure the build wrapper file is executable (*nix only)
       if (!isWin) {

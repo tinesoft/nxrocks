@@ -70,7 +70,14 @@
     },
     "javaVersion": {
       "description": "Java version.",
-      "type": "string",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
       "default": "17",
       "enum": ["17", "21"],
       "x-prompt": {
