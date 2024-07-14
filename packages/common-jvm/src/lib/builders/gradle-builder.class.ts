@@ -7,6 +7,7 @@ import {
 } from './builder-core.interface';
 import { hasGradleModule, hasGradleWrapper, hasGradleProject } from '../utils';
 import { basename, resolve } from 'path';
+import { workspaceRoot } from '@nx/devkit';
 
 export class GradleBuilder implements BuilderCore {
   constructor(private commandAliases: BuilderCommandAliasMapper) {}
@@ -47,11 +48,16 @@ export class GradleBuilder implements BuilderCore {
         const module = basename(cwd);
         cwd = resolve(cwd, '..');
         pathToModule = [module, ...pathToModule];
-      } while (!hasGradleModule(cwd, childModuleName));
+      } while (!hasGradleModule(cwd, childModuleName) && cwd !== workspaceRoot);
 
       additionalArgs = `${pathToModule.join(':')}`;
     }
 
-    return { cwd, command: `${additionalArgs}${pathToModule.length ? ':' : ''}${this.commandAliases[alias]}` };
+    return {
+      cwd,
+      command: `${additionalArgs}${pathToModule.length ? ':' : ''}${
+        this.commandAliases[alias]
+      }`,
+    };
   }
 }

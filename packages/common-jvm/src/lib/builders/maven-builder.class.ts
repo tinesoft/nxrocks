@@ -1,4 +1,8 @@
-import { MAVEN_EXECUTABLE, MAVEN_WRAPPER_EXECUTABLE, MAVEN_WRAPPER_EXECUTABLE_LEGACY } from '../constants';
+import {
+  MAVEN_EXECUTABLE,
+  MAVEN_WRAPPER_EXECUTABLE,
+  MAVEN_WRAPPER_EXECUTABLE_LEGACY,
+} from '../constants';
 import {
   BuilderCommandAliasMapper,
   BuilderCommandAliasType,
@@ -7,6 +11,7 @@ import {
 } from './builder-core.interface';
 import { basename, resolve } from 'path';
 import { hasMavenModule, hasMavenWrapper } from '../utils/maven-utils';
+import { workspaceRoot } from '@nx/devkit';
 
 export class MavenBuilder implements BuilderCore {
   constructor(private commandAliases: BuilderCommandAliasMapper) {}
@@ -16,32 +21,46 @@ export class MavenBuilder implements BuilderCore {
   }
 
   getExecutable(ignoreWrapper: boolean, useLegacyWrapper = false) {
-    if(ignoreWrapper)
-      return  MAVEN_EXECUTABLE;
-    else 
-      return useLegacyWrapper ? MAVEN_WRAPPER_EXECUTABLE_LEGACY : MAVEN_WRAPPER_EXECUTABLE;
+    if (ignoreWrapper) return MAVEN_EXECUTABLE;
+    else
+      return useLegacyWrapper
+        ? MAVEN_WRAPPER_EXECUTABLE_LEGACY
+        : MAVEN_WRAPPER_EXECUTABLE;
   }
 
-  getCommand(alias: BuilderCommandAliasType, options: { cwd: string, ignoreWrapper?: boolean, runFromParentModule?: boolean}) {
+  getCommand(
+    alias: BuilderCommandAliasType,
+    options: {
+      cwd: string;
+      ignoreWrapper?: boolean;
+      runFromParentModule?: boolean;
+    }
+  ) {
     let additionalArgs = '';
     let cwd = options.cwd;
 
-    if(!options.ignoreWrapper && !hasMavenWrapper(options.cwd) && !options.runFromParentModule){
-      throw new Error(`⚠️ You chose not to use the Maven wrapper from the parent module, but no wrapper was found in current child module`);
+    if (
+      !options.ignoreWrapper &&
+      !hasMavenWrapper(options.cwd) &&
+      !options.runFromParentModule
+    ) {
+      throw new Error(
+        `⚠️ You chose not to use the Maven wrapper from the parent module, but no wrapper was found in current child module`
+      );
     }
-    
-    if(options.runFromParentModule){
-      let pathToModule:string[] = [];
+
+    if (options.runFromParentModule) {
+      let pathToModule: string[] = [];
       const childModuleName = basename(cwd);
       do {
         const module = basename(cwd);
         cwd = resolve(cwd, '..');
         pathToModule = [module, ...pathToModule];
-      } while (!hasMavenModule(cwd, childModuleName));
+      } while (!hasMavenModule(cwd, childModuleName) && cwd !== workspaceRoot);
 
       additionalArgs = `-f ${pathToModule.join('/')} `;
     }
 
-    return {cwd, command: `${additionalArgs}${this.commandAliases[alias]}`};
+    return { cwd, command: `${additionalArgs}${this.commandAliases[alias]}` };
   }
 }
