@@ -59,9 +59,8 @@ export async function promptForMultiModuleSupport(
             initial: `${options.projectName}-parent`,
           }).then((a) => a['parentModuleName'])
         ).replace(/\//g, '-');
-
-        options.keepProjectLevelWrapper ??= true;
       }
+      options.keepProjectLevelWrapper = !options.transformIntoMultiModule;
     } else {
       options.addToExistingParentModule = await prompt({
         name: 'addToExistingParentModule',
@@ -91,6 +90,7 @@ export async function promptForMultiModuleSupport(
           }).then((a) => a['parentModuleName']);
         }
       }
+      options.keepProjectLevelWrapper = !options.addToExistingParentModule;
     }
   }
 
