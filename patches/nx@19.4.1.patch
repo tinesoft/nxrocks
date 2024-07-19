@@ -1,0 +1,46 @@
+diff --git a/release/changelog-renderer/index.js b/release/changelog-renderer/index.js
+index 5b2f41a880933f41856de81b11453c9b27efa733..f4bb0609a3c155fd0dcddfcb6393d888c06cd76c 100644
+--- a/release/changelog-renderer/index.js
++++ b/release/changelog-renderer/index.js
+@@ -25,10 +25,13 @@ const defaultChangelogRenderer = async ({ projectGraph, changes, releaseVersion,
+             }
+         }
+     }
++
++    let relevantChanges = [];
+     // workspace root level changelog
+     if (project === null) {
++        relevantChanges = changes;
+         // No changes for the workspace
+-        if (changes.length === 0) {
++        if (relevantChanges.length === 0) {
+             if (dependencyBumps?.length) {
+                 applyAdditionalDependencyBumps({
+                     markdownLines,
+@@ -42,7 +45,7 @@ const defaultChangelogRenderer = async ({ projectGraph, changes, releaseVersion,
+             }
+             return markdownLines.join('\n').trim();
+         }
+-        const typeGroups = groupBy(changes, 'type');
++        const typeGroups = groupBy(relevantChanges, 'type');
+         markdownLines.push('', createVersionTitle(releaseVersion, changelogRenderOptions), '');
+         for (const type of Object.keys(changeTypes)) {
+             const group = typeGroups[type];
+@@ -75,7 +78,7 @@ const defaultChangelogRenderer = async ({ projectGraph, changes, releaseVersion,
+     }
+     else {
+         // project level changelog
+-        const relevantChanges = changes.filter((c) => c.affectedProjects &&
++         relevantChanges = changes.filter((c) => c.affectedProjects &&
+             (c.affectedProjects === '*' || c.affectedProjects.includes(project)));
+         // Generating for a named project, but that project has no relevant changes in the current set of commits, exit early
+         if (relevantChanges.length === 0) {
+@@ -128,7 +131,7 @@ const defaultChangelogRenderer = async ({ projectGraph, changes, releaseVersion,
+     }
+     if (changelogRenderOptions.authors) {
+         const _authors = new Map();
+-        for (const change of changes) {
++        for (const change of relevantChanges) {
+             if (!change.author) {
+                 continue;
+             }
