@@ -28,7 +28,7 @@ import {
   getGradleModules,
   hasGradleModule,
 } from './gradle-utils';
-import { dirname, relative } from 'path';
+import { dirname, relative, resolve } from 'path';
 
 export const LARGE_BUFFER = 1024 * 1000000;
 
@@ -85,7 +85,7 @@ export function isMavenProjectInTree(tree: Tree, rootFolder: string) {
 }
 
 export function hasMavenProject(cwd: string) {
-  return fileExists(`${cwd}/pom.xml`);
+  return fileExists(resolve(cwd, 'pom.xml'));
 }
 
 export function isGradleProject(project: { root: string }) {
@@ -115,23 +115,24 @@ export function isGradleProjectSettingsInTree(tree: Tree, rootFolder: string) {
 
 export function hasGradleProject(cwd: string) {
   return (
-    fileExists(`${cwd}/build.gradle`) ||
-    fileExists(`${cwd}/settings.gradle`) ||
-    fileExists(`${cwd}/build.gradle.kts`) ||
-    fileExists(`${cwd}/settings.gradle.kts`)
+    fileExists(resolve(cwd, 'build.gradle')) ||
+    fileExists(resolve(cwd, 'settings.gradle')) ||
+    fileExists(resolve(cwd, 'build.gradle.kts')) ||
+    fileExists(resolve(cwd, 'settings.gradle.kts'))
   );
 }
 
 export function hasGradleSettingsFile(cwd: string) {
   return (
-    fileExists(`${cwd}/settings.gradle`) ||
-    fileExists(`${cwd}/settings.gradle.kts`)
+    fileExists(resolve(cwd, 'settings.gradle')) ||
+    fileExists(resolve(cwd, 'settings.gradle.kts'))
   );
 }
 
 export function hasGradleBuildFile(cwd: string) {
   return (
-    fileExists(`${cwd}/build.gradle`) || fileExists(`${cwd}/build.gradle.kts`)
+    fileExists(resolve(cwd, 'build.gradle')) ||
+    fileExists(resolve(cwd, 'build.gradle.kts'))
   );
 }
 
