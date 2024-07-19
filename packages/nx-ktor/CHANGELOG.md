@@ -1,3 +1,20 @@
+## 4.1.2 (2024-07-19)
+
+
+### 🩹 Fixes
+
+- generating projects does not properly consider the option to keep project level wrapper files ([74b38d5](https://github.com/tinesoft/nxrocks/commit/74b38d5))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common-jvm to 2.0.4
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 4.1.1 (2024-06-23)
 
 ### 🩹 Fixes

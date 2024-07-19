@@ -1,3 +1,17 @@
+## 2.0.4 (2024-07-19)
+
+
+### 🩹 Fixes
+
+- **common-jvm:** fix incomplete stop condition when searching for `maven`/`gradle` wrapper ([9a73a73](https://github.com/tinesoft/nxrocks/commit/9a73a73))
+
+- **common-jvm:** improve the check for presence of Maven Wrapper necessary files ([4020539](https://github.com/tinesoft/nxrocks/commit/4020539))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 2.0.3 (2024-06-16)
 
 

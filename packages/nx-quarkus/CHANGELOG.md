@@ -1,3 +1,23 @@
+## 8.2.2 (2024-07-19)
+
+
+### 🩹 Fixes
+
+- generating projects does not properly consider the option to keep project level wrapper files ([74b38d5](https://github.com/tinesoft/nxrocks/commit/74b38d5))
+
+- **nx-quarkus:** support javaVersion argument override for nx-quarkus package ([dcd4e37](https://github.com/tinesoft/nxrocks/commit/dcd4e37))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common-jvm to 2.0.4
+
+
+### ❤️  Thank You
+
+- Cameron-C-Chapman @Cameron-C-Chapman
+- Tine Kondo @tinesoft
+
 ## 8.2.1 (2024-06-23)
 
 ### 🩹 Fixes

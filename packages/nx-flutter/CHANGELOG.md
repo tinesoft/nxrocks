@@ -1,3 +1,15 @@
+## 9.1.1 (2024-07-19)
+
+
+### 🩹 Fixes
+
+- fix targets avalaible for `flutter` projects ([fd427fc](https://github.com/tinesoft/nxrocks/commit/fd427fc))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 9.1.0 (2024-06-23)
 
 ### 🚀 Features
