@@ -556,11 +556,6 @@ function hasMavenWrapperWithPredicate(predicate: (file: string) => boolean) {
   return (
     ['mvnw', '.mvn/wrapper/maven-wrapper.properties'].every((file) =>
       predicate(file)
-    ) &&
-    ['mvnw.bat', 'mvnw.cmd'].some((file) => predicate(file)) &&
-    [
-      '.mvn/wrapper/MavenWrapperDownloader.java',
-      '.mvn/wrapper/maven-wrapper.jar',
-    ].some((file) => predicate(file))
+    ) && ['mvnw.bat', 'mvnw.cmd'].some((file) => predicate(file))
   );
 }
