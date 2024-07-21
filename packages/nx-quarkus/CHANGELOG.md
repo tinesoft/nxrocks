@@ -1,3 +1,10 @@
+## 8.2.3 (2024-07-21)
+
+
+### 🧱 Updated Dependencies
+
+- Updated common-jvm to 2.0.5
+
 ## 8.2.2 (2024-07-19)
 
 

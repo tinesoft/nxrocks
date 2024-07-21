@@ -1,3 +1,15 @@
+## 2.0.5 (2024-07-21)
+
+
+### 🩹 Fixes
+
+- **common-jvm:** improve the check for presence of Maven Wrapper necessary files ([c0a2ed3](https://github.com/tinesoft/nxrocks/commit/c0a2ed3))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 2.0.4 (2024-07-19)
 
 
