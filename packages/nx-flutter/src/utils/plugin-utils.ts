@@ -13,7 +13,6 @@ import {
   NxFlutterPluginOptions,
   normalizePluginOptions,
 } from '../graph/plugin';
-import { isFlutterInstalled } from './flutter-utils';
 
 export function getProjectTypeAndTargetsFromFile(
   projectRootFile: string,
@@ -34,7 +33,7 @@ export function getProjectTypeAndTargetsFromFile(
   if (hasProjectFile({ root }, '.metadata')) {
     const projectMetadata = getProjectFileContent({ root }, '.metadata');
     template =
-      (/project_type: (\w)/.exec(projectMetadata)?.[1] as TemplateType) ||
+      (/project_type: (\w+)/.exec(projectMetadata)?.[1] as TemplateType) ||
       'app';
   }
 
