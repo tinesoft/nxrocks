@@ -1,3 +1,15 @@
+## 9.1.2 (2024-08-01)
+
+
+### 🩹 Fixes
+
+- **nx-flutter:** fix `template` type not properly inferred from `.metadata` file ([027decc](https://github.com/tinesoft/nxrocks/commit/027decc))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 9.1.1 (2024-07-19)
 
 
