@@ -31,7 +31,7 @@ export function buildFlutterCreateOptions(options: NormalizedSchema) {
   const keyValueParams = [
     {
       key: 'project-name',
-      value: options.projectName.replace(new RegExp('-', 'g'), '_'),
+      value: options.projectName.replace(new RegExp('[-.]', 'g'), '_'),
     },
     { key: 'org', value: options.org },
     { key: 'description', value: quote(options.description) },
