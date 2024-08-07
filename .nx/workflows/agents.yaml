@@ -13,32 +13,34 @@ launch-templates:
           paths: 'node_modules'
           base-branch: 'develop'
 
-      - name: Restore Maven/Gradle/SDKMan Cache
-        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
-        inputs:
-          key: '"sdkman"|**/pom.xml|**/build.gradle|**/build.gradle.kts|**/settings.gradle|**/settings.gradle.kts'
-          paths: |
-            ../.m2/repository
-            ../.gradle/caches
-            ../.sdkman
-          base-branch: 'develop'
+      # Restoring files/folders outside the workspace is not currently supoprted by Nx Cloud...
+      #
+      # - name: Restore Maven/Gradle/SDKMan Cache
+      #   uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
+      #   inputs:
+      #     key: '"sdkman"|**/pom.xml|**/build.gradle|**/build.gradle.kts|**/settings.gradle|**/settings.gradle.kts'
+      #     paths: |
+      #       ../.m2/repository
+      #       ../.gradle/caches
+      #       ../.sdkman
+      #     base-branch: 'develop'
 
-      - name: Restore Flutter Cache
-        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
-        inputs:
-          key: '"flutter-sdk"|**/pubspec.yaml'
-          paths: |
-            ../flutter
-            ../.pub-cache
-          base-branch: 'develop'
+      # - name: Restore Flutter Cache
+      #   uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
+      #   inputs:
+      #     key: '"flutter-sdk"|**/pubspec.yaml'
+      #     paths: |
+      #       ../flutter
+      #       ../.pub-cache
+      #     base-branch: 'develop'
 
-      - name: Restore Android Cache
-        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
-        inputs:
-          key: '"android-sdk"'
-          paths: |
-            ../android/sdk
-          base-branch: 'develop'
+      # - name: Restore Android Cache
+      #   uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
+      #   inputs:
+      #     key: '"android-sdk"'
+      #     paths: |
+      #       ../android/sdk
+      #     base-branch: 'develop'
 
       - name: Install Node Modules
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/install-node-modules/main.yaml'
