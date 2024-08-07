@@ -1,7 +1,7 @@
 {
   "name": "@nxrocks/nx-flutter",
   "description": "Nx plugin adding first class support for Flutter in your Nx workspace",
-  "version": "9.0.2",
+  "version": "9.1.2",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -32,7 +32,7 @@
     "js-yaml": "^4.1.0",
     "tslib": "^2.6.1",
     "@nx/workspace": ">=18.0.0",
-    "@nxrocks/common": "4.1.1"
+    "@nxrocks/common": "4.1.2"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
