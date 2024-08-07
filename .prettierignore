@@ -7,5 +7,7 @@ node_modules
 /package.json
 /pnpm-lock.yaml
 
+packages/**/CHANGELOG.md
+
 /.nx/cache
 /.nx/workspace-data
