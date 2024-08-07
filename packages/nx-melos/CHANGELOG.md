@@ -1,3 +1,20 @@
+## 4.0.4 (2024-08-07)
+
+
+### 🩹 Fixes
+
+- fix incorrect versioning of packages and their internal dependencies ([080f250](https://github.com/tinesoft/nxrocks/commit/080f250))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common to 4.1.3
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 4.0.3 (2024-06-16)
 
 

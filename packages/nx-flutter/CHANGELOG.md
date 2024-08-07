@@ -1,3 +1,25 @@
+## 9.2.0 (2024-08-07)
+
+
+### 🚀 Features
+
+- **nx-flutter:** include `.` character when snake casing a project name to match dart conventions ([06e7cde](https://github.com/tinesoft/nxrocks/commit/06e7cde))
+
+
+### 🩹 Fixes
+
+- fix incorrect versioning of packages and their internal dependencies ([080f250](https://github.com/tinesoft/nxrocks/commit/080f250))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common to 4.1.3
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 9.1.2 (2024-08-01)
 
 
