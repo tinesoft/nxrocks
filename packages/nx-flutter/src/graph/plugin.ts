@@ -19,6 +19,20 @@ export interface NxFlutterPluginOptions {
   buildIosTargetName?: string;
   buildIosFrameworkTargetName?: string;
   buildIpaTargetName?: string;
+
+  // pub related sub-commands
+  pubGetTargetName?: string;
+  pubUpgradeTargetName?: string;
+  pubDowngradeTargetName?: string;
+  pubOutdatedTargetName?: string;
+  pubAddTargetName?: string;
+  pubRemoveTargetName?: string;
+  pubRunTargetName?: string;
+  //pubCacheTargetName?: string;
+  //pubGlobalTargetName?: string;
+  pubPublishTargetName?: string;
+  pubDepsTargetName?: string;
+  pubVersionTargetName?: string;
 }
 
 export function normalizePluginOptions(
@@ -49,5 +63,19 @@ export function normalizePluginOptions(
     buildIosFrameworkTargetName:
       options.buildIosFrameworkTargetName ?? 'build-ios-framework',
     buildIpaTargetName: options.buildIpaTargetName ?? 'build-ipa',
+
+    // pub related sub-commands
+    pubGetTargetName: options.pubGetTargetName ?? 'pub-get',
+    pubUpgradeTargetName: options.pubUpgradeTargetName ?? 'pub-upgrade',
+    pubDowngradeTargetName: options.pubDowngradeTargetName ?? 'pub-downgrade',
+    pubOutdatedTargetName: options.pubOutdatedTargetName ?? 'pub-outdated',
+    pubAddTargetName: options.pubAddTargetName ?? 'pub-add',
+    pubRemoveTargetName: options.pubRemoveTargetName ?? 'pub-remove',
+    pubRunTargetName: options.pubRunTargetName ?? 'pub-run',
+    //pubCacheTargetName: options.pubCacheTargetName ?? 'pub-cache',
+    //pubGlobalTargetName: options.pubGlobalTargetName ?? 'pub-global',
+    pubPublishTargetName: options.pubPublishTargetName ?? 'pub-publish',
+    pubDepsTargetName: options.pubDepsTargetName ?? 'pub-deps',
+    pubVersionTargetName: options.pubVersionTargetName ?? 'pub-version',
   };
 }

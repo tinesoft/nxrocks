@@ -71,6 +71,22 @@ function getProjectTypeAndTargets(
     },
     { key: pluginOptions.testTargetName, value: 'test' },
     { key: pluginOptions.genL10nTargetName, value: 'gen-l10n' },
+
+    { key: pluginOptions.pubGetTargetName, value: 'pub get' },
+    { key: pluginOptions.pubUpgradeTargetName, value: 'pub upgrade' },
+    { key: pluginOptions.pubDowngradeTargetName, value: 'pub downgrade' },
+    { key: pluginOptions.pubOutdatedTargetName, value: 'pub outdated' },
+    { key: pluginOptions.pubAddTargetName, value: 'pub add {args.package}' },
+    {
+      key: pluginOptions.pubRemoveTargetName,
+      value: 'pub remove {args.package}',
+    },
+    { key: pluginOptions.pubRunTargetName, value: 'pub run {args.executable}' },
+    //{ key: pluginOptions.pubCacheTargetName, value: 'pub cache' },
+    //{ key: pluginOptions.pubGlobalTargetName, value: 'pub global' },
+    { key: pluginOptions.pubPublishTargetName, value: 'pub publish' },
+    { key: pluginOptions.pubDepsTargetName, value: 'pub deps' },
+    { key: pluginOptions.pubVersionTargetName, value: 'pub version' },
   ];
 
   if (template === 'app') {

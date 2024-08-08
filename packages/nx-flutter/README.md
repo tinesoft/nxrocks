@@ -133,47 +133,63 @@ Once your app is generated, you can now use **executors** to manage it.
 
 Here the list of available executors<sup>1</sup>:
 
-| Executor            | Arguments                                | Description                                                                                                              |
-| ------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `analyze`           | _see `flutter help analyze`_             | Analyze the project's Dart code                                                                                          |
-| `assemble`          | _see `flutter help assemble`_            | Assemble and build Flutter resources                                                                                     |
-| `attach`            | _see `flutter help attach`_              | Attach to a running app                                                                                                  |
-| `build-aar`         | _see `flutter help build aar`_           | Build a repository containing an AAR and a POM file                                                                      |
-| `build-apk`         | _see `flutter help build apk`_           | Build an Android APK file from your app                                                                                  |
-| `build-appbundle`   | _see `flutter help build appbundle`_     | Build an Android App Bundle file from your app                                                                           |
-| `build-bundle`      | _see `flutter help build bundle`_        | Build the Flutter assets directory from your app                                                                         |
-| `build-ios`         | _see `flutter help build ios`_           | Build an iOS application bundle (Mac OS X host only)                                                                     |
-| `buildIosframework` | _see `flutter help build ios-framework`_ | Produces a .framework directory for a Flutter module and its plugins for integration into existing, plain Xcode projects |
-| `build-ipa`         | _see `flutter help build ipa`_           | Build an iOS archive bundle (Mac OS X host only)                                                                         |
-| `clean`             | _see `flutter help clean`_               | Delete the `build/` and `dart_tool/` directories                                                                         |
-| `drive`             | _see `flutter help drive`_               | Run integration tests for the project on an attached device or emulator                                                  |
-| `format`            | _see `dart help format`_                 | Format one or more Dart files                                                                                            |
-| `gen-l10n`          | _see `flutter help gen-l10n`_            | Generate localizations for the current project                                                                           |
-| `install`           | _see `flutter help install`_             | Install a Flutter app on an attached device                                                                              |
-| `run`               | _see `flutter help run`_                 | Run your Flutter app on an attached device                                                                               |
-| `screenshot`        | _see `flutter help screenshot`_          | Take a screenshot from a connected device                                                                                |
-| `symbolize`         | _see `flutter help symbolize`_           | Symbolize a stack trace from an AOT-compiled Flutter app                                                                 |
-| `test`              | _see `flutter help test`_                | Run Flutter unit tests for the current project                                                                           |
+| Executor            | Arguments                                                                                     | Description                                                                                                              |
+| ------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `analyze`           | _see `flutter help analyze`_                                                                  | Analyze the project's Dart code                                                                                          |
+| `assemble`          | _see `flutter help assemble`_                                                                 | Assemble and build Flutter resources                                                                                     |
+| `attach`            | _see `flutter help attach`_                                                                   | Attach to a running app                                                                                                  |
+| `build-aar`         | _see `flutter help build aar`_                                                                | Build a repository containing an AAR and a POM file                                                                      |
+| `build-apk`         | _see `flutter help build apk`_                                                                | Build an Android APK file from your app                                                                                  |
+| `build-appbundle`   | _see `flutter help build appbundle`_                                                          | Build an Android App Bundle file from your app                                                                           |
+| `build-bundle`      | _see `flutter help build bundle`_                                                             | Build the Flutter assets directory from your app                                                                         |
+| `build-ios`         | _see `flutter help build ios`_                                                                | Build an iOS application bundle (Mac OS X host only)                                                                     |
+| `buildIosframework` | _see `flutter help build ios-framework`_                                                      | Produces a .framework directory for a Flutter module and its plugins for integration into existing, plain Xcode projects |
+| `build-ipa`         | _see `flutter help build ipa`_                                                                | Build an iOS archive bundle (Mac OS X host only)                                                                         |
+| `clean`             | _see `flutter help clean`_                                                                    | Delete the `build/` and `dart_tool/` directories                                                                         |
+| `drive`             | _see `flutter help drive`_                                                                    | Run integration tests for the project on an attached device or emulator                                                  |
+| `format`            | _see `dart help format`_                                                                      | Format one or more Dart files                                                                                            |
+| `gen-l10n`          | _see `flutter help gen-l10n`_                                                                 | Generate localizations for the current project                                                                           |
+| `install`           | _see `flutter help install`_                                                                  | Install a Flutter app on an attached device                                                                              |
+| `run`               | _see `flutter help run`_                                                                      | Run your Flutter app on an attached device                                                                               |
+| `screenshot`        | _see `flutter help screenshot`_                                                               | Take a screenshot from a connected device                                                                                |
+| `symbolize`         | _see `flutter help symbolize`_                                                                | Symbolize a stack trace from an AOT-compiled Flutter app                                                                 |
+| `test`              | _see `flutter help test`_                                                                     | Run Flutter unit tests for the current project                                                                           |
+| `pub-get`           | _see `flutter help pub get`_                                                                  | Fetches and installs the dependencies listed in your `pubspec.yaml` file.                                                |
+| `pub-upgrade`       | _see `flutter help pub upgrade`_                                                              | Upgrades dependencies to the latest versions that match the constraints in `pubspec.yaml`.                               |
+| `pub-downgrade`     | _see `flutter help pub downgrade`_                                                            | Downgrades dependencies to the earliest versions that match the constraints in `pubspec.yaml`.                           |
+| `pub-outdated`      | _see `flutter help pub outdated`_                                                             | Lists outdated dependencies, showing current, upgradable, and latest versions.                                           |
+| `pub-add`           | `--package=<pkg_name>` (required) _see `flutter help pub add`_ for the rest of options        | Adds a new dependency to `pubspec.yaml` and fetches it.                                                                  |
+| `pub-remove`        | `--package=<pkg_name>` (required) _see `flutter help pub remove`_ for the rest of options     | Removes a dependency from `pubspec.yaml` and updates the package list.                                                   |
+| `pub-run`           | `--executable="<executable>"` (required) _see `flutter help pub run`_ for the rest of options | Runs an executable from one of your dependencies.                                                                        |
+| `pub-publish`       | _see `flutter help pub publish`_                                                              | Publishes your package to the Dart package repository (`pub.dev`).                                                       |
+| `pub-deps`          | _see `flutter help pub deps`_                                                                 | Displays a dependency graph of your package's dependencies.                                                              |
+| `pub-version`       | _see `flutter help pub version`_                                                              | Shows the current version of the Dart SDK.                                                                               |
 
 <sup>1</sup> : _Actual executors in your `workspace.json` will depend on the type of `flutter` project (`template`), target `platforms` that you choose to generate._
 
 Each executor is based on an original project-level `flutter` command. The name is just **kebab-cased** to match executors' naming conventions.
-Besides, the arguments accepted by each executor, are the same as the original `flutter` command they are based upon, encapsulated
-under a generic `--args='...'` option.
+Besides, the addtional arguments accepted by each executor, are the same as the original `flutter` command they are based upon, and can be provided directly like in `--option=value`. Read this [guide](https://nx.dev/recipes/running-tasks/pass-args-to-commands#pass-args-when-running-the-command-in-the-terminal) for more about the syntax to pass arguments along.
 
 For example:
 
 ```
 $ flutter gen-l10n --header "/// my header"
+$ flutter pub add builder_runner
+$ flutter pub run build_runner build
 
-becomes 👉🏾
+become 👉🏾
 
-$ nx gen-l10n your-flutterapp --args='--header="/// my header"'
+$ nx gen-l10n your-flutterapp --header="/// my header"
+$ nx pub-add your-flutterapp --package=build_runner
+$ nx pub-run your-flutterapp --executable="build_runner build"    // note  the "" around the executable command, because it has spaces
+
+or
+
+$ nx run your-flutterapp:gen-l10n --header="/// my header"
+$ nx run your-flutterapp:pub-add --package=build_runner
+$ nx run your-flutterapp:pub-run --executabe="build_runner build"  // note  the "" around the executable command, because it has spaces
+
 ```
-
-> Note that the original `flutter` command name (`gen-l10n`) has been camelcased for creating its `nx-flutter` equivalent (`gen-l10n`)
-
-> Note that the arguments of the original `flutter` command are wrapped under `--args='...'` option in the `nx-flutter` equivalent
 
 ## Compatibility with Nx
 
