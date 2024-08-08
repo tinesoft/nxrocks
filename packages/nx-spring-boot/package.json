@@ -1,7 +1,6 @@
 {
   "name": "@nxrocks/nx-spring-boot",
   "description": "Nx Plugin to generate, run, package, build (and more) Spring Boot projects inside your Nx workspace",
-  "version": "10.2.3",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -29,7 +28,7 @@
     "java"
   ],
   "dependencies": {
-    "@nxrocks/common-jvm": "2.0.5",
+    "@nxrocks/common-jvm": "workspace:*",
     "node-fetch": "^2.6.12",
     "enquirer": "^2.4.1",
     "tslib": "^2.6.1"

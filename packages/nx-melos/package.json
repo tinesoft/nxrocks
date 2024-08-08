@@ -1,7 +1,6 @@
 {
   "name": "@nxrocks/nx-melos",
   "description": "Nx plugin adding first class support for Melos in your Nx workspace",
-  "version": "4.0.3",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -31,7 +30,7 @@
   "dependencies": {
     "tslib": "^2.6.1",
     "@nx/workspace": ">=18.0.0",
-    "@nxrocks/common": "4.1.2"
+    "@nxrocks/common": "workspace:*"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {
