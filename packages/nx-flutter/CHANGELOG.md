@@ -1,3 +1,20 @@
+## 9.3.0 (2024-08-08)
+
+
+### 🚀 Features
+
+- **nx-flutter:** add support for `flutter pub` related sub-commands ([82d5579](https://github.com/tinesoft/nxrocks/commit/82d5579))
+
+
+### 🩹 Fixes
+
+- migrate to `workspace references` strategy for tracking versions of packages ([1a40ba7](https://github.com/tinesoft/nxrocks/commit/1a40ba7))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 9.2.0 (2024-08-07)
 
 

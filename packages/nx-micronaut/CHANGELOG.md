@@ -1,3 +1,15 @@
+## 6.1.5 (2024-08-08)
+
+
+### 🩹 Fixes
+
+- migrate to `workspace references` strategy for tracking versions of packages ([1a40ba7](https://github.com/tinesoft/nxrocks/commit/1a40ba7))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 6.1.4 (2024-08-07)
 
 
