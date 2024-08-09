@@ -30,7 +30,7 @@
   "dependencies": {
     "tslib": "^2.6.1",
     "@nx/workspace": ">=18.0.0",
-    "@nxrocks/common": "workspace:*"
+    "@nxrocks/common": "file:../common"
   },
   "typings": "./src/index.d.ts",
   "peerDependencies": {

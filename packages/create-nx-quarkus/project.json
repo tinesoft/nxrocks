@@ -24,11 +24,6 @@
         "assets": ["packages/create-nx-quarkus/*.md"]
       }
     },
-    "nx-release-publish": {
-      "options": {
-        "packageRoot": "dist/{projectRoot}"
-      }
-    },
     "lint": {
       "executor": "@nx/eslint:lint"
     },

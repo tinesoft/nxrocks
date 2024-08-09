@@ -29,7 +29,7 @@
     "native"
   ],
   "dependencies": {
-    "@nxrocks/common-jvm": "workspace:*",
+    "@nxrocks/common-jvm": "file:../common-jvm",
     "node-fetch": "^2.6.12",
     "enquirer": "^2.4.1",
     "tslib": "^2.6.1"

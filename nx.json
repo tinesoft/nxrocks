@@ -19,9 +19,9 @@
     "version": {
       "preVersionCommand": "pnpm dlx nx run-many -t build",
       "generatorOptions": {
+        "packageRoot": "dist/packages/{projectName}",
         "currentVersionResolver": "git-tag",
-        "specifierSource": "conventional-commits",
-        "updateDependents": "auto"
+        "specifierSource": "conventional-commits"
       }
     }
   },
@@ -40,6 +40,11 @@
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/packages/{projectName}"
+      }
+    },
     "@nx/js:tsc": {
       "cache": true,
       "dependsOn": ["^build"],

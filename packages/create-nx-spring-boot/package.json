@@ -23,7 +23,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@nxrocks/common-cli": "workspace:*",
+    "@nxrocks/common-cli": "file:../common-cli",
     "tslib": "^2.6.1"
   },
   "type": "commonjs",
