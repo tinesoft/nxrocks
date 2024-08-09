@@ -1,3 +1,20 @@
+## 8.2.6 (2024-08-09)
+
+
+### 🩹 Fixes
+
+- migrate to `file references` strategy for tracking versions of packages ([31bc93b](https://github.com/tinesoft/nxrocks/commit/31bc93b))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common-jvm to 2.0.8
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 8.2.5 (2024-08-08)
 
 

@@ -1,3 +1,20 @@
+## 2.3.4 (2024-08-09)
+
+
+### 🩹 Fixes
+
+- migrate to `file references` strategy for tracking versions of packages ([31bc93b](https://github.com/tinesoft/nxrocks/commit/31bc93b))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common-cli to 2.2.4
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 2.3.3 (2024-08-08)
 
 

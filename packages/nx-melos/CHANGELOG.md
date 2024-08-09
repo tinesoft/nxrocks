@@ -1,3 +1,20 @@
+## 4.0.6 (2024-08-09)
+
+
+### 🩹 Fixes
+
+- migrate to `file references` strategy for tracking versions of packages ([31bc93b](https://github.com/tinesoft/nxrocks/commit/31bc93b))
+
+
+### 🧱 Updated Dependencies
+
+- Updated common to 4.1.5
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 4.0.5 (2024-08-08)
 
 

@@ -1,3 +1,15 @@
+## 2.2.4 (2024-08-09)
+
+
+### 🩹 Fixes
+
+- migrate to `file references` strategy for tracking versions of packages ([31bc93b](https://github.com/tinesoft/nxrocks/commit/31bc93b))
+
+
+### ❤️  Thank You
+
+- Tine Kondo @tinesoft
+
 ## 2.2.3 (2024-08-08)
 
 
