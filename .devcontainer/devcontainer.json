@@ -30,7 +30,9 @@
   ],
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [4211],
+  // 4211 = nx graph port
+  // 4873 = verdaccio (local npm registry) port
+  "forwardPorts": [4211, 4873],
   "runArgs": [],
   "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
   "customizations": {
@@ -44,10 +46,11 @@
         "dbaeumer.vscode-eslint",
         "firsttris.vscode-jest-runner",
         "anweber.reveal-button",
-        "github.vscode-github-actions"
+        "github.vscode-github-actions",
+        "mutantdino.resourcemonitor" // to monitor cpu, memory usage from the dev containeréé
       ],
       "settings": {
-        "debug.javascript.autoAttachFilter": "onlyWithFlag",
+        "debug.javascript.autoAttachFilter": "disabled",
         "dotfiles.repository": "https://github.com/tinesoft/dotfiles"
       }
     }

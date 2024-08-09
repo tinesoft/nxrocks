@@ -1,12 +1,19 @@
 #!/bin/sh
 
-# Install/Activate PNPM version defined in root package.json
-corepack enable pnpm
+# Uninstall globally installed PNPM (required version will be reinstalled through corepack)
+echo "❌ Uninstalling globally installed PNPM..."
+npm uninstall -g pnpm
 
+# Prevent corepack from prompting user before downloading PNPM 
+export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
 
-# Make sure 'node' user can access the 'node_modules' folder that will be mounted as a volume
-# https://code.visualstudio.com/remote/advancedcontainers/improve-performance#_use-a-targeted-named-volume
-#sudo chown node node_modules
+# Enable corepack 
+corepack enable 
 
-# Install dependencies
+# Install the PNPM version defined in the root package.json
+echo "⚙️ Installing required PNPM version..."
+corepack prepare --activate
+
+# Install NPM dependencies
+echo "⚙️ Installing NPM dependencies..."
 pnpm install --frozen-lockfile
