@@ -49,7 +49,7 @@ Here is a list of some of the coolest features of the plugin:
 >
 > and you are good to go‧o‧o‧o! 🚀
 >
-> More information here: [create-nx-flutter](../packages/create-nx-flutter/README.md)
+> More information here: [create-nx-flutter](../create-nx-flutter/README.md)
 
 </details>
 
