@@ -1,0 +1,1 @@
+chore: update `e2e` tasks, to only populate local registry once for all tests
