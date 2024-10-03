@@ -5,12 +5,12 @@
   "scripts": {
     "nx": "nx",
     "build": "nx run-many --target build --parallel 4 --exclude smoke",
-    "test": "nx run-many --target test --parallel 4 --exclude smoke --runInBand",
+    "test": "nx run-many --target test --parallel 4",
     "e2e": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/run-all-e2e-tests.ts",
     "lint": "nx run-many --target lint --fix --parallel 4 --exclude smoke",
     "affected:build": "nx affected --target build --exclude=smoke",
     "affected:e2e": "nx affected --target e2e --exclude=smoke",
-    "affected:test": "nx affected --target test --exclude=smoke",
+    "affected:test": "nx affected --target test",
     "affected:lint": "nx affected --target lint --fix",
     "affected:format": "nx affected --target format",
     "affected:graph": "nx affected --graph",
@@ -21,7 +21,7 @@
     "help": "nx help",
     "release": "nx release --dry-run -- --skip-nx-cache",
     "prepare": "husky",
-    "smoke": "FORCE_SMOKE_TESTS=true nx test smoke",
+    "smoke": "FORCE_SMOKE_TESTS=true nx e2e smoke",
     "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true pnpm smoke",
     "sync-preset-schemas": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/sync-preset-schemas.ts"
   },

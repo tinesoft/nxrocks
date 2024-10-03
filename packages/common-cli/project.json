@@ -22,16 +22,6 @@
         "tsConfig": "packages/common-cli/tsconfig.lib.json",
         "assets": ["packages/common-cli/*.md"]
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/common-cli/jest.config.ts"
-      }
     }
   }
 }

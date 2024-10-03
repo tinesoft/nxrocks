@@ -7,13 +7,25 @@
   "implicitDependencies": ["nx-micronaut"],
   "targets": {
     "e2e": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/jest.preset.js",
+        {
+          "externalDependencies": ["jest"]
+        }
+      ],
       "options": {
-        "jestConfig": "e2e/nx-micronaut-e2e/jest.config.ts",
+        "passWithNoTests": true,
         "runInBand": true
       },
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
+      }
     }
   }
 }

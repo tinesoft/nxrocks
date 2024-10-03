@@ -23,16 +23,6 @@
         "tsConfig": "packages/create-nx-spring-boot/tsconfig.lib.json",
         "assets": ["packages/create-nx-spring-boot/*.md"]
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/create-nx-spring-boot/jest.config.ts"
-      }
     }
   }
 }

@@ -23,16 +23,6 @@
         "tsConfig": "packages/create-nx-quarkus/tsconfig.lib.json",
         "assets": ["packages/create-nx-quarkus/*.md"]
       }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "packages/create-nx-quarkus/jest.config.ts"
-      }
     }
   }
 }

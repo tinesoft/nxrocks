@@ -40,6 +40,43 @@
   },
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
+    "test": {
+      "options": {
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
+      }
+    },
+    "e2e": {
+      "options": {
+        "passWithNoTests": true,
+        "runInBand": true
+      },
+      "dependsOn": ["^build"],
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
+      }
+    },
+    "e2e-ci": {
+      "options": {
+        "passWithNoTests": true,
+        "runInBand": true
+      },
+      "dependsOn": ["^build"],
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "coverage": true
+        }
+      }
+    },
     "nx-release-publish": {
       "options": {
         "packageRoot": "dist/packages/{projectName}"
@@ -58,19 +95,6 @@
         "{workspaceRoot}/.eslintignore",
         "{workspaceRoot}/eslint.config.js"
       ]
-    },
-    "@nx/jest:jest": {
-      "cache": true,
-      "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"],
-      "options": {
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
-      }
     }
   },
   "nxCloudAccessToken": "ZDRmZDczZWUtMDU2My00YzQ0LTlkMWEtZjM2YjZlZWNmNGIxfHJlYWQ=",
@@ -82,6 +106,45 @@
         "targetName": "eslint:lint",
         "extensions": ["ts", "tsx", "js", "jsx", "html", "vue"]
       }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "e2e",
+        "ciTargetName": "e2e-ci"
+      },
+      "include": [
+        "e2e/nx-flutter-e2e/**/*",
+        "e2e/nx-ktor-e2e/**/*",
+        "e2e/nx-melos-e2e/**/*",
+        "e2e/nx-micronaut-e2e/**/*",
+        "e2e/nx-quarkus-e2e/**/*",
+        "e2e/nx-spring-boot-e2e/**/*",
+        "e2e/smoke/**/*"
+      ]
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test",
+        "ciTargetName": "test-ci"
+      },
+      "include": [
+        "packages/common/**/*",
+        "packages/common-cli/**/*",
+        "packages/common-jvm/**/*",
+        "packages/create-nx-flutter/**/*",
+        "packages/create-nx-ktor/**/*",
+        "packages/create-nx-micronaut/**/*",
+        "packages/create-nx-quarkus/**/*",
+        "packages/create-nx-spring-boot/**/*",
+        "packages/nx-flutter/**/*",
+        "packages/nx-ktor/**/*",
+        "packages/nx-melos/**/*",
+        "packages/nx-micronaut/**/*",
+        "packages/nx-quarkus/**/*",
+        "packages/nx-spring-boot/**/*"
+      ]
     }
   ],
   "namedInputs": {

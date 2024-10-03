@@ -5,15 +5,5 @@
   "sourceRoot": "e2e/nx-ktor-e2e/tests",
   "tags": ["e2e"],
   "implicitDependencies": ["nx-ktor"],
-  "targets": {
-    "e2e": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-      "options": {
-        "jestConfig": "e2e/nx-ktor-e2e/jest.config.ts",
-        "runInBand": true
-      },
-      "dependsOn": ["^build"]
-    }
-  }
+  "targets": {}
 }
