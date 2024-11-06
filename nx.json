@@ -161,5 +161,6 @@
     ],
     "sharedGlobals": ["{workspaceRoot}/.nx/workflows/**/**"]
   },
-  "defaultBase": "develop"
+  "defaultBase": "develop",
+  "useLegacyCache": true
 }

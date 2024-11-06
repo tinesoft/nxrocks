@@ -1,11 +1,8 @@
-import type { ProjectNameAndRootFormat } from '@nx/devkit/src/generators/project-name-and-root-utils';
-
 export interface ProjectGeneratorOptions {
-  name: string;
+  directory: string;
   projectType: ProjectType;
+  name?: string;
   tags?: string;
-  directory?: string;
-  projectNameAndRootFormat?: ProjectNameAndRootFormat;
 
   quarkusInitializerUrl: string;
   proxyUrl?: string;

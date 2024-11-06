@@ -6,19 +6,15 @@ export async function normalizeOptions(
   tree: Tree,
   options: ProjectGeneratorOptions
 ): Promise<NormalizedSchema> {
-  const {
-    projectName,
-    projectRoot,
-    projectNameAndRootFormat,
-  } = await determineProjectNameAndRootOptions(tree, {
-    name: options.name,
-    projectType: 'application',
-    directory: options.directory,
-    projectNameAndRootFormat: options.projectNameAndRootFormat,
-    //rootProject: options.rootProject,
-    callingGenerator: '@nxrocks/nx-ktor:project',
-  });
-  options.projectNameAndRootFormat = projectNameAndRootFormat;
+  const { projectName, projectRoot } = await determineProjectNameAndRootOptions(
+    tree,
+    {
+      name: options.name,
+      projectType: 'application',
+      directory: options.directory,
+      //rootProject: options.rootProject,
+    }
+  );
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];

@@ -92,7 +92,7 @@ This plugin is composed of 2 main **generators**:
 Simply run the `project` generator with the following command:
 
 ```
-nx g @nxrocks/nx-spring-boot:project <your-app-name>
+nx g @nxrocks/nx-spring-boot:project 1
 ```
 
 > you can also use the following aliases to call the generator: `proj`, `new`, or `create`
@@ -102,16 +102,16 @@ You will be prompted for entering the most commonly customized generation option
 To skip the interactive prompt, or if you want to customize all non-prompted options, you can pass them along directly when running the command, as such:
 
 ```
-nx g @nxrocks/nx-spring-boot:project <your-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
+nx g @nxrocks/nx-spring-boot:project path/to/your/app-name --optionName1 optionValue1 ... --optionNameN optionValueN
 ```
 
 #### Generation Options
 
 Here the list of available generation options :
 
-| Arguments | Description               |
-| --------- | ------------------------- |
-| `<name>`  | The name of your project. |
+| Arguments     | Description                       |
+| ------------- | --------------------------------- |
+| `<directory>` | The directory of the new project. |
 
 | Option                      | Value                               | Description                                                                                                                                                                                                 |
 | --------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -157,13 +157,13 @@ You will be prompted for entering the most commonly customized generation option
 To skip the interactive prompt, you can pass options along directly when running the command, as such:
 
 ```
-nx g @nxrocks/nx-spring-boot:link --sourceProjectName <your-boot-app> --targetProjectName <your-other-app>
+nx g @nxrocks/nx-spring-boot:link --sourceProjectName <bootapp> --targetProjectName <your-other-app>
 ```
 
 or even simpler:
 
 ```
-nx g @nxrocks/nx-spring-boot:link  <your-boot-app>  <your-other-app>
+nx g @nxrocks/nx-spring-boot:link  <bootapp>  <your-other-app>
 ```
 
 #### Generation Options
@@ -200,11 +200,11 @@ This can be useful in a CI environment for example, or in a restricted environme
 ### Running the project - (`run` or `serve` Executors)
 
 ```
-nx run your-boot-app:run
+nx run bootapp:run
 
 // or its shorter alias
 
-nx serve your-boot-app
+nx serve bootapp
 ```
 
 You can pass in additional arguments by editing the related section in the `workspace.json` file, as such:
@@ -213,15 +213,15 @@ You can pass in additional arguments by editing the related section in the `work
 {
   "version": 1,
   "projects": {
-    "you-boot-app": {
+    "bootapp": {
       "projectType": "application",
-      "root": "apps/you-boot-app",
-      "sourceRoot": "apps/you-boot-app/src",
+      "root": "path/to/bootapp",
+      "sourceRoot": "path/to/bootapp/src",
       "targets": {
         "run": { // or "serve", according to your preference
           "executor": "@nxrocks/nx-spring-boot:run",// or "@nxrocks/nx-spring-boot:serve", according to your preference
           "options": {
-            "root": "apps/you-boot-app",
+            "root": "path/to/bootapp",
             "args": ["arg1", "arg2"]
           }
         }
@@ -236,7 +236,7 @@ You can pass in additional arguments by editing the related section in the `work
 ### Building the Jar or War - (`build` Executor)
 
 ```
-nx build your-boot-app
+nx build bootapp
 ```
 
 > **Note:** a task dependency to `install` executor of dependent (library) projects [is added by the plugin](https://github.com/tinesoft/nxrocks/commit/68e1a5ef5ed266c65ee348c6ced022f87edb1fb7), so that Nx will automatically `install` dependent artifacts to your local Maven repository, prior to running this command. This is particulaly useful, when for example, you have a Spring Boot **application** that depends on another Spring boot **library** in the workspace. No more need to install the library yourself first!
@@ -244,13 +244,13 @@ nx build your-boot-app
 ### Install the project's artifacts to local Maven repository (in `~/.m2/repository`) - (`install` Executor)
 
 ```
-nx install your-boot-app
+nx install bootapp
 ```
 
 ### Building the OCI Image - (`build-image` Executor)
 
 ```
-nx build-image your-boot-app
+nx build-image bootapp
 ```
 
 You can pass in additional arguments by editing the related section in the `workspace.json` file, as such:
@@ -259,15 +259,15 @@ You can pass in additional arguments by editing the related section in the `work
 {
   "version": 1,
   "projects": {
-    "you-boot-app": {
+    "bootapp": {
       "projectType": "application",
-      "root": "apps/you-boot-app",
-      "sourceRoot": "apps/you-boot-app/src",
+      "root": "path/to/bootapp",
+      "sourceRoot": "path/to/bootapp/src",
       "targets": {
         "build-image": {
           "executor": "@nxrocks/nx-spring-boot:build-image",
           "options": {
-            "root": "apps/you-boot-app",
+            "root": "path/to/bootapp",
             "args": [
               "--executor=gcr.io/paketo-buildpacks/executor:base-platform-api-0.3",
               "--runImage=my-image"
@@ -286,33 +286,33 @@ You can pass in additional arguments by editing the related section in the `work
 ### Testing the project - (`test` Executor)
 
 ```
-nx test your-boot-app
+nx test bootapp
 ```
 
 ### Cleaning the project - (`clean` Executor)
 
 ```
-nx clean your-boot-app
+nx clean bootapp
 ```
 
 ### Formatting the project - (`format` Executor)
 
 ```
 
-nx run your-boot-app:format
+nx run bootapp:format
 
 // or simply
 
-nx apply-format your-boot-app
+nx apply-format bootapp
 
 ```
 
-> Note: You \*cannot\*\* use the shorter `nx format your-boot-app` syntax here, because that would conflict with the native `format` command from Nx CLI.
+> Note: You \*cannot\*\* use the shorter `nx format bootapp` syntax here, because that would conflict with the native `format` command from Nx CLI.
 
 ### Checking the format the project - (`check-format` Executor)
 
 ```
-nx check-format your-boot-app
+nx check-format bootapp
 ```
 
 ## Compatibility with Nx
@@ -321,6 +321,7 @@ Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This ta
 
 | Plugin Version | Nx Workspace version |
 | -------------- | -------------------- |
+| `>=v11.x.x`    | `>=v20.x.x`          |
 | `>=v10.x.x`    | `>=v18.x.x`          |
 | `>=v9.x.x`     | `>=v17.x.x`          |
 | `>=v8.x.x`     | `>=v16.x.x`          |

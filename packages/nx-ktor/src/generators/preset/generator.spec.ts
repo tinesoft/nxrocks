@@ -18,6 +18,7 @@ import { POM_XML } from '../project/generator.spec';
 describe('preset generator', () => {
   let tree: Tree;
   const options: PresetGeneratorSchema = {
+    directory: 'ktapp',
     prjName: 'ktapp',
     groupId: 'com.tinesoft',
     artifactId: 'ktapp',

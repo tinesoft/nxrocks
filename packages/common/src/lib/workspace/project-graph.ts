@@ -1,14 +1,16 @@
 import {
   CreateDependenciesContext,
+  CreateNodes,
   CreateNodesContext,
+  CreateNodesContextV2,
+  createNodesFromFiles,
   CreateNodesResult,
+  CreateNodesResultV2,
+  CreateNodesV2,
   DependencyType,
   joinPathFragments,
   logger,
   ProjectConfiguration,
-  ProjectGraph,
-  ProjectGraphBuilder,
-  ProjectGraphProcessorContext,
   ProjectType,
   RawProjectGraphDependency,
   TargetConfiguration,
@@ -116,56 +118,13 @@ function getProjectFilesGlob(projectFiles: string[]): string {
     : `**/${projectFiles[0]}`;
 }
 
-// Project Graph V1
-
-export function getProjectGraph(
-  pluginName: string,
-  projectFilter: (project: { root: string }) => boolean,
-  getPackageInfo: (project: { root: string }) => PackageInfo,
-  graph: ProjectGraph,
-  ctx: ProjectGraphProcessorContext
-): ProjectGraph {
-  const builder = new ProjectGraphBuilder(graph);
-  if (process.env['NX_VERBOSE_LOGGING'] === 'true') {
-    logger.debug(
-      `[${pluginName}]: Looking related projects inside the workspace...`
-    );
-  }
-  let workspace = undefined;
-  let dependencies: RawProjectGraphDependency[] = [];
-
-  for (const source in ctx.filesToProcess) {
-    const changed = ctx.filesToProcess[source];
-    for (const file of changed) {
-      // we only create the workspace map once and only if changed file is of interest
-      workspace ??= getPackageInfosForNxProjects(
-        pluginName,
-        projectFilter,
-        getPackageInfo,
-        ctx.projectsConfigurations
-      );
-
-      dependencies = dependencies.concat(
-        getDependenciesForProject(pluginName, file.file, source, workspace)
-      );
-    }
-  }
-
-  for (const dep of dependencies) {
-    builder.addDependency(dep.source, dep.target, dep.type, dep.source);
-  }
-
-  return builder.getUpdatedProjectGraph();
-}
-
-// Project Graph V2
-
+// Project Graph using CreateNode (V1)
 export const createNodesFor = <T = unknown>(
   projectFiles: string[],
   projectFilter: (project: { root: string }) => boolean,
   getProjectTypeAndTargets: (
     projectFile: string,
-    options?: T
+    options?: T | undefined
   ) => {
     projectType: ProjectType;
     targets: {
@@ -173,38 +132,44 @@ export const createNodesFor = <T = unknown>(
     };
   },
   pluginName: string
-) =>
-  [
-    getProjectFilesGlob(projectFiles),
-    (
-      file: string,
-      options: T,
-      context: CreateNodesContext
-    ): CreateNodesResult => {
-      if (!projectFilter({ root: getProjectRootFromFile(file) })) {
-        return {}; // back off if the file/project does not match the criteria
-      }
+): CreateNodes<T> => [
+  getProjectFilesGlob(projectFiles),
+  createNodesInternal<T>(projectFilter, getProjectTypeAndTargets, pluginName),
+];
 
-      const root = dirname(file);
-
-      // eslint-disable-next-line no-useless-escape -- eslint's wrong
-      const parts = root.split(/[\/\\]/g);
-      const name = parts[parts.length - 1].toLowerCase();
-
-      return {
-        projects: {
-          [name]: {
-            name,
-            root,
-            ...(isNxCrystalEnabled()
-              ? getProjectTypeAndTargets(file, options)
-              : {}),
-            tags: [`type:${pluginName.replace('@nxrocks/', '')}`],
-          },
-        },
-      };
-    },
-  ] as const;
+// Project Graph using CreateNode (V2)
+export const createNodesForV2 = <T = unknown>(
+  projectFiles: string[],
+  projectFilter: (project: { root: string }) => boolean,
+  getProjectTypeAndTargets: (
+    projectFile: string,
+    options: T | undefined
+  ) => {
+    projectType: ProjectType;
+    targets: {
+      [targetName: string]: TargetConfiguration;
+    };
+  },
+  pluginName: string
+): CreateNodesV2<T> => [
+  getProjectFilesGlob(projectFiles),
+  (
+    files: readonly string[],
+    options: T | undefined,
+    context: CreateNodesContextV2
+  ) => {
+    return createNodesFromFiles<T>(
+      createNodesInternal<T>(
+        projectFilter,
+        getProjectTypeAndTargets,
+        pluginName
+      ),
+      files,
+      options as T,
+      context
+    );
+  },
+];
 
 export const createDependenciesIf = (
   pluginName: string,
@@ -246,3 +211,46 @@ export const createDependenciesIf = (
 
   return dependencies;
 };
+
+function createNodesInternal<T = unknown>(
+  projectFilter: (project: { root: string }) => boolean,
+  getProjectTypeAndTargets: (
+    projectFile: string,
+    options: T | undefined
+  ) => {
+    projectType: ProjectType;
+    targets: {
+      [targetName: string]: TargetConfiguration;
+    };
+  },
+  pluginName: string
+) {
+  return (
+    file: string,
+    options: T | undefined,
+    context: CreateNodesContext
+  ): CreateNodesResult => {
+    if (!projectFilter({ root: getProjectRootFromFile(file) })) {
+      return {}; // back off if the file/project does not match the criteria
+    }
+
+    const root = dirname(file);
+
+    // eslint-disable-next-line no-useless-escape -- eslint's wrong
+    const parts = root.split(/[\/\\]/g);
+    const name = parts[parts.length - 1].toLowerCase();
+
+    return {
+      projects: {
+        [name]: {
+          name,
+          root,
+          ...(isNxCrystalEnabled()
+            ? getProjectTypeAndTargets(file, options)
+            : {}),
+          tags: [`type:${pluginName.replace('@nxrocks/', '')}`],
+        },
+      },
+    };
+  };
+}

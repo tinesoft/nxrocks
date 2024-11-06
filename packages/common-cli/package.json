@@ -25,11 +25,11 @@
     "create-nx-ktor"
   ],
   "dependencies": {
-    "create-nx-workspace": ">=18.0.0",
-    "@clack/prompts": "^0.7.0",
+    "create-nx-workspace": ">=20.0.0",
+    "@clack/prompts": "^0.8.1",
     "yargs": "^17.7.2",
     "tslib": "^2.6.1",
-    "@nx/devkit": ">=18.0.0",
+    "@nx/devkit": ">=20.0.0",
     "fs-extra": "^10.1.0",
     "terminal-link": "^2.1.1"
   },

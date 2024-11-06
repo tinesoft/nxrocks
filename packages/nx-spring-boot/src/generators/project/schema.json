@@ -6,21 +6,22 @@
   "outputCapture": "pipe",
   "type": "object",
   "properties": {
-    "name": {
+    "directory": {
       "type": "string",
-      "description": "Name of the project to generate.",
+      "description": "The directory of the new project.",
+      "alias": "d",
       "$default": {
         "$source": "argv",
         "index": 0
       },
+      "x-prompt": "Which directory do you want to create the project in?"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the project to generate.",
+      "alias": "projectName",
       "x-prompt": "What name would you like to use?",
       "pattern": "^[a-zA-Z][^:]*$",
-      "x-priority": "important"
-    },
-    "directory": {
-      "type": "string",
-      "description": "A directory where the project is placed.",
-      "alias": "d",
       "x-priority": "important"
     },
     "projectType": {
@@ -238,5 +239,5 @@
       "enum": ["as-provided", "derived"]
     }
   },
-  "required": ["projectType", "name"]
+  "required": ["projectType", "required"]
 }

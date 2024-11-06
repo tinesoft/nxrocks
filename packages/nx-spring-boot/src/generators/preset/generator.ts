@@ -1,6 +1,4 @@
-import {
-  Tree,
-} from '@nx/devkit';
+import { Tree } from '@nx/devkit';
 import { PresetGeneratorSchema } from './schema';
 import projectGenerator from '../project/generator';
 
@@ -12,7 +10,8 @@ export async function presetGenerator(
 
   await projectGenerator(tree, {
     ...options,
-    name: prjName
+    name: prjName,
+    directory: options.directory ?? prjName,
   });
 }
 

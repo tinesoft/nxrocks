@@ -127,6 +127,7 @@ describe('project generator', () => {
   let tree: Tree;
   let options: NormalizedSchema;
   const _options: ProjectGeneratorOptions = {
+    directory: 'bootapp',
     name: 'bootapp',
     projectType: 'application',
     springInitializerUrl: DEFAULT_SPRING_INITIALIZR_URL,

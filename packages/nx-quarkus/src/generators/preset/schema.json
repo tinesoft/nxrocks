@@ -15,9 +15,13 @@
     },
     "directory": {
       "type": "string",
-      "description": "A directory where the project is placed.",
+      "description": "The directory of the new project.",
       "alias": "d",
-      "x-priority": "important"
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Which directory do you want to create the project in?"
     },
     "projectType": {
       "description": "Type of project.",
@@ -66,7 +70,14 @@
     },
     "javaVersion": {
       "description": "Java version.",
-      "type": "string",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ],
       "default": "17",
       "enum": ["17", "21"],
       "x-prompt": {
@@ -162,5 +173,5 @@
       "enum": ["as-provided", "derived"]
     }
   },
-  "required": ["prjName", "projectType"]
+  "required": ["prjName", "projectType", "directory"]
 }

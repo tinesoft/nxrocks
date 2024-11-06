@@ -15,9 +15,13 @@
     },
     "directory": {
       "type": "string",
-      "description": "A directory where the project is placed.",
+      "description": "The directory of the new project.",
       "alias": "d",
-      "x-priority": "important"
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Which directory do you want to create the project in?"
     },
     "ktorVersion": {
       "description": "Ktor version.",
@@ -179,5 +183,5 @@
       "enum": ["as-provided", "derived"]
     }
   },
-  "required": ["prjName"]
+  "required": ["prjName", "directory"]
 }

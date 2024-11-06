@@ -18,6 +18,7 @@ import { POM_XML } from '../project/generator.spec';
 describe('preset generator', () => {
   let tree: Tree;
   const options: PresetGeneratorSchema = {
+    directory: 'quarkusapp',
     prjName: 'quarkusapp',
     projectType: 'application',
     groupId: 'com.tinesoft',

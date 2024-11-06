@@ -25,8 +25,8 @@
   ],
   "dependencies": {
     "@nxrocks/common": "file:../common",
-    "@nx/workspace": ">=18.0.0",
-    "@nx/devkit": ">=18.0.0",
+    "@nx/workspace": ">=20.0.0",
+    "@nx/devkit": ">=20.0.0",
     "tslib": "^2.6.1",
     "xmlbuilder2": "^3.1.1",
     "xpath": "^0.0.34"

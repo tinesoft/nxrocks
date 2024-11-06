@@ -14,19 +14,18 @@ process.env['NX_INTERACTIVE'] = 'true'; // simulate normal cli interactive mode 
 describe('preset generator', () => {
   let tree: Tree;
   const options: PresetGeneratorSchema = {
+    directory: 'testapp',
     prjName: 'testapp',
     template: 'app',
   };
 
   beforeEach(() => {
     tree = createTreeWithEmptyWorkspace();
-    jest.spyOn(enquirer,'prompt').mockResolvedValue(
-      {
-        androidLanguage: 'kotlin',
-        iosLanguage: 'swift',
-        platforms: ['android', 'ios', 'web', 'linux', 'windows', 'macos'],
-      }
-    );
+    jest.spyOn(enquirer, 'prompt').mockResolvedValue({
+      androidLanguage: 'kotlin',
+      iosLanguage: 'swift',
+      platforms: ['android', 'ios', 'web', 'linux', 'windows', 'macos'],
+    });
   });
 
   afterEach(() => {

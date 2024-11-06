@@ -205,6 +205,7 @@ describe('project generator', () => {
   let tree: Tree;
   let options: NormalizedSchema;
   const _options: ProjectGeneratorOptions = {
+    directory: 'ktapp',
     name: 'ktapp',
     groupId: 'com.tinesoft',
     artifactId: 'ktapp',
