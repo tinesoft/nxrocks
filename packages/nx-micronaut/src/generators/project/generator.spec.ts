@@ -196,6 +196,7 @@ describe('project generator', () => {
   let tree: Tree;
   let options: NormalizedSchema;
   const _options: ProjectGeneratorOptions = {
+    directory: 'mnapp',
     name: 'mnapp',
     projectType: 'default',
     basePackage: 'com.tinesoft',

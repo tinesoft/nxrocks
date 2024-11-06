@@ -15,26 +15,20 @@ function toEntry(e: string | { filePath: string; fileContent?: string }) {
 
 export function mockExecutorContext(
   pluginName: string,
-  executorName: string,
-  workspaceVersion = 2
+  executorName: string
 ): ExecutorContext {
   return {
-    root: '/root',
-    cwd: 'root',
-    projectName: 'proj',
-    workspace: {
-      version: workspaceVersion,
-      projects: {
-        proj: {
-          root: 'proj',
-          targets: {
-            test: {
-              executor: `${pluginName}:${executorName}`,
-            },
-          },
-        },
-      },
+    root: '',
+    cwd: '',
+    projectGraph: {
+      nodes: {},
+      dependencies: {},
     },
+    projectsConfigurations: {
+      projects: {},
+      version: 2,
+    },
+    nxJsonConfiguration: {},
     target: {
       executor: `${pluginName}:${executorName}`,
     },

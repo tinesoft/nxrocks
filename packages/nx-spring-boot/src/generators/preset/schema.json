@@ -2,9 +2,18 @@
   "$schema": "http://json-schema.org/schema",
   "$id": "@nxrocks/nx-spring-boot:preset",
   "title": "Creates Spring Boot project in a new workspace",
+  "description": "Initializes a workspace with an nx-spring-boot inside of it. Use as: `create-nx-spring-boot` or `create-nx-workspace --preset @nxrocks/nx-spring-boot`.",
+  "examples": [
+    {
+      "command": "npx create-nx-spring-boot",
+      "description": "Creates a new Nx workspace with built-in support for Spring boot."
+    },
+    {
+      "command": "npx create-nx-workspace --preset @nxrocks/nx-spring-boot",
+      "description": "Creates a new Nx workspace with built-in support for Spring boot."
+    }
+  ],
   "type": "object",
-  "cli": "nx",
-  "outputCapture": "pipe",
   "properties": {
     "prjName": {
       "type": "string",
@@ -15,9 +24,13 @@
     },
     "directory": {
       "type": "string",
-      "description": "A directory where the project is placed.",
+      "description": "The directory of the new project.",
       "alias": "d",
-      "x-priority": "important"
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Which directory do you want to create the project in?"
     },
     "projectType": {
       "description": "Type of project.",
@@ -235,5 +248,5 @@
     }
   },
   "additionalProperties": true,
-  "required": ["prjName", "projectType"]
+  "required": ["prjName", "projectType", "required"]
 }

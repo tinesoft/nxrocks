@@ -92,7 +92,7 @@ This plugin is composed of 2 main **generators**:
 Simply run the `project` generator with the following command:
 
 ```
-nx g @nxrocks/nx-quarkus:project <your-app-name>
+nx g @nxrocks/nx-quarkus:project path/to/your/app-name
 ```
 
 > you can also use the following aliases to call the generator: `proj`, `new`, or `create`
@@ -102,16 +102,16 @@ You will be prompted for entering the most commonly customized generation option
 To skip the interactive prompt, or if you want to customize all non-prompted options, you can pass them along directly when running the command, as such:
 
 ```
-nx g @nxrocks/nx-quarkus:project <your-app-name> --optionName1 optionValue1 ... --optionNameN optionValueN
+nx g @nxrocks/nx-quarkus:project path/to/your/app-name --optionName1 optionValue1 ... --optionNameN optionValueN
 ```
 
 #### Generation Options
 
 Here the list of available generation options :
 
-| Arguments | Description               |
-| --------- | ------------------------- |
-| `<name>`  | The name of your project. |
+| Arguments     | Description                       |
+| ------------- | --------------------------------- |
+| `<directory>` | The directory of the new project. |
 
 | Option                      | Value                      | Description                                                                                                                                                                                             |
 | --------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -314,6 +314,7 @@ Every Nx plugin relies on the underlying Nx Workspace/DevKit it runs on. This ta
 
 | Plugin Version | Nx Workspace version |
 | -------------- | -------------------- |
+| `>=v9.x.x`     | `>=v20.x.x`          |
 | `>=v8.x.x`     | `>=v18.x.x`          |
 | `>=v7.x.x`     | `>=v17.x.x`          |
 | `>=v6.x.x`     | `>=v16.x.x`          |

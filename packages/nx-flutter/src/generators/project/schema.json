@@ -6,22 +6,22 @@
   "outputCapture": "pipe",
   "type": "object",
   "properties": {
-    "name": {
+    "directory": {
       "type": "string",
-      "description": "Name of the project to generate.",
-      "alias": "projectName",
+      "description": "The directory of the new project.",
+      "alias": "d",
       "$default": {
         "$source": "argv",
         "index": 0
       },
+      "x-prompt": "Which directory do you want to create the project in?"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the project to generate.",
+      "alias": "projectName",
       "x-prompt": "What name would you like to use?",
       "pattern": "^[a-zA-Z][^:]*$",
-      "x-priority": "important"
-    },
-    "directory": {
-      "type": "string",
-      "description": "A directory where the project is placed.",
-      "alias": "d",
       "x-priority": "important"
     },
     "org": {
@@ -44,12 +44,7 @@
       "x-prompt": {
         "message": "Which type of Flutter project would you like to create?",
         "type": "list",
-        "enum": [
-          "app",
-          "module",
-          "package",
-          "plugin"
-        ],
+        "enum": ["app", "module", "package", "plugin"],
         "items": [
           {
             "value": "app",
@@ -129,7 +124,5 @@
       "description": "Whether or not to overwrite existing files when performing operations."
     }
   },
-  "required": [
-    "name"
-  ]
+  "required": ["directory"]
 }

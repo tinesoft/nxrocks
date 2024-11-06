@@ -1,4 +1,4 @@
-# create-nx-micronaut 
+# create-nx-micronaut
 
 [![npm version](https://img.shields.io/npm/v/create-nx-micronaut?style=flat-square)](https://www.npmjs.com/package/create-nx-micronaut)
 [![github action - release](https://img.shields.io/github/actions/workflow/status/tinesoft/nxrocks/release.yml?label=release&style=flat-square)](https://github.com/tinesoft/nxrocks/actions?query=workflow%3ARelease)
@@ -10,7 +10,7 @@
 
 The goal of this CLI is to ease the process of creating a Nx workspace that can host and manage Micronaut projects, thanks to our [@nxrocks/nx-micronaut](https://github.com/tinesoft/nxrocks/blob/develop/packages/nx-micronaut) plugin, that is automatically installed within it.
 
-##  Prerequisites
+## Prerequisites
 
 To run this CLI, all you need is to have [NodeJS](https://nodejs.org/en/download) installed (preferably the current LTS version).
 Then to later create and run your Micronaut projets, you'll need a Java Runtime as well.
@@ -32,12 +32,12 @@ Run `npx create-nx-micronaut --help` to print some helpful info on available opt
 
 Every Nx package relies on the underlying Nx Workspace/DevKit it runs on. This table provides the compatibility matrix between major versions of Nx workspace and this package.
 
-| Package Version | Nx Workspace version
-| --------------- | --------------------
-| `>=v3.0.0`      | `>=v17.3.0`
-| `<v3.0.0`       | `<17.3.0`
+| Package Version | Nx Workspace version |
+| --------------- | -------------------- |
+| `>=v4.0.0`      | `>=v20.0.0`          |
+| `>=v3.0.0`      | `>=v17.3.0`          |
+| `<v3.0.0`       | `<17.3.0`            |
 
 ## License
 
 Copyright (c) 2023-present Tine Kondo. Licensed under the MIT License (MIT)
-

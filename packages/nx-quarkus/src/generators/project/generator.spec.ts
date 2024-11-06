@@ -93,6 +93,7 @@ describe('project generator', () => {
   let tree: Tree;
   let options: NormalizedSchema;
   const _options: ProjectGeneratorOptions = {
+    directory: 'quarkusapp',
     name: 'quarkusapp',
     projectType: 'application',
     groupId: 'com.tinesoft',

@@ -45,6 +45,7 @@ describe('application generator', () => {
   let tree: Tree;
   let options: NormalizedSchema;
   const _options: ProjectGeneratorOptions = {
+    directory: 'testapp',
     name: 'testapp',
     template: 'app',
   };
