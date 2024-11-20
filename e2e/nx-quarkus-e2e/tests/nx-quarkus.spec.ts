@@ -114,7 +114,7 @@ describe('nx-quarkus e2e', () => {
       expect(pomXml).toContain(`<artifactId>${artifactId}</artifactId>`);
       //expect(pomXml).toContain(`<version>${version}</version>`);
       expect(pomXml).toContain(
-        `<maven.compiler.releasez>21</maven.compiler.release>`
+        `<maven.compiler.release>21</maven.compiler.release>`
       );
 
       // make sure the build wrapper file is executable (*nix only)

@@ -23,7 +23,7 @@ describe('create-nx-spring-boot', () => {
   `('should be installed with Nx Wrapper=$useNxWrapper', ({ useNxWrapper }) => {
     projectDirectory = createCLITestProject(
       'create-nx-spring-boot',
-      `--prjName=bootapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --no-interactive`
+      `--prjName=bootapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --useGitHub=false --no-interactive`
     );
 
     // npm ls will fail if the package is not installed properly
