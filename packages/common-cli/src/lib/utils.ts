@@ -1,29 +1,53 @@
-import type {  NxJsonConfiguration, PackageManager } from '@nx/devkit';
+import type { NxJsonConfiguration, PackageManager } from '@nx/devkit';
 import { execSync, ExecSyncOptions } from 'child_process';
-import { ensureDirSync, existsSync, readJSONSync, rmSync, writeJsonSync } from 'fs-extra';
+import {
+  ensureDirSync,
+  existsSync,
+  readJSONSync,
+  rmSync,
+  writeJsonSync,
+} from 'fs-extra';
 import { dirname, join, relative, resolve } from 'path';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-export const createNxWorkspaceVersion = require('../../package.json')?.devDependencies['create-nx-workspace'] || 'latest';
+export const createNxWorkspaceVersion =
+  require('../../package.json')?.devDependencies['create-nx-workspace'] ||
+  'latest';
 
-export function createWorkspaceWithNxWrapper(name: string, pkgName: string, extraArgs = '', nxCloud = 'skip', presetVersion = 'latest', nxVersion= createNxWorkspaceVersion, silent = true) {
-
+export function createWorkspaceWithNxWrapper(
+  name: string,
+  pkgName: string,
+  extraArgs = '',
+  nxCloud = 'skip',
+  useGitHub = false,
+  presetVersion = 'latest',
+  nxVersion = createNxWorkspaceVersion,
+  silent = true
+) {
   const directory = resolve(process.cwd(), name);
   rmSync(directory, {
     recursive: true,
     force: true,
   });
 
-  ensureDirSync(directory)
+  ensureDirSync(directory);
 
-  execSync(`npx --yes nx@${nxVersion} init --nxCloud=${nxCloud !== 'skip'} --useDotNxInstallation --no-interactive`, {
-    cwd: directory,
-    ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
-  });
+  execSync(
+    `npx --yes nx@${nxVersion} init --nxCloud=${
+      nxCloud !== 'skip'
+    } --useGitHub=${useGitHub} --useDotNxInstallation --no-interactive`,
+    {
+      cwd: directory,
+      ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
+    }
+  );
 
   const nxJsonPath = resolve(directory, 'nx.json');
   const nxJson: NxJsonConfiguration = readJSONSync(nxJsonPath);
-  nxJson.installation = nxJson.installation ?? { version: 'latest', plugins: {} };
+  nxJson.installation = nxJson.installation ?? {
+    version: 'latest',
+    plugins: {},
+  };
   nxJson.installation.plugins = nxJson.installation.plugins ?? {};
   nxJson.installation.plugins[pkgName] = presetVersion;
   writeJsonSync(nxJsonPath, nxJson, { spaces: 2 });
@@ -31,7 +55,7 @@ export function createWorkspaceWithNxWrapper(name: string, pkgName: string, extr
   runNxWrapperSync(`g ${pkgName}:preset ${extraArgs}`, {
     cwd: directory,
     stdio: 'inherit',
-    env: process.env
+    env: process.env,
   });
 
   return directory;
@@ -42,14 +66,13 @@ export function runNxWrapperSync(
   cmd: string,
   options?: ExecSyncOptions & { cwd?: string }
 ) {
-
   let baseCmd: string;
 
   options ??= {};
   options.cwd ??= process.cwd();
   const offsetFromRoot = relative(
     options.cwd,
-    workspaceRootInner(options.cwd, null)??''
+    workspaceRootInner(options.cwd, null) ?? ''
   );
   if (process.platform === 'win32') {
     baseCmd = '.\\' + join(`${offsetFromRoot}`, 'nx.bat');
@@ -61,20 +84,20 @@ export function runNxWrapperSync(
 }
 
 export function hasNxWrapper(cwd: string) {
-  return [
-    'nx',
-    'nx.bat',
-    'nx.json',
-    '.nx/nxw.js',
-  ].every(file => existsSync(join(cwd, file)));
+  return ['nx', 'nx.bat', 'nx.json', '.nx/nxw.js'].every((file) =>
+    existsSync(join(cwd, file))
+  );
 }
 
-export function getNxCommand(useNxWrapper = true, pkgManager:PackageManager = 'npm') {
-  if (!useNxWrapper){
+export function getNxCommand(
+  useNxWrapper = true,
+  pkgManager: PackageManager = 'npm'
+) {
+  if (!useNxWrapper) {
     switch (pkgManager) {
       case 'yarn':
       case 'pnpm':
-          return `$(pkgManager} nx`;
+        return `$(pkgManager} nx`;
       default:
         return 'npx nx';
     }
@@ -83,10 +106,12 @@ export function getNxCommand(useNxWrapper = true, pkgManager:PackageManager = 'n
 }
 
 export function isNxWrapperInstalled(cwd: string) {
-  return hasNxWrapper(cwd) && [
-    '.nx/installation/package.json',
-    '.nx/installation/node_modules',
-  ].every(file => existsSync(join(cwd, file)));
+  return (
+    hasNxWrapper(cwd) &&
+    ['.nx/installation/package.json', '.nx/installation/node_modules'].every(
+      (file) => existsSync(join(cwd, file))
+    )
+  );
 }
 
 // Copied from https://github.com/nrwl/nx/blob/master/packages/nx/src/utils/workspace-root.ts
@@ -94,16 +119,12 @@ export function isNxWrapperInstalled(cwd: string) {
 function workspaceRootInner(
   dir: string,
   candidateRoot: string | null
-): string|null {
+): string | null {
   if (process.env['NX_WORKSPACE_ROOT_PATH'])
     return process.env['NX_WORKSPACE_ROOT_PATH'];
   if (dirname(dir) === dir) return candidateRoot;
 
-  const matches = [
-    join(dir, 'nx.json'),
-    join(dir, 'nx'),
-    join(dir, 'nx.bat'),
-  ];
+  const matches = [join(dir, 'nx.json'), join(dir, 'nx'), join(dir, 'nx.bat')];
 
   if (matches.some((x) => existsSync(x))) {
     return dir;
@@ -118,4 +139,3 @@ function workspaceRootInner(
     return workspaceRootInner(dirname(dir), candidateRoot);
   }
 }
-
