@@ -17,11 +17,11 @@
       }
     },
     "version": {
-      "preVersionCommand": "pnpm dlx nx run-many -t build",
+      "preVersionCommand": "pnpm nx run-many -t build --parallel 4",
+      "conventionalCommits": true,
       "generatorOptions": {
         "packageRoot": "dist/packages/{projectName}",
-        "currentVersionResolver": "git-tag",
-        "specifierSource": "conventional-commits"
+        "updateDependents": "auto"
       }
     }
   },
@@ -56,7 +56,7 @@
         "passWithNoTests": true,
         "runInBand": true
       },
-      "dependsOn": ["^build"],
+      "dependsOn": ["nxrocks:populate-local-registry"],
       "configurations": {
         "ci": {
           "ci": true,
@@ -69,7 +69,7 @@
         "passWithNoTests": true,
         "runInBand": true
       },
-      "dependsOn": ["^build"],
+      "dependsOn": ["nxrocks:populate-local-registry"],
       "configurations": {
         "ci": {
           "ci": true,
@@ -162,5 +162,8 @@
     "sharedGlobals": ["{workspaceRoot}/.nx/workflows/**/**"]
   },
   "defaultBase": "develop",
-  "useLegacyCache": true
+  "useLegacyCache": true,
+  "cli": {
+    "packageManager": "pnpm"
+  }
 }

@@ -23,7 +23,7 @@ packages:
     proxy: npmjs
 
 # log settings
-logs:
+log:
   type: stdout
   format: pretty
   level: warn
@@ -31,4 +31,3 @@ logs:
 publish:
   allow_offline: true # set offline to true to allow publish offline
 
-listen: 0.0.0.0:4873 # listen on all addresses (INADDR_ANY)

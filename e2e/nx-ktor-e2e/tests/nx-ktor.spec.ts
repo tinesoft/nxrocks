@@ -1,3 +1,4 @@
+import { getPackageManagerCommand } from '@nx/devkit';
 import { uniq } from '@nx/plugin/testing';
 import {
   createTestProject,
@@ -19,11 +20,14 @@ describe('nx-ktor e2e', () => {
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`npm install @nxrocks/nx-ktor@0.0.0-e2e`, {
-      cwd: projectDirectory,
-      stdio: 'inherit',
-      env: process.env,
-    });
+    execSync(
+      `${getPackageManagerCommand().install} @nxrocks/nx-ktor@0.0.0-e2e`,
+      {
+        cwd: projectDirectory,
+        stdio: 'inherit',
+        env: process.env,
+      }
+    );
   });
 
   afterAll(() => {
@@ -37,7 +41,7 @@ describe('nx-ktor e2e', () => {
 
   it('should be installed', () => {
     // npm ls will fail if the package is not installed properly
-    execSync('npm ls @nxrocks/nx-ktor', {
+    execSync(`${getPackageManagerCommand().list} @nxrocks/nx-ktor`, {
       cwd: projectDirectory,
       stdio: 'inherit',
     });

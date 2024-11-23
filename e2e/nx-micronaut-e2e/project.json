@@ -5,27 +5,5 @@
   "sourceRoot": "e2e/nx-micronaut-e2e/tests",
   "tags": ["e2e"],
   "implicitDependencies": ["nx-micronaut"],
-  "targets": {
-    "e2e": {
-      "inputs": [
-        "default",
-        "^default",
-        "{workspaceRoot}/jest.preset.js",
-        {
-          "externalDependencies": ["jest"]
-        }
-      ],
-      "options": {
-        "passWithNoTests": true,
-        "runInBand": true
-      },
-      "dependsOn": ["^build"],
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "coverage": true
-        }
-      }
-    }
-  }
+  "targets": {}
 }

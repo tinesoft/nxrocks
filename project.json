@@ -5,9 +5,17 @@
     "local-registry": {
       "executor": "@nx/js:verdaccio",
       "options": {
+        "port": 4873,
+        "listenAddress": "0.0.0.0",
         "config": ".verdaccio/config.yml",
         "storage": "tmp/local-registry/storage"
       }
+    },
+    "populate-local-registry": {
+      "cache": true,
+      "inputs": ["production"],
+      "command": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/populate-local-registry.ts",
+      "outputs": ["{workspaceRoot}/tmp/local-registry/storage"]
     }
   }
 }

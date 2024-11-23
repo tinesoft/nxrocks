@@ -1,3 +1,4 @@
+import { getPackageManagerCommand } from '@nx/devkit';
 import { uniq } from '@nx/plugin/testing';
 import {
   createTestProject,
@@ -21,11 +22,14 @@ describe('nx-quarkus e2e', () => {
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`npm install @nxrocks/nx-quarkus@0.0.0-e2e`, {
-      cwd: projectDirectory,
-      stdio: 'inherit',
-      env: process.env,
-    });
+    execSync(
+      `${getPackageManagerCommand().add} @nxrocks/nx-quarkus@0.0.0-e2e`,
+      {
+        cwd: projectDirectory,
+        stdio: 'inherit',
+        env: process.env,
+      }
+    );
   });
 
   afterAll(() => {
@@ -39,7 +43,7 @@ describe('nx-quarkus e2e', () => {
 
   it('should be installed', () => {
     // npm ls will fail if the package is not installed properly
-    execSync('npm ls @nxrocks/nx-quarkus', {
+    execSync(`${getPackageManagerCommand().list} @nxrocks/nx-quarkus`, {
       cwd: projectDirectory,
       stdio: 'inherit',
     });
@@ -83,7 +87,6 @@ describe('nx-quarkus e2e', () => {
     `should create a quarkus '$projectType' with given options`,
     async ({ projectType }) => {
       const prjName = uniq('nx-quarkus');
-      const prjDir = projectType === 'application' ? 'apps' : 'libs';
       const buildSystem = 'MAVEN';
       const groupId = 'com.tinesoft';
       const artifactId = 'api';
