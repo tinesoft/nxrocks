@@ -4,28 +4,57 @@
  */
 import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { releasePublish, releaseVersion } from 'nx/release';
+import { readdirSync } from 'fs';
+import { joinPathFragments, workspaceRoot } from '@nx/devkit';
+
+function isFolderEmptySync(folderPath: string): boolean {
+    try {
+        const files = readdirSync(folderPath);
+        const relevantFiles = files.filter(file => file !== '.verdaccio-db.json');
+        return relevantFiles.length === 0;
+    } catch (error) {
+        console.error('Error checking folder:', error);
+        throw error;
+    }
+}
 
 export default async () => {
-  if (
-    process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP &&
-    process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP !== 'false'
-  ) {
-    console.log(
-      "Environment variable 'SKIP_LOCAL_REGISTRY_GLOBAL_SETUP' is set. Skipping global setup of Verdaccio's Local Registry..."
-    );
-    return;
-  }
 
   // local registry target to run
   const localRegistryTarget = 'nxrocks:local-registry';
   // storage folder for the local registry
-  const storage = './tmp/local-registry/storage';
+  const storage = joinPathFragments(
+    workspaceRoot,
+    'tmp/local-registry/storage',
+  );
+
+  const isVerbose = process.env.NX_VERBOSE_LOGGING === 'true';
+
+  /**
+   * We populate the verdaccio storage up front, so we only need to start the local registry and serves that storage.
+   * Otherwise, if the storage is empty, we do a full release to populate it again. This allows speeding up e2e tests
+   */
+  const requiresLocalRelease = isFolderEmptySync(storage);
 
   global.stopLocalRegistry = await startLocalRegistry({
     localRegistryTarget,
     storage,
-    verbose: false,
+    verbose: isVerbose,
+    clearStorage: requiresLocalRelease,
+    listenAddress: '0.0.0.0',
   });
+
+  if (requiresLocalRelease) {
+    console.log('>>> Started the local registry, with local release');
+
+    await startLocalRelease(isVerbose);
+  }
+  else {
+    console.log('>>> Started the local registry, but no local release was perfomed')
+  }
+};
+
+export async function startLocalRelease(isVerbose=false) {
 
   await releaseVersion({
     specifier: '0.0.0-e2e',
@@ -34,11 +63,13 @@ export default async () => {
     gitTag: false,
     firstRelease: true,
     generatorOptionsOverrides: {
-      skipLockFileUpdate: true,
+      skipLockFileUpdate: true
     },
+    verbose: isVerbose,
   });
   await releasePublish({
     tag: 'e2e',
     firstRelease: true,
+    verbose: isVerbose,
   });
-};
+}

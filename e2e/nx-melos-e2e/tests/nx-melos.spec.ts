@@ -1,4 +1,9 @@
-import { checkFilesExist, createTestProject, runNxCommandAsync } from '@nxrocks/common/testing';
+import { getPackageManagerCommand } from '@nx/devkit';
+import {
+  checkFilesExist,
+  createTestProject,
+  runNxCommandAsync,
+} from '@nxrocks/common/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs-extra';
 
@@ -10,24 +15,28 @@ describe('nx-melos e2e', () => {
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`npm install @nxrocks/nx-melos@0.0.0-e2e`, {
-      cwd: projectDirectory,
-      stdio: 'inherit',
-      env: process.env,
-    });
+    execSync(
+      `${getPackageManagerCommand().install} @nxrocks/nx-melos@0.0.0-e2e`,
+      {
+        cwd: projectDirectory,
+        stdio: 'inherit',
+        env: process.env,
+      }
+    );
   });
 
   afterAll(() => {
     // Cleanup the test project
-    projectDirectory && rmSync(projectDirectory, {
-      recursive: true,
-      force: true,
-    });
+    projectDirectory &&
+      rmSync(projectDirectory, {
+        recursive: true,
+        force: true,
+      });
   });
 
   it('should be installed', () => {
     // npm ls will fail if the package is not installed properly
-    execSync('npm ls @nxrocks/nx-melos', {
+    execSync(`${getPackageManagerCommand().list} @nxrocks/nx-melos`, {
       cwd: projectDirectory,
       stdio: 'inherit',
     });

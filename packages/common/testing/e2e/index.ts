@@ -1,9 +1,23 @@
-import { JsonParseOptions, PackageManager, detectPackageManager, getPackageManagerCommand, joinPathFragments, parseJson, readJsonFile, workspaceRoot } from '@nx/devkit';
+import {
+  JsonParseOptions,
+  PackageManager,
+  detectPackageManager,
+  getPackageManagerCommand,
+  joinPathFragments,
+  parseJson,
+  readJsonFile,
+  workspaceRoot,
+} from '@nx/devkit';
 import { getPackageLatestNpmVersion } from '../../src/';
 import { exec, execSync } from 'child_process';
-import { rmSync, mkdirSync, statSync, readFileSync, existsSync } from 'fs-extra';
+import {
+  rmSync,
+  mkdirSync,
+  statSync,
+  readFileSync,
+  existsSync,
+} from 'fs-extra';
 import { join, dirname, isAbsolute } from 'path';
-
 
 export const isWin = process.platform === 'win32';
 
@@ -11,7 +25,11 @@ export const isWin = process.platform === 'win32';
  * Creates a test project with create-nx-workspace and installs the plugin
  * @returns The directory where the test project was created
  */
-export function createTestProject(pkgManager: PackageManager = 'npm', projectName = 'test-project', workspaceVersion: 'latest' | 'local' = 'local') {
+export function createTestProject(
+  pkgManager: PackageManager = detectPackageManager(),
+  projectName = 'test-project',
+  workspaceVersion: 'latest' | 'local' = 'local'
+) {
   const projectDirectory = join(process.cwd(), 'tmp', projectName);
 
   // Ensure projectDirectory is empty
@@ -23,11 +41,13 @@ export function createTestProject(pkgManager: PackageManager = 'npm', projectNam
     recursive: true,
   });
 
-  const nxVersion = workspaceVersion === 'local' ? readLocalNxWorkspaceVersion() : 'latest';
-
+  const nxVersion =
+    workspaceVersion === 'local' ? readLocalNxWorkspaceVersion() : 'latest';
   const confirm = pkgManager === 'npm' ? ' --yes' : '';
   execSync(
-    `${getPackageManagerCommand(pkgManager).dlx}${confirm} create-nx-workspace@${nxVersion} ${projectName} --preset apps --nxCloud=skip --no-interactive --pm ${pkgManager}`,
+    `${
+      getPackageManagerCommand(pkgManager).dlx
+    }${confirm} create-nx-workspace@${nxVersion} ${projectName} --preset apps --nxCloud=skip --no-interactive --pm ${pkgManager}`,
     {
       cwd: dirname(projectDirectory),
       stdio: 'inherit',
@@ -44,9 +64,15 @@ export function createTestProject(pkgManager: PackageManager = 'npm', projectNam
  * Creates a test project with create-nx-workspace and installs the plugin
  * @returns The directory where the test project was created
  */
-export function createCLITestProject(createPkgName: string, extraArgs = '', createPkgVersion = '0.0.0-e2e', pkgManager: PackageManager = 'npm', projectName = 'test-project') {
-
+export function createCLITestProject(
+  createPkgName: string,
+  extraArgs = '',
+  createPkgVersion = '0.0.0-e2e',
+  pkgManager: PackageManager = detectPackageManager(),
+  projectName = 'test-project'
+) {
   const projectDirectory = join(process.cwd(), 'tmp', projectName);
+  const confirm = pkgManager === 'npm' ? ' --yes' : '';
 
   // Ensure projectDirectory is empty
   rmSync(projectDirectory, {
@@ -57,16 +83,20 @@ export function createCLITestProject(createPkgName: string, extraArgs = '', crea
     recursive: true,
   });
 
-  execSync(`${getPackageManagerCommand(pkgManager).dlx} --yes ${createPkgName}@${createPkgVersion} ${projectName} ${extraArgs}`, {
-    cwd: dirname(projectDirectory),
-    stdio: 'inherit',
-    env: process.env,
-  });
+  execSync(
+    `${
+      getPackageManagerCommand(pkgManager).dlx
+    }${confirm} ${createPkgName}@${createPkgVersion} ${projectName} ${extraArgs}`,
+    {
+      cwd: dirname(projectDirectory),
+      stdio: 'inherit',
+      env: process.env,
+    }
+  );
   console.log(`Created test project in "${projectDirectory}"`);
 
   return projectDirectory;
 }
-
 
 // Temporary utilities from @nx/plugin/testing package, like `runNxCommandAsync`, `readJson`, etc
 // Adapted to support the new 'test-project' folder, instead of the default 'nx-e2e' used internally by those methods
@@ -103,7 +133,6 @@ function fileExists(filePath: string): boolean {
 function exists(filePath: string): boolean {
   return directoryExists(filePath) || fileExists(filePath);
 }
-
 
 //https://github.com/nrwl/nx/blob/master/e2e/utils/create-project-utils.ts#L628
 
@@ -150,8 +179,10 @@ export function runNxCommandAsync(
 ): Promise<{ stdout: string; stderr: string }> {
   const cwd = opts.cwd ?? tmpProjPath();
   if (fileExists(tmpProjPath('package.json'))) {
-    const pmc = getPackageManagerCommand(pkgManager || detectPackageManager(cwd));
-    return runCommandAsync(`${pmc.exec} nx ${command}`, opts);
+    const pmc = getPackageManagerCommand(
+      pkgManager || detectPackageManager(cwd)
+    );
+    return runCommandAsync(`${pmc.dlx} nx ${command}`, opts);
   } else if (process.platform === 'win32') {
     return runCommandAsync(`./nx.bat %${command}`, opts);
   } else {
@@ -170,13 +201,14 @@ export async function runNxCommand(
   opts: { silenceError?: boolean; env?: NodeJS.ProcessEnv; cwd?: string } = {
     silenceError: false,
   }
-): Promise<{ stdout: string; stderr: string; }> {
-
-  return await runNxCommandAsync(command,pkgManager, opts);
-
+): Promise<{ stdout: string; stderr: string }> {
+  return await runNxCommandAsync(command, pkgManager, opts);
 }
 
-export function readJson<T extends object = any>(path: string, options?: JsonParseOptions): T {
+export function readJson<T extends object = any>(
+  path: string,
+  options?: JsonParseOptions
+): T {
   return parseJson<T>(readFile(path), options);
 }
 
@@ -186,7 +218,7 @@ export function readFile(path: string): string {
 }
 
 export function getLatestNxWorkspaceVersion(): string {
-  return getPackageLatestNpmVersion("nx");
+  return getPackageLatestNpmVersion('nx');
 }
 
 export function readLocalNxWorkspaceVersion(): string {
@@ -197,7 +229,7 @@ export function readLocalNxWorkspaceVersion(): string {
     );
   }
 
-  return readJsonFile(pkgJsonPath).devDependencies["nx"];
+  return readJsonFile(pkgJsonPath).devDependencies['nx'];
 }
 
 /**
@@ -208,5 +240,8 @@ export function isLocalNxMatchingLatestFeatureVersion() {
   const localNxVersion = readLocalNxWorkspaceVersion().split('.');
   const latestNxVersion = getLatestNxWorkspaceVersion().split('.');
 
-  return localNxVersion[0] === latestNxVersion[0] && localNxVersion[1] === latestNxVersion?.[1];
+  return (
+    localNxVersion[0] === latestNxVersion[0] &&
+    localNxVersion[1] === latestNxVersion?.[1]
+  );
 }

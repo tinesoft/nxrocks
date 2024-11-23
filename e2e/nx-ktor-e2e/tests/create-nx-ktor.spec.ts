@@ -1,3 +1,4 @@
+import { getPackageManagerCommand } from '@nx/devkit';
 import { hasNxWrapper, isNxWrapperInstalled } from '@nxrocks/common-cli';
 import { createCLITestProject } from '@nxrocks/common-jvm/testing';
 import { execSync } from 'child_process';
@@ -27,7 +28,7 @@ describe('create-nx-ktor', () => {
     );
 
     // npm ls will fail if the package is not installed properly
-    execSync('npm ls @nxrocks/nx-ktor', {
+    execSync(`${getPackageManagerCommand().list} @nxrocks/nx-ktor`, {
       cwd: useNxWrapper
         ? join(projectDirectory, '/.nx/installation')
         : projectDirectory,

@@ -1,3 +1,4 @@
+import { getPackageManagerCommand } from '@nx/devkit';
 import { hasNxWrapper, isNxWrapperInstalled } from '@nxrocks/common-cli';
 import { createCLITestProject } from '@nxrocks/common/testing';
 import { execSync } from 'child_process';
@@ -27,7 +28,7 @@ describe('create-nx-flutter', () => {
     );
 
     // npm ls will fail if the package is not installed properly
-    execSync('npm ls @nxrocks/nx-flutter', {
+    execSync(`${getPackageManagerCommand().list} @nxrocks/nx-flutter`, {
       cwd: useNxWrapper
         ? join(projectDirectory, '/.nx/installation')
         : projectDirectory,

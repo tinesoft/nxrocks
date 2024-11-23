@@ -1,10 +1,11 @@
+import { getPackageManagerCommand } from '@nx/devkit';
 import { hasNxWrapper, isNxWrapperInstalled } from '@nxrocks/common-cli';
 import { createCLITestProject } from '@nxrocks/common-jvm/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs';
 import { join } from 'path';
 
-describe('create-nx-spring-boot', () => {
+describe('create-nx-quarkus', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
@@ -27,7 +28,7 @@ describe('create-nx-spring-boot', () => {
     );
 
     // npm ls will fail if the package is not installed properly
-    execSync('npm ls @nxrocks/nx-spring-boot', {
+    execSync(`${getPackageManagerCommand().list} @nxrocks/nx-quarkus`, {
       cwd: useNxWrapper
         ? join(projectDirectory, '/.nx/installation')
         : projectDirectory,

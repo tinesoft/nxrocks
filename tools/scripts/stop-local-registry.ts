@@ -4,11 +4,7 @@
  */
 
 export default () => { 
-  if(process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP && process.env.SKIP_LOCAL_REGISTRY_GLOBAL_SETUP !== 'false') {
-    console.log("\nEnvironment variable 'SKIP_LOCAL_REGISTRY_GLOBAL_SETUP' is set. Skipping global teardown of Verdaccio's Local Registry...");
-    return;
-  }
-
+  
   if (global.stopLocalRegistry) {
     global.stopLocalRegistry();
   }

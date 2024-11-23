@@ -3,14 +3,13 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "e2e/smoke/src",
   "projectType": "application",
-  "tags": [],
+  "tags": ["e2e"],
   "implicitDependencies": [
     "nx-spring-boot",
     "nx-quarkus",
     "nx-micronaut",
     "nx-flutter",
-    "nx-ktor",
-    "nx-melos"
+    "nx-ktor"
   ],
   "targets": {}
 }

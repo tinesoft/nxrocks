@@ -9,7 +9,7 @@ import {
   runNxCommandAsync,
   tmpProjPath,
 } from '@nxrocks/common-jvm/testing';
-import { names } from '@nx/devkit';
+import { getPackageManagerCommand, names } from '@nx/devkit';
 
 import { lstatSync, rmSync } from 'fs';
 import { execSync } from 'child_process';
@@ -22,11 +22,14 @@ describe('nx-spring-boot e2e', () => {
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`npm install @nxrocks/nx-spring-boot@0.0.0-e2e`, {
-      cwd: projectDirectory,
-      stdio: 'inherit',
-      env: process.env,
-    });
+    execSync(
+      `${getPackageManagerCommand().install} @nxrocks/nx-spring-boot@0.0.0-e2e`,
+      {
+        cwd: projectDirectory,
+        stdio: 'inherit',
+        env: process.env,
+      }
+    );
   });
 
   afterAll(() => {
@@ -39,7 +42,7 @@ describe('nx-spring-boot e2e', () => {
 
   it('should be installed', () => {
     // npm ls will fail if the package is not installed properly
-    execSync('npm ls @nxrocks/nx-spring-boot', {
+    execSync(`${getPackageManagerCommand().list} @nxrocks/nx-spring-boot`, {
       cwd: projectDirectory,
       stdio: 'inherit',
     });
