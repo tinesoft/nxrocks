@@ -26,7 +26,8 @@
   },
 
   "mounts": [
-    "source=nxrocks-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+    "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+    "source=${localWorkspaceFolderBasename}-profile,target=/root,type=volume","target=/root/.vscode-server,type=volume"
   ],
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
