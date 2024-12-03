@@ -5,6 +5,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "version": "0.0.0-dev",
   "main": "src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json",
