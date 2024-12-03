@@ -5,6 +5,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "version": "0.0.0-dev",
   "main": "src/index.js",
   "license": "MIT",
   "author": "Tine Kondo ",
