@@ -162,7 +162,6 @@
     "sharedGlobals": ["{workspaceRoot}/.nx/workflows/**/**"]
   },
   "defaultBase": "develop",
-  "useLegacyCache": true,
   "cli": {
     "packageManager": "pnpm"
   }
