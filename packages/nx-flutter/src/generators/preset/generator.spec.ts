@@ -15,7 +15,6 @@ describe('preset generator', () => {
   let tree: Tree;
   const options: PresetGeneratorSchema = {
     directory: 'testapp',
-    prjName: 'testapp',
     template: 'app',
   };
 

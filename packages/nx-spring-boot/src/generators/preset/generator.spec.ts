@@ -19,7 +19,6 @@ describe('preset generator', () => {
   let tree: Tree;
   const options: PresetGeneratorSchema = {
     directory: 'bootapp',
-    prjName: 'bootapp',
     projectType: 'application',
     springInitializerUrl: DEFAULT_SPRING_INITIALIZR_URL,
     language: 'java',
