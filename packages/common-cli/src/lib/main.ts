@@ -17,10 +17,8 @@ import {
   createWorkspaceWithNxWrapper,
   getNxCommand,
 } from './utils';
-
-// change type to ('yes' | 'github' | 'gitlab' | 'azure' | 'bitbucket-pipelines' | 'circleci' | 'skip');
-// and uncomment below prompt options, once https://github.com/nrwl/nx/pull/29008 is merged
-export type NxCloud = 'yes' | 'github' | 'circleci' | 'skip';
+import { NxCloud } from 'create-nx-workspace/src/utils/nx/nx-cloud';
+import { unparse } from 'create-nx-workspace/src/utils/unparse';
 
 export async function mainCLI(pkgName: string, stackName: string) {
   const pkgFolderName = pkgName.replace('@nxrocks/', '');
@@ -32,9 +30,10 @@ export async function mainCLI(pkgName: string, stackName: string) {
     yargs
       .parserConfiguration({
         'strip-dashed': true,
+        'dot-notation': true,
       })
       .command(
-        '$0 [name]',
+        '$0 [name] [options]',
         `Create a new Nx workspace with ${stackName} support`,
         (yargs) =>
           yargs
@@ -55,6 +54,11 @@ export async function mainCLI(pkgName: string, stackName: string) {
                 'Will you be using GitHub as your git hosting provider?',
               boolean: true,
             })
+            .option('presetVersion', {
+              describe: `Version of the ${pkgFolderName} package to be used. Latest by default.`,
+              type: 'string',
+              default: 'latest',
+            })
             .option('verbose', {
               describe: 'Enable more logging information',
               type: 'boolean',
@@ -63,9 +67,18 @@ export async function mainCLI(pkgName: string, stackName: string) {
       )
       .help('help', 'Show help') as yargs.Argv<CLIArguments>
   ).parseSync();
-
-  let { name, useNxWrapper, nxCloud, useGitHub } = options;
-  const { _, $0, name: ignoredName, verbose, ...restArgs } = options;
+  /*eslint prefer-const: ["error", {"destructuring": "all"}]*/
+  let {
+    _,
+    $0,
+    name,
+    useNxWrapper,
+    nxCloud,
+    useGitHub,
+    presetVersion,
+    verbose,
+    ...restArgs
+  } = options;
 
   name ||= (await text({
     message: 'Where would you like to create your workspace?',
@@ -89,9 +102,9 @@ export async function mainCLI(pkgName: string, stackName: string) {
     )} ]`,
     options: [
       { value: 'github', label: 'GitHub Actions' },
-      //{ value: 'gitlab', label: 'Gitlab' },
-      //{ value: 'azure', label: 'Azure DevOps' },
-      //{ value: 'bitbucket-pipelines', label: 'BitBucket Pipelines' },
+      { value: 'gitlab', label: 'Gitlab' },
+      { value: 'azure', label: 'Azure DevOps' },
+      { value: 'bitbucket-pipelines', label: 'BitBucket Pipelines' },
       { value: 'circleci', label: 'Circle CI' },
       { value: 'skip', label: '\nDo it later' },
     ],
@@ -106,7 +119,7 @@ export async function mainCLI(pkgName: string, stackName: string) {
       initialValue: false,
     })) as boolean);
 
-  const presetVersion = 'latest';
+  presetVersion ??= 'latest';
 
   let directory: string;
 
@@ -129,9 +142,7 @@ export async function mainCLI(pkgName: string, stackName: string) {
       )} ] to get started with Nx Wrapper.`
     );
 
-    const allArgs = Object.entries(restArgs)
-      .map(([key, value]) => `--${key}=${value}`)
-      .join(' ');
+    const allArgs = unparse(restArgs).join(' ');
 
     const s = spinner();
     s.start('Initializing your workspace');
@@ -156,6 +167,7 @@ export async function mainCLI(pkgName: string, stackName: string) {
         nxCloud,
         useGitHub,
         packageManager: 'npm',
+        verbose,
       })
     )?.directory;
   }
