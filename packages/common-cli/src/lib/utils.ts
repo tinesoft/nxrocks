@@ -39,6 +39,7 @@ export function createWorkspaceWithNxWrapper(
     {
       cwd: directory,
       ...(silent ? { stdio: ['ignore', 'ignore', 'ignore'] } : {}),
+      env: process.env,
     }
   );
 
