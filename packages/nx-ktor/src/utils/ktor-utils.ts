@@ -26,8 +26,7 @@ const getBuilder = (cwd: string) => {
   );
 };
 
-export const DEFAULT_KTOR_INITIALIZR_URL =
-  'https://start-ktor-io.labs.jb.gg'; //'https://start.ktor.io';
+export const DEFAULT_KTOR_INITIALIZR_URL = 'https://start.ktor.io';
 
 export interface KtorFeature {
   name: string;
@@ -42,7 +41,12 @@ export function runKtorPluginCommand(
     ignoreWrapper?: boolean;
     useLegacyWrapper?: boolean;
     runFromParentModule?: boolean;
-  } = { cwd: process.cwd(), ignoreWrapper: false, useLegacyWrapper: true, runFromParentModule: false }
+  } = {
+    cwd: process.cwd(),
+    ignoreWrapper: false,
+    useLegacyWrapper: true,
+    runFromParentModule: false,
+  }
 ): { success: boolean } {
   //force use legacy wrapper for all executors
   options = { ...options, useLegacyWrapper: true };
@@ -72,7 +76,10 @@ export function buildKtorDownloadUrl(options: NormalizedSchema) {
 }
 
 export function isKtorProject(project: ProjectConfiguration): boolean {
-  if(hasMultiModuleMavenProject(project.root) || hasMultiModuleGradleProject(project.root))
+  if (
+    hasMultiModuleMavenProject(project.root) ||
+    hasMultiModuleGradleProject(project.root)
+  )
     return true;
 
   if (isMavenProject(project)) {
