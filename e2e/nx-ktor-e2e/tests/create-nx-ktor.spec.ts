@@ -24,7 +24,7 @@ describe('create-nx-ktor', () => {
   `('should be installed with Nx Wrapper=$useNxWrapper', ({ useNxWrapper }) => {
     projectDirectory = createCLITestProject(
       'create-nx-ktor',
-      `--prjName=bootapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --no-interactive --verbose=true`
+      `--prjName=ktapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --useGitHub=false --no-interactive`
     );
 
     // npm ls will fail if the package is not installed properly
@@ -33,6 +33,7 @@ describe('create-nx-ktor', () => {
         ? join(projectDirectory, '/.nx/installation')
         : projectDirectory,
       stdio: 'inherit',
+      env: process.env,
     });
 
     expect(hasNxWrapper(projectDirectory)).toEqual(useNxWrapper);

@@ -24,7 +24,7 @@ describe('create-nx-quarkus', () => {
   `('should be installed with Nx Wrapper=$useNxWrapper', ({ useNxWrapper }) => {
     projectDirectory = createCLITestProject(
       'create-nx-quarkus',
-      `--prjName=bootapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --useGitHub=false --no-interactive`
+      `--directory=qkapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --useGitHub=false --no-interactive`
     );
 
     // npm ls will fail if the package is not installed properly
@@ -33,6 +33,7 @@ describe('create-nx-quarkus', () => {
         ? join(projectDirectory, '/.nx/installation')
         : projectDirectory,
       stdio: 'inherit',
+      env: process.env,
     });
 
     expect(hasNxWrapper(projectDirectory)).toEqual(useNxWrapper);

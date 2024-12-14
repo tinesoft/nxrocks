@@ -21,7 +21,7 @@ describe('nx-ktor e2e', () => {
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
     execSync(
-      `${getPackageManagerCommand().install} @nxrocks/nx-ktor@0.0.0-e2e`,
+      `${getPackageManagerCommand().addDev} @nxrocks/nx-ktor@0.0.0-e2e`,
       {
         cwd: projectDirectory,
         stdio: 'inherit',
@@ -78,7 +78,7 @@ describe('nx-ktor e2e', () => {
     it('should create src in the specified directory', async () => {
       const prjName = uniq('nx-ktor');
       await runNxCommandAsync(
-        `generate @nxrocks/nx-ktor:new ${prjName} --directory subdir --no-interactive`
+        `generate @nxrocks/nx-ktor:new --directory subdir/${prjName} --no-interactive`
       );
       expect(() =>
         checkFilesExist(

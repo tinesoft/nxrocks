@@ -33,6 +33,7 @@ describe('create-nx-spring-boot', () => {
         ? join(projectDirectory, '/.nx/installation')
         : projectDirectory,
       stdio: 'inherit',
+      env: process.env,
     });
 
     expect(hasNxWrapper(projectDirectory)).toEqual(useNxWrapper);
