@@ -19,7 +19,6 @@ describe('preset generator', () => {
   let tree: Tree;
   const options: PresetGeneratorSchema = {
     directory: 'mnapp',
-    prjName: 'mnapp',
     projectType: 'default',
     basePackage: 'com.tinesoft',
     buildSystem: 'MAVEN',

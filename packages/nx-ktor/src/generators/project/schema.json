@@ -9,7 +9,7 @@
     "directory": {
       "type": "string",
       "description": "The directory of the new project.",
-      "alias": "d",
+      "alias": "dir",
       "$default": {
         "$source": "argv",
         "index": 0
@@ -177,11 +177,6 @@
       "description": "Add tags to the project (used for linting).",
       "alias": "t",
       "x-priority": "internal"
-    },
-    "projectNameAndRootFormat": {
-      "description": "Whether to generate the project name and root directory as provided (`as-provided`) or generate them composing their values and taking the configured layout into account (`derived`).",
-      "type": "string",
-      "enum": ["as-provided", "derived"]
     }
   },
   "required": ["directory"]

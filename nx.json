@@ -17,7 +17,7 @@
       }
     },
     "version": {
-      "preVersionCommand": "pnpm nx run-many -t build --parallel 4",
+      "preVersionCommand": "pnpm nx run-many -t build",
       "conventionalCommits": true,
       "generatorOptions": {
         "packageRoot": "dist/packages/{projectName}",

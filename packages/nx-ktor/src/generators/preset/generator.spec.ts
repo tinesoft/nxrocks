@@ -19,7 +19,6 @@ describe('preset generator', () => {
   let tree: Tree;
   const options: PresetGeneratorSchema = {
     directory: 'ktapp',
-    prjName: 'ktapp',
     groupId: 'com.tinesoft',
     artifactId: 'ktapp',
     buildSystem: 'MAVEN',

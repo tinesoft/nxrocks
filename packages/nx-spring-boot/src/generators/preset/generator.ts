@@ -6,13 +6,12 @@ export async function presetGenerator(
   tree: Tree,
   options: PresetGeneratorSchema
 ) {
-  const { prjName } = options;
+  if (options.prjName) {
+    options.directory = options.prjName;
+    delete options['name']; // remove 'name' set from create-nx-workspace, where it refers to the workspace name and not project name
+  }
 
-  await projectGenerator(tree, {
-    ...options,
-    name: prjName,
-    directory: options.directory ?? prjName,
-  });
+  await projectGenerator(tree, options);
 }
 
 export default presetGenerator;
