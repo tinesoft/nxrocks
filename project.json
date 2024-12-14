@@ -13,7 +13,9 @@
     },
     "populate-local-registry": {
       "cache": true,
+      "parallelism": false,
       "inputs": ["production"],
+      "dependsOn": ["build"],
       "command": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/populate-local-registry.ts",
       "outputs": ["{workspaceRoot}/tmp/local-registry/storage"]
     }

@@ -1,12 +1,16 @@
+import { uniq } from '@nx/plugin/testing';
 import {
-  uniq,
-} from '@nx/plugin/testing';
-import { checkFilesExist, createTestProject, readJson, runNxCommandAsync } from '@nxrocks/common/testing';
+  checkFilesExist,
+  createTestProject,
+  readJson,
+  runNxCommandAsync,
+} from '@nxrocks/common/testing';
 import { execSync } from 'child_process';
 import { rmSync } from 'fs-extra';
 
 //jest.mock('enquirer'); // we mock 'enquirer' to bypass the interactive prompt
 import * as enquirer from 'enquirer';
+import { getPackageManagerCommand } from '@nx/devkit';
 
 describe('nx-flutter e2e', () => {
   let projectDirectory: string;
@@ -16,24 +20,28 @@ describe('nx-flutter e2e', () => {
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
-    execSync(`npm install @nxrocks/nx-flutter@0.0.0-e2e`, {
-      cwd: projectDirectory,
-      stdio: 'inherit',
-      env: process.env,
-    });
+    execSync(
+      `${getPackageManagerCommand().addDev} @nxrocks/nx-flutter@0.0.0-e2e`,
+      {
+        cwd: projectDirectory,
+        stdio: 'inherit',
+        env: process.env,
+      }
+    );
   });
 
   afterAll(() => {
     // Cleanup the test project
-    projectDirectory && rmSync(projectDirectory, {
-      recursive: true,
-      force: true,
-    });
+    projectDirectory &&
+      rmSync(projectDirectory, {
+        recursive: true,
+        force: true,
+      });
   });
 
   it('should be installed', () => {
     // npm ls will fail if the package is not installed properly
-    execSync('npm ls @nxrocks/nx-flutter', {
+    execSync(`${getPackageManagerCommand().list} @nxrocks/nx-flutter`, {
       cwd: projectDirectory,
       stdio: 'inherit',
     });
@@ -154,7 +162,7 @@ describe('nx-flutter e2e', () => {
       const appName = uniq('nx-flutter');
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-flutter:create ${appName} --directory subdir --no-interactive`
+        `generate @nxrocks/nx-flutter:new --directory subdir/${appName}  --no-interactive`
       );
       expect(() =>
         checkFilesExist(`subdir/${appName}/pubspec.yaml`)

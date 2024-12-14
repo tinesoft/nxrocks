@@ -24,7 +24,7 @@ describe('create-nx-micronaut', () => {
   `('should be installed with Nx Wrapper=$useNxWrapper', ({ useNxWrapper }) => {
     projectDirectory = createCLITestProject(
       'create-nx-micronaut',
-      `--prjName=bootapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --useGitHub=false --no-interactive`
+      `--prjName=mnapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --useGitHub=false --no-interactive`
     );
 
     // npm ls will fail if the package is not installed properly
@@ -33,6 +33,7 @@ describe('create-nx-micronaut', () => {
         ? join(projectDirectory, '/.nx/installation')
         : projectDirectory,
       stdio: 'inherit',
+      env: process.env,
     });
 
     expect(hasNxWrapper(projectDirectory)).toEqual(useNxWrapper);

@@ -23,7 +23,7 @@ describe('nx-spring-boot e2e', () => {
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
     execSync(
-      `${getPackageManagerCommand().install} @nxrocks/nx-spring-boot@0.0.0-e2e`,
+      `${getPackageManagerCommand().addDev} @nxrocks/nx-spring-boot@0.0.0-e2e`,
       {
         cwd: projectDirectory,
         stdio: 'inherit',
@@ -291,7 +291,7 @@ describe('nx-spring-boot e2e', () => {
         const prjName = uniq('nx-spring-boot');
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --directory subdir  --no-interactive`
+          `generate @nxrocks/nx-spring-boot:new  --directory subdir/${prjName} --projectType ${projectType}  --no-interactive`
         );
         expect(() =>
           checkFilesExist(

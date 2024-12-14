@@ -86,7 +86,7 @@ export function createCLITestProject(
   execSync(
     `${
       getPackageManagerCommand(pkgManager).dlx
-    }${confirm} ${createPkgName}@${createPkgVersion} ${projectName} ${extraArgs}`,
+    }${confirm} ${createPkgName}@${createPkgVersion} ${projectName} ${extraArgs} --presetVersion=${createPkgVersion}`,
     {
       cwd: dirname(projectDirectory),
       stdio: 'inherit',

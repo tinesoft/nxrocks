@@ -23,7 +23,7 @@ describe('nx-quarkus e2e', () => {
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
     execSync(
-      `${getPackageManagerCommand().add} @nxrocks/nx-quarkus@0.0.0-e2e`,
+      `${getPackageManagerCommand().addDev} @nxrocks/nx-quarkus@0.0.0-e2e`,
       {
         cwd: projectDirectory,
         stdio: 'inherit',
@@ -222,7 +222,7 @@ describe('nx-quarkus e2e', () => {
         const prjName = uniq('nx-quarkus');
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --directory subdir --no-interactive`
+          `generate @nxrocks/nx-quarkus:new --directory subdir/${prjName} --projectType ${projectType} --no-interactive`
         );
         expect(() =>
           checkFilesExist(

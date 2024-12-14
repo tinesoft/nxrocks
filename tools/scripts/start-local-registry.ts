@@ -13,8 +13,7 @@ function isFolderEmptySync(folderPath: string): boolean {
         const relevantFiles = files.filter(file => file !== '.verdaccio-db.json');
         return relevantFiles.length === 0;
     } catch (error) {
-        console.error('Error checking folder:', error);
-        throw error;
+        return true; // we consider the folder empty if we cannot read it
     }
 }
 
@@ -67,7 +66,8 @@ export async function startLocalRelease(isVerbose=false) {
     },
     verbose: isVerbose,
   });
-  await releasePublish({
+
+  return await releasePublish({
     tag: 'e2e',
     firstRelease: true,
     verbose: isVerbose,
