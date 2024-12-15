@@ -1,4 +1,0 @@
-distribute-on:
-  small-changeset: 3 linux-medium-js-java-flutter
-  medium-changeset: 6 linux-medium-js-java-flutter
-  large-changeset: 10 linux-medium-js-java-flutter

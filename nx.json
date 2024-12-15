@@ -111,7 +111,8 @@
       "plugin": "@nx/jest/plugin",
       "options": {
         "targetName": "e2e",
-        "ciTargetName": "e2e-ci"
+        "ciTargetName": "e2e-ci",
+        "disableJestRuntime": false
       },
       "include": [
         "e2e/nx-flutter-e2e/**/*",
@@ -127,7 +128,8 @@
       "plugin": "@nx/jest/plugin",
       "options": {
         "targetName": "test",
-        "ciTargetName": "test-ci"
+        "ciTargetName": "test-ci",
+        "disableJestRuntime": false
       },
       "include": [
         "packages/common/**/*",
