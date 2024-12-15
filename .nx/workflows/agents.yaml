@@ -1,6 +1,6 @@
 launch-templates:
   linux-medium-js-java-flutter:
-    resource-class: 'docker_linux_amd64/large'
+    resource-class: 'docker_linux_amd64/medium+'
     image: 'ubuntu22.04-node20.11-v10'
     init-steps:
       - name: Checkout
