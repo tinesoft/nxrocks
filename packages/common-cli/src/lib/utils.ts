@@ -1,4 +1,4 @@
-import type { NxJsonConfiguration, PackageManager } from '@nx/devkit';
+import { type NxJsonConfiguration, type PackageManager } from '@nx/devkit';
 import { execSync, ExecSyncOptions } from 'child_process';
 import {
   ensureDirSync,
@@ -45,13 +45,22 @@ export function createWorkspaceWithNxWrapper(
 
   const nxJsonPath = resolve(directory, 'nx.json');
   const nxJson: NxJsonConfiguration = readJSONSync(nxJsonPath);
-  nxJson.installation = nxJson.installation ?? {
-    version: 'latest',
-    plugins: {},
-  };
-  nxJson.installation.plugins = nxJson.installation.plugins ?? {};
-  nxJson.installation.plugins[pkgName] = presetVersion;
-  writeJsonSync(nxJsonPath, nxJson, { spaces: 2 });
+
+  if (isNxCrystalEnabled(nxJson)) {
+    runNxWrapperSync(`add ${pkgName}@${presetVersion}`, {
+      cwd: directory,
+      stdio: 'inherit',
+      env: process.env,
+    });
+  } else {
+    nxJson.installation = nxJson.installation ?? {
+      version: 'latest',
+      plugins: {},
+    };
+    nxJson.installation.plugins = nxJson.installation.plugins ?? {};
+    nxJson.installation.plugins[pkgName] = presetVersion;
+    writeJsonSync(nxJsonPath, nxJson, { spaces: 2 });
+  }
 
   runNxWrapperSync(`g ${pkgName}:preset ${extraArgs}`, {
     cwd: directory,
@@ -96,11 +105,10 @@ export function getNxCommand(
 ) {
   if (!useNxWrapper) {
     switch (pkgManager) {
-      case 'yarn':
-      case 'pnpm':
-        return `$(pkgManager} nx`;
-      default:
+      case 'npm':
         return 'npx nx';
+      default:
+        return `$(pkgManager} nx`;
     }
   }
   return process.platform === 'win32' ? '.\\nx.bat' : './nx';
@@ -112,6 +120,13 @@ export function isNxWrapperInstalled(cwd: string) {
     ['.nx/installation/package.json', '.nx/installation/node_modules'].every(
       (file) => existsSync(join(cwd, file))
     )
+  );
+}
+
+export function isNxCrystalEnabled(nxJson: NxJsonConfiguration) {
+  return (
+    process.env['NX_ADD_PLUGINS'] !== 'false' &&
+    nxJson.useInferencePlugins !== false
   );
 }
 
