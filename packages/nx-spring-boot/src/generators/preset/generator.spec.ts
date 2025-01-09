@@ -50,7 +50,7 @@ describe('preset generator', () => {
 
   it('should run successfully', async () => {
     await presetGenerator(tree, options);
-    const config = readProjectConfiguration(tree, 'bootapp');
+    const config = readProjectConfiguration(tree, options.name);
     expect(config).toBeDefined();
   });
 });
