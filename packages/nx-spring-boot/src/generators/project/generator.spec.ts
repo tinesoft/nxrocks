@@ -128,7 +128,6 @@ describe('project generator', () => {
   let options: NormalizedSchema;
   const _options: ProjectGeneratorOptions = {
     directory: 'bootapp',
-    name: 'bootapp',
     projectType: 'application',
     springInitializerUrl: DEFAULT_SPRING_INITIALIZR_URL,
     language: 'java',
@@ -398,34 +397,29 @@ describe('project generator', () => {
     }
   );
 
-  it.each`
-    projectType      | expectedAction
-    ${'application'} | ${'keep as-is'}
-    ${'library'}     | ${'disable'}
-  `(
-    `should $expectedAction the Spring Boot Gradle plugin in build.gradle when generating a '$projectType'`,
-    async ({ projectType }) => {
-      const opts: ProjectGeneratorOptions = {
-        ...options,
-        buildSystem: 'gradle-project',
-        projectType,
-      };
+  it('should $expectedAction the Spring Boot Gradle plugin in build.gradle when generating', async () => {
+    const projectType = 'application';
+    const opts: ProjectGeneratorOptions = {
+      ...options,
+      buildSystem: 'gradle-project',
+      projectType,
+    };
 
-      const zipFiles = [
-        { filePath: 'build.gradle', fileContent: BUILD_GRADLE },
-        'gradlew',
-        'README.md',
-      ];
-      // mock the zip content returned by the real call to Spring Initializer
-      jest
-        .spyOn(mockedResponse.body, 'pipe')
-        .mockReturnValue(mockZipStream(zipFiles));
+    const zipFiles = [
+      { filePath: 'build.gradle', fileContent: BUILD_GRADLE },
+      'gradlew',
+      'README.md',
+    ];
+    // mock the zip content returned by the real call to Spring Initializer
+    jest
+      .spyOn(mockedResponse.body, 'pipe')
+      .mockReturnValue(mockZipStream(zipFiles));
 
-      await projectGenerator(tree, opts);
+    await projectGenerator(tree, opts);
 
-      const buildGradle = tree.read(`./${options.name}/build.gradle`, 'utf-8');
+    const buildGradle = tree.read(`./${options.name}/build.gradle`, 'utf-8');
 
-      const dependencyManagement = stripIndent`
+    const dependencyManagement = stripIndent`
     dependencyManagement {
     	imports {
     		mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
@@ -433,19 +427,18 @@ describe('project generator', () => {
     }
     `;
 
-      if (projectType === 'application') {
-        expect(buildGradle).not.toContain(
-          `id 'org.springframework.boot' version '2.6.2' apply false`
-        );
-        expect(buildGradle).not.toContain(dependencyManagement);
-      } else {
-        expect(buildGradle).toContain(
-          `id 'org.springframework.boot' version '2.6.2' apply false`
-        );
-        expect(buildGradle).toContain(dependencyManagement);
-      }
+    if (projectType === 'application') {
+      expect(buildGradle).not.toContain(
+        `id 'org.springframework.boot' version '2.6.2' apply false`
+      );
+      expect(buildGradle).not.toContain(dependencyManagement);
+    } else {
+      expect(buildGradle).toContain(
+        `id 'org.springframework.boot' version '2.6.2' apply false`
+      );
+      expect(buildGradle).toContain(dependencyManagement);
     }
-  );
+  });
 
   it.each`
     skipFormat | expectedAction

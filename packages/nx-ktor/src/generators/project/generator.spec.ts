@@ -206,7 +206,6 @@ describe('project generator', () => {
   let options: NormalizedSchema;
   const _options: ProjectGeneratorOptions = {
     directory: 'ktapp',
-    name: 'ktapp',
     groupId: 'com.tinesoft',
     artifactId: 'ktapp',
     buildSystem: 'MAVEN',

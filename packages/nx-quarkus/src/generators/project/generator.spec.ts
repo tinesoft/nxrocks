@@ -94,7 +94,6 @@ describe('project generator', () => {
   let options: NormalizedSchema;
   const _options: ProjectGeneratorOptions = {
     directory: 'quarkusapp',
-    name: 'quarkusapp',
     projectType: 'application',
     groupId: 'com.tinesoft',
     artifactId: 'demo',

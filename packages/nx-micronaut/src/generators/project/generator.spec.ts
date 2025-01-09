@@ -197,7 +197,6 @@ describe('project generator', () => {
   let options: NormalizedSchema;
   const _options: ProjectGeneratorOptions = {
     directory: 'mnapp',
-    name: 'mnapp',
     projectType: 'default',
     basePackage: 'com.tinesoft',
     buildSystem: 'MAVEN',

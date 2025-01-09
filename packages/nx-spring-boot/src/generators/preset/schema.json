@@ -30,14 +30,6 @@
       },
       "x-prompt": "Which directory do you want to create the project in?"
     },
-    "name": {
-      "type": "string",
-      "description": "Name of the project to generate.",
-      "alias": "projectName",
-      "x-prompt": "What name would you like to use?",
-      "pattern": "^[a-zA-Z][^:]*$",
-      "x-priority": "important"
-    },
     "projectType": {
       "description": "Type of project.",
       "default": "application",
@@ -177,6 +169,13 @@
       "x-prompt": "What artifactId would you like to use?",
       "x-priority": "important"
     },
+    "name": {
+      "description": "Name of the project.",
+      "type": "string",
+      "default": "demo",
+      "alias": "projectName",
+      "x-priority": "important"
+    },
     "packageName": {
       "description": "Name of the main package of the project.",
       "type": "string",
@@ -187,6 +186,7 @@
     "description": {
       "description": "Description of the project.",
       "type": "string",
+      "default": "Demo project for Spring Boot",
       "x-priority": "internal"
     },
     "skipFormat": {

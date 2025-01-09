@@ -18,9 +18,8 @@
     },
     "name": {
       "type": "string",
-      "description": "Name of the project to generate.",
+      "description": "Name of the project.",
       "alias": "projectName",
-      "x-prompt": "What name would you like to use?",
       "pattern": "^[a-zA-Z][^:]*$",
       "x-priority": "important"
     },
