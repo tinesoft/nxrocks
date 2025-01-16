@@ -2,6 +2,7 @@ import { getPackageManagerCommand } from '@nx/devkit';
 import {
   checkFilesExist,
   createTestProject,
+  noFormat,
   runNxCommandAsync,
 } from '@nxrocks/common/testing';
 import { execSync } from 'child_process';
@@ -11,6 +12,13 @@ describe('nx-melos e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
+    // Cleanup the test project
+    projectDirectory &&
+      rmSync(projectDirectory, {
+        recursive: true,
+        force: true,
+      });
+
     projectDirectory = createTestProject();
 
     // The plugin has been built and published to a local registry in the jest globalSetup
@@ -23,15 +31,6 @@ describe('nx-melos e2e', () => {
         env: process.env,
       }
     );
-  });
-
-  afterAll(() => {
-    // Cleanup the test project
-    projectDirectory &&
-      rmSync(projectDirectory, {
-        recursive: true,
-        force: true,
-      });
   });
 
   it('should be installed', () => {
@@ -54,7 +53,9 @@ describe('nx-melos e2e', () => {
     const scripts = [
       {
         name: 'melos-bootstrap',
-        output: `Successfully ran target melos-bootstrap for project @test-project/source`,
+        output: noFormat(
+          `Successfully ran target melos-bootstrap for project @test-project/source`
+        ),
       },
     ];
 

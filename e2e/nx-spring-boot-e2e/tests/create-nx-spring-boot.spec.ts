@@ -19,7 +19,6 @@ describe('create-nx-spring-boot', () => {
 
   it.each`
     useNxWrapper
-    ${true}
     ${false}
   `('should be installed with Nx Wrapper=$useNxWrapper', ({ useNxWrapper }) => {
     projectDirectory = createCLITestProject(

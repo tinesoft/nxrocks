@@ -9,7 +9,7 @@ import {
   runNxCommandAsync,
   tmpProjPath,
 } from '@nxrocks/common-jvm/testing';
-import { getPackageManagerCommand, names } from '@nx/devkit';
+import { getPackageManagerCommand } from '@nx/devkit';
 
 import { lstatSync, rmSync } from 'fs';
 import { execSync } from 'child_process';
@@ -18,6 +18,13 @@ describe('nx-spring-boot e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
+    // Cleanup the test project
+    projectDirectory &&
+      rmSync(projectDirectory, {
+        recursive: true,
+        force: true,
+      });
+
     projectDirectory = createTestProject();
 
     // The plugin has been built and published to a local registry in the jest globalSetup
@@ -32,14 +39,6 @@ describe('nx-spring-boot e2e', () => {
     );
   });
 
-  afterAll(() => {
-    // Cleanup the test project
-    rmSync(projectDirectory, {
-      recursive: true,
-      force: true,
-    });
-  });
-
   it('should be installed', () => {
     // npm ls will fail if the package is not installed properly
     execSync(`${getPackageManagerCommand().list} @nxrocks/nx-spring-boot`, {
@@ -49,21 +48,21 @@ describe('nx-spring-boot e2e', () => {
   });
 
   it('should create nx-spring-boot with default options', async () => {
-    const prjName = uniq('nx-spring-boot');
+    const directory = uniq('nx-spring-boot-');
     await runNxCommandAsync(
-      `generate @nxrocks/nx-spring-boot:new ${prjName} --no-interactive`
+      `generate @nxrocks/nx-spring-boot:new ${directory} --no-interactive`
     );
 
-    const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+    const resultBuild = await runNxCommandAsync(`build ${directory}`);
     expect(resultBuild.stdout).toContain(
       `Executing command: ${isWin ? 'mvnw.cmd' : './mvnw'} package`
     );
 
     expect(() =>
       checkFilesExist(
-        `${prjName}/mvnw`,
-        `${prjName}/pom.xml`,
-        `${prjName}/HELP.md`
+        `${directory}/mvnw`,
+        `${directory}/pom.xml`,
+        `${directory}/HELP.md`
       )
     ).not.toThrow();
 
@@ -71,7 +70,7 @@ describe('nx-spring-boot e2e', () => {
     if (!isWin) {
       const execPermission = '755';
       expect(
-        lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode & octal(execPermission)
+        lstatSync(tmpProjPath(`${directory}/mvnw`)).mode & octal(execPermission)
       ).toEqual(octal(execPermission));
     }
   }, 200000);
@@ -83,7 +82,7 @@ describe('nx-spring-boot e2e', () => {
   `(
     `should create a spring-boot '$projectType' with given options`,
     async ({ projectType }) => {
-      const prjName = uniq('nx-spring-boot');
+      const directory = uniq('nx-spring-boot-');
       const buildSystem = 'maven-project';
       const javaVersion = '17';
       const packageName = 'com.tinesoft.api';
@@ -93,58 +92,50 @@ describe('nx-spring-boot e2e', () => {
       //const version = '1.2.3'; https://github.com/nrwl/nx/issues/10786
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --javaVersion=${javaVersion} --no-interactive`
+        `generate @nxrocks/nx-spring-boot:new ${directory} --projectType ${projectType} --buildSystem=${buildSystem} --packageName=${packageName} --groupId=${groupId} --artifactId=${artifactId} --description="${description}" --javaVersion=${javaVersion} --no-interactive`
       );
 
-      const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+      const resultBuild = await runNxCommandAsync(`build ${directory}`);
       expect(resultBuild.stdout).toContain(
         `Executing command: ${isWin ? 'mvnw.cmd' : './mvnw'} package`
       );
 
       expect(() =>
         checkFilesExist(
-          `${prjName}/mvnw`,
-          `${prjName}/pom.xml`,
-          `${prjName}/HELP.md`
+          `${directory}/mvnw`,
+          `${directory}/pom.xml`,
+          `${directory}/HELP.md`
         )
       ).not.toThrow();
 
       if (projectType === 'application') {
         expect(() =>
           checkFilesExist(
-            `${prjName}/src/main/java/com/tinesoft/api/${
-              names(prjName).className
-            }Application.java`,
-            `${prjName}/src/test/java/com/tinesoft/api/${
-              names(prjName).className
-            }ApplicationTests.java`
+            `${directory}/src/main/java/com/tinesoft/api/DemoApplication.java`,
+            `${directory}/src/test/java/com/tinesoft/api/DemoApplicationTests.java`
           )
         ).not.toThrow();
       } else {
         expect(() =>
           checkFilesExist(
-            `${prjName}/src/main/java/com/tinesoft/api/${
-              names(prjName).className
-            }Application.java`,
-            `${prjName}/src/test/java/com/tinesoft/api/${
-              names(prjName).className
-            }ApplicationTests.java`
+            `${directory}/src/main/java/com/tinesoft/api/DemoApplication.java`,
+            `${directory}/src/test/java/com/tinesoft/api/DemoApplicationTests.java`
           )
         ).toThrow();
 
         expect(() =>
           checkFilesExist(
-            `${prjName}/src/main/java/com/tinesoft/api/service/MyService.java`,
-            `${prjName}/src/main/java/com/tinesoft/api/service/ServiceProperties.java`,
-            `${prjName}/src/test/java/com/tinesoft/api/service/MyServiceTest.java`
+            `${directory}/src/main/java/com/tinesoft/api/service/MyService.java`,
+            `${directory}/src/main/java/com/tinesoft/api/service/ServiceProperties.java`,
+            `${directory}/src/test/java/com/tinesoft/api/service/MyServiceTest.java`
           )
         ).not.toThrow();
       }
 
-      const pomXml = readFile(`${prjName}/pom.xml`);
+      const pomXml = readFile(`${directory}/pom.xml`);
       expect(pomXml).toContain(`<groupId>${groupId}</groupId>`);
       expect(pomXml).toContain(`<artifactId>${artifactId}</artifactId>`);
-      expect(pomXml).toContain(`<name>${prjName}</name>`);
+      expect(pomXml).toContain(`<name>demo</name>`);
       expect(pomXml).toContain(`<description>${description}</description>`);
       //expect(pomXml).toContain(`<version>${version}</version>`);
       expect(pomXml).toContain(`<java.version>${javaVersion}</java.version>`);
@@ -153,7 +144,8 @@ describe('nx-spring-boot e2e', () => {
       if (!isWin) {
         const execPermission = '755';
         expect(
-          lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode & octal(execPermission)
+          lstatSync(tmpProjPath(`${directory}/mvnw`)).mode &
+            octal(execPermission)
         ).toEqual(octal(execPermission));
       }
     },
@@ -168,22 +160,22 @@ describe('nx-spring-boot e2e', () => {
     `(
       `should create a gradle spring-boot '$projectType'`,
       async ({ projectType }) => {
-        const prjName = uniq('nx-spring-boot');
+        const directory = uniq('nx-spring-boot-');
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem gradle-project --no-interactive`
+          `generate @nxrocks/nx-spring-boot:new ${directory} --projectType ${projectType} --buildSystem gradle-project --no-interactive`
         );
 
-        const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+        const resultBuild = await runNxCommandAsync(`build ${directory}`);
         expect(resultBuild.stdout).toContain(
           `Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`
         );
 
         expect(() =>
           checkFilesExist(
-            `${prjName}/gradlew`,
-            `${prjName}/build.gradle`,
-            `${prjName}/HELP.md`
+            `${directory}/gradlew`,
+            `${directory}/build.gradle`,
+            `${directory}/HELP.md`
           )
         ).not.toThrow();
 
@@ -191,7 +183,7 @@ describe('nx-spring-boot e2e', () => {
         if (!isWin) {
           const execPermission = '755';
           expect(
-            lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
+            lstatSync(tmpProjPath(`${directory}/gradlew`)).mode &
               octal(execPermission)
           ).toEqual(octal(execPermission));
         }
@@ -208,22 +200,22 @@ describe('nx-spring-boot e2e', () => {
     `(
       `should create a gradle spring-boot '$projectType'`,
       async ({ projectType }) => {
-        const prjName = uniq('nx-spring-boot');
+        const directory = uniq('nx-spring-boot-');
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem gradle-project-kotlin --no-interactive`
+          `generate @nxrocks/nx-spring-boot:new ${directory} --projectType ${projectType} --buildSystem gradle-project-kotlin --no-interactive`
         );
 
-        const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+        const resultBuild = await runNxCommandAsync(`build ${directory}`);
         expect(resultBuild.stdout).toContain(
           `Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`
         );
 
         expect(() =>
           checkFilesExist(
-            `${prjName}/gradlew`,
-            `${prjName}/build.gradle.kts`,
-            `${prjName}/HELP.md`
+            `${directory}/gradlew`,
+            `${directory}/build.gradle.kts`,
+            `${directory}/HELP.md`
           )
         ).not.toThrow();
 
@@ -231,7 +223,7 @@ describe('nx-spring-boot e2e', () => {
         if (!isWin) {
           const execPermission = '755';
           expect(
-            lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
+            lstatSync(tmpProjPath(`${directory}/gradlew`)).mode &
               octal(execPermission)
           ).toEqual(octal(execPermission));
         }
@@ -248,22 +240,22 @@ describe('nx-spring-boot e2e', () => {
     `(
       `should create a gradle spring-boot '$projectType' with kotlin`,
       async ({ projectType }) => {
-        const prjName = uniq('nx-spring-boot');
+        const directory = uniq('nx-spring-boot-');
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --buildSystem gradle-project --language kotlin --no-interactive`
+          `generate @nxrocks/nx-spring-boot:new ${directory} --projectType ${projectType} --buildSystem gradle-project --language kotlin --no-interactive`
         );
 
-        const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+        const resultBuild = await runNxCommandAsync(`build ${directory}`);
         expect(resultBuild.stdout).toContain(
           `Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`
         );
 
         expect(() =>
           checkFilesExist(
-            `${prjName}/gradlew`,
-            `${prjName}/build.gradle`,
-            `${prjName}/HELP.md`
+            `${directory}/gradlew`,
+            `${directory}/build.gradle`,
+            `${directory}/HELP.md`
           )
         ).not.toThrow();
 
@@ -271,7 +263,7 @@ describe('nx-spring-boot e2e', () => {
         if (!isWin) {
           const execPermission = '755';
           expect(
-            lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
+            lstatSync(tmpProjPath(`${directory}/gradlew`)).mode &
               octal(execPermission)
           ).toEqual(octal(execPermission));
         }
@@ -288,16 +280,16 @@ describe('nx-spring-boot e2e', () => {
     `(
       `should create src in the specified directory when generating a '$projectType'`,
       async ({ projectType }) => {
-        const prjName = uniq('nx-spring-boot');
+        const directory = uniq('nx-spring-boot-');
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-spring-boot:new  --directory subdir/${prjName} --projectType ${projectType}  --no-interactive`
+          `generate @nxrocks/nx-spring-boot:new  --directory subdir/${directory} --projectType ${projectType}  --no-interactive`
         );
         expect(() =>
           checkFilesExist(
-            `subdir/${prjName}/mvnw`,
-            `subdir/${prjName}/pom.xml`,
-            `subdir/${prjName}/HELP.md`
+            `subdir/${directory}/mvnw`,
+            `subdir/${directory}/pom.xml`,
+            `subdir/${directory}/HELP.md`
           )
         ).not.toThrow();
       },
@@ -313,12 +305,12 @@ describe('nx-spring-boot e2e', () => {
     `(
       `should add tags to nx.json' when generating a '$projectType'`,
       async ({ projectType }) => {
-        const prjName = uniq('nx-spring-boot');
+        const directory = uniq('nx-spring-boot-');
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-spring-boot:new ${prjName} --projectType ${projectType} --tags e2etag,e2ePackage --no-interactive`
+          `generate @nxrocks/nx-spring-boot:new ${directory} --projectType ${projectType} --tags e2etag,e2ePackage --no-interactive`
         );
-        const project = readJson(`${prjName}/project.json`);
+        const project = readJson(`${directory}/project.json`);
         expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
       },
       200000
