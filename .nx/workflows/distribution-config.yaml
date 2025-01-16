@@ -1,21 +1,23 @@
 distribute-on:
-  small-changeset: 2 linux-large-js, 4 linux-medium-js-java-flutter, 2 linux-medium-js
-  medium-changeset: 3 linux-large-js, 6 linux-medium-js-java-flutter, 5 linux-medium-js
-  large-changeset: 4 linux-large-js, 8 linux-medium-js-java-flutter, 8 linux-medium-js
+  small-changeset: 4 linux-medium-js-java-flutter
+  medium-changeset: 6 linux-medium-js-java-flutter
+  large-changeset: 8 linux-medium-js-java-flutter
+  # small-changeset: 2 linux-large-js, 4 linux-medium-js-java-flutter, 2 linux-medium-js
+  # medium-changeset: 3 linux-large-js, 6 linux-medium-js-java-flutter, 5 linux-medium-js
+  # large-changeset: 4 linux-large-js, 8 linux-medium-js-java-flutter, 8 linux-medium-js
+# assignment-rules:
+#   - target: build
+#     runs-on:
+#       - linux-large-js
 
-assignment-rules:
-  - target: build
-    runs-on:
-      - linux-large-js
+#   - target: e2e
+#     runs-on:
+#       - linux-medium-js-java-flutter
 
-  - target: e2e
-    runs-on:
-      - linux-medium-js-java-flutter
+#   - target: test
+#     runs-on:
+#       - linux-medium-js
 
-  - target: test
-    runs-on:
-      - linux-medium-js
-
-  - target: lint
-    runs-on:
-      - linux-medium-js
+#   - target: lint
+#     runs-on:
+#       - linux-medium-js
