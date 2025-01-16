@@ -72,3 +72,8 @@ export function octal(value: string | number): number {
   if (typeof value === 'string') return parseInt(value, 8);
   return value;
 }
+
+export function noFormat(str: string) {
+  // Remove bold ANSI escape codes
+  return str?.replace(/\\u001b\[\d+m/g, '');
+}

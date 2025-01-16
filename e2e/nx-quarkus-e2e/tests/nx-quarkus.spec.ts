@@ -18,6 +18,13 @@ describe('nx-quarkus e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
+    // Cleanup the test project
+    projectDirectory &&
+      rmSync(projectDirectory, {
+        recursive: true,
+        force: true,
+      });
+
     projectDirectory = createTestProject();
 
     // The plugin has been built and published to a local registry in the jest globalSetup
@@ -32,15 +39,6 @@ describe('nx-quarkus e2e', () => {
     );
   });
 
-  afterAll(() => {
-    // Cleanup the test project
-    projectDirectory &&
-      rmSync(projectDirectory, {
-        recursive: true,
-        force: true,
-      });
-  });
-
   it('should be installed', () => {
     // npm ls will fail if the package is not installed properly
     execSync(`${getPackageManagerCommand().list} @nxrocks/nx-quarkus`, {
@@ -50,13 +48,13 @@ describe('nx-quarkus e2e', () => {
   });
 
   it('should create nx-quarkus with default options', async () => {
-    const prjName = uniq('nx-quarkus');
+    const directory = uniq('nx-quarkus-');
     await runNxCommandAsync(
-      `generate @nxrocks/nx-quarkus:new ${prjName} --no-interactive`
+      `generate @nxrocks/nx-quarkus:new ${directory} --no-interactive`
     );
 
     const resultBuild = await runNxCommandAsync(
-      `build ${prjName} --no-interactive`
+      `build ${directory} --no-interactive`
     );
     expect(resultBuild.stdout).toContain(
       `Executing command: ${isWin ? 'mvnw.cmd' : './mvnw'} package`
@@ -64,9 +62,9 @@ describe('nx-quarkus e2e', () => {
 
     expect(() =>
       checkFilesExist(
-        `${prjName}/mvnw`,
-        `${prjName}/pom.xml`,
-        `${prjName}/README.md`
+        `${directory}/mvnw`,
+        `${directory}/pom.xml`,
+        `${directory}/README.md`
       )
     ).not.toThrow();
 
@@ -74,7 +72,7 @@ describe('nx-quarkus e2e', () => {
     if (!isWin) {
       const execPermission = '755';
       expect(
-        lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode & octal(execPermission)
+        lstatSync(tmpProjPath(`${directory}/mvnw`)).mode & octal(execPermission)
       ).toEqual(octal(execPermission));
     }
   }, 200000);
@@ -86,7 +84,7 @@ describe('nx-quarkus e2e', () => {
   `(
     `should create a quarkus '$projectType' with given options`,
     async ({ projectType }) => {
-      const prjName = uniq('nx-quarkus');
+      const directory = uniq('nx-quarkus-');
       const buildSystem = 'MAVEN';
       const groupId = 'com.tinesoft';
       const artifactId = 'api';
@@ -95,24 +93,24 @@ describe('nx-quarkus e2e', () => {
       const javaVersion = '21';
 
       await runNxCommandAsync(
-        `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem=${buildSystem} --groupId=${groupId} --artifactId=${artifactId} --extensions=${extensions} --javaVersion ${javaVersion} --no-interactive`
+        `generate @nxrocks/nx-quarkus:new ${directory} --projectType ${projectType} --buildSystem=${buildSystem} --groupId=${groupId} --artifactId=${artifactId} --extensions=${extensions} --javaVersion ${javaVersion} --no-interactive`
       );
 
-      const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+      const resultBuild = await runNxCommandAsync(`build ${directory}`);
       expect(resultBuild.stdout).toContain(
         `Executing command: ${isWin ? 'mvnw.cmd' : './mvnw'} package`
       );
 
       expect(() =>
         checkFilesExist(
-          `${prjName}/mvnw`,
-          `${prjName}/pom.xml`,
-          `${prjName}/README.md`,
-          `${prjName}/src/main/java/com/tinesoft/GreetingResource.java`
+          `${directory}/mvnw`,
+          `${directory}/pom.xml`,
+          `${directory}/README.md`,
+          `${directory}/src/main/java/com/tinesoft/GreetingResource.java`
         )
       ).not.toThrow();
 
-      const pomXml = readFile(`${prjName}/pom.xml`);
+      const pomXml = readFile(`${directory}/pom.xml`);
       expect(pomXml).toContain(`<groupId>${groupId}</groupId>`);
       expect(pomXml).toContain(`<artifactId>${artifactId}</artifactId>`);
       //expect(pomXml).toContain(`<version>${version}</version>`);
@@ -124,7 +122,8 @@ describe('nx-quarkus e2e', () => {
       if (!isWin) {
         const execPermission = '755';
         expect(
-          lstatSync(tmpProjPath(`${prjName}/mvnw`)).mode & octal(execPermission)
+          lstatSync(tmpProjPath(`${directory}/mvnw`)).mode &
+            octal(execPermission)
         ).toEqual(octal(execPermission));
       }
     },
@@ -139,22 +138,22 @@ describe('nx-quarkus e2e', () => {
     `(
       `should create a gradle quarkus '$projectType'`,
       async ({ projectType }) => {
-        const prjName = uniq('nx-quarkus');
+        const directory = uniq('nx-quarkus-');
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem GRADLE --no-interactive`
+          `generate @nxrocks/nx-quarkus:new ${directory} --projectType ${projectType} --buildSystem GRADLE --no-interactive`
         );
 
-        const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+        const resultBuild = await runNxCommandAsync(`build ${directory}`);
         expect(resultBuild.stdout).toContain(
           `Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`
         );
 
         expect(() =>
           checkFilesExist(
-            `${prjName}/gradlew`,
-            `${prjName}/build.gradle`,
-            `${prjName}/README.md`
+            `${directory}/gradlew`,
+            `${directory}/build.gradle`,
+            `${directory}/README.md`
           )
         ).not.toThrow();
 
@@ -162,7 +161,7 @@ describe('nx-quarkus e2e', () => {
         if (!isWin) {
           const execPermission = '755';
           expect(
-            lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
+            lstatSync(tmpProjPath(`${directory}/gradlew`)).mode &
               octal(execPermission)
           ).toEqual(octal(execPermission));
         }
@@ -179,22 +178,22 @@ describe('nx-quarkus e2e', () => {
     `(
       `should create a gradle quarkus '$projectType' with kotlin`,
       async ({ projectType }) => {
-        const prjName = uniq('nx-quarkus');
+        const directory = uniq('nx-quarkus-');
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --buildSystem GRADLE_KOTLIN_DSL --no-interactive`
+          `generate @nxrocks/nx-quarkus:new ${directory} --projectType ${projectType} --buildSystem GRADLE_KOTLIN_DSL --no-interactive`
         );
 
-        const resultBuild = await runNxCommandAsync(`build ${prjName}`);
+        const resultBuild = await runNxCommandAsync(`build ${directory}`);
         expect(resultBuild.stdout).toContain(
           `Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} build`
         );
 
         expect(() =>
           checkFilesExist(
-            `${prjName}/gradlew`,
-            `${prjName}/build.gradle.kts`,
-            `${prjName}/README.md`
+            `${directory}/gradlew`,
+            `${directory}/build.gradle.kts`,
+            `${directory}/README.md`
           )
         ).not.toThrow();
 
@@ -202,7 +201,7 @@ describe('nx-quarkus e2e', () => {
         if (!isWin) {
           const execPermission = '755';
           expect(
-            lstatSync(tmpProjPath(`${prjName}/gradlew`)).mode &
+            lstatSync(tmpProjPath(`${directory}/gradlew`)).mode &
               octal(execPermission)
           ).toEqual(octal(execPermission));
         }
@@ -219,16 +218,16 @@ describe('nx-quarkus e2e', () => {
     `(
       `should create src in the specified directory when generating a '$projectType'`,
       async ({ projectType }) => {
-        const prjName = uniq('nx-quarkus');
+        const directory = uniq('nx-quarkus-');
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-quarkus:new --directory subdir/${prjName} --projectType ${projectType} --no-interactive`
+          `generate @nxrocks/nx-quarkus:new --directory subdir/${directory} --projectType ${projectType} --no-interactive`
         );
         expect(() =>
           checkFilesExist(
-            `subdir/${prjName}/mvnw`,
-            `subdir/${prjName}/pom.xml`,
-            `subdir/${prjName}/README.md`
+            `subdir/${directory}/mvnw`,
+            `subdir/${directory}/pom.xml`,
+            `subdir/${directory}/README.md`
           )
         ).not.toThrow();
       },
@@ -244,12 +243,12 @@ describe('nx-quarkus e2e', () => {
     `(
       `should add tags to nx.json when generating a '$projectType'`,
       async ({ projectType }) => {
-        const prjName = uniq('nx-quarkus');
+        const directory = uniq('nx-quarkus-');
 
         await runNxCommandAsync(
-          `generate @nxrocks/nx-quarkus:new ${prjName} --projectType ${projectType} --tags e2etag,e2ePackage --no-interactive`
+          `generate @nxrocks/nx-quarkus:new ${directory} --projectType ${projectType} --tags e2etag,e2ePackage --no-interactive`
         );
-        const project = readJson(`${prjName}/project.json`);
+        const project = readJson(`${directory}/project.json`);
         expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
       },
       200000

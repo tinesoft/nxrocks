@@ -67,9 +67,9 @@ export function createTestProject(
 export function createCLITestProject(
   createPkgName: string,
   extraArgs = '',
+  projectName = 'test-project',
   createPkgVersion = '0.0.0-e2e',
-  pkgManager: PackageManager = detectPackageManager(),
-  projectName = 'test-project'
+  pkgManager: PackageManager = detectPackageManager()
 ) {
   const projectDirectory = join(process.cwd(), 'tmp', projectName);
   const confirm = pkgManager === 'npm' ? ' --yes' : '';

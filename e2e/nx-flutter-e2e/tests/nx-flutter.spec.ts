@@ -16,6 +16,13 @@ describe('nx-flutter e2e', () => {
   let projectDirectory: string;
 
   beforeAll(() => {
+    // Cleanup the test project
+    projectDirectory &&
+      rmSync(projectDirectory, {
+        recursive: true,
+        force: true,
+      });
+
     projectDirectory = createTestProject();
 
     // The plugin has been built and published to a local registry in the jest globalSetup
@@ -28,15 +35,6 @@ describe('nx-flutter e2e', () => {
         env: process.env,
       }
     );
-  });
-
-  afterAll(() => {
-    // Cleanup the test project
-    projectDirectory &&
-      rmSync(projectDirectory, {
-        recursive: true,
-        force: true,
-      });
   });
 
   it('should be installed', () => {
@@ -60,7 +58,7 @@ describe('nx-flutter e2e', () => {
   });
 
   it('should create nx-flutter project with default options', async () => {
-    const appName = uniq('nx-flutter');
+    const appName = uniq('nx-flutter-');
 
     const sep = process.platform === 'win32' ? '\\' : '/';
     await runNxCommandAsync(
@@ -119,7 +117,7 @@ describe('nx-flutter e2e', () => {
   }, 400000);
 
   it('should create nx-flutter project with given options', async () => {
-    const appName = uniq('nx-flutter');
+    const appName = uniq('nx-flutter-');
     const org = 'com.tinesoft';
     const description = 'My flutter application';
     const androidLanguage = 'java';
@@ -159,7 +157,7 @@ describe('nx-flutter e2e', () => {
 
   describe('--directory', () => {
     it('should create src in the specified directory', async () => {
-      const appName = uniq('nx-flutter');
+      const appName = uniq('nx-flutter-');
 
       await runNxCommandAsync(
         `generate @nxrocks/nx-flutter:new --directory subdir/${appName}  --no-interactive`
@@ -172,7 +170,7 @@ describe('nx-flutter e2e', () => {
 
   describe('--tags', () => {
     it('should add tags to nx.json', async () => {
-      const appName = uniq('nx-flutter');
+      const appName = uniq('nx-flutter-');
 
       await runNxCommandAsync(
         `generate @nxrocks/nx-flutter:create ${appName} --tags e2etag,e2ePackage --no-interactive`
