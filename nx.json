@@ -166,5 +166,6 @@
   "defaultBase": "develop",
   "cli": {
     "packageManager": "pnpm"
-  }
+  },
+  "useLegacyCache": true
 }
