@@ -1,1 +1,1 @@
-pnpm affected:test && git com "$1"
+bun affected:test && git com "$1"

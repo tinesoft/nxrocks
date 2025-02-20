@@ -57,9 +57,11 @@ describe('nxrocks smoke tests', () => {
     ${'npm'}   | ${'latest'}      | ${'0.0.0-e2e'}
     ${'yarn'}  | ${'latest'}      | ${'0.0.0-e2e'}
     ${'pnpm'}  | ${'latest'}      | ${'0.0.0-e2e'}
+    ${'bun'}   | ${'latest'}      | ${'0.0.0-e2e'}
     ${'npm'}   | ${'local'}       | ${'0.0.0-e2e'}
     ${'yarn'}  | ${'local'}       | ${'0.0.0-e2e'}
     ${'pnpm'}  | ${'local'}       | ${'0.0.0-e2e'}
+    ${'bun'}   | ${'local'}       | ${'0.0.0-e2e'}
   `(
     `should sucessfully run using '$workspaceVersion' Nx workspace, $pluginVersion plugins version and $pkgManager package manager`,
     async ({ pkgManager, workspaceVersion, pluginVersion }) => {

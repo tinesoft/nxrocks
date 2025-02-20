@@ -30,7 +30,7 @@ jobs:
           git config --global user.email semantic-release@github.com
           git config --global user.name "Semantic Release CI"
 
-      - name: Install node, pnpm, and dependencies
+      - name: Install node, bun, and dependencies
         uses: ./.github/actions/install-dependencies
 
       - name: Build, Release on GitHub & Publish to NPM
@@ -40,4 +40,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
         run: |
-          pnpm nx release --yes -- --skip-nx-cache
+          bunx nx release --yes -- --skip-nx-cache

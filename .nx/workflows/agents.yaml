@@ -9,7 +9,7 @@ launch-templates:
       - name: Restore Node Modules Cache
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
         inputs:
-          key: 'package-lock.json|yarn.lock|pnpm-lock.yaml'
+          key: 'package-lock.json|yarn.lock|pnpm-lock.yaml|bun.lock|bun.lockb'
           paths: 'node_modules'
           base-branch: 'develop'
 
@@ -40,13 +40,25 @@ launch-templates:
             ~/android/sdk
           base-branch: 'develop'
 
-      - name: Install Node Modules
-        uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/install-node-modules/main.yaml'
-
       - name: Install required System tools
         script: |
           sudo apt-get update -y
           sudo apt-get -yqq install zip unzip
+
+      # TODO: Remove this once the PR to set it on agents by default is merged
+      - name: Set SHELL environment variable
+        script: |
+          # We need $SHELL to be set for the bun installation to correctly link `bunx`
+          echo "SHELL=/usr/bin/bash" >> $NX_CLOUD_ENV
+
+      - name: Install bun
+        script: |
+          curl -fsSL https://bun.sh/install | bash
+          echo "BUN_INSTALL=$HOME/.bun" >> $NX_CLOUD_ENV
+          echo "PATH=$HOME/.bun/bin:$PATH" >> $NX_CLOUD_ENV
+
+      - name: Install Node Modules (with Bun)
+        script: bun install --frozen-lockfile --ignore-scripts
 
       - name: Install Flutter
         script: |

@@ -25,7 +25,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup node, pnpm, java, flutter, and dependencies
+      - name: Setup node, bun, java, flutter, and dependencies
         uses: ./.github/actions/setup
         with:
           node-version: ${{ matrix.node-version }}
@@ -34,4 +34,4 @@ jobs:
         env:
           NX_E2E_CI_CACHE_KEY: smoke-gha-${{ matrix.os }}-${{ matrix.node-version }}
           NX_RUN_GROUP: ${{ github.run_id }}-${{ matrix.os }}-${{ matrix.node-version }}
-        run: pnpm nx e2e-ci smoke
+        run: bunx nx e2e smoke
