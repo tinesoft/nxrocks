@@ -8,7 +8,7 @@ import { join } from 'path';
 describe('create-nx-spring-boot', () => {
   let projectDirectory: string;
 
-  beforeAll(() => {
+  beforeEach(() => {
     // Cleanup the test project
     projectDirectory &&
       rmSync(projectDirectory, {
@@ -19,6 +19,7 @@ describe('create-nx-spring-boot', () => {
 
   it.each`
     useNxWrapper
+    ${true}
     ${false}
   `('should be installed with Nx Wrapper=$useNxWrapper', ({ useNxWrapper }) => {
     projectDirectory = createCLITestProject(
@@ -37,8 +38,6 @@ describe('create-nx-spring-boot', () => {
 
     expect(hasNxWrapper(projectDirectory)).toEqual(useNxWrapper);
 
-    if (useNxWrapper) {
-      expect(isNxWrapperInstalled(projectDirectory)).toBe(true);
-    }
+    expect(isNxWrapperInstalled(projectDirectory)).toBe(useNxWrapper);
   });
 });

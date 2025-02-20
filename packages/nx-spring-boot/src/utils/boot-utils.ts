@@ -34,7 +34,11 @@ export const DEFAULT_SPRING_INITIALIZR_URL = 'https://start.spring.io';
 export function runBootPluginCommand(
   commandAlias: BuilderCommandAliasType,
   params: string[],
-  options: { cwd: string; ignoreWrapper?: boolean, runFromParentModule?: boolean } = { cwd: process.cwd(), ignoreWrapper: false, runFromParentModule: false }
+  options: {
+    cwd: string;
+    ignoreWrapper?: boolean;
+    runFromParentModule?: boolean;
+  } = { cwd: process.cwd(), ignoreWrapper: false, runFromParentModule: false }
 ): { success: boolean } {
   return runBuilderCommand(commandAlias, getBuilder, params, options);
 }
@@ -43,7 +47,7 @@ export function buildBootDownloadUrl(options: NormalizedSchema) {
   const params = [
     { key: 'type', value: options.buildSystem },
     { key: 'language', value: options.language },
-    { key: 'name', value: options.name },
+    { key: 'name', value: options.projectName },
     { key: 'groupId', value: options.groupId },
     { key: 'artifactId', value: options.artifactId },
     { key: 'version', value: options.version },
@@ -63,9 +67,11 @@ export function buildBootDownloadUrl(options: NormalizedSchema) {
   return `${options.springInitializerUrl}/starter.zip?${queryParams}`;
 }
 
-export function isBootProject(project: {root:string}): boolean {
-
-  if(hasMultiModuleMavenProject(project.root) || hasMultiModuleGradleProject(project.root))
+export function isBootProject(project: { root: string }): boolean {
+  if (
+    hasMultiModuleMavenProject(project.root) ||
+    hasMultiModuleGradleProject(project.root)
+  )
     return true;
 
   if (isMavenProject(project)) {
@@ -78,7 +84,7 @@ export function isBootProject(project: {root:string}): boolean {
     return checkProjectBuildFileContains(project, {
       fragments: [
         "id 'io.spring.dependency-management'",
-        'id("io.spring.dependency-management"'
+        'id("io.spring.dependency-management"',
       ],
     });
   }
@@ -88,7 +94,7 @@ export function isBootProject(project: {root:string}): boolean {
 
 export async function fetchBootDependencies(
   options: ProjectGeneratorOptions
-): Promise<Record<string,MavenDependency>> {
+): Promise<Record<string, MavenDependency>> {
   const response = await fetch(
     `${options.springInitializerUrl}/dependencies`,
     getCommonHttpHeaders(
@@ -98,5 +104,11 @@ export async function fetchBootDependencies(
     )
   );
 
-  return (await response.json()  as {dependencies: Record<string,MavenDependency>})?.dependencies ?? {};
+  return (
+    (
+      (await response.json()) as {
+        dependencies: Record<string, MavenDependency>;
+      }
+    )?.dependencies ?? {}
+  );
 }
