@@ -8,7 +8,7 @@ import { join } from 'path';
 describe('create-nx-flutter', () => {
   let projectDirectory: string;
 
-  beforeAll(() => {
+  beforeEach(() => {
     // Cleanup the test project
     projectDirectory &&
       rmSync(projectDirectory, {
@@ -38,8 +38,6 @@ describe('create-nx-flutter', () => {
 
     expect(hasNxWrapper(projectDirectory)).toEqual(useNxWrapper);
 
-    if (useNxWrapper) {
-      expect(isNxWrapperInstalled(projectDirectory)).toBe(true);
-    }
+    expect(isNxWrapperInstalled(projectDirectory)).toBe(useNxWrapper);
   });
 });

@@ -53,9 +53,7 @@ describe('nx-melos e2e', () => {
     const scripts = [
       {
         name: 'melos-bootstrap',
-        output: noFormat(
-          `Successfully ran target melos-bootstrap for project @test-project/source`
-        ),
+        output: `Successfully ran target melos-bootstrap for project @test-project/source`,
       },
     ];
 
@@ -66,7 +64,7 @@ describe('nx-melos e2e', () => {
       const end = new Date().getTime();
       console.log(`${script.name} took ${end - start}ms`);
       totalExecutorsTime += end - start;
-      expect(result.stdout).toContain(script.output);
+      expect(noFormat(result.stdout)).toContain(script.output);
     }
     console.log(`Total executors time: ${totalExecutorsTime}ms`);
 

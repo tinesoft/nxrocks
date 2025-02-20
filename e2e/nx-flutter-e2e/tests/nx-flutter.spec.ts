@@ -147,7 +147,7 @@ describe('nx-flutter e2e', () => {
         `${appName}/pubspec.yaml`,
         `${appName}/android/build.gradle`,
         `${appName}/ios/Runner.xcodeproj`,
-        `${appName}/android/app/src/main/java/com/tinesoft/${appName.replace(
+        `${appName}/android/app/src/main/java/com/tinesoft/${appName.replaceAll(
           '-',
           '_'
         )}/MainActivity.java`
