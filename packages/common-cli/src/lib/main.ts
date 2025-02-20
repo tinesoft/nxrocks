@@ -59,11 +59,6 @@ export async function mainCLI(pkgName: string, stackName: string) {
               type: 'string',
               default: 'latest',
             })
-            .option('verbose', {
-              describe: 'Enable more logging information',
-              type: 'boolean',
-              default: process.env['NX_VERBOSE_LOGGING'] === 'true',
-            })
       )
       .help('help', 'Show help') as yargs.Argv<CLIArguments>
   ).parseSync();
@@ -76,7 +71,6 @@ export async function mainCLI(pkgName: string, stackName: string) {
     nxCloud,
     useGitHub,
     presetVersion,
-    verbose,
     ...restArgs
   } = options;
 
@@ -119,9 +113,8 @@ export async function mainCLI(pkgName: string, stackName: string) {
       initialValue: false,
     })) as boolean);
 
-  presetVersion ??= 'latest';
-
   let directory: string;
+  const verbose = process.env['NX_VERBOSE_LOGGING'] === 'true';
 
   const notes = [
     `- Go to [ ${linkify(
@@ -167,7 +160,6 @@ export async function mainCLI(pkgName: string, stackName: string) {
         nxCloud,
         useGitHub,
         packageManager: 'npm',
-        verbose,
       })
     )?.directory;
   }
