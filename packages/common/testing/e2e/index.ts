@@ -9,7 +9,7 @@ import {
   workspaceRoot,
 } from '@nx/devkit';
 import { getPackageLatestNpmVersion } from '../../src/';
-import { exec, execSync } from 'child_process';
+import { exec, ExecOptions, execSync, spawn } from 'child_process';
 import {
   rmSync,
   mkdirSync,
@@ -18,6 +18,10 @@ import {
   existsSync,
 } from 'fs-extra';
 import { join, dirname, isAbsolute } from 'path';
+import { isCI } from 'nx/src/utils/is-ci';
+import { dirSync } from 'tmp';
+
+let projName: string;
 
 export const isWin = process.platform === 'win32';
 
@@ -43,11 +47,11 @@ export function createTestProject(
 
   const nxVersion =
     workspaceVersion === 'local' ? readLocalNxWorkspaceVersion() : 'latest';
-  const confirm = pkgManager === 'npm' ? ' --yes' : '';
+  const flags = getForceFlags(pkgManager);
   execSync(
     `${
       getPackageManagerCommand(pkgManager).dlx
-    }${confirm} create-nx-workspace@${nxVersion} ${projectName} --preset apps --nxCloud=skip --no-interactive --pm ${pkgManager}`,
+    } ${flags} create-nx-workspace@${nxVersion} ${projectName} --preset apps --nxCloud=skip --no-interactive --pm ${pkgManager}`,
     {
       cwd: dirname(projectDirectory),
       stdio: 'inherit',
@@ -72,7 +76,7 @@ export function createCLITestProject(
   pkgManager: PackageManager = detectPackageManager()
 ) {
   const projectDirectory = join(process.cwd(), 'tmp', projectName);
-  const confirm = pkgManager === 'npm' ? ' --yes' : '';
+  const flags = getForceFlags(pkgManager);
 
   // Ensure projectDirectory is empty
   rmSync(projectDirectory, {
@@ -83,19 +87,36 @@ export function createCLITestProject(
     recursive: true,
   });
 
-  execSync(
-    `${
-      getPackageManagerCommand(pkgManager).dlx
-    }${confirm} ${createPkgName}@${createPkgVersion} ${projectName} ${extraArgs} --presetVersion=${createPkgVersion}`,
-    {
+  const command = `${
+    getPackageManagerCommand(pkgManager).dlx
+  } ${flags} ${createPkgName}@${createPkgVersion} ${projectName} ${extraArgs} --presetVersion=${createPkgVersion}`;
+
+  try {
+    const create = execSync(`${command}${isVerbose() ? ' --verbose' : ''}`, {
       cwd: dirname(projectDirectory),
       stdio: 'inherit',
-      env: process.env,
-    }
-  );
-  console.log(`Created test project in "${projectDirectory}"`);
+      env: {
+        CI: 'true',
+        NX_VERBOSE_LOGGING: isCI ? 'true' : 'false',
+        ...process.env,
+      },
+      encoding: 'utf-8',
+    });
 
-  return projectDirectory;
+    if (isVerbose()) {
+      console.log({
+        title: `Command: ${command}`,
+        bodyLines: [create as string],
+        color: 'green',
+      });
+    }
+    console.log(`Created test project in "${projectDirectory}"`);
+
+    return projectDirectory;
+  } catch (e) {
+    console.error(`Original command: ${command}`, `${e.stdout}\n\n${e.stderr}`);
+    throw e;
+  }
 }
 
 // Temporary utilities from @nx/plugin/testing package, like `runNxCommandAsync`, `readJson`, etc
@@ -111,7 +132,7 @@ export function checkFilesExist(...expectedFiles: string[]) {
   });
 }
 export function tmpProjPath(path = '', projectName = 'test-project') {
-  return join(process.cwd(), 'tmp', projectName, path);
+  return join(workspaceRoot, 'tmp', projectName, path);
 }
 
 function directoryExists(filePath: string): boolean {
@@ -134,7 +155,7 @@ function exists(filePath: string): boolean {
   return directoryExists(filePath) || fileExists(filePath);
 }
 
-//https://github.com/nrwl/nx/blob/master/e2e/utils/create-project-utils.ts#L628
+//https://github.com/nrwl/nx/blob/master/packages/plugin/src/utils/testing-utils/async-commands.ts
 
 /**
  * Run a command asynchronously inside the e2e directory.
@@ -149,11 +170,12 @@ export function runCommandAsync(
   }
 ): Promise<{ stdout: string; stderr: string }> {
   return new Promise((resolve, reject) => {
-    exec(
+    const childProcess = exec(
       command,
       {
         cwd: opts.cwd ?? tmpProjPath(),
         env: { ...process.env, ...opts.env },
+        windowsHide: false,
       },
       (err, stdout, stderr) => {
         if (!opts.silenceError && err) {
@@ -162,6 +184,15 @@ export function runCommandAsync(
         resolve({ stdout, stderr });
       }
     );
+
+    // Add real-time logging
+    childProcess.stdout?.on('data', (data) => {
+      console.log(data.toString());
+    });
+
+    childProcess.stderr?.on('data', (data) => {
+      console.error(data.toString());
+    });
   });
 }
 
@@ -172,17 +203,14 @@ export function runCommandAsync(
  */
 export function runNxCommandAsync(
   command: string,
-  pkgManager?: PackageManager,
   opts: { silenceError?: boolean; env?: NodeJS.ProcessEnv; cwd?: string } = {
     silenceError: false,
   }
 ): Promise<{ stdout: string; stderr: string }> {
   const cwd = opts.cwd ?? tmpProjPath();
   if (fileExists(tmpProjPath('package.json'))) {
-    const pmc = getPackageManagerCommand(
-      pkgManager || detectPackageManager(cwd)
-    );
-    return runCommandAsync(`${pmc.dlx} nx ${command}`, opts);
+    const pmc = getPackageManagerCommand(detectPackageManager(cwd));
+    return runCommandAsync(`${pmc.exec} nx ${command}`, opts);
   } else if (process.platform === 'win32') {
     return runCommandAsync(`./nx.bat %${command}`, opts);
   } else {
@@ -190,19 +218,67 @@ export function runNxCommandAsync(
   }
 }
 
+//https://github.com/nrwl/nx/blob/master/packages/plugin/src/utils/testing-utils/commands.ts
 /**
- * Run a nx command synchronously inside the e2e directory
+ * Run a nx command inside the e2e directory
  * @param command
  * @param opts
+ *
+ * @see tmpProjPath
  */
-export async function runNxCommand(
-  command: string,
-  pkgManager?: PackageManager,
+export function runNxCommand(
+  command?: string,
   opts: { silenceError?: boolean; env?: NodeJS.ProcessEnv; cwd?: string } = {
     silenceError: false,
   }
-): Promise<{ stdout: string; stderr: string }> {
-  return await runNxCommandAsync(command, pkgManager, opts);
+): string {
+  function _runNxCommand(c) {
+    const cwd = opts.cwd ?? tmpProjPath();
+    const execSyncOptions: ExecOptions = {
+      cwd,
+      env: { ...process.env, ...opts.env },
+      windowsHide: false,
+    };
+    if (fileExists(tmpProjPath('package.json'))) {
+      const pmc = getPackageManagerCommand(detectPackageManager(cwd));
+      return execSync(`${pmc.exec} nx ${command}`, execSyncOptions);
+    } else if (process.platform === 'win32') {
+      return execSync(`./nx.bat %${command}`, execSyncOptions);
+    } else {
+      return execSync(`./nx %${command}`, execSyncOptions);
+    }
+  }
+
+  try {
+    return _runNxCommand(command)
+      .toString()
+      .replace(
+        /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
+        ''
+      );
+  } catch (e) {
+    if (opts.silenceError) {
+      return e.stdout.toString();
+    } else {
+      console.log(e.stdout.toString(), e.stderr.toString());
+      throw e;
+    }
+  }
+}
+
+export function runCommand(
+  command: string,
+  opts: { env?: NodeJS.ProcessEnv; cwd?: string }
+): string {
+  try {
+    return execSync(command, {
+      cwd: opts.cwd ?? tmpProjPath(),
+      stdio: ['pipe', 'pipe', 'pipe'],
+      env: { ...process.env, ...opts?.env },
+    }).toString();
+  } catch (e) {
+    return e.stdout.toString() + e.stderr.toString();
+  }
 }
 
 export function readJson<T extends object = any>(
@@ -244,4 +320,31 @@ export function isLocalNxMatchingLatestFeatureVersion() {
     localNxVersion[0] === latestNxVersion[0] &&
     localNxVersion[1] === latestNxVersion?.[1]
   );
+}
+
+export function isVerbose() {
+  return (
+    process.env.NX_VERBOSE_LOGGING === 'true' ||
+    process.argv.includes('--verbose')
+  );
+}
+
+function getForceFlags(packageManager: PackageManager): string {
+  switch (packageManager.toLowerCase()) {
+    case 'npm':
+    case 'npx':
+      // Using full form of flags for better clarity
+      return '--ignore-existing --yes';
+    case 'yarn':
+      // yarn doesn't need a no-prompt flag for dlx
+      return '--prefer-offline=false';
+    case 'pnpm':
+      // Using full form of flags for better clarity
+      return '--ignore-existing --yes';
+    case 'bun':
+      // bunx doesn't show prompts by default
+      return '--force';
+    default:
+      throw new Error(`Unsupported package manager: ${packageManager}`);
+  }
 }
