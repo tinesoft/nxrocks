@@ -33,7 +33,7 @@ export default async () => {
    * We populate the verdaccio storage up front, so we only need to start the local registry and serves that storage.
    * Otherwise, if the storage is empty, we do a full release to populate it again. This allows speeding up e2e tests
    */
-  const requiresLocalRelease = isFolderEmptySync(storage);
+  const requiresLocalRelease = isFolderEmptySync(storage) || process.env.FORCE_LOCAL_RELEASE === 'true';
 
   global.stopLocalRegistry = await startLocalRegistry({
     localRegistryTarget,
