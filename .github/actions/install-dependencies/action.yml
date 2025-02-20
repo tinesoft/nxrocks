@@ -1,5 +1,5 @@
 name: 'Install dependencies'
-description: Install node and pnpm, then run pnpm install
+description: Install node and bun, then run bun install
 
 inputs:
   node-version: # id of input
@@ -10,15 +10,14 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Setup PNPM
-      run: corepack enable pnpm
-      shell: bash
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
 
     - name: Use Node.js ${{ inputs.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
-        cache: 'pnpm'
+        #cache: 'bun'
         registry-url: 'https://registry.npmjs.org'
 
     - name: Cache node_modules
@@ -27,8 +26,8 @@ runs:
       with:
         lookup-only: true
         path: '**/node_modules'
-        key: pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+        key: bun-${{ hashFiles('bun.lockb') }}
 
     - name: Install packages
-      run: pnpm install --frozen-lockfile
+      run: bun install --frozen-lockfile
       shell: bash

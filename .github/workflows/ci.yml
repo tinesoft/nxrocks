@@ -28,15 +28,15 @@ jobs:
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
 
-      - name: Install node, pnpm, and dependencies
+      - name: Install node, bun, and dependencies
         uses: ./.github/actions/install-dependencies
 
       # Validating Launch Templates
-      - run: pnpm exec nx-cloud validate --workflow-file="./.nx/workflows/agents.yaml"
+      - run: bunx nx-cloud validate --workflow-file="./.nx/workflows/agents.yaml"
 
       # Connect your workspace on nx.app and uncomment this to enable task distribution.
       # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "e2e" targets have been requested
-      - run: pnpm exec nx-cloud start-ci-run --distribute-on=".nx/workflows/distribution-config.yaml" --stop-agents-after="e2e-ci" --with-env-vars="ANDROID_SDK_VERSION,FLUTTER_VERSION,JDK_VERSION"
+      - run: bunx nx-cloud start-ci-run --distribute-on=".nx/workflows/distribution-config.yaml" --stop-agents-after="e2e-ci" --with-env-vars="ANDROID_SDK_VERSION,FLUTTER_VERSION,JDK_VERSION"
 
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track develop origin/develop || exit 0
@@ -46,5 +46,5 @@ jobs:
         with:
           main-branch-name: 'develop'
 
-      - run: pnpm exec nx-cloud record -- nx format:check
-      - run: pnpm exec nx affected -t lint test-ci build e2e-ci --parallel=5 --exclude=smoke
+      - run: bunx nx-cloud record -- nx format:check
+      - run: bunx nx affected -t lint test-ci build e2e-ci --parallel=5 --exclude=smoke

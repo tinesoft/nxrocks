@@ -1,3 +1,3 @@
-pnpm sync-preset-schemas
-pnpm exec lint-staged --concurrent false --relative
-pnpm affected:test
+bun sync-preset-schemas
+bunx lint-staged --concurrent false --relative
+bun affected:test

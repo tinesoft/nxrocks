@@ -1,5 +1,5 @@
 name: 'Setup Build Tools and Dependencies'
-description: Setup node, pnpm, java, flutter, cache, and install dependencies
+description: Setup node, bun, java, flutter, cache, and install dependencies
 
 inputs:
   node-version: # id of input
@@ -10,15 +10,15 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Setup PNPM
-      run: corepack enable pnpm
-      shell: bash
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
 
     - name: Setup Node.js ${{ inputs.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
-        cache: 'pnpm'
+        #cache: 'bun'
+        registry-url: 'https://registry.npmjs.org'
 
     - name: Setup Java
       uses: actions/setup-java@v4
@@ -45,10 +45,10 @@ runs:
       with:
         lookup-only: true
         path: '**/node_modules'
-        key: pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+        key: bun-${{ hashFiles('bun.lockb') }}
 
     - name: Install packages
-      run: pnpm install --frozen-lockfile
+      run: bun install --frozen-lockfile
       shell: bash
 
     - name: Derive appropriate SHAs for base and head for `nx affected` commands
