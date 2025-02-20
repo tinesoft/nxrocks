@@ -19,7 +19,7 @@
     "ktorVersion": {
       "description": "Ktor version.",
       "type": "string",
-      "default": "2.3.0"
+      "default": "3.0.3"
     },
     "buildSystem": {
       "description": "Build system to use.",
@@ -49,7 +49,7 @@
     "kotlinVersion": {
       "description": "Kotlin version.",
       "type": "string",
-      "default": "1.8.21"
+      "default": "2.1.10"
     },
     "engine": {
       "description": "Engine to use to serve the application.",
@@ -162,7 +162,7 @@
     },
     "ktorInitializrUrl": {
       "type": "string",
-      "default": "https://start-ktor-io.labs.jb.gg",
+      "default": "https://start.ktor.io",
       "description": "The URL to the Ktor Initializr instance to use to generate the project.",
       "x-priority": "internal"
     },
