@@ -45,17 +45,16 @@ launch-templates:
           sudo apt-get update -y
           sudo apt-get -yqq install zip unzip
 
-      # TODO: Remove this once the PR to set it on agents by default is merged
-      - name: Set SHELL environment variable
-        script: |
-          # We need $SHELL to be set for the bun installation to correctly link `bunx`
-          echo "SHELL=/usr/bin/bash" >> $NX_CLOUD_ENV
-
       - name: Install bun
         script: |
           curl -fsSL https://bun.sh/install | bash
           echo "BUN_INSTALL=$HOME/.bun" >> $NX_CLOUD_ENV
           echo "PATH=$HOME/.bun/bin:$PATH" >> $NX_CLOUD_ENV
+
+      - name: Check bun
+        script: |
+          bun --version
+          echo "bunx=`which bunx`"
 
       - name: Install Node Modules (with Bun)
         script: bun install --frozen-lockfile --ignore-scripts
