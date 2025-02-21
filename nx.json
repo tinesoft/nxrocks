@@ -42,7 +42,9 @@
   "targetDefaults": {
     "test": {
       "options": {
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "detectOpenHandles": true,
+        "forceExit": true
       },
       "configurations": {
         "ci": {
@@ -52,6 +54,7 @@
       }
     },
     "e2e": {
+      "inputs": ["e2eInputs", "^production"],
       "options": {
         "passWithNoTests": true,
         "runInBand": true
@@ -65,17 +68,12 @@
       }
     },
     "e2e-ci": {
-      "options": {
-        "passWithNoTests": true,
-        "runInBand": true
-      },
-      "dependsOn": ["nxrocks:populate-local-registry"],
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "coverage": true
-        }
-      }
+      "inputs": ["e2eInputs", "^production"]
+    },
+    "e2e-ci--**/**": {
+      "inputs": ["e2eInputs", "^production"],
+      "parallelism": false,
+      "dependsOn": ["@nx/nx-source:populate-local-registry-storage"]
     },
     "nx-release-publish": {
       "options": {
@@ -147,72 +145,6 @@
         "packages/nx-quarkus/**/*",
         "packages/nx-spring-boot/**/*"
       ]
-    },
-    {
-      "plugin": "@nxrocks/nx-ktor",
-      "options": {
-        "buildTargetName": "build",
-        "installTargetName": "install",
-        "testTargetName": "test",
-        "cleanTargetName": "clean",
-        "formatTargetName": "format",
-        "applyFormatTargetName": "apply-format",
-        "checkFormatTargetName": "check-format",
-        "runTargetName": "run",
-        "serveTargetName": "serve",
-        "buildImageTargetName": "build-image",
-        "publishImageTargetName": "publish-image",
-        "publishImageLocallyTargetName": "publish-image-locally",
-        "runDockerTargetName": "run-docker"
-      }
-    },
-    {
-      "plugin": "@nxrocks/nx-flutter",
-      "options": {
-        "analyzeTargetName": "analyze",
-        "cleanTargetName": "clean",
-        "formatTargetName": "format",
-        "testTargetName": "test",
-        "assembleTargetName": "assemble",
-        "attachTargetName": "attach",
-        "driveTargetName": "drive",
-        "genL10nTargetName": "gen-l10n",
-        "installTargetName": "install",
-        "runTargetName": "run",
-        "buildAarTargetName": "build-aar",
-        "buildApkTargetName": "build-apk",
-        "buildAppbundleTargetName": "build-appbundle",
-        "buildBundleTargetName": "build-bundle",
-        "buildIosTargetName": "build-ios",
-        "buildIosFrameworkTargetName": "build-ios-framework",
-        "buildIpaTargetName": "build-ipa",
-        "pubGetTargetName": "pub-get",
-        "pubUpgradeTargetName": "pub-upgrade",
-        "pubDowngradeTargetName": "pub-downgrade",
-        "pubOutdatedTargetName": "pub-outdated",
-        "pubAddTargetName": "pub-add",
-        "pubRemoveTargetName": "pub-remove",
-        "pubRunTargetName": "pub-run",
-        "pubPublishTargetName": "pub-publish",
-        "pubDepsTargetName": "pub-deps",
-        "pubVersionTargetName": "pub-version"
-      }
-    },
-    {
-      "plugin": "@nxrocks/nx-spring-boot",
-      "options": {
-        "buildTargetName": "build",
-        "installTargetName": "install",
-        "testTargetName": "test",
-        "cleanTargetName": "clean",
-        "formatTargetName": "format",
-        "applyFormatTargetName": "apply-format",
-        "checkFormatTargetName": "check-format",
-        "runTargetName": "run",
-        "serveTargetName": "serve",
-        "buildImageTargetName": "build-image",
-        "buildInfoTargetName": "build-info"
-      }
     }
   ],
   "namedInputs": {
@@ -227,7 +159,31 @@
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/test-setup.[jt]s"
     ],
-    "sharedGlobals": ["{workspaceRoot}/.nx/workflows/**/**"]
+    "sharedGlobals": [
+      "{workspaceRoot}/.nx/workflows/agents.yaml",
+      "{workspaceRoot}/.github/workflows/ci.yml"
+    ],
+    "e2eInputs": [
+      "default",
+      "{workspaceRoot}/jest.preset.js",
+      "{workspaceRoot}/.verdaccio/config.yml",
+      "{workspaceRoot}/scripts/local-registry/**/*",
+      {
+        "env": "SELECTED_CLI"
+      },
+      {
+        "env": "SELECTED_PM"
+      },
+      {
+        "env": "NX_E2E_CI_CACHE_KEY"
+      },
+      {
+        "env": "CI"
+      },
+      {
+        "env": "NX_E2E_RUN_E2E"
+      }
+    ]
   },
   "defaultBase": "develop",
   "cli": {
