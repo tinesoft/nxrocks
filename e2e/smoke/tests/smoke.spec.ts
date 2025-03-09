@@ -83,8 +83,8 @@ describe('nxrocks smoke tests', () => {
       }
 
       projectDirectory = createTestProject(
-        pkgManager,
         'nxrocks-smoke',
+        pkgManager,
         workspaceVersion
       );
 

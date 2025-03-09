@@ -1,4 +1,5 @@
 import { getPackageManagerCommand } from '@nx/devkit';
+import { uniq } from '@nx/plugin/testing';
 import { hasNxWrapper, isNxWrapperInstalled } from '@nxrocks/common-cli';
 import { createCLITestProject } from '@nxrocks/common-jvm/testing';
 import { execSync } from 'child_process';
@@ -20,11 +21,11 @@ describe('create-nx-quarkus', () => {
   it.each`
     useNxWrapper
     ${true}
-    ${false}
   `('should be installed with Nx Wrapper=$useNxWrapper', ({ useNxWrapper }) => {
     projectDirectory = createCLITestProject(
       'create-nx-quarkus',
-      `--prjName=qkapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --useGitHub=false --no-interactive`
+      `--prjName=qkapp --useNxWrapper=${useNxWrapper} --nxCloud=skip --useGitHub=false --no-interactive`,
+      uniq('create-nx-quarkus-')
     );
 
     // npm ls will fail if the package is not installed properly

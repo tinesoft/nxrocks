@@ -1,29 +1,32 @@
-import { getPackageManagerCommand } from '@nx/devkit';
 import { uniq } from '@nx/plugin/testing';
 import {
-  createTestProject,
   checkFilesExist,
+  createTestProject,
   isWin,
-  runNxCommandAsync,
-  readJson,
-  tmpProjPath,
   octal,
+  readJson,
+  runNxCommandAsync,
 } from '@nxrocks/common-jvm/testing';
+import { getPackageManagerCommand } from '@nx/devkit';
+
 import { execSync } from 'child_process';
 import { lstatSync, rmSync } from 'fs-extra';
 
 describe('nx-ktor e2e', () => {
   let projectDirectory: string;
 
-  beforeAll(() => {
-    // Cleanup the test project
-    projectDirectory &&
+  afterAll(() => {
+    if (projectDirectory) {
+      // Cleanup the test project
       rmSync(projectDirectory, {
         recursive: true,
         force: true,
       });
+    }
+  });
 
-    projectDirectory = createTestProject();
+  beforeAll(() => {
+    projectDirectory = createTestProject('test-project-ktor');
 
     // The plugin has been built and published to a local registry in the jest globalSetup
     // Install the plugin built with the latest source code into the test repo
@@ -48,9 +51,14 @@ describe('nx-ktor e2e', () => {
   it('should create nx-ktor', async () => {
     const directory = uniq('nx-ktor-');
     await runNxCommandAsync(
-      `generate @nxrocks/nx-ktor:new ${directory} --no-interactive`
+      `generate @nxrocks/nx-ktor:new ${directory} --no-interactive`,
+      {
+        cwd: projectDirectory,
+      }
     );
-    const resultBuild = await runNxCommandAsync(`build ${directory}`);
+    const resultBuild = await runNxCommandAsync(`build ${directory}`, {
+      cwd: projectDirectory,
+    });
     expect(resultBuild.stdout).toContain(
       `Executing command: ${isWin ? 'gradlew.bat' : './gradlew'} buildFatJar`
     );
@@ -66,7 +74,7 @@ describe('nx-ktor e2e', () => {
     if (!isWin) {
       const execPermission = '755';
       expect(
-        lstatSync(tmpProjPath(`${directory}/gradlew`)).mode &
+        lstatSync(`${projectDirectory}/${directory}/gradlew`).mode &
           octal(execPermission)
       ).toEqual(octal(execPermission));
     }
@@ -76,13 +84,16 @@ describe('nx-ktor e2e', () => {
     it('should create src in the specified directory', async () => {
       const directory = uniq('nx-ktor-');
       await runNxCommandAsync(
-        `generate @nxrocks/nx-ktor:new --directory subdir/${directory} --no-interactive`
+        `generate @nxrocks/nx-ktor:new --directory subdir/${directory} --no-interactive`,
+        {
+          cwd: projectDirectory,
+        }
       );
       expect(() =>
         checkFilesExist(
-          `subdir/${directory}/gradlew`,
-          `subdir/${directory}/build.gradle.kts`
-          //`subdir/${directory}/src/main/kotlin/example/com/Application.kt` FIXME: bug in the generator, the package is not being created
+          `${projectDirectory}/subdir/${directory}/gradlew`,
+          `${projectDirectory}/subdir/${directory}/build.gradle.kts`
+          //`${projectDirectory}/subdir/${directory}/src/main/kotlin/example/com/Application.kt` FIXME: bug in the generator, the package is not being created
         )
       ).not.toThrow();
     }, 120000);
@@ -92,9 +103,12 @@ describe('nx-ktor e2e', () => {
     it('should add tags to the project', async () => {
       const directory = uniq('nx-ktor-');
       await runNxCommandAsync(
-        `generate @nxrocks/nx-ktor:new ${directory} --tags e2etag,e2ePackage --no-interactive`
+        `generate @nxrocks/nx-ktor:new ${directory} --tags e2etag,e2ePackage --no-interactive`,
+        {
+          cwd: projectDirectory,
+        }
       );
-      const project = readJson(`${directory}/project.json`);
+      const project = readJson(`${projectDirectory}/${directory}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);
     }, 120000);
   });
