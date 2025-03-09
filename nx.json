@@ -17,7 +17,7 @@
       }
     },
     "version": {
-      "preVersionCommand": "bunx nx run-many -t build",
+      "preVersionCommand": "bunx nx run-many -t build --skipNxCache --parallel 4",
       "conventionalCommits": true,
       "generatorOptions": {
         "packageRoot": "dist/packages/{projectName}",

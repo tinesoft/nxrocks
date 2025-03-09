@@ -1,5 +1,5 @@
 import { type NxJsonConfiguration, type PackageManager } from '@nx/devkit';
-import { execSync } from 'child_process';
+import { execSync, ExecSyncOptions } from 'child_process';
 import {
   ensureDirSync,
   existsSync,
@@ -7,8 +7,7 @@ import {
   rmSync,
   writeJsonSync,
 } from 'fs-extra';
-import { join, resolve } from 'path';
-import { runNxSync } from 'nx/src/utils/child-process';
+import { dirname, join, relative, resolve } from 'path';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 export const createNxWorkspaceVersion =
@@ -48,7 +47,7 @@ export function createWorkspaceWithNxWrapper(
   const nxJson: NxJsonConfiguration = readJSONSync(nxJsonPath);
 
   if (isNxCrystalEnabled(nxJson)) {
-    runNxSync(`add ${pkgName}@${presetVersion}`, {
+    runNxWrapperSync(`add ${pkgName}@${presetVersion}`, {
       cwd: directory,
       stdio: 'inherit',
       env: process.env,
@@ -63,7 +62,7 @@ export function createWorkspaceWithNxWrapper(
     writeJsonSync(nxJsonPath, nxJson, { spaces: 2 });
   }
 
-  runNxSync(`g ${pkgName}:preset ${extraArgs}`, {
+  runNxWrapperSync(`g ${pkgName}:preset ${extraArgs}`, {
     cwd: directory,
     stdio: 'inherit',
     env: process.env,
@@ -107,4 +106,52 @@ export function isNxCrystalEnabled(nxJson: NxJsonConfiguration) {
     process.env['NX_ADD_PLUGINS'] !== 'false' &&
     nxJson.useInferencePlugins !== false
   );
+}
+
+// Inspired from https://github.com/nrwl/nx/blob/master/packages/nx/src/utils/child-process.ts#runNxSync()
+export function runNxWrapperSync(
+  cmd: string,
+  options?: ExecSyncOptions & { cwd?: string }
+) {
+  let baseCmd: string;
+
+  options ??= {};
+  options.cwd ??= process.cwd();
+  const offsetFromRoot = relative(
+    options.cwd,
+    workspaceRootInner(options.cwd, null) ?? ''
+  );
+  if (process.platform === 'win32') {
+    baseCmd = '.\\' + join(`${offsetFromRoot}`, 'nx.bat');
+  } else {
+    baseCmd = './' + join(`${offsetFromRoot}`, 'nx');
+  }
+
+  execSync(`${baseCmd} ${cmd}`, options);
+}
+
+// Copied from https://github.com/nrwl/nx/blob/master/packages/nx/src/utils/workspace-root.ts
+// Mainly because workspaceRootInner is not exported by @nx/devkit
+function workspaceRootInner(
+  dir: string,
+  candidateRoot: string | null
+): string | null {
+  if (process.env['NX_WORKSPACE_ROOT_PATH'])
+    return process.env['NX_WORKSPACE_ROOT_PATH'];
+  if (dirname(dir) === dir) return candidateRoot;
+
+  const matches = [join(dir, 'nx.json'), join(dir, 'nx'), join(dir, 'nx.bat')];
+
+  if (matches.some((x) => existsSync(x))) {
+    return dir;
+
+    // This handles the case where we have a workspace which uses npm / yarn / pnpm
+    // workspaces, and has a project which contains Nx in its dependency tree.
+    // e.g. packages/my-lib/package.json contains @nx/devkit, which references Nx and is
+    // thus located in //packages/my-lib/node_modules/nx/package.json
+  } else if (existsSync(join(dir, 'node_modules', 'nx', 'package.json'))) {
+    return workspaceRootInner(dirname(dir), dir);
+  } else {
+    return workspaceRootInner(dirname(dir), candidateRoot);
+  }
 }
