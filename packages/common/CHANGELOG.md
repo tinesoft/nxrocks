@@ -1,3 +1,17 @@
+# 5.0.0 (2025-03-14)
+
+### 🚀 Features
+
+- ⚠️  update Nx workspace to `v20.1.2` ([8989698](https://github.com/tinesoft/nxrocks/commit/8989698))
+
+### ⚠️  Breaking Changes
+
+- Nx `v20` is now the minimal version to use the plugins
+
+### ❤️ Thank You
+
+- Tine Kondo
+
 ## 4.1.5 (2024-08-09)
 
 

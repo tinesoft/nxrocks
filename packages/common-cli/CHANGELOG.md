@@ -1,3 +1,20 @@
+# 3.0.0 (2025-03-14)
+
+### 🚀 Features
+
+- **common-cli:** add support for inferred tasks when adding the plugin to the workspace ([4627730](https://github.com/tinesoft/nxrocks/commit/4627730))
+- **common-cli:** add `presetVersion` option ([995f1b5](https://github.com/tinesoft/nxrocks/commit/995f1b5))
+- add support for the `useGithub` option in all the `create-nx-*` CLIs ([a834492](https://github.com/tinesoft/nxrocks/commit/a834492))
+- ⚠️  update Nx workspace to `v20.1.2` ([8989698](https://github.com/tinesoft/nxrocks/commit/8989698))
+
+### ⚠️  Breaking Changes
+
+- Nx `v20` is now the minimal version to use the plugins
+
+### ❤️ Thank You
+
+- Tine Kondo @tinesoft
+
 ## 2.2.4 (2024-08-09)
 
 

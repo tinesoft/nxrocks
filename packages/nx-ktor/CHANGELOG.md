@@ -1,3 +1,26 @@
+# 5.0.0 (2025-03-14)
+
+### 🚀 Features
+
+- **nx-ktor:** fix project generator by incresing version of `Kotlin` and `Ktor` ([762ded2](https://github.com/tinesoft/nxrocks/commit/762ded2))
+- ⚠️  update Nx workspace to `v20.1.2` ([8989698](https://github.com/tinesoft/nxrocks/commit/8989698))
+
+### 🩹 Fixes
+
+- **nx-ktor:** fix url to generate the project ([1f7b02c](https://github.com/tinesoft/nxrocks/commit/1f7b02c))
+
+### ⚠️  Breaking Changes
+
+- Nx `v20` is now the minimal version to use the plugins
+
+### 🧱 Updated Dependencies
+
+- Updated common-jvm to 3.0.0
+
+### ❤️ Thank You
+
+- Tine Kondo
+
 ## 4.1.6 (2024-08-09)
 
 
