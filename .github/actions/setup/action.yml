@@ -45,7 +45,7 @@ runs:
       with:
         lookup-only: true
         path: '**/node_modules'
-        key: bun-${{ hashFiles('bun.lockb') }}
+        key: bun-${{ hashFiles('bun.lockb','bun.lock') }}
 
     - name: Install packages
       run: bun install --frozen-lockfile

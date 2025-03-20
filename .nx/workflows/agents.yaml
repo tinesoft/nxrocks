@@ -9,7 +9,7 @@ launch-templates:
       - name: Restore Node Modules Cache
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/cache/main.yaml'
         inputs:
-          key: 'package-lock.json|yarn.lock|pnpm-lock.yaml|bun.lock|bun.lockb'
+          key: 'package-lock.json|yarn.lock|pnpm-lock.yaml|bun.lockb|bun.lock'
           paths: 'node_modules'
           base-branch: 'develop'
 
@@ -54,7 +54,6 @@ launch-templates:
       - name: Check bun
         script: |
           bun --version
-          echo "bunx=`which bunx`"
 
       - name: Install Node Modules (with Bun)
         script: bun install --frozen-lockfile --ignore-scripts

@@ -11,11 +11,12 @@ describe('create-nx-micronaut', () => {
 
   beforeEach(() => {
     // Cleanup the test project
-    projectDirectory &&
+    if (projectDirectory) {
       rmSync(projectDirectory, {
         recursive: true,
         force: true,
       });
+    }
   });
 
   it.each`

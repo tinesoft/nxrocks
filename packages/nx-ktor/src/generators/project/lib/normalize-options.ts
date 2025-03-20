@@ -2,15 +2,14 @@ import { Tree } from '@nx/devkit';
 import { ProjectGeneratorOptions, NormalizedSchema } from '../schema';
 import {
   determineProjectNameAndRootOptions,
-  ensureProjectName,
+  ensureRootProjectName,
 } from '@nx/devkit/src/generators/project-name-and-root-utils';
 
 export async function normalizeOptions(
   tree: Tree,
   options: ProjectGeneratorOptions
 ): Promise<NormalizedSchema> {
-  await ensureProjectName(
-    tree,
+  await ensureRootProjectName(
     options as ProjectGeneratorOptions,
     'application'
   );
@@ -23,6 +22,7 @@ export async function normalizeOptions(
       //rootProject: options.rootProject,
     }
   );
+  options.name = projectName;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
