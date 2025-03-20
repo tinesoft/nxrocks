@@ -5,7 +5,7 @@
 
 node_modules
 /package.json
-/pnpm-lock.yaml
+/bun.lock
 
 packages/**/CHANGELOG.md
 

@@ -1,6 +1,6 @@
 {
     "*.ts": [
-        "bunx nx affected:lint --fix --files"
+        "bunx nx affected:lint --files"
     ],
     "*": [
         "bunx nx format:write --files"

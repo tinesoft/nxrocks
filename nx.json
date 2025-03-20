@@ -1,9 +1,4 @@
 {
-  "pluginsConfig": {
-    "@nx/js": {
-      "analyzeSourceFiles": true
-    }
-  },
   "release": {
     "projects": ["packages/*"],
     "projectsRelationship": "independent",
@@ -17,7 +12,7 @@
       }
     },
     "version": {
-      "preVersionCommand": "bunx nx run-many -t build --skipNxCache --parallel 4",
+      "preVersionCommand": "bunx nx run-many -t build",
       "conventionalCommits": true,
       "generatorOptions": {
         "packageRoot": "dist/packages/{projectName}",
@@ -101,7 +96,7 @@
     {
       "plugin": "@nx/eslint/plugin",
       "options": {
-        "targetName": "eslint:lint",
+        "targetName": "lint",
         "extensions": ["ts", "tsx", "js", "jsx", "html", "vue"]
       }
     },

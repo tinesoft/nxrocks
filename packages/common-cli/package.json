@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "create-nx-workspace": ">=20.0.0",
-    "@clack/prompts": "^0.8.1",
+    "@clack/prompts": "^0.10.0",
     "yargs": "^17.7.2",
     "tslib": "^2.6.1",
     "@nx/devkit": ">=20.0.0",

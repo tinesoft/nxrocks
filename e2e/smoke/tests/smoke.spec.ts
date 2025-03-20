@@ -40,11 +40,12 @@ describe('nxrocks smoke tests', () => {
   afterEach(async () => {
     if (!process.env.KEEP_SMOKE_TESTS_DIR) {
       // Cleanup the test project
-      projectDirectory &&
+      if (projectDirectory) {
         rmSync(projectDirectory, {
           recursive: true,
           force: true,
         });
+      }
     } else {
       console.warn(
         `Keeping smoke test directory at '${projectDirectory}'. Do not forget to remove it when done!`
