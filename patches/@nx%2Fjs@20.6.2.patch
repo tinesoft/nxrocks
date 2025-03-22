@@ -1,0 +1,28 @@
+diff --git a/src/plugins/jest/start-local-registry.js b/src/plugins/jest/start-local-registry.js
+index c83e796f76adb43737298b0dcc33e2ba76b04cfe..046da909109c20d0d4287e00c72c84acc65140b7 100644
+--- a/src/plugins/jest/start-local-registry.js
++++ b/src/plugins/jest/start-local-registry.js
+@@ -29,17 +29,21 @@ function startLocalRegistry({ localRegistryTarget, storage, verbose, clearStorag
+                 const port = parseInt(data.toString().match(new RegExp(`${listenAddress}:(?<port>\\d+)`))
+                     ?.groups?.port);
+                 const registry = `http://${listenAddress}:${port}`;
++                const authToken = 'secretVerdaccioToken';
+                 console.log(`Local registry started on ${registry}`);
+                 process.env.npm_config_registry = registry;
+-                (0, child_process_1.execSync)(`npm config set //${listenAddress}:${port}/:_authToken "secretVerdaccioToken" --ws=false`, {
++                (0, child_process_1.execSync)(`npm config set //${listenAddress}:${port}/:_authToken "${authToken}" --ws=false`, {
+                     windowsHide: false,
+                 });
++                // bun
++                process.env.BUN_CONFIG_REGISTRY = registry;
++                process.env.BUN_CONFIG_TOKEN = authToken;
+                 // yarnv1
+                 process.env.YARN_REGISTRY = registry;
+                 // yarnv2
+                 process.env.YARN_NPM_REGISTRY_SERVER = registry;
+                 process.env.YARN_UNSAFE_HTTP_WHITELIST = listenAddress;
+-                console.log('Set npm and yarn config registry to ' + registry);
++                console.log('Set npm, bun and yarn config registry to ' + registry);
+                 resolve(() => {
+                     childProcess.kill();
+                     (0, child_process_1.execSync)(`npm config delete //${listenAddress}:${port}/:_authToken --ws=false`, {

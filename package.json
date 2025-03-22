@@ -97,5 +97,8 @@
   },
   "nx": {
     "includedScripts": []
+  },
+  "patchedDependencies": {
+    "@nx/js@20.6.2": "patches/@nx%2Fjs@20.6.2.patch"
   }
 }
