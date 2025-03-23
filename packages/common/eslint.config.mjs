@@ -9,6 +9,7 @@ export default [
         'error',
         {
           ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs}'],
+          ignoredDependencies: ['@nx/plugin'], //@nx/plugin/testing is only used in tests
         },
       ],
     },
