@@ -64,9 +64,9 @@ describe('nx-ktor e2e', () => {
     );
     expect(() =>
       checkFilesExist(
-        `${directory}/gradlew`,
-        `${directory}/build.gradle.kts`
-        //`${directory}/src/main/kotlin/example/com/Application.kt` FIXME: bug in the generator, the package is not being created
+        `${projectDirectory}/${directory}/gradlew`,
+        `${projectDirectory}/${directory}/build.gradle.kts`
+        //`${projectDirectory}/${directory}/src/main/kotlin/example/com/Application.kt` FIXME: bug in the generator, the package is not being created
       )
     ).not.toThrow();
 
