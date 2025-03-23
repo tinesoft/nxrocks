@@ -7,7 +7,7 @@
     "build": "nx run-many --target build --parallel 4",
     "test": "nx run-many --target test --parallel 4",
     "e2e": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/run-all-e2e-tests.ts",
-    "lint": "nx run-many --target lint --fix --parallel 4",
+    "lint": "nx run-many --target lint --parallel 4",
     "lci": "nx affected -t lint test build e2e --parallel 4 --exclude=smoke",
     "lci-all": "nx run-many -t lint test build e2e --parallel 4 --exclude=smoke",
     "affected:build": "nx affected --target build --parallel 4",
