@@ -1,3 +1,17 @@
+## 5.0.1 (2025-03-23)
+
+### 🩹 Fixes
+
+- update to Nx workspace to `v20.6.0` ([be507c7](https://github.com/tinesoft/nxrocks/commit/be507c7))
+
+### 🧱 Updated Dependencies
+
+- Updated common-jvm to 3.0.1
+
+### ❤️ Thank You
+
+- Tine Kondo @tinesoft
+
 # 5.0.0 (2025-03-14)
 
 ### 🚀 Features
