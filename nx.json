@@ -68,7 +68,7 @@
     "e2e-ci--**/**": {
       "inputs": ["e2eInputs", "^production"],
       "parallelism": false,
-      "dependsOn": ["@nx/nx-source:populate-local-registry-storage"]
+      "dependsOn": ["nxrocks:populate-local-registry"]
     },
     "nx-release-publish": {
       "options": {
