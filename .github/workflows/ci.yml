@@ -19,6 +19,7 @@ jobs:
       ANDROID_SDK_VERSION: 34
       FLUTTER_VERSION: 3.19.3
       JDK_VERSION: 17.0.11
+      JDK_DISTRO: ms
       JAVA_OPTIONS: '-Xmx3g'
     timeout-minutes: 120
     steps:
@@ -36,7 +37,7 @@ jobs:
 
       # Connect your workspace on nx.app and uncomment this to enable task distribution.
       # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "e2e" targets have been requested
-      - run: bunx nx-cloud start-ci-run --distribute-on=".nx/workflows/distribution-config.yaml" --stop-agents-after="e2e-ci" --with-env-vars="ANDROID_SDK_VERSION,FLUTTER_VERSION,JDK_VERSION"
+      - run: bunx nx-cloud start-ci-run --distribute-on=".nx/workflows/distribution-config.yaml" --stop-agents-after="e2e-ci" --with-env-vars="ANDROID_SDK_VERSION,FLUTTER_VERSION,JDK_VERSION,JDK_DISTRO,JAVA_OPTIONS"
 
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track develop origin/develop || exit 0

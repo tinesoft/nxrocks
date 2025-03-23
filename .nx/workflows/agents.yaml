@@ -93,17 +93,19 @@ launch-templates:
           source $HOME/.sdkman/bin/sdkman-init.sh
           sdk version
 
-          jdkVersion="${JDK_VERSION:-21.0.3}"
+          jdkVersion="${JDK_VERSION:-21.0.6}"
           jdkDistro="${JDK_DISTRO:-ms}"
           javaVersion="${jdkVersion}-${jdkDistro}"
           JAVA_HOME="$HOME/.sdkman/candidates/java/$javaVersion"
 
           if [ ! -d $JAVA_HOME ]; then
             echo "⌛️ Installing  Java v$javaVersion.."
-            sdk install java $javaVersion
+            yes | sdk install java $javaVersion
             sdk use java $javaVersion
           else
-             echo "⏭️ Java v$javaVersion already installed. Skipping it"
+            echo "⏭️ Java v$javaVersion already installed. Making sure it is used"
+            sdk use java $javaVersion
+
           fi
 
           echo "JAVA_HOME=$JAVA_HOME" >> $NX_CLOUD_ENV
