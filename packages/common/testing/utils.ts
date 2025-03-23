@@ -72,3 +72,15 @@ export function octal(value: string | number): number {
   if (typeof value === 'string') return parseInt(value, 8);
   return value;
 }
+
+export function noFormat(str: string) {
+  return (
+    str
+      // Clean output: https://github.com/nrwl/nx/blob/c0fd00df6e4b0a9dcc0f75b0539e0eb7a34dd63d/packages/plugin/src/utils/testing-utils/commands.ts#L40
+      ?.replace(
+        // eslint-disable-next-line no-control-regex
+        /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
+        ''
+      )
+  );
+}
