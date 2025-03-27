@@ -21,12 +21,12 @@
     "run-migrate": "nx migrate --run-migrations --if-exists",
     "graph": "nx graph",
     "help": "nx help",
-    "release": "nx release --dry-run -- --skip-nx-cache",
+    "release": "nx release --dry-run --verbose",
     "prepare": "husky",
     "smoke": "FORCE_SMOKE_TESTS=true nx e2e smoke",
     "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true bun smoke",
     "sync-preset-schemas": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/sync-preset-schemas.ts",
-    "nuke": "rm -rf tmp/ dist/ ~/.bun/install/cache && find ./e2e -type d -name \"tmp\" -exec rm -rf {} + && nx reset && git gc",
+    "nuke": "rm -rf tmp/ dist/ ~/.bun/install/cache && find ./e2e -type d -name \"tmp\" -exec rm -rf {} + && find ./packages -type d -name \"dist\" -exec rm -rf {} + && nx reset && git gc",
     "run-local-registry": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/run-local-registry.ts",
     "start-local-registry": "ts-node -P ./tools/tsconfig.tools.json -e \"(async () => { try { const m = await import('./tools/scripts/start-local-registry'); await m.default(); process.exit(0); } catch (err) { console.error(err); process.exit(1); } })()\"",
     "stop-local-registry": "ts-node -P ./tools/tsconfig.tools.json -e \"import('./tools/scripts/stop-local-registry').then(m => m.default()).catch(console.error)\""
@@ -34,7 +34,6 @@
   "private": true,
   "dependencies": {
     "@clack/prompts": "^0.10.0",
-    "@swc/helpers": "0.5.11",
     "@nx/devkit": "20.6.2",
     "create-nx-workspace": "20.6.2",
     "enquirer": "^2.4.1",
@@ -43,7 +42,6 @@
     "minimatch": "^9.0.3",
     "node-fetch": "^2.6.12",
     "terminal-link": "^2.1.1",
-    "tslib": "^2.6.1",
     "unzipper": "^0.12.3",
     "xmlbuilder2": "^3.1.1",
     "xpath": "^0.0.34",
@@ -54,15 +52,18 @@
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-angular": "^19.3.0",
     "@jest/globals": "29.7.0",
+    "@nx/eslint": "20.6.2",
     "@nx/eslint-plugin": "20.6.2",
     "@nx/jest": "20.6.2",
     "@nx/js": "20.6.2",
     "@nx/node": "20.6.2",
     "@nx/plugin": "20.6.2",
     "@nx/workspace": "20.6.2",
-    "@swc-node/register": "1.9.1",
-    "@swc/cli": "0.3.12",
-    "@swc/core": "1.5.7",
+    "@swc-node/register": "~1.9.1",
+    "@swc/cli": "~0.3.12",
+    "@swc/core": "~1.5.7",
+    "@swc/helpers": "~0.5.11",
+    "@swc/jest": "~0.2.36",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "29.5.12",
     "@types/node": "18.16.9",
@@ -71,8 +72,6 @@
     "@types/unzipper": "^0.10.5",
     "@types/xmldoc": "^1.1.6",
     "@types/yargs": "^17.0.26",
-    "@typescript-eslint/eslint-plugin": "^7.3.0",
-    "@typescript-eslint/parser": "^7.3.0",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.0.0",
     "fs-extra": "^10.1.0",
@@ -81,12 +80,12 @@
     "jest-environment-jsdom": "29.7.0",
     "jest-environment-node": "^29.7.0",
     "jsonc-eslint-parser": "^2.1.0",
-    "jest-mock": "29.7.0",
     "lint-staged": "^15.2.7",
     "nx": "20.6.2",
     "prettier": "2.6.2",
     "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
+    "tslib": "^2.6.1",
     "typescript": "5.7.3",
     "typescript-eslint": "^8.19.0",
     "verdaccio": "6.0.5"
@@ -98,6 +97,10 @@
   "nx": {
     "includedScripts": []
   },
+  "workspaces": [
+    "packages/**",
+    "e2e/**"
+  ],
   "patchedDependencies": {
     "@nx/js@20.6.2": "patches/@nx%2Fjs@20.6.2.patch"
   }

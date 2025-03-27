@@ -1,14 +1,12 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
+dist
 tmp
-/out-tsc
-/bin
+out-tsc
 
 # dependencies
-/node_modules
-.pnpm-store
+node_modules
 
 # IDEs and editors
 /.idea

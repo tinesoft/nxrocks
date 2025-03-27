@@ -7,13 +7,14 @@
   "implicitDependencies": ["nx-flutter"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/create-nx-flutter",
+        "outputPath": "packages/create-nx-flutter/dist",
         "main": "packages/create-nx-flutter/bin/index.ts",
         "tsConfig": "packages/create-nx-flutter/tsconfig.lib.json",
-        "assets": ["packages/create-nx-flutter/*.md"]
+        "assets": ["packages/create-nx-flutter/*.md"],
+        "skipTypeCheck": true
       }
     }
   }

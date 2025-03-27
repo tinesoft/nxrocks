@@ -6,12 +6,14 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/nx-melos",
+        "outputPath": "packages/nx-melos/dist",
         "main": "packages/nx-melos/src/index.ts",
         "tsConfig": "packages/nx-melos/tsconfig.lib.json",
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true,
         "assets": [
           "packages/nx-melos/*.md",
           {
