@@ -9,50 +9,62 @@
     },
     "ghcr.io/devcontainers/features/node:1": {
       "nodeGypDependencies": true,
-      "version": "20"
+      "version": "22"
     },
     "ghcr.io/devcontainers/features/git:1": {
       "ppa": true,
       "version": "latest"
     },
     "ghcr.io/devcontainers/features/common-utils:2": {
-      "installZsh": true,
-      "installOhMyZsh": true,
+      "installZsh": false,
+      "installOhMyZsh": false,
       "upgradePackages": true,
-      "username": "automatic",
-      "userUid": "automatic",
-      "userGid": "automatic"
+      "username": "vscode",
+      "userUid": "1000",
+      "userGid": "1000"
     }
   },
 
   "mounts": [
-    "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
-    "source=${localWorkspaceFolderBasename}-profile,target=/root,type=volume","target=/root/.vscode-server,type=volume"
+    "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume,consistency=cached",
+    "source=${localWorkspaceFolderBasename}-gradle,target=/home/vscode/.gradle/caches,type=volume,consistency=cached",
+    "source=${localWorkspaceFolderBasename}-maven,target=/home/vscode/.m2,type=volume,consistency=cached",
+    "source=${localWorkspaceFolderBasename}-pub-cache,target=/home/vscode/.pub-cache,type=volume,consistency=cached"
   ],
 
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  // 4211 = nx graph port
-  // 4873 = verdaccio (local npm registry) port
   "forwardPorts": [4211, 4873],
-  "runArgs": [],
+
+  "runArgs": [
+    "--cpus=4",
+    "--memory=4g",
+    "--memory-swap=8g", 
+    "--shm-size=2g",
+    "--ulimit=nofile=65535:65535"
+  ],
+
+  "containerUser": "vscode",
+  "updateRemoteUserUID": true,
+  
   "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+  
   "customizations": {
     "vscode": {
       "extensions": [
         "mhutchie.git-graph",
         "eamodio.gitlens",
-        "usernamehw.errorlens",
+        "usernamehw.errorlens", 
         "nrwl.angular-console",
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
         "firsttris.vscode-jest-runner",
         "anweber.reveal-button",
         "github.vscode-github-actions",
-        "mutantdino.resourcemonitor" // to monitor cpu, memory usage from the dev containeréé
+        "mutantdino.resourcemonitor"
       ],
       "settings": {
         "debug.javascript.autoAttachFilter": "disabled",
-        "dotfiles.repository": "https://github.com/tinesoft/dotfiles"
+        "dotfiles.repository": "https://github.com/tinesoft/dotfiles",
+        "terminal.integrated.defaultProfile.linux": "bash"
       }
     }
   }
