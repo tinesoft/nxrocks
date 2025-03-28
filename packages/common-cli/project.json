@@ -6,13 +6,15 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/common-cli",
+        "outputPath": "packages/common-cli/dist",
         "main": "packages/common-cli/src/index.ts",
         "tsConfig": "packages/common-cli/tsconfig.lib.json",
-        "assets": ["packages/common-cli/*.md"]
+        "assets": ["packages/common-cli/*.md"],
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
       }
     }
   }

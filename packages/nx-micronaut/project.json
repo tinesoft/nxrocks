@@ -6,13 +6,15 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/nx-micronaut",
+        "outputPath": "packages/nx-micronaut/dist",
         "main": "packages/nx-micronaut/src/index.ts",
         "packageJson": "packages/nx-micronaut/package.json",
         "tsConfig": "packages/nx-micronaut/tsconfig.lib.json",
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true,
         "assets": [
           "packages/nx-micronaut/*.md",
           {

@@ -15,7 +15,6 @@
       "preVersionCommand": "bunx nx run-many -t build",
       "conventionalCommits": true,
       "generatorOptions": {
-        "packageRoot": "dist/packages/{projectName}",
         "updateDependents": "auto"
       }
     }
@@ -70,34 +69,33 @@
       "parallelism": false,
       "dependsOn": ["nxrocks:populate-local-registry"]
     },
-    "nx-release-publish": {
-      "options": {
-        "packageRoot": "dist/packages/{projectName}"
-      }
-    },
-    "@nx/js:tsc": {
+    "@nx/js:swc": {
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
-    },
-    "@nx/eslint:lint": {
-      "cache": true,
-      "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore",
-        "{workspaceRoot}/eslint.config.js"
-      ]
     }
   },
   "nxCloudAccessToken": "ZDRmZDczZWUtMDU2My00YzQ0LTlkMWEtZjM2YjZlZWNmNGIxfHJlYWQ=",
   "parallel": 1,
   "plugins": [
     {
+      "plugin": "@nx/js/typescript",
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        },
+        "build": {
+          "targetName": "build",
+          "configName": "tsconfig.lib.json",
+          "buildDepsName": "build-deps",
+          "watchDepsName": "watch-deps"
+        }
+      }
+    },
+    {
       "plugin": "@nx/eslint/plugin",
       "options": {
-        "targetName": "lint",
-        "extensions": ["ts", "tsx", "js", "jsx", "html", "vue"]
+        "targetName": "lint"
       }
     },
     {
@@ -147,7 +145,7 @@
     "production": [
       "default",
       "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/eslint.config.js",
+      "!{projectRoot}/eslint.config.mjs",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s",
@@ -183,6 +181,5 @@
   "defaultBase": "develop",
   "cli": {
     "packageManager": "bun"
-  },
-  "useLegacyCache": false
+  }
 }

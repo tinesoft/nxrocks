@@ -1,32 +1,20 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "composite": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
     "importHelpers": true,
-    "target": "es2021",
-    "module": "esnext",
-    "lib": ["es2022", "dom"],
+    "isolatedModules": true,
+    "lib": ["es2022"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@nxrocks/common": ["packages/common/src/index.ts"],
-      "@nxrocks/common-cli": ["packages/common-cli/src/index.ts"],
-      "@nxrocks/common-jvm": ["packages/common-jvm/src/index.ts"],
-      "@nxrocks/common-jvm/testing": ["packages/common-jvm/testing/index.ts"],
-      "@nxrocks/common/testing": ["packages/common/testing/index.ts"],
-      "@nxrocks/nx-flutter": ["packages/nx-flutter/src/index.ts"],
-      "@nxrocks/nx-ktor": ["packages/nx-ktor/src/index.ts"],
-      "@nxrocks/nx-melos": ["packages/nx-melos/src/index.ts"],
-      "@nxrocks/nx-micronaut": ["packages/nx-micronaut/src/index.ts"],
-      "@nxrocks/nx-quarkus": ["packages/nx-quarkus/src/index.ts"],
-      "@nxrocks/nx-spring-boot": ["packages/nx-spring-boot/src/index.ts"]
-    }
-  },
-  "exclude": ["node_modules", "tmp"]
+    //"strict": true,
+    "target": "es2022"
+  }
 }

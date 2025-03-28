@@ -6,9 +6,29 @@
     "access": "public"
   },
   "version": "0.0.0-dev",
-  "main": "src/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo",
+    "generators.json",
+    "executors.json",
+    "migrations.json"
+  ],
   "generators": "./generators.json",
   "executors": "./executors.json",
+  "nx-migrations": {
+    "migrations": "./migrations.json"
+  },
   "license": "MIT",
   "author": "Tine Kondo ",
   "repository": {
@@ -30,16 +50,12 @@
     "native"
   ],
   "dependencies": {
-    "@nxrocks/common-jvm": "file:../common-jvm",
+    "@nxrocks/common-jvm": "workspace:*",
     "node-fetch": "^2.6.12",
     "enquirer": "^2.4.1",
-    "tslib": "^2.6.1"
+    "@swc/helpers": "~0.5.11"
   },
-  "typings": "./src/index.d.ts",
   "peerDependencies": {
     "@nx/devkit": ">=20.0.0"
-  },
-  "nx-migrations": {
-    "migrations": "./migrations.json"
   }
 }

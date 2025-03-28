@@ -6,13 +6,15 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/nx-flutter",
+        "outputPath": "packages/nx-flutter/dist",
         "main": "packages/nx-flutter/src/index.ts",
         "packageJson": "packages/nx-flutter/package.json",
         "tsConfig": "packages/nx-flutter/tsconfig.lib.json",
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true,
         "assets": [
           "packages/nx-flutter/*.md",
           {

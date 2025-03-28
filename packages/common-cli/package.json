@@ -6,7 +6,21 @@
     "access": "public"
   },
   "version": "0.0.0-dev",
-  "main": "src/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo"
+  ],
   "license": "MIT",
   "author": "Tine Kondo ",
   "repository": {
@@ -29,12 +43,11 @@
     "create-nx-workspace": ">=20.0.0",
     "@clack/prompts": "^0.10.0",
     "yargs": "^17.7.2",
-    "tslib": "^2.6.1",
     "@nx/devkit": ">=20.0.0",
     "fs-extra": "^10.1.0",
-    "terminal-link": "^2.1.1"
+    "terminal-link": "^2.1.1",
+    "@swc/helpers": "~0.5.11"
   },
-  "typings": "./src/index.d.ts",
   "peerDependencies": {},
   "devDependencies": {}
 }
