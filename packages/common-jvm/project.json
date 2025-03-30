@@ -6,13 +6,15 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/common-jvm",
+        "outputPath": "packages/common-jvm/dist",
         "main": "packages/common-jvm/src/index.ts",
         "tsConfig": "packages/common-jvm/tsconfig.lib.json",
-        "assets": ["packages/common-jvm/*.md"]
+        "assets": ["packages/common-jvm/*.md"],
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true
       }
     }
   }

@@ -6,13 +6,15 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/nx-spring-boot",
+        "outputPath": "packages/nx-spring-boot/dist",
         "main": "packages/nx-spring-boot/src/index.ts",
         "packageJson": "packages/nx-spring-boot/package.json",
         "tsConfig": "packages/nx-spring-boot/tsconfig.lib.json",
+        "skipTypeCheck": true,
+        "stripLeadingPaths": true,
         "assets": [
           "packages/nx-spring-boot/*.md",
           {

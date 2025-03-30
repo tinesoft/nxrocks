@@ -14,6 +14,12 @@ jest.mock('child_process'); // we need to mock 'execSync' so that it doesn't rea
 
 //jest.mock('enquirer'); // we mock 'enquirer' to bypass the interactive prompt
 import * as enquirer from 'enquirer';
+
+// Mock enquirer's prompt
+jest.mock('enquirer', () => ({
+  prompt: jest.fn(),
+}));
+
 import { normalizeOptions } from './lib';
 import { getProjectTypeAndTargetsFromOptions } from '../../utils/plugin-utils';
 

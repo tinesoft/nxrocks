@@ -7,13 +7,14 @@
   "implicitDependencies": ["nx-ktor"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/create-nx-ktor",
+        "outputPath": "packages/create-nx-ktor/dist",
         "main": "packages/create-nx-ktor/bin/index.ts",
         "tsConfig": "packages/create-nx-ktor/tsconfig.lib.json",
-        "assets": ["packages/create-nx-ktor/*.md"]
+        "assets": ["packages/create-nx-ktor/*.md"],
+        "skipTypeCheck": true
       }
     }
   }

@@ -4,6 +4,12 @@
   "include": [],
   "references": [
     {
+      "path": "../../packages/common-jvm"
+    },
+    {
+      "path": "../../packages/common-cli"
+    },
+    {
       "path": "./tsconfig.spec.json"
     }
   ]

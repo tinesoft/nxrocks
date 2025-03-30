@@ -7,13 +7,14 @@
   "implicitDependencies": ["nx-quarkus"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/create-nx-quarkus",
+        "outputPath": "packages/create-nx-quarkus/dist",
         "main": "packages/create-nx-quarkus/bin/index.ts",
         "tsConfig": "packages/create-nx-quarkus/tsconfig.lib.json",
-        "assets": ["packages/create-nx-quarkus/*.md"]
+        "assets": ["packages/create-nx-quarkus/*.md"],
+        "skipTypeCheck": true
       }
     }
   }

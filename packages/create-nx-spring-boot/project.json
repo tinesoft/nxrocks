@@ -7,13 +7,14 @@
   "implicitDependencies": ["nx-spring-boot"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "@nx/js:swc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/create-nx-spring-boot",
+        "outputPath": "packages/create-nx-spring-boot/dist",
         "main": "packages/create-nx-spring-boot/bin/index.ts",
         "tsConfig": "packages/create-nx-spring-boot/tsconfig.lib.json",
-        "assets": ["packages/create-nx-spring-boot/*.md"]
+        "assets": ["packages/create-nx-spring-boot/*.md"],
+        "skipTypeCheck": true
       }
     }
   }
