@@ -15,5 +15,4 @@ npm unpublish @nxrocks/nx-melos@"$1" --force --verbose
 
 npm unpublish @nxrocks/common-jvm@"$1" --force --verbose
 npm unpublish @nxrocks/common-cli@"$1" --force --verbose
-
 npm unpublish @nxrocks/common@"$1" --force --verbose

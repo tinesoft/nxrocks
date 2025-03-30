@@ -1,5 +1,70 @@
 {
-  "compilerOptions": {
-    "resolveJsonModule": true
-  }
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/create-nx-spring-boot"
+    },
+    {
+      "path": "./packages/create-nx-micronaut"
+    },
+    {
+      "path": "./packages/create-nx-flutter"
+    },
+    {
+      "path": "./packages/create-nx-quarkus"
+    },
+    {
+      "path": "./packages/create-nx-ktor"
+    },
+    {
+      "path": "./packages/nx-spring-boot"
+    },
+    {
+      "path": "./e2e/nx-spring-boot-e2e"
+    },
+    {
+      "path": "./packages/nx-micronaut"
+    },
+    {
+      "path": "./e2e/nx-micronaut-e2e"
+    },
+    {
+      "path": "./packages/common-cli"
+    },
+    {
+      "path": "./packages/common-jvm"
+    },
+    {
+      "path": "./packages/nx-flutter"
+    },
+    {
+      "path": "./packages/nx-quarkus"
+    },
+    {
+      "path": "./e2e/nx-flutter-e2e"
+    },
+    {
+      "path": "./e2e/nx-quarkus-e2e"
+    },
+    {
+      "path": "./packages/nx-melos"
+    },
+    {
+      "path": "./packages/nx-ktor"
+    },
+    {
+      "path": "./e2e/nx-melos-e2e"
+    },
+    {
+      "path": "./packages/common"
+    },
+    {
+      "path": "./e2e/nx-ktor-e2e"
+    },
+    {
+      "path": "./e2e/smoke"
+    }
+  ]
 }
