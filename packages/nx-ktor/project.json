@@ -13,35 +13,7 @@
         "main": "packages/nx-ktor/src/index.ts",
         "tsConfig": "packages/nx-ktor/tsconfig.lib.json",
         "skipTypeCheck": true,
-        "stripLeadingPaths": true,
-        "assets": [
-          "packages/nx-ktor/*.md",
-          {
-            "input": "./packages/nx-ktor/src",
-            "glob": "**/!(*.ts)",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-ktor/src",
-            "glob": "**/*.d.ts",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-ktor",
-            "glob": "generators.json",
-            "output": "."
-          },
-          {
-            "input": "./packages/nx-ktor",
-            "glob": "executors.json",
-            "output": "."
-          },
-          {
-            "input": "./packages/nx-ktor",
-            "glob": "migrations.json",
-            "output": "."
-          }
-        ]
+        "stripLeadingPaths": true
       }
     }
   }

@@ -13,7 +13,6 @@
         "outputPath": "packages/create-nx-micronaut/dist",
         "main": "packages/create-nx-micronaut/bin/index.ts",
         "tsConfig": "packages/create-nx-micronaut/tsconfig.lib.json",
-        "assets": ["packages/create-nx-micronaut/*.md"],
         "skipTypeCheck": true
       }
     }

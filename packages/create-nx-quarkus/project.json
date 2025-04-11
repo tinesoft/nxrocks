@@ -13,7 +13,6 @@
         "outputPath": "packages/create-nx-quarkus/dist",
         "main": "packages/create-nx-quarkus/bin/index.ts",
         "tsConfig": "packages/create-nx-quarkus/tsconfig.lib.json",
-        "assets": ["packages/create-nx-quarkus/*.md"],
         "skipTypeCheck": true
       }
     }

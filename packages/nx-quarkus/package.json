@@ -21,6 +21,7 @@
   "files": [
     "dist",
     "!**/*.tsbuildinfo",
+    "CHANGELOG.md",
     "generators.json",
     "executors.json",
     "migrations.json"
