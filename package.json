@@ -28,8 +28,8 @@
     "sync-preset-schemas": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/sync-preset-schemas.ts",
     "nuke": "rm -rf tmp/ dist/ ~/.bun/install/cache && find ./e2e -type d -name \"tmp\" -exec rm -rf {} + && nx reset && git gc",
     "run-local-registry": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/run-local-registry.ts",
-    "start-local-registry": "ts-node -P ./tools/tsconfig.tools.json -e \"(async () => { try { const m = await import('./tools/scripts/start-local-registry'); await m.default(); process.exit(0); } catch (err) { console.error(err); process.exit(1); } })()\"",
-    "stop-local-registry": "ts-node -P ./tools/tsconfig.tools.json -e \"import('./tools/scripts/stop-local-registry').then(m => m.default()).catch(console.error)\""
+    "start-local-registry": "ts-node -P ./tools/tsconfig.tools.json -e \"import startLocalRegistry from './tools/scripts/start-local-registry'; (async () => { try { await startLocalRegistry();} catch (err) { console.error(err); process.exit(1); } })()\"",
+    "stop-local-registry": "ts-node -P ./tools/tsconfig.tools.json  -e \"import stopLocalRegistry  from './tools/scripts/stop-local-registry';  (async () => { try { await stopLocalRegistry();} catch (err)  { console.error(err); process.exit(1); } })()\""
   },
   "private": true,
   "dependencies": {

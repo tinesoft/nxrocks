@@ -14,30 +14,7 @@
         "packageJson": "packages/nx-flutter/package.json",
         "tsConfig": "packages/nx-flutter/tsconfig.lib.json",
         "skipTypeCheck": true,
-        "stripLeadingPaths": true,
-        "assets": [
-          "packages/nx-flutter/*.md",
-          {
-            "input": "./packages/nx-flutter/src",
-            "glob": "**/!(*.ts)",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-flutter/src",
-            "glob": "**/*.d.ts",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-flutter",
-            "glob": "generators.json",
-            "output": "."
-          },
-          {
-            "input": "./packages/nx-flutter",
-            "glob": "executors.json",
-            "output": "."
-          }
-        ]
+        "stripLeadingPaths": true
       }
     }
   }

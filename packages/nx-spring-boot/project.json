@@ -14,35 +14,7 @@
         "packageJson": "packages/nx-spring-boot/package.json",
         "tsConfig": "packages/nx-spring-boot/tsconfig.lib.json",
         "skipTypeCheck": true,
-        "stripLeadingPaths": true,
-        "assets": [
-          "packages/nx-spring-boot/*.md",
-          {
-            "input": "./packages/nx-spring-boot/src",
-            "glob": "**/!(*.ts)",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-spring-boot/src",
-            "glob": "**/*.d.ts",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-spring-boot",
-            "glob": "generators.json",
-            "output": "."
-          },
-          {
-            "input": "./packages/nx-spring-boot",
-            "glob": "executors.json",
-            "output": "."
-          },
-          {
-            "input": "./packages/nx-spring-boot",
-            "glob": "migrations.json",
-            "output": "."
-          }
-        ]
+        "stripLeadingPaths": true
       }
     }
   }

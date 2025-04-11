@@ -13,30 +13,7 @@
         "main": "packages/nx-melos/src/index.ts",
         "tsConfig": "packages/nx-melos/tsconfig.lib.json",
         "skipTypeCheck": true,
-        "stripLeadingPaths": true,
-        "assets": [
-          "packages/nx-melos/*.md",
-          {
-            "input": "./packages/nx-melos/src",
-            "glob": "**/!(*.ts)",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-melos/src",
-            "glob": "**/*.d.ts",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-melos",
-            "glob": "generators.json",
-            "output": "."
-          },
-          {
-            "input": "./packages/nx-melos",
-            "glob": "executors.json",
-            "output": "."
-          }
-        ]
+        "stripLeadingPaths": true
       }
     }
   }

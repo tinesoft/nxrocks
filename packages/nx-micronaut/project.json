@@ -14,35 +14,7 @@
         "packageJson": "packages/nx-micronaut/package.json",
         "tsConfig": "packages/nx-micronaut/tsconfig.lib.json",
         "skipTypeCheck": true,
-        "stripLeadingPaths": true,
-        "assets": [
-          "packages/nx-micronaut/*.md",
-          {
-            "input": "./packages/nx-micronaut/src",
-            "glob": "**/!(*.ts)",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-micronaut/src",
-            "glob": "**/*.d.ts",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-micronaut",
-            "glob": "generators.json",
-            "output": "."
-          },
-          {
-            "input": "./packages/nx-micronaut",
-            "glob": "executors.json",
-            "output": "."
-          },
-          {
-            "input": "./packages/nx-micronaut",
-            "glob": "migrations.json",
-            "output": "."
-          }
-        ]
+        "stripLeadingPaths": true
       }
     }
   }

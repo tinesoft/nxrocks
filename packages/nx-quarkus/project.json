@@ -14,35 +14,7 @@
         "main": "packages/nx-quarkus/src/index.ts",
         "packageJson": "packages/nx-quarkus/package.json",
         "skipTypeCheck": true,
-        "stripLeadingPaths": true,
-        "assets": [
-          "packages/nx-quarkus/*.md",
-          {
-            "input": "./packages/nx-quarkus/src",
-            "glob": "**/!(*.ts)",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-quarkus/src",
-            "glob": "**/*.d.ts",
-            "output": "./src"
-          },
-          {
-            "input": "./packages/nx-quarkus",
-            "glob": "generators.json",
-            "output": "."
-          },
-          {
-            "input": "./packages/nx-quarkus",
-            "glob": "executors.json",
-            "output": "."
-          },
-          {
-            "input": "./packages/nx-quarkus",
-            "glob": "migrations.json",
-            "output": "."
-          }
-        ]
+        "stripLeadingPaths": true
       }
     }
   }

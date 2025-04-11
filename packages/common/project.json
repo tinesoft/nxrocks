@@ -12,7 +12,6 @@
         "outputPath": "packages/common/dist",
         "main": "packages/common/src/index.ts",
         "tsConfig": "packages/common/tsconfig.lib.json",
-        "assets": ["packages/common/*.md"],
         "skipTypeCheck": true,
         "stripLeadingPaths": true
       }
