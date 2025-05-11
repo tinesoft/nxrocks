@@ -4,6 +4,7 @@
   "targets": {
     "local-registry": {
       "executor": "@nx/js:verdaccio",
+      "continuous": true,
       "options": {
         "port": 4873,
         "listenAddress": "0.0.0.0",

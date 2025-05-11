@@ -1,7 +1,7 @@
 launch-templates:
   linux-medium-js-java-flutter:
     resource-class: 'docker_linux_amd64/medium+'
-    image: 'ubuntu22.04-node20.11-v10'
+    image: 'ubuntu22.04-node20.19-v2'
     init-steps:
       - name: Checkout
         uses: 'nrwl/nx-cloud-workflows/v4/workflow-steps/checkout/main.yaml'
@@ -90,7 +90,7 @@ launch-templates:
              echo "⏭️ SDKMan! already installed. Skipping it"
           fi
 
-          source $HOME/.sdkman/bin/sdkman-init.sh
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk version
 
           jdkVersion="${JDK_VERSION:-21.0.6}"
@@ -98,9 +98,9 @@ launch-templates:
           javaVersion="${jdkVersion}-${jdkDistro}"
           JAVA_HOME="$HOME/.sdkman/candidates/java/$javaVersion"
 
-          if [ ! -d $JAVA_HOME ]; then
-            echo "⌛️ Installing  Java v$javaVersion.."
-            yes | sdk install java $javaVersion
+          if [ ! -d "$JAVA_HOME" ]; then
+            echo "⌛️ Installing Java v$javaVersion.."
+            sdk install java $javaVersion --install
             sdk use java $javaVersion
           else
             echo "⏭️ Java v$javaVersion already installed. Making sure it is used"
@@ -108,10 +108,7 @@ launch-templates:
 
           fi
 
-          echo "JAVA_HOME=$JAVA_HOME" >> $NX_CLOUD_ENV
           echo "PATH=$JAVA_HOME/bin:$PATH" >> $NX_CLOUD_ENV
-          echo 'export JAVA_HOME="$JAVA_HOME"' >> $HOME/.profile
-          source $HOME/.profile
 
           echo "⌛️ Checking Java Installation and Version..."
           java -version

@@ -5,7 +5,6 @@ import {
   CreateNodesContextV2,
   createNodesFromFiles,
   CreateNodesResult,
-  CreateNodesResultV2,
   CreateNodesV2,
   DependencyType,
   joinPathFragments,
