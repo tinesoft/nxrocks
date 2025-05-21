@@ -9,14 +9,26 @@
         "port": 4873,
         "listenAddress": "0.0.0.0",
         "config": ".verdaccio/config.yml",
-        "storage": "tmp/local-registry/storage"
+        "storage": "tmp/local-registry/storage",
+        "clear": false
       }
     },
     "populate-local-registry": {
       "cache": true,
-      "parallelism": false,
-      "inputs": ["production"],
-      "dependsOn": ["build"],
+      "inputs": [
+        {
+          "input": "production",
+          "projects": ["tag:npm:public"]
+        },
+        "{workspaceRoot}/scripts/local-registry"
+      ],
+      "dependsOn": [
+        "local-registry",
+        {
+          "target": "build",
+          "projects": ["tag:npm:public"]
+        }
+      ],
       "command": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/populate-local-registry.ts",
       "outputs": ["{workspaceRoot}/tmp/local-registry/storage"]
     }

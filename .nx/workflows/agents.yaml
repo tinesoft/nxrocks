@@ -93,6 +93,10 @@ launch-templates:
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk version
 
+          # Configure non-interactive mode
+          export sdkman_auto_answer=true
+          export sdkman_auto_selfupdate=false
+
           jdkVersion="${JDK_VERSION:-21.0.6}"
           jdkDistro="${JDK_DISTRO:-ms}"
           javaVersion="${jdkVersion}-${jdkDistro}"
@@ -100,7 +104,7 @@ launch-templates:
 
           if [ ! -d "$JAVA_HOME" ]; then
             echo "⌛️ Installing Java v$javaVersion.."
-            sdk install java $javaVersion --install
+            sdk install java $javaVersion
             sdk use java $javaVersion
           else
             echo "⏭️ Java v$javaVersion already installed. Making sure it is used"
