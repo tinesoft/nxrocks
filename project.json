@@ -4,31 +4,18 @@
   "targets": {
     "local-registry": {
       "executor": "@nx/js:verdaccio",
-      "continuous": true,
       "options": {
         "port": 4873,
         "listenAddress": "0.0.0.0",
         "config": ".verdaccio/config.yml",
-        "storage": "tmp/local-registry/storage",
-        "clear": false
+        "storage": "tmp/local-registry/storage"
       }
     },
     "populate-local-registry": {
       "cache": true,
-      "inputs": [
-        {
-          "input": "production",
-          "projects": ["tag:npm:public"]
-        },
-        "{workspaceRoot}/scripts/local-registry"
-      ],
-      "dependsOn": [
-        "local-registry",
-        {
-          "target": "build",
-          "projects": ["tag:npm:public"]
-        }
-      ],
+      "parallelism": false,
+      "inputs": ["production"],
+      "dependsOn": ["build"],
       "command": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/populate-local-registry.ts",
       "outputs": ["{workspaceRoot}/tmp/local-registry/storage"]
     }
