@@ -12,6 +12,7 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "development": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
@@ -50,9 +51,9 @@
     "flutter"
   ],
   "dependencies": {
-    "tslib": "^2.6.1",
     "@nx/workspace": ">=21.0.0",
-    "@nxrocks/common": "file:../common"
+    "@nxrocks/common": "workspace:*",
+    "@swc/helpers": "0.5.11"
   },
   "peerDependencies": {
     "@nx/devkit": ">=21.0.0"

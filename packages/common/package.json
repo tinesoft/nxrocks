@@ -12,6 +12,7 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "development": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
@@ -48,7 +49,6 @@
     "unzipper": "^0.12.3",
     "fs-extra": "^10.1.0",
     "@nx/devkit": ">=21.0.0",
-    "tslib": "^2.6.1",
     "minimatch": "^9.0.3",
     "semver": "^7.6.0",
     "@swc/helpers": "~0.5.11"

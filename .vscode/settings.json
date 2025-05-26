@@ -1,4 +1,15 @@
 {
   "eslint.validate": ["json"],
-  "nxConsole.generateAiAgentRules": true
+  "nxConsole.generateAiAgentRules": true,
+  "nxConsole.nxWorkspacePath": "",
+  "github.copilot.chat.agent.terminal.allowList": {
+    "ls": true,
+    "cd": true,
+    "chmod": true,
+    "echo": true,
+    "npx": true,
+    "bunx": true,
+    "bun": true,
+    "git": true
+  }
 }

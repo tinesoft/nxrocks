@@ -9,7 +9,6 @@ import {
 } from 'fs-extra';
 import { dirname, join, relative, resolve } from 'path';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 export const createNxWorkspaceVersion =
   require('../../package.json')?.devDependencies['create-nx-workspace'] ||
   'latest';

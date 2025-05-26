@@ -14,10 +14,7 @@
     "version": {
       "preVersionCommand": "bunx nx run-many -t build",
       "conventionalCommits": true,
-      "generatorOptions": {
-        "updateDependents": "auto",
-        "preserveLocalDependencyProtocols": true
-      }
+      "manifestRootsToUpdate": ["{projectRoot}"]
     }
   },
   "tasksRunnerOptions": {
@@ -159,28 +156,14 @@
     ],
     "sharedGlobals": [
       "{workspaceRoot}/.nx/workflows/agents.yaml",
+      "{workspaceRoot}/.github/workflows/ci.yml",
       "{workspaceRoot}/.github/workflows/ci.yml"
     ],
     "e2eInputs": [
       "default",
       "{workspaceRoot}/jest.preset.js",
       "{workspaceRoot}/.verdaccio/config.yml",
-      "{workspaceRoot}/scripts/local-registry/**/*",
-      {
-        "env": "SELECTED_CLI"
-      },
-      {
-        "env": "SELECTED_PM"
-      },
-      {
-        "env": "NX_E2E_CI_CACHE_KEY"
-      },
-      {
-        "env": "CI"
-      },
-      {
-        "env": "NX_E2E_RUN_E2E"
-      }
+      "{workspaceRoot}/scripts/local-registry/**/*"
     ]
   },
   "defaultBase": "develop",

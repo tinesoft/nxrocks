@@ -227,6 +227,7 @@ function createNodesInternal<T = unknown>(
   return (
     file: string,
     options: T | undefined,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     context: CreateNodesContext
   ): CreateNodesResult => {
     if (!projectFilter({ root: getProjectRootFromFile(file) })) {

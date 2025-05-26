@@ -12,6 +12,7 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "development": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
@@ -42,10 +43,9 @@
     "nx-ktor"
   ],
   "dependencies": {
-    "@nxrocks/common": "file:../common",
+    "@nxrocks/common": "workspace:*",
     "@nx/workspace": ">=21.0.0",
     "@nx/devkit": ">=21.0.0",
-    "tslib": "^2.6.1",
     "xmlbuilder2": "^3.1.1",
     "xpath": "^0.0.34",
     "@swc/helpers": "~0.5.11"
