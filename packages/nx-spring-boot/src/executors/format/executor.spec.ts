@@ -1,5 +1,7 @@
+jest.mock('child_process');
+jest.mock('@nx/workspace/src/utilities/fileutils');
+
 import { joinPathFragments, logger } from '@nx/devkit';
-import { mocked } from 'jest-mock';
 
 import { formatExecutor } from './executor';
 import { FormatExecutorOptions } from './schema';
@@ -15,11 +17,6 @@ import {
   mockExecutorContext,
 } from '@nxrocks/common-jvm/testing';
 
-//first, we mock
-jest.mock('child_process');
-jest.mock('@nx/workspace/src/utilities/fileutils');
-
-//then, we import
 import * as fsUtility from '@nx/workspace/src/utilities/fileutils';
 import * as cp from 'child_process';
 import { PathLike } from 'fs';
@@ -54,8 +51,10 @@ describe('Format Executor', () => {
           ? getMavenWrapperFiles()
           : getGradleWrapperFiles()),
       ];
-      mocked(fsUtility.fileExists).mockImplementation((filePath: PathLike) =>
-        files.some((f) => joinPathFragments(filePath.toString()).endsWith(f))
+
+      (fsUtility.fileExists as jest.Mock).mockImplementation(
+        (filePath: PathLike) =>
+          files.some((f) => joinPathFragments(filePath.toString()).endsWith(f))
       );
 
       await formatExecutor({ ...options, ignoreWrapper }, mockContext);

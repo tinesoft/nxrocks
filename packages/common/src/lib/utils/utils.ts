@@ -10,7 +10,7 @@ export function getPackageLatestNpmVersion(pkg: string): string {
         .toString()
         .trim() || 'latest'
     );
-  } catch (e) {
+  } catch {
     return 'latest';
   }
 }
@@ -19,7 +19,6 @@ export function getHttpProxyAgent(
   targetUrl: string,
   proxyUrl?: string
 ): HttpProxyAgent | HttpsProxyAgent | undefined {
-
   const {
     http_proxy: httpProxy,
     https_proxy: httpsProxy,

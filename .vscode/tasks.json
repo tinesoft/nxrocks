@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "Run Jest test for executor.spec.ts with debug logs",
+      "command": "bun nx test nx-spring-boot --testFile=src/executors/test/executor.spec.ts",
+      "group": "test"
+    }
+  ]
+}

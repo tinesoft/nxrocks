@@ -19,7 +19,7 @@ export function mockExecutorContext(
 ): ExecutorContext {
   return {
     root: '',
-    cwd: '',
+    cwd: process.cwd(),
     projectGraph: {
       nodes: {},
       dependencies: {},

@@ -1,6 +1,7 @@
-import { joinPathFragments, logger } from '@nx/devkit';
-import { mocked } from 'jest-mock';
+jest.mock('@nx/workspace/src/utilities/fileutils');
+jest.mock('child_process');
 
+import { joinPathFragments, logger } from '@nx/devkit';
 import { packageExecutor } from './executor';
 import { NX_QUARKUS_PKG } from '../../index';
 import {
@@ -13,12 +14,6 @@ import {
   expectExecutorCommandRanWith,
   mockExecutorContext,
 } from '@nxrocks/common-jvm/testing';
-
-//first, we mock
-jest.mock('child_process');
-jest.mock('@nx/workspace/src/utilities/fileutils');
-
-//then, we import
 import * as fsUtility from '@nx/workspace/src/utilities/fileutils';
 import * as cp from 'child_process';
 import { PackageExecutorOptions } from './schema';
@@ -54,8 +49,9 @@ describe('Package Executor', () => {
           ? getMavenWrapperFiles()
           : getGradleWrapperFiles()),
       ];
-      mocked(fsUtility.fileExists).mockImplementation((filePath: PathLike) =>
-        files.some((f) => joinPathFragments(filePath.toString()).endsWith(f))
+      (fsUtility.fileExists as jest.Mock).mockImplementation(
+        (filePath: PathLike) =>
+          files.some((f) => joinPathFragments(filePath.toString()).endsWith(f))
       );
 
       await packageExecutor({ ...options, ignoreWrapper }, mockContext);

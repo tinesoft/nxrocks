@@ -2,10 +2,6 @@ import { ExecutorContext, logger } from '@nx/devkit';
 
 import { join } from 'path';
 
-//first, we mock
-//jest.mock('child_process');
-
-//then, we import
 import * as cp from 'child_process';
 
 export function expectExecutorCommandRanWith(

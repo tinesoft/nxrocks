@@ -12,3 +12,8 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # Install NPM dependencies
 echo "⚙️ Installing NPM dependencies..."
 bun install --frozen-lockfile
+
+# Clean system cache
+echo "🧹 Cleaning cache..."
+sudo apt-get autoclean
+sudo apt-get clean
