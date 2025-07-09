@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json.schemastore.org/nx-executor",
+  "executors": {
+    "ionic": {
+      "implementation": "./src/executors/ionic/ionic.impl",
+      "schema": "./src/executors/ionic/schema.json",
+      "description": "Run any Ionic CLI command (build, serve, etc) in an Nx workspace."
+    }
+  }
+}

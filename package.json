@@ -23,7 +23,7 @@
     "help": "nx help",
     "release": "nx release --dry-run",
     "prepare": "husky",
-    "reset": "nx reset && nx sync && nx repair && rm -rf tmp/ dist/ .nx/cache/ .nx/workspace-data/ && find ./e2e -type d \\( -name \"dist\" -o -name \"tmp\"  -o -name \"out-tsc\" \\) -exec rm -rf {} + && find ./packages -type d \\( -name \"dist\" -o -name \"tmp\"  -o -name \"out-tsc\"  -o -name \"node_modules\" \\) -exec rm -rf {} + && bun install",
+    "reset": "rm -rf tmp/ dist/ .nx/cache/ .nx/workspace-data/ && find ./e2e -type d \\( -name \"dist\" -o -name \"tmp\"  -o -name \"out-tsc\" \\) -exec rm -rf {} + && find ./packages -type d \\( -name \"dist\" -o -name \"tmp\"  -o -name \"out-tsc\"  -o -name \"node_modules\" \\) -exec rm -rf {} + && bun install && nx reset && nx sync && nx repair",
     "smoke": "FORCE_SMOKE_TESTS=true nx e2e smoke",
     "smoke-keep": "KEEP_SMOKE_TESTS_DIR=true bun smoke",
     "sync-preset-schemas": "ts-node -P ./tools/tsconfig.tools.json ./tools/scripts/sync-preset-schemas.ts",

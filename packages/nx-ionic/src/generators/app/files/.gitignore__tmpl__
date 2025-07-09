@@ -1,0 +1,43 @@
+# Nx-specific files
+.nx/cache
+.nx/workspace-data
+
+# Dependencies
+node_modules/
+
+# Ionic specific
+www/
+platforms/
+plugins/
+
+# Capacitor
+.capacitor/
+ios/
+android/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Build outputs
+dist/
+build/

@@ -65,6 +65,12 @@
     },
     {
       "path": "./e2e/smoke"
+    },
+    {
+      "path": "./packages/nx-ionic"
+    },
+    {
+      "path": "./packages/create-nx-ionic"
     }
   ]
 }

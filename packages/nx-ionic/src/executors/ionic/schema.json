@@ -1,0 +1,15 @@
+{
+  "properties": {
+    "command": {
+      "type": "string",
+      "description": "The ionic CLI command to run (e.g. build, serve, etc)"
+    },
+    "cwd": { "type": "string", "description": "Working directory" },
+    "args": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Additional arguments"
+    }
+  },
+  "required": ["command"]
+}

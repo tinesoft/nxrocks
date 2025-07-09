@@ -1,0 +1,20 @@
+{
+  "name": "create-nx-ionic",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/create-nx-ionic/bin",
+  "projectType": "library",
+  "tags": [],
+  "implicitDependencies": ["nx-ionic"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/create-nx-ionic/dist",
+        "main": "packages/create-nx-ionic/bin/index.ts",
+        "tsConfig": "packages/create-nx-ionic/tsconfig.lib.json",
+        "skipTypeCheck": true
+      }
+    }
+  }
+}

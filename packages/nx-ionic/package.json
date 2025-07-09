@@ -1,0 +1,59 @@
+{
+  "name": "@nxrocks/nx-ionic",
+  "description": "Nx plugin adding first class support for Ionic in your Nx workspace",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.0-dev",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo",
+    "CHANGELOG.md",
+    "generators.json",
+    "executors.json",
+    "migrations.json"
+  ],
+  "generators": "./generators.json",
+  "executors": "./executors.json",
+  "license": "MIT",
+  "author": "Tine Kondo ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinesoft/nxrocks.git",
+    "directory": "packages/nx-ionic"
+  },
+  "homepage": "https://github.com/tinesoft/nxrocks/blob/master/packages/nx-ionic#readme",
+  "bugs": {
+    "url": "https://github.com/tinesoft/nxrocks/issues"
+  },
+  "keywords": [
+    "nx-plugin",
+    "ionic",
+    "nx-workspace",
+    "nx",
+    "angular",
+    "react",
+    "vue",
+    "capacitor"
+  ],
+  "dependencies": {
+    "@swc/helpers": "^0.5.11",
+    "nx": "^21.1.2",
+    "@nx/js": "21.3.11"
+  },
+  "peerDependencies": {
+    "@nx/devkit": ">=21.0.0"
+  }
+}

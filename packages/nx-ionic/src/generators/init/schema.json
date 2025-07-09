@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "InitGeneratorSchema",
+  "type": "object",
+  "title": "Init Generator Schema",
+  "description": "Schema for the nx-ionic init generator.",
+  "properties": {
+    "skipPackageJson": {
+      "type": "boolean",
+      "description": "Skip updating package.json",
+      "default": false
+    },
+    "keepExistingVersions": {
+      "type": "boolean",
+      "description": "Keep existing package versions",
+      "default": false
+    },
+    "updatePackageScripts": {
+      "type": "boolean",
+      "description": "Update package.json scripts",
+      "default": false
+    },
+    "addPlugin": {
+      "type": "boolean",
+      "description": "Add the Ionic plugin to nx.json",
+      "default": true
+    },
+    "skipFormat": {
+      "type": "boolean",
+      "description": "Skip formatting files",
+      "default": false
+    }
+  },
+  "required": []
+}

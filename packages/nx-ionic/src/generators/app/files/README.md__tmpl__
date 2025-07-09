@@ -1,0 +1,44 @@
+# <%= projectName %>
+
+This project was generated with [Nx](https://nx.dev) and [Ionic](https://ionicframework.com/).
+
+## Development server
+
+Run `nx serve <%= projectName %>` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+
+## Build
+
+Run `nx build <%= projectName %>` to build the project. The build artifacts will be stored in the `www/` directory.
+
+## Running tests
+
+Run `nx test <%= projectName %>` to execute the unit tests.
+
+Run `nx e2e <%= projectName %>` to execute the end-to-end tests.
+
+## Capacitor
+
+<% if (capacitor) { %>This project includes Capacitor for native functionality.
+
+### Add a platform
+
+Run `nx cap-add <%= projectName %>` to add a native platform (iOS or Android).
+
+### Build for native
+
+Run `nx cap-build <%= projectName %>` to build the app for native platforms.
+
+### Open in IDE
+
+Run `nx cap-open <%= projectName %>` to open the native IDE (Xcode for iOS, Android Studio for Android).
+
+### Sync
+
+Run `nx cap-sync <%= projectName %>` to sync web assets and native plugins.
+<% } %>
+
+## Further help
+
+To get more help on Ionic, check out the [Ionic CLI Docs](https://ionicframework.com/docs/cli) or go check out the [Ionic Documentation](https://ionicframework.com/docs).
+
+To get more help on Nx, check out the [Nx Documentation](https://nx.dev).

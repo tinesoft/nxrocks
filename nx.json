@@ -138,7 +138,8 @@
         "packages/nx-melos/**/*",
         "packages/nx-micronaut/**/*",
         "packages/nx-quarkus/**/*",
-        "packages/nx-spring-boot/**/*"
+        "packages/nx-spring-boot/**/*",
+        "packages/nx-ionic/**/*"
       ]
     }
   ],

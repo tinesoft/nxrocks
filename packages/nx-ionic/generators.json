@@ -1,0 +1,20 @@
+{
+  "name": "nx-ionic",
+  "version": "0.0.1",
+  "schematics": {},
+  "generators": {
+    "app": {
+      "factory": "./src/generators/app/generator",
+      "schema": "./src/generators/app/schema.json",
+      "description": "Create a new Ionic application using the Ionic CLI.",
+      "aliases": ["application", "new", "create"]
+    },
+    "init": {
+      "factory": "./src/generators/init/generator",
+      "schema": "./src/generators/init/schema.json",
+      "description": "Initialize the `@nxrocks/nx-ionic` plugin.",
+      "aliases": ["ng-add"],
+      "hidden": true
+    }
+  }
+}

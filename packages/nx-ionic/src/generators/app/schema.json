@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "id": "@nxrocks/nx-ionic:app",
+  "description": "Create a new Ionic application using the Ionic CLI.",
+  "title": "Creates an Ionic project in the workspace",
+  "outputCapture": "pipe",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of your new project (e.g. myApp, \"My App\").",
+      "pattern": "^[a-zA-Z][^:]*$",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the project?",
+      "x-priority": "important"
+    },
+    "template": {
+      "type": "string",
+      "description": "The starter template to use (e.g. blank, tabs).",
+      "default": "blank",
+      "enum": ["blank", "tabs", "sidemenu", "list"],
+      "x-prompt": {
+        "message": "Which starter template would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "blank",
+            "label": "blank - A blank starter project"
+          },
+          {
+            "value": "tabs",
+            "label": "tabs - A starting project with a simple tabbed interface"
+          },
+          {
+            "value": "sidemenu",
+            "label": "sidemenu - A starting project with a side menu with navigation in the content area"
+          },
+          {
+            "value": "list",
+            "label": "list - A starting project with a page that displays a list of items"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "directory": {
+      "type": "string",
+      "description": "The directory of the new project.",
+      "alias": "dir"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of project to start (e.g. angular, react, vue).",
+      "default": "angular",
+      "enum": ["angular", "angular-standalone", "react", "vue"],
+      "x-prompt": {
+        "message": "Which JavaScript framework would you like to use?",
+        "type": "list",
+        "items": [
+          {
+            "value": "angular",
+            "label": "Angular"
+          },
+          {
+            "value": "angular-standalone",
+            "label": "Angular (Standalone)"
+          },
+          {
+            "value": "react",
+            "label": "React"
+          },
+          {
+            "value": "vue",
+            "label": "Vue"
+          }
+        ]
+      },
+      "x-priority": "important"
+    },
+    "capacitor": {
+      "type": "boolean",
+      "description": "Include Capacitor integration.",
+      "default": true,
+      "x-prompt": "Would you like to include Capacitor integration?"
+    },
+    "cordova": {
+      "type": "boolean",
+      "description": "(deprecated) Include Cordova integration.",
+      "default": false
+    },
+    "id": {
+      "type": "string",
+      "description": "Specify an Ionic App ID to link."
+    },
+    "projectId": {
+      "type": "string",
+      "description": "Specify a slug for your app (used for the directory name and package name).",
+      "alias": "project-id"
+    },
+    "packageId": {
+      "type": "string",
+      "description": "Specify the bundle ID/application ID for your app (reverse-DNS notation).",
+      "alias": "package-id",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_]+)+[0-9a-z_]$"
+    },
+    "noDeps": {
+      "type": "boolean",
+      "description": "Do not install npm/yarn dependencies.",
+      "default": true,
+      "alias": "no-deps"
+    },
+    "noGit": {
+      "type": "boolean",
+      "description": "Do not initialize a git repo.",
+      "default": false,
+      "alias": "no-git"
+    },
+    "link": {
+      "type": "boolean",
+      "description": "Connect your new app to Ionic.",
+      "default": false
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting).",
+      "alias": "t"
+    }
+  },
+  "required": ["name"]
+}
