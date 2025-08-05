@@ -6,29 +6,36 @@
 
 > Set of Nx plugins to enhance your Nx workspace (even more!)
 
-<p align="center"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nxrocks.png" width="450"></p>
+<p align="left"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/nxrocks.png" width="450"></p>
+
+> 😇 Brought to you by a [Nx Champion 🏆](https://nx.dev/community#nx-champions)
 
 ## Our Plugins
 
-Status | Name     | Description
------- | -------- | ------------
-  ✅   | [nx-spring-boot](packages/nx-spring-boot)  | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Spring Boot](https://spring.io/projects/spring-boot) projects inside your Nx workspace
-  ✅   | [nx-flutter](packages/nx-flutter)  | [Nx](https://nx.dev) plugin adding first class support for [Flutter](https://flutter.dev) in your Nx workspace
-  ✅   | [nx-quarkus](packages/nx-quarkus)  | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Quarkus](https://quarkus.io) projects inside your Nx workspace
-  ✅   | [nx-micronaut](packages/nx-micronaut)  | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Micronaut](https://micronaut.io) projects inside your Nx workspace
-  ✅   | [nx-melos](packages/nx-melos)  | [Nx](https://nx.dev) plugin adding first class support for [Melos](https://melos.invertase.dev/) in your Nx workspace
-  ✅   | [nx-ktor](packages/nx-ktor)  | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Ktor](https://ktor.io) projects inside your Nx workspace
+| Status | Name                                      | Description                                                                                                                                                     |
+| ------ | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ✅     | [nx-spring-boot](packages/nx-spring-boot) | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Spring Boot](https://spring.io/projects/spring-boot) projects inside your Nx workspace |
+| ✅     | [nx-flutter](packages/nx-flutter)         | [Nx](https://nx.dev) plugin adding first class support for [Flutter](https://flutter.dev) in your Nx workspace                                                  |
+| ✅     | [nx-quarkus](packages/nx-quarkus)         | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Quarkus](https://quarkus.io) projects inside your Nx workspace                         |
+| ✅     | [nx-micronaut](packages/nx-micronaut)     | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Micronaut](https://micronaut.io) projects inside your Nx workspace                     |
+| ✅     | [nx-melos](packages/nx-melos)             | [Nx](https://nx.dev) plugin adding first class support for [Melos](https://melos.invertase.dev/) in your Nx workspace                                           |
+| ✅     | [nx-ktor](packages/nx-ktor)               | [Nx](https://nx.dev) plugin to generate, run, package, build (and more) [Ktor](https://ktor.io) projects inside your Nx workspace                               |
 
 ## Our custom CLIs
 
-Status | Name     | Description
------- | -------- | ------------
-  ✅   | [create-nx-spring-boot](packages/create-nx-spring-boot)  | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Spring Boot](https://spring.io/projects/spring-boot)
-  ✅   | [create-nx-flutter](packages/create-nx-flutter)  | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Flutter](https://flutter.dev)
-  ✅   | [create-nx-quarkus](packages/create-nx-quarkus)  | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Quarkus](https://quarkus.io)
-  ✅   | [create-nx-micronaut](packages/create-nx-micronaut)  | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Micronaut](https://micronaut.io)
-  ✅   | [create-nx-ktor](packages/create-nx-ktor)  | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Ktor](https://ktor.io)
+| Status | Name                                                    | Description                                                                                                                       |
+| ------ | ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| ✅     | [create-nx-spring-boot](packages/create-nx-spring-boot) | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Spring Boot](https://spring.io/projects/spring-boot) |
+| ✅     | [create-nx-flutter](packages/create-nx-flutter)         | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Flutter](https://flutter.dev)                        |
+| ✅     | [create-nx-quarkus](packages/create-nx-quarkus)         | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Quarkus](https://quarkus.io)                         |
+| ✅     | [create-nx-micronaut](packages/create-nx-micronaut)     | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Micronaut](https://micronaut.io)                     |
+| ✅     | [create-nx-ktor](packages/create-nx-ktor)               | **CLI** to create [Nx](https://nx.dev) workspaces with built-in support for [Ktor](https://ktor.io)                               |
 
 ## License
 
 Copyright (c) 2020-present Tine Kondo. Licensed under the MIT License (MIT)
+
+##
+
+<p align="left"><img src="https://raw.githubusercontent.com/tinesoft/nxrocks/develop/images/with-nx-team.jpg" width="600"></p>
+<cite>At 1st edition of Nx Summit Europe (Amsterdam), with Nx core team! 📸 ©️ April 2025<cite>
