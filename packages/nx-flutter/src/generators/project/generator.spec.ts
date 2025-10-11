@@ -116,7 +116,7 @@ describe('application generator', () => {
     async ({ template }) => {
       await projectGenerator(tree, { ...options, template: template });
 
-      if (['app', 'plugin'].includes(template)) {
+      if (template === 'plugin') {
         expect(logger.info).toHaveBeenNthCalledWith(
           1,
           '⚙️ Generating project configuration...'
@@ -128,6 +128,19 @@ describe('application generator', () => {
         expect(logger.info).toHaveBeenNthCalledWith(
           3,
           `Executing command: flutter create --project-name=${options.name} --android-language=kotlin --ios-language=swift --template=${template} --platforms="android,ios,web,linux,windows,macos"  ${options.name}`
+        );
+      } else if (template === 'app') {
+        expect(logger.info).toHaveBeenNthCalledWith(
+          1,
+          '⚙️ Generating project configuration...'
+        );
+        expect(logger.info).toHaveBeenNthCalledWith(
+          2,
+          `Generating Flutter project with following options : --project-name=${options.name} --android-language=kotlin --template=${template} --platforms="android,ios,web,linux,windows,macos" ...`
+        );
+        expect(logger.info).toHaveBeenNthCalledWith(
+          3,
+          `Executing command: flutter create --project-name=${options.name} --android-language=kotlin --template=${template} --platforms="android,ios,web,linux,windows,macos"  ${options.name}`
         );
       } else {
         expect(logger.info).toHaveBeenNthCalledWith(
