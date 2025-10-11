@@ -36,7 +36,10 @@ export function buildFlutterCreateOptions(options: NormalizedSchema) {
     { key: 'org', value: options.org },
     { key: 'description', value: quote(options.description) },
     { key: 'android-language', value: options.androidLanguage },
-    { key: 'ios-language', value: options.iosLanguage },
+    {
+      key: 'ios-language',
+      value: options.template === 'plugin' ? options.iosLanguage : null,
+    },
     { key: 'template', value: options.template },
     { key: 'sample', value: options.sample },
     {
