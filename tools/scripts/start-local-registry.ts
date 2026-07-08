@@ -6,7 +6,7 @@ import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { releasePublish, releaseVersion } from 'nx/release';
 import { joinPathFragments, workspaceRoot } from '@nx/devkit';
 
-export default async () => {
+const setupLocalRegistry = async () => {
 
   // local registry target to run
   const localRegistryTarget = 'nxrocks:local-registry';
@@ -42,6 +42,8 @@ export default async () => {
   }
 };
 
+export default setupLocalRegistry;
+
 export async function startLocalRelease(isVerbose=false) {
 
   await releaseVersion({
@@ -50,7 +52,7 @@ export async function startLocalRelease(isVerbose=false) {
     gitCommit: false,
     gitTag: false,
     firstRelease: true,
-    generatorOptionsOverrides: {
+    versionActionsOptionsOverrides: {
       skipLockFileUpdate: true
     },
     verbose: isVerbose,

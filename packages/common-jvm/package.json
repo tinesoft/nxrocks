@@ -44,8 +44,8 @@
   ],
   "dependencies": {
     "@nxrocks/common": "workspace:*",
-    "@nx/workspace": ">=21.0.0",
-    "@nx/devkit": ">=21.0.0",
+    "@nx/workspace": ">=22.0.0",
+    "@nx/devkit": ">=22.0.0",
     "xmlbuilder2": "^3.1.1",
     "xpath": "^0.0.34",
     "@swc/helpers": "~0.5.11"
