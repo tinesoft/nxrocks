@@ -51,11 +51,11 @@
     "flutter"
   ],
   "dependencies": {
-    "@nx/workspace": ">=21.0.0",
+    "@nx/workspace": ">=22.0.0",
     "@nxrocks/common": "workspace:*",
-    "@swc/helpers": "0.5.11"
+    "@swc/helpers": "0.5.23 "
   },
   "peerDependencies": {
-    "@nx/devkit": ">=21.0.0"
+    "@nx/devkit": ">=22.0.0"
   }
 }

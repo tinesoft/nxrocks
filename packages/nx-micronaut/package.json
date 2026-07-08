@@ -58,6 +58,6 @@
     "@swc/helpers": "~0.5.11"
   },
   "peerDependencies": {
-    "@nx/devkit": ">=21.0.0"
+    "@nx/devkit": ">=22.0.0"
   }
 }
