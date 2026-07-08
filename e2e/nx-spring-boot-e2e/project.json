@@ -5,5 +5,6 @@
   "sourceRoot": "e2e/nx-spring-boot-e2e/tests",
   "tags": ["e2e"],
   "implicitDependencies": ["nx-spring-boot"],
+  "// targets": "to see all targets run: nx show project nx-spring-boot-e2e --web",
   "targets": {}
 }

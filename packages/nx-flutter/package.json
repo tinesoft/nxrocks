@@ -52,11 +52,11 @@
   "dependencies": {
     "enquirer": "^2.4.1",
     "js-yaml": "^4.1.0",
-    "@nx/workspace": ">=21.0.0",
+    "nx": ">=23.0.0",
     "@nxrocks/common": "workspace:*",
-    "@swc/helpers": "0.5.11"
+    "@swc/helpers": "0.5.23"
   },
   "peerDependencies": {
-    "@nx/devkit": ">=21.0.0"
+    "@nx/devkit": ">=23.0.0"
   }
 }

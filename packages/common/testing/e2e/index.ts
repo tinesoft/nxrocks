@@ -16,7 +16,7 @@ import {
   tmpProjPath,
 } from '@nx/plugin/testing';
 import { rmSync, existsSync, ensureDirSync } from 'fs-extra';
-import { dirname, basename, resolve } from 'path';
+import { dirname, basename, resolve } from 'node:path';
 import { getPackageLatestNpmVersion } from '../../src';
 
 export { checkFilesExist, readFile, readJson, tmpProjPath };

@@ -1,5 +1,5 @@
 import { type NxJsonConfiguration, type PackageManager } from '@nx/devkit';
-import { execSync, ExecSyncOptions } from 'child_process';
+import { execSync, ExecSyncOptions } from 'node:child_process';
 import {
   ensureDirSync,
   existsSync,
@@ -7,7 +7,7 @@ import {
   rmSync,
   writeJsonSync,
 } from 'fs-extra';
-import { dirname, join, relative, resolve } from 'path';
+import { dirname, join, relative, resolve } from 'node:path';
 
 export const createNxWorkspaceVersion =
   require('../../package.json')?.devDependencies['create-nx-workspace'] ||
@@ -88,7 +88,7 @@ export function getNxCommand(
         return `$(pkgManager} nx`;
     }
   }
-  return process.platform === 'win32' ? '.\\nx.bat' : './nx';
+  return process.platform === 'win32' ? String.raw`.\nx.bat` : './nx';
 }
 
 export function isNxWrapperInstalled(cwd: string) {
@@ -152,5 +152,39 @@ function workspaceRootInner(
     return workspaceRootInner(dirname(dir), dir);
   } else {
     return workspaceRootInner(dirname(dir), candidateRoot);
+  }
+}
+
+// Inlined from create-nx-workspace's 'src/utils/unparse', which is no longer
+// exposed as a public entry point as of Nx v23. Nested objects are flattened
+// via direct recursion (equivalent to `flat` with `{ safe: true }`), so we
+// avoid pulling in the extra `flat` dependency.
+export function unparse(options: object): string[] {
+  const unparsed: string[] = [];
+  for (const key of Object.keys(options)) {
+    unparseOption(key, (options as Record<string, unknown>)[key], unparsed);
+  }
+  return unparsed;
+}
+
+function unparseOption(key: string, value: unknown, unparsed: string[]): void {
+  if (value === true) {
+    unparsed.push(`--${key}`);
+  } else if (value === false) {
+    unparsed.push(`--no-${key}`);
+  } else if (Array.isArray(value)) {
+    value.forEach((item) => unparseOption(key, item, unparsed));
+  } else if (Object.prototype.toString.call(value) === '[object Object]') {
+    for (const nestedKey of Object.keys(value as object)) {
+      unparseOption(
+        `${key}.${nestedKey}`,
+        (value as Record<string, unknown>)[nestedKey],
+        unparsed
+      );
+    }
+  } else if (typeof value === 'string' && value.includes(' ')) {
+    unparsed.push(`--${key}="${value}"`);
+  } else if (value != null) {
+    unparsed.push(`--${key}=${value as string | number | boolean}`);
   }
 }

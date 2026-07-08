@@ -5,5 +5,6 @@
   "sourceRoot": "e2e/nx-quarkus-e2e/tests",
   "tags": ["e2e"],
   "implicitDependencies": ["nx-quarkus"],
+  "// targets": "to see all targets run: nx show project nx-quarkus-e2e --web",
   "targets": {}
 }

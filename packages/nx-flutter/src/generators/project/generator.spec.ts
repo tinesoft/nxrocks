@@ -10,7 +10,7 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { projectGenerator } from './generator';
 import { NormalizedSchema, ProjectGeneratorOptions } from './schema';
 
-jest.mock('child_process'); // we need to mock 'execSync' so that it doesn't really run 'flutter' (reserved to e2e testing) (see __mocks__/child_process.js)
+jest.mock('node:child_process'); // we need to mock 'execSync' so that it doesn't really run 'flutter' (reserved to e2e testing) (see __mocks__/child_process.js)
 
 //jest.mock('enquirer'); // we mock 'enquirer' to bypass the interactive prompt
 import * as enquirer from 'enquirer';

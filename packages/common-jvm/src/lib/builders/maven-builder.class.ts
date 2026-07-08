@@ -9,7 +9,7 @@ import {
   BuilderCore,
   BuildSystem,
 } from './builder-core.interface';
-import { basename, resolve } from 'path';
+import { basename, resolve } from 'node:path';
 import { hasMavenModule, hasMavenWrapper } from '../utils/maven-utils';
 import { workspaceRoot } from '@nx/devkit';
 

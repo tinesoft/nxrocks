@@ -4,7 +4,7 @@ import { Tree, readProjectConfiguration } from '@nx/devkit';
 import { presetGenerator } from './generator';
 import { PresetGeneratorSchema } from './schema';
 
-jest.mock('child_process'); // we need to mock 'execSync' so that it doesn't really run 'flutter' (reserved to e2e testing) (see __mocks__/child_process.js)
+jest.mock('node:child_process'); // we need to mock 'execSync' so that it doesn't really run 'flutter' (reserved to e2e testing) (see __mocks__/child_process.js)
 
 import * as enquirer from 'enquirer';
 

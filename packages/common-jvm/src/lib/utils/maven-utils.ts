@@ -11,8 +11,8 @@ import {
   readXml,
   removeXmlNode,
 } from './index';
-import { fileExists } from '@nx/workspace/src/utilities/fileutils';
-import { resolve } from 'path';
+import { fileExists } from 'nx/src/utils/fileutils';
+import { resolve } from 'node:path';
 import {
   stripIndent,
   getProjectFileContent,

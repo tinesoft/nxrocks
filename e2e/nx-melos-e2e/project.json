@@ -5,5 +5,6 @@
   "sourceRoot": "e2e/nx-melos-e2e/tests",
   "tags": ["e2e"],
   "implicitDependencies": ["nx-melos"],
+  "// targets": "to see all targets run: nx show project nx-melos-e2e --web",
   "targets": {}
 }

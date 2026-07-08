@@ -4,7 +4,7 @@ import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { initGenerator } from './generator';
 import { InitGeneratorOptions } from './schema';
 
-jest.mock('child_process'); // we need to mock 'execSync' so that it doesn't really run 'melos' (reserved to e2e testing) (see __mocks__/child_process.js)
+jest.mock('node:child_process'); // we need to mock 'execSync' so that it doesn't really run 'melos' (reserved to e2e testing) (see __mocks__/child_process.js)
 
 describe('init generator', () => {
   let tree: Tree;

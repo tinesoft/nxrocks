@@ -16,9 +16,9 @@ import {
   createNxWorkspaceVersion,
   createWorkspaceWithNxWrapper,
   getNxCommand,
+  unparse,
 } from './utils';
-import { NxCloud } from 'create-nx-workspace/src/utils/nx/nx-cloud';
-import { unparse } from 'create-nx-workspace/src/utils/unparse';
+import type { NxCloud } from 'create-nx-workspace/internal';
 
 export async function mainCLI(pkgName: string, stackName: string) {
   const pkgFolderName = pkgName.replace('@nxrocks/', '');

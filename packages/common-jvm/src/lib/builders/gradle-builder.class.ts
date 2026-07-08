@@ -5,8 +5,8 @@ import {
   BuilderCore,
   BuildSystem,
 } from './builder-core.interface';
-import { hasGradleModule, hasGradleWrapper, hasGradleProject } from '../utils';
-import { basename, resolve } from 'path';
+import { hasGradleModule, hasGradleWrapper } from '../utils';
+import { basename, resolve } from 'node:path';
 import { workspaceRoot } from '@nx/devkit';
 
 export class GradleBuilder implements BuilderCore {

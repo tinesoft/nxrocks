@@ -2,10 +2,8 @@ import {
   CreateDependenciesContext,
   CreateNodes,
   CreateNodesContext,
-  CreateNodesContextV2,
   createNodesFromFiles,
   CreateNodesResult,
-  CreateNodesV2,
   DependencyType,
   joinPathFragments,
   logger,
@@ -19,7 +17,7 @@ import { minimatch } from 'minimatch';
 
 import { PackageInfo, WorkspacePackageInfoConfiguration } from './models';
 import { getProjectRootFromFile, isNxCrystalEnabled } from './utils';
-import { dirname } from 'path';
+import { dirname } from 'node:path';
 
 function getPackageInfosForNxProjects(
   pluginName: string,
@@ -117,8 +115,8 @@ function getProjectFilesGlob(projectFiles: string[]): string {
     : `**/${projectFiles[0]}`;
 }
 
-// Project Graph using CreateNode (V1)
-export const createNodesFor = <T = unknown>(
+// Project Graph using CreateNodes (files-array signature).
+export const createNodesForV2 = <T = unknown>(
   projectFiles: string[],
   projectFilter: (project: { root: string }) => boolean,
   getProjectTypeAndTargets: (
@@ -133,29 +131,10 @@ export const createNodesFor = <T = unknown>(
   pluginName: string
 ): CreateNodes<T> => [
   getProjectFilesGlob(projectFiles),
-  createNodesInternal<T>(projectFilter, getProjectTypeAndTargets, pluginName),
-];
-
-// Project Graph using CreateNode (V2)
-export const createNodesForV2 = <T = unknown>(
-  projectFiles: string[],
-  projectFilter: (project: { root: string }) => boolean,
-  getProjectTypeAndTargets: (
-    projectFile: string,
-    options: T | undefined
-  ) => {
-    projectType: ProjectType;
-    targets: {
-      [targetName: string]: TargetConfiguration;
-    };
-  },
-  pluginName: string
-): CreateNodesV2<T> => [
-  getProjectFilesGlob(projectFiles),
   (
     files: readonly string[],
     options: T | undefined,
-    context: CreateNodesContextV2
+    context: CreateNodesContext
   ) => {
     return createNodesFromFiles<T>(
       createNodesInternal<T>(
@@ -169,6 +148,11 @@ export const createNodesForV2 = <T = unknown>(
     );
   },
 ];
+
+// Backwards-compatible alias: as of Nx v23 the single-file `createNodes` (V1)
+// signature was removed, so `CreateNodes<T>` now always uses the files-array
+// signature. `createNodesFor` therefore behaves identically to `createNodesForV2`.
+export const createNodesFor = createNodesForV2;
 
 export const createDependenciesIf = (
   pluginName: string,

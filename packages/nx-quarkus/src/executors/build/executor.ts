@@ -1,5 +1,5 @@
 import { ExecutorContext } from '@nx/devkit';
-import * as path from 'path';
+import * as path from 'node:path';
 import { BuildExecutorOptions } from './schema';
 import { runQuarkusPluginCommand } from '../../utils/quarkus-utils';
 

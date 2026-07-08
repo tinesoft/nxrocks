@@ -1,13 +1,13 @@
 import { load } from 'js-yaml';
 
-import { fileExists } from '@nx/workspace/src/utilities/fileutils';
+import { fileExists } from 'nx/src/utils/fileutils';
 import {
   getProjectFileContent,
   getProjectFilePath,
   getProjectRoot,
   PackageInfo,
 } from '@nxrocks/common';
-import {ProjectConfiguration } from '@nx/devkit';
+import { ProjectConfiguration } from '@nx/devkit';
 
 interface Pubspec {
   name: string;
