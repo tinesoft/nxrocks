@@ -1,5 +1,5 @@
 import { logger } from '@nx/devkit';
-import { spawnSync } from 'child_process';
+import { spawnSync } from 'node:child_process';
 import { isDartInstalled } from '../../../utils/melos-utils';
 
 export async function installMelosPackageGlobally(): Promise<void> {

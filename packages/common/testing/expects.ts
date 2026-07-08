@@ -1,8 +1,8 @@
 import { ExecutorContext, logger } from '@nx/devkit';
 
-import { join } from 'path';
+import { join } from 'node:path';
 
-import * as cp from 'child_process';
+import * as cp from 'node:child_process';
 
 export function expectExecutorCommandRanWith(
   execute: string,

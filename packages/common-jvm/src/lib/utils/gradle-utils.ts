@@ -7,13 +7,13 @@ import {
   isGradleProjectSettingsInTree as hasGradleProjectSettingsInTree,
   hasGradleBuildFile,
 } from './utils';
-import { fileExists } from '@nx/workspace/src/utilities/fileutils';
-import { resolve } from 'path';
+import { fileExists } from 'nx/src/utils/fileutils';
+import { resolve } from 'node:path';
 import { getNameAndRoot, getProjectFileContent } from '@nxrocks/common';
 
-export const GRADLE_PLUGINS_REGEX = /(?:plugins\s*\{\s*)([^}]+)(?:\s*\})/g;
+export const GRADLE_PLUGINS_REGEX = /plugins\s*\{\s*([^}]+)\}/g;
 export const SPOTLESS_CONFIG_REGEX =
-  /(?:(spotless|configure<com.diffplug.gradle.spotless.SpotlessExtension>)\s*\{\s*)([^}]+)(?:\s*\})/g;
+  /(spotless|configure<com.diffplug.gradle.spotless.SpotlessExtension>)\s*\{\s*([^}]+)\}/g;
 export const GRADLE_PLUGIN_REGEX =
   /\s*(id|java|kotlin)(?:\s*\(?\s*['"]([^'"]+)['"]\s*\)?\s*(?:version\s+['"]([^'"]+)['"])?\s*(?:apply\s+(true|false))?)?/g;
 
@@ -389,16 +389,16 @@ export function hasGradleModule(cwd: string, moduleName: string) {
 function checkForModule(settings: string, moduleName: string) {
   const opts = {
     fragments: [
-      new RegExp(`rootProject\\.name\\s*=\\s*'`),
-      new RegExp(`include\\s+':?(?:[^:]*:)*${moduleName}'`),
+      new RegExp(String.raw`rootProject\.name\s*=\s*'`),
+      new RegExp(String.raw`include\s+':?(?:[^:]*:)*${moduleName}'`),
     ],
     logicalOp: 'and' as const,
   };
 
   const optsKts = {
     fragments: [
-      new RegExp(`rootProject\\.name\\s*=\\s*"`),
-      new RegExp(`include\\(":?(?:[^:]*:)*${moduleName}"\\)`),
+      new RegExp(String.raw`rootProject\.name\s*=\s*"`),
+      new RegExp(String.raw`include\(":?(?:[^:]*:)*${moduleName}"\)`),
     ],
     logicalOp: 'and' as const,
   };

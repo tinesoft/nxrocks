@@ -5,8 +5,8 @@ import {
   readCachedProjectGraph,
   Tree,
 } from '@nx/devkit';
-import { execSync } from 'child_process';
-import { fileExists } from '@nx/workspace/src/utilities/fileutils';
+import { execSync } from 'node:child_process';
+import { fileExists } from 'nx/src/utils/fileutils';
 
 import { BuilderCommandAliasType, BuilderCore } from '../builders';
 import {
@@ -28,7 +28,7 @@ import {
   getGradleModules,
   hasGradleModule,
 } from './gradle-utils';
-import { dirname, relative, resolve } from 'path';
+import { dirname, relative, resolve } from 'node:path';
 
 export const LARGE_BUFFER = 1024 * 1000000;
 
@@ -44,25 +44,21 @@ export function runBuilderCommand(
   commandAlias: BuilderCommandAliasType,
   getBuilder: (cwd: string) => BuilderCore,
   params: string[],
-  options: {
-    cwd: string;
+  options?: {
+    cwd?: string;
     ignoreWrapper?: boolean;
     useLegacyWrapper?: boolean;
     runFromParentModule?: boolean;
-  } = {
-    cwd: process.cwd(),
-    ignoreWrapper: false,
-    useLegacyWrapper: false,
-    runFromParentModule: false,
   }
 ): { success: boolean } {
   // Take the parameters or set defaults
-  const buildSystem = getBuilder(options.cwd);
+  const opts = { cwd: process.cwd(), ...options };
+  const buildSystem = getBuilder(opts.cwd);
   const executable = buildSystem.getExecutable(
-    options.ignoreWrapper ?? false,
-    options.useLegacyWrapper ?? false
+    opts.ignoreWrapper ?? false,
+    opts.useLegacyWrapper ?? false
   );
-  const { cwd, command } = buildSystem.getCommand(commandAlias, options);
+  const { cwd, command } = buildSystem.getCommand(commandAlias, opts);
   // Create the command to execute
   const execute = `${executable} ${command} ${(params || []).join(' ')}`;
   try {

@@ -1,7 +1,7 @@
 import { ProjectConfiguration } from '@nx/devkit';
-import { fileExists } from '@nx/workspace/src/utilities/fileutils';
+import { fileExists } from 'nx/src/utils/fileutils';
 import { getProjectFilePath } from '@nxrocks/common';
-import { execSync } from 'child_process';
+import { execSync } from 'node:child_process';
 
 export function isDartInstalled(): boolean {
   try {

@@ -1,7 +1,7 @@
 import { ProjectConfiguration } from '@nx/devkit';
-import { fileExists } from '@nx/workspace/src/utilities/fileutils';
+import { fileExists } from 'nx/src/utils/fileutils';
 import { getProjectFilePath } from '@nxrocks/common';
-import { execSync } from 'child_process';
+import { execSync } from 'node:child_process';
 import { NormalizedSchema } from '../generators/project/schema';
 
 export function isFlutterInstalled(useFvm = false): boolean {
@@ -23,7 +23,7 @@ export function quote(text: string) {
   if (!text || (text.startsWith('"') && text.endsWith('"'))) {
     return text;
   } else {
-    return `"${text.replace('"', '\\"')}"`;
+    return `"${text.replace('"', String.raw`\"`)}"`;
   }
 }
 

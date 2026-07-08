@@ -3,7 +3,7 @@ import { ProjectGeneratorOptions, NormalizedSchema } from '../schema';
 import {
   determineProjectNameAndRootOptions,
   ensureRootProjectName,
-} from '@nx/devkit/src/generators/project-name-and-root-utils';
+} from '@nx/devkit/internal';
 
 export async function normalizeOptions(
   tree: Tree,
@@ -32,7 +32,7 @@ export async function normalizeOptions(
       .map((s) => s.trim())
       .filter((s) => !!s) || [];
   const fullPackage =
-    options.basePackage + '.' + projectName.replace(/-_/g, '').toLowerCase();
+    options.basePackage + '.' + projectName.replaceAll('-_', '').toLowerCase();
   return {
     ...options,
     projectName,

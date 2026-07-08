@@ -1,5 +1,5 @@
 import { Tree, logger } from '@nx/devkit';
-import { execSync } from 'child_process';
+import { execSync } from 'node:child_process';
 import {
   buildFlutterCreateOptions,
   isFlutterInstalled,

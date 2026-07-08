@@ -1,5 +1,5 @@
 import { ExecutorContext } from '@nx/devkit';
-import * as path from 'path';
+import * as path from 'node:path';
 import { RunExecutorOptions } from './schema';
 import { runBootPluginCommand } from '../../utils/boot-utils';
 

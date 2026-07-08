@@ -1,5 +1,5 @@
 import { ExecutorContext } from '@nx/devkit';
-import * as path from 'path';
+import * as path from 'node:path';
 import { InstallExecutorOptions } from './schema';
 import { runMicronautPluginCommand } from '../../utils/micronaut-utils';
 

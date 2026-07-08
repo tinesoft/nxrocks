@@ -1,4 +1,11 @@
-import { basename, dirname, isAbsolute, join, relative, resolve } from 'path';
+import {
+  basename,
+  dirname,
+  isAbsolute,
+  join,
+  relative,
+  resolve,
+} from 'node:path';
 
 import {
   NX_VERSION,

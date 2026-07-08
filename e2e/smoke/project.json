@@ -11,5 +11,6 @@
     "nx-flutter",
     "nx-ktor"
   ],
+  "// targets": "to see all targets run: nx show project smoke --web",
   "targets": {}
 }
